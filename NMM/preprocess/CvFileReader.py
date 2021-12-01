@@ -264,8 +264,8 @@ def id_generator():
 
 
 if __name__ == '__main__':
-    cv_filename = 'cv08'
-    mf_filename = 'mf08'
+    cv_filename = 'cv04'
+    mf_filename = 'mf04'
     database_name = 'test.db'
     work_path = '../../data/'
 
