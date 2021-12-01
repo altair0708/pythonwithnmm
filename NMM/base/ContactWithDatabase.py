@@ -1,6 +1,5 @@
 import sqlite3
 from shapely.geometry import LineString, Polygon, box, polygon
-from NMM.base.DataBase import query_by_column
 
 
 def get_one_loop(id_value: int, cursor: sqlite3.Cursor = None):
@@ -38,7 +37,16 @@ def get_loop_bounds(loop_polygon: polygon.Polygon, offset: float = 0.1):
     return loop_bounds
 
 
-def if_two_polygon_overlap(polygon_1: polygon.Polygon, polygon_2: polygon.Polygon, offset: float = 0.1):
+def get_loop_number(cursor: sqlite3.Cursor):
+    """
+    get the number of loop in database
+    :param cursor: the cursor of database
+    :return: int
+    """
+    return cursor.execute('SELECT max(loopID) FROM ContactLoops').fetchone()[0]
+
+
+def is_two_polygon_overlap(polygon_1: polygon.Polygon, polygon_2: polygon.Polygon, offset: float = 0.1):
     bounds_1 = get_loop_bounds(loop_polygon=polygon_1, offset=offset)
     bounds_2 = box(*polygon_2.bounds)
     is_overlap = bounds_1.intersects(bounds_2)
@@ -57,7 +65,8 @@ if __name__ == '__main__':
     database_name = '../../data/test.db'
     database_connect = sqlite3.connect(database_name)
     database_cursor = database_connect.cursor()
+    a = get_loop_number(database_cursor)
+    print(a)
     loop_polygon_temp, loop_line_temp = get_one_loop(1, cursor=database_cursor)
     loop_polygon_temp_2, loop_line_temp_2 = get_one_loop(2, cursor=database_cursor)
-    if_two_polygon_overlap(loop_polygon_temp, loop_polygon_temp_2)
-
+    is_two_polygon_overlap(loop_polygon_temp, loop_polygon_temp_2)

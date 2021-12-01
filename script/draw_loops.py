@@ -1,4 +1,4 @@
-from NMM.base.ContactWithDatabase import get_one_loop, get_window_size, get_loop_bounds
+from NMM.base.ContactWithDatabase import get_one_loop, get_window_size, is_two_polygon_overlap, get_loop_number
 from shapely.affinity import scale
 from itertools import combinations
 import sqlite3
@@ -10,13 +10,21 @@ database_cursor = database_connect.cursor()
 
 # get all loops polygon from database
 loop_list = []
-for temp_i in range(1, 5):
-    loop_polygon_temp, loop_line_temp = get_one_loop(temp_i, database_cursor)
-    loop_list.append((temp_i, loop_polygon_temp))
+loop_number = get_loop_number(database_cursor)
+for temp_i in range(loop_number):
+    loop_polygon_temp, loop_line_temp = get_one_loop(temp_i + 1, database_cursor)
+    loop_list.append((temp_i + 1, loop_polygon_temp))
     x, y = loop_polygon_temp.exterior.xy
     plt.plot(x, y)
 a = combinations(loop_list, 2)
-print(type(a))
+
+# calculate all of the overlap loop group
+overlap_loop_id = []
+for each_group in a:
+    if is_two_polygon_overlap(each_group[0][1], each_group[1][1], offset=0.1):
+        overlap_loop_id.append((each_group[0][0], each_group[1][0]))
+print(len(overlap_loop_id))
+
 
 # get window size from database
 window_bounds = get_window_size(database_cursor)

@@ -20,7 +20,7 @@ class CvFileReader(object):
         self.fixed_point_number = 0
         self.loading_point_number = 0
         self.measured_point_number = 0
-        self.joint_point_number= 0
+        self.joint_point_number = 0
         self.physical_patch_number = 0
         self.contact_loop_number = 0
         self.loop_vertexes_number = 0
@@ -264,8 +264,8 @@ def id_generator():
 
 
 if __name__ == '__main__':
-    cv_filename = 'cv04'
-    mf_filename = 'mf04'
+    cv_filename = 'cv08'
+    mf_filename = 'mf08'
     database_name = 'test.db'
     work_path = '../../data/'
 
