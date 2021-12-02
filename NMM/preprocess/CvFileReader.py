@@ -226,7 +226,7 @@ class CvFileReader(object):
         for loop_id in range(1, int(self.contact_loop_number) + 1):
             loop_start = temp_connect_loop_list[loop_id - 1][0]
             loop_end = temp_connect_loop_list[loop_id - 1][1]
-            for joint_order in range(int(loop_start), int(loop_end) + 2):
+            for joint_order in range(1, int(loop_end) - int(loop_start) + 3):
                 self.each_line = self.cv_file.readline()
                 self.each_line = self.each_line.split()
                 temp_joint_id = int(self.each_line[0])
@@ -264,8 +264,8 @@ def id_generator():
 
 
 if __name__ == '__main__':
-    cv_filename = 'cv04'
-    mf_filename = 'mf04'
+    cv_filename = 'cv08'
+    mf_filename = 'mf08'
     database_name = 'test.db'
     work_path = '../../data/'
 
