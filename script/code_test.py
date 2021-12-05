@@ -1,2 +1,4 @@
-for i in range(3, 5):
-    print(i)
+a = [(0, 0), (1, 1), (2, 2)]
+b = [(1, 0), (2, 1), (3, 2)]
+c = zip(a, b)
+print(next(c))

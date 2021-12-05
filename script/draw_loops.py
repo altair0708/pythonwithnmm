@@ -5,7 +5,7 @@ from itertools import combinations
 import sqlite3
 import matplotlib.pyplot as plt
 
-step_offset = 0.5
+step_offset = 0.1
 database_name = '../data/test.db'
 database_connect = sqlite3.connect(database_name)
 database_cursor = database_connect.cursor()
@@ -40,10 +40,10 @@ for each_loop_id_group in overlap_loop_id:
         plt.scatter(each_point.x, each_point.y)
     for each_point in temp_point_list_2:
         plt.scatter(each_point.x, each_point.y)
-    plt.plot(win_x, win_y)
-    plt.show()
     result = get_possible_contact_from_loop(*each_loop_id_group, cursor=database_cursor)
 
+plt.plot(win_x, win_y)
+plt.show()
 
 # # calculate all of the overlap loop group
 # overlap_loop_id = []

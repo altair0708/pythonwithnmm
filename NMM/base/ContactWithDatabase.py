@@ -1,9 +1,9 @@
 import sqlite3
 from itertools import product
-from shapely.geometry import LineString, Polygon, box, polygon, multipolygon, Point
+from shapely.geometry import LineString, Polygon, box, linestring, polygon, multipolygon, Point
 
 
-def get_one_loop(id_value: int, cursor: sqlite3.Cursor = None):
+def get_one_loop(id_value: int, cursor: sqlite3.Cursor = None) -> (polygon.Polygon, linestring.LineString):
     """
     get one loop from database index by id
     :param id_value: loop id
