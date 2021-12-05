@@ -103,7 +103,20 @@ class Block(object):
 
 
 class EAB(object):
-    pass
+    def __init__(self, block_a: Block, block_b: Block):
+        self.__block_a = block_a
+        self.__block_b = block_b
+        self.__eab_c10 = []
+        self.__eab_c01 = []
+        self.__eab_polygon = None
+
+    @staticmethod
+    def is_contact_group(angle: BAngle, edge: BEdge):
+        pass
+
+    @staticmethod
+    def get_eab(angle: BAngle, edge: BEdge):
+        pass
 
 
 if __name__ == "__main__":
