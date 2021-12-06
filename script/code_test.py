@@ -1,4 +1,5 @@
-a = [(0, 0), (1, 1), (2, 2)]
-b = [(1, 0), (2, 1), (3, 2)]
-c = zip(a, b)
-print(next(c))
+import numpy as np
+a = np.array([[[[-1]]]])
+if a > 0:
+    print(a)
+
