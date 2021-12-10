@@ -1,11 +1,11 @@
 import time
+import random
 
 
 def genertator():
-    i = 0
     while True:
-        i += 1
-        yield i
+        temp = random.uniform(-0.001, 0.001)
+        yield temp
 
 
 if __name__ == '__main__':

@@ -1,4 +1,4 @@
-from NMM.base.ContactWithDatabase import get_one_loop, get_window_size, get_buffer_from_loop, \
+from NMM.contact.ContactWithDatabase import get_one_loop, get_window_size, get_buffer_from_loop, \
     get_loop_number, get_possible_contact_from_loop, get_loop_point_in_area
 from shapely.affinity import scale
 from itertools import combinations
