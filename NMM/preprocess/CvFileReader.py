@@ -27,6 +27,7 @@ class CvFileReader(object):
         self.each_line = None
         self.id_generator = None
         self.sql_statement = ''
+        self.geometry_dict = {}
 
     def write_number_info(self):
         self.manifold_element_number, \

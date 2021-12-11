@@ -1,9 +1,8 @@
-from NMM.base.DataBase import query_by_id, query_by_column
-from NMM.fem.ElementWithDataBase import *
 import sqlite3
 
 database_name = '../data/test.db'
-connect = sqlite3.connect(database_name)
-cursor = connect.cursor()
-a = get_one_element(id_value=1, cursor=cursor)
-print(a)
+with sqlite3.connect(database_name) as database_connect:
+    database_cursor = database_connect.cursor()
+    result = database_cursor.execute('SELECT * FROM JointPoints WHERE ID = 1')
+    result = result.fetchall()
+    print(result)

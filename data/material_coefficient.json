@@ -1,0 +1,25 @@
+{
+    "id": 1,
+    "unit_mass": 0.05,
+    "body_force": [
+        0,
+        -1
+    ],
+    "elastic_modulus": 5000,
+    "possion_ratio": 0.3,
+    "initial_force": [
+        0,
+        0,
+        0
+    ],
+    "yield_coefficient": {
+        "friction_angle": 0,
+        "cohesion": 0,
+        "tensile_strength": 0
+    },
+    "initial_velocity": [
+        0,
+        0,
+        0
+    ]
+}

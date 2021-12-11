@@ -278,7 +278,7 @@ def is_same_direct(vector1: BPoint, vector2: BPoint):
 
 
 if __name__ == "__main__":
-    database_name = '../../data/test11.db'
+    database_name = '../../data/test.db'
     database_connect = sqlite3.connect(database_name)
     database_cursor = database_connect.cursor()
     blockA = Block(id_value=1, cursor=database_cursor)
@@ -291,3 +291,5 @@ if __name__ == "__main__":
     for i in EAB1.eab:
         i.draw()
     plt.show()
+
+    database_connect.close()

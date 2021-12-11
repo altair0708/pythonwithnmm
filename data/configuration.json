@@ -1,0 +1,15 @@
+{
+    "dynamic_coefficient": 1,
+    "step": 100,
+    "material_types": 1,
+    "joint_material_types": 1,
+    "displacement_allow": 0.003,
+    "time_increment": 0.02,
+    "contact_spring_stiff": 100000,
+    "SOR_factor": 1.8,
+    "coordinate_system": [
+        0,
+        0,
+        0
+    ]
+}
