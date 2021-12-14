@@ -9,7 +9,7 @@ Elastic_matrix = np.array([[1, mu, 0],
                            [mu, 1, 0],
                            [0, 0, (1 - mu)]])
 Elastic_matrix = temp * Elastic_matrix
-point_list = [(0, 0), (1, 0), (1, 1), (0, 1)]
+point_list = [(0, 0), (1, 0), (1, 1), (0, 2)]
 patch_list = [(0, 0), (2, 0), (0, 2)]
 point_array = np.array(point_list)
 patch_array = np.array(patch_list)
