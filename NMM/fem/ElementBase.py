@@ -13,6 +13,7 @@ class Element(object):
         self.patch_list = []
         self.material_dict = {}
         self.joint_array = None
+        self.elastic_matrix = np.zeros((3, 3))
 
     def draw_edge(self):
         temp_list = self.joint_list.copy()
