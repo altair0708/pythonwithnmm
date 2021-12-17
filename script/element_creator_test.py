@@ -1,16 +1,18 @@
 from NMM.fem.ElementCreator import ElementCreator
+from NMM.fem.ElementBase import Element
 import sqlite3
 import matplotlib.pyplot as plt
+import numpy as np
 
-for database_id in range(1, 16):
-    database_name = '../data/test{database_id}.db'.format(database_id=str(database_id).rjust(2, '0'))
-    with sqlite3.connect(database_name) as connection:
-        database_cursor = connection.cursor()
-        element_creator = ElementCreator(database_cursor)
-        temp_list = element_creator.run()
-        for each_element in temp_list:
-            each_element.draw_edge()
-            each_element.draw_patch()
-        plt.show()
-
-
+database_name = '../data/test.db'
+with sqlite3.connect(database_name) as connection:
+    database_cursor = connection.cursor()
+    element_creator = ElementCreator(database_cursor)
+    temp_element_list = element_creator.run()
+    temp_element: Element = temp_element_list[0]
+    temp_list = [[2 * x - 2, 2 * x - 1] for x in temp_element.patch_id]
+    temp_array = np.array(temp_list).reshape((1, -1))[0]
+    row, column = np.meshgrid(temp_array, temp_array)
+    row = row.reshape((1, -1))[0]
+    column = column.reshape((1, -1))[0]
+    value = temp_element.total_matrix.reshape((1, -1))[0]

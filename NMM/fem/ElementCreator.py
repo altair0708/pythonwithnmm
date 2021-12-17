@@ -46,7 +46,8 @@ class ElementCreator(object):
     def assembly_patch(self, element):
         patch_list = get_one_element_patch(id_value=element.id, cursor=self.__database_cursor)
         for each_patch in patch_list:
-            element.patch_list.append(each_patch)
+            element.patch_id.append(each_patch[0])
+            element.patch_list.append(each_patch[1:3])
 
     def assembly_special_point(self, element):
         special_point_list = get_one_special_point(id_value=element.id, cursor=self.__database_cursor)
@@ -54,7 +55,7 @@ class ElementCreator(object):
             for each_point in special_point_list:
                 temp_point = EPoint(PointType(each_point[4]))
                 temp_point.element_id = element.id
-                temp_point.coord = np.array(each_point[2:3])
+                temp_point.coord = np.array([each_point[1:3]])
                 if temp_point.point_type == PointType.fixed_point:
                     element.fixed_point_list.append(temp_point)
                 elif temp_point.point_type == PointType.loading_point:

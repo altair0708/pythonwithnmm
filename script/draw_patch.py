@@ -1,5 +1,5 @@
 import sqlite3
-from NMM.fem.PatchBase import *
+from NMM.fem.PatchWithDataBase import *
 
 database_name = '../data/test.db'
 database_connect = sqlite3.connect(database_name)

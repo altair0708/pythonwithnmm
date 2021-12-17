@@ -29,7 +29,7 @@ def get_one_element_joint(id_value: int, cursor: sqlite3.Cursor):
 
 
 def get_one_element_patch(id_value: int, cursor: sqlite3.Cursor):
-    database_statement = 'SELECT xValue, yValue FROM ElementPatches AS EP ' \
+    database_statement = 'SELECT patchID, xValue, yValue FROM ElementPatches AS EP ' \
                          'INNER JOIN PhysicalPatches AS PP ON EP.patchID = PP.ID ' \
                          'WHERE elementID = {id_value}'.format(id_value=id_value)
 

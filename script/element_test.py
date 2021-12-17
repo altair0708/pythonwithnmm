@@ -18,11 +18,10 @@ with sqlite3.connect(database_name) as connection:
         e, f = element.mass_matrix
         g = element.fixed_matrix
         element_list.append(element)
-        print(global_variable)
         # print(a)
         # print(b)
-        # print(c)
+        print('loading matrix: {}'.format(c))
         # print(d)
         # print(e)
         # print(f)
-        # print(g)
+        print('fixed matrix: {}'.format(g))

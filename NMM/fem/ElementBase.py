@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.spatial import Delaunay
-from PointBase import EPoint
 from NMM.GlobalVariable import CONST
 
 
@@ -45,7 +44,7 @@ class Element(object):
         self.material_id = 0
         self.joint_list = []
         self.patch_list = []
-        self.special_point_list = []
+        self.patch_id = []
         self.joint_array = None
         self.material_dict = {
             'id': 1,
@@ -68,11 +67,8 @@ class Element(object):
         self.__triangle_list = None
 
         # constant variable
-        self.__loading_point = EPoint('loading')
         self.__loading_point_list = []
-        self.__fixed_point = EPoint('fixed')
         self.__fixed_point_list = []
-        self.__measured_point = EPoint('measured')
         self.__measured_point_list = []
         self.__body_force = None
         self.__time_step = None
@@ -91,6 +87,10 @@ class Element(object):
         self.__mass_matrix = None
         self.__mass_force = None
         self.__fixed_matrix = None
+
+        # total stiff matrix
+        self.__total_matrix = None
+        self.__total_force = None
 
     def draw_edge(self):
         temp_list = self.joint_list.copy()
@@ -138,9 +138,9 @@ class Element(object):
     def loading_matrix(self):
         if self.__loading_matrix is None:
             self.__loading_matrix = np.zeros((6, 1))
-            if self.__loading_point is not None:
-                temp = self.T_shape_matrix(coord=self.loading_point.coord, delta_matrix=self.delta_matrix).T
-                self.__loading_matrix = np.dot(temp, self.loading_point.force)
+            for loading_point in self.__loading_point_list:
+                temp = self.T_shape_matrix(coord=loading_point.coord, delta_matrix=self.delta_matrix).T
+                self.__loading_matrix = self.__loading_matrix + np.dot(temp, loading_point.force)
         return self.__loading_matrix
 
     @property
@@ -176,12 +176,26 @@ class Element(object):
     def fixed_matrix(self):
         if self.__fixed_matrix is None:
             self.__fixed_matrix = np.zeros((6, 6))
-            temp_T_matrix = self.T_shape_matrix(coord=self.__fixed_point.coord, delta_matrix=self.delta_matrix)
-            self.__fixed_matrix = np.dot(temp_T_matrix.T, temp_T_matrix)
-            self.__fixed_matrix = self.constant_spring * self.__fixed_matrix
+            for fixed_point in self.__fixed_point_list:
+                temp = self.T_shape_matrix(coord=fixed_point.coord, delta_matrix=self.delta_matrix)
+                temp = np.dot(temp.T, temp)
+                temp = self.constant_spring * temp
+                self.__fixed_matrix = self.__fixed_matrix + temp
         if self.__fixed_matrix.shape != (6, 6):
             raise Exception('fixed matrix shape error')
         return self.__fixed_matrix
+
+    @property
+    def total_matrix(self):
+        if self.__total_matrix is None:
+            self.__total_matrix = self.stiff_matrix + self.mass_matrix[0] + self.fixed_matrix
+        return self.__total_matrix
+
+    @property
+    def total_force(self):
+        if self.__total_force is None:
+            self.__total_force = self.initial_matrix + self.loading_matrix + self.body_matrix + self.mass_matrix[1]
+        return self.__total_force
 
     # temp_matrix
     @property
@@ -228,28 +242,10 @@ class Element(object):
             self.__initial_stress = np.array(self.material_dict['initial_force'])
         return self.__initial_stress
 
-    # TODO: Get loading point from database
-    @property
-    def loading_point(self):
-        return self.__loading_point
-
-    @loading_point.setter
-    def loading_point(self, point: EPoint):
-        self.__loading_point = point
-
     # TODO: Get loading point list from database
     @property
     def loading_point_list(self):
         return self.__loading_point_list
-
-    # TODO: Get fixed point from database
-    @property
-    def fixed_point(self):
-        return self.__fixed_point
-
-    @fixed_point.setter
-    def fixed_point(self, point: EPoint):
-        self.__fixed_point = point
 
     # TODO: Get fixed point list from database
     @property
