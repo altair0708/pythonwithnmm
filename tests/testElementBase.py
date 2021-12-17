@@ -1,6 +1,7 @@
 import pytest
 import sqlite3
-from NMM.fem.ElementBase import *
+from NMM.fem.ElementCreator import create_an_element
+from NMM.fem.ElementWithDataBase import *
 
 
 def test_create_element():

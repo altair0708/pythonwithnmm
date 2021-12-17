@@ -3,6 +3,7 @@ import sqlite3
 import matplotlib.pyplot as plt
 
 from NMM.fem.ElementBase import *
+from NMM.fem.ElementCreator import *
 
 database_name = '../data/test.db'
 with sqlite3.connect(database_name) as connection:

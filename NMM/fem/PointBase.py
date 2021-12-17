@@ -3,9 +3,9 @@ from enum import Enum
 
 
 class PointType(Enum):
-    loading_point = 'loading'
-    fixed_point = 'fixed'
-    measured_point = 'measured'
+    loading_point = 'Loading'
+    fixed_point = 'Fixed'
+    measured_point = 'Measured'
 
 
 class EPoint(object):
@@ -19,12 +19,27 @@ class EPoint(object):
     def element_id(self):
         return self.__element_id
 
+    @element_id.setter
+    def element_id(self, id_value: int):
+        self.__element_id = id_value
+
     @property
     def coord(self):
         return self.__coord
+
+    @coord.setter
+    def coord(self, coordinate: np.ndarray):
+        self.__coord = coordinate
 
     @property
     def force(self):
         return self.__force
 
+    @property
+    def point_type(self):
+        return self.__type
 
+
+if __name__ == '__main__':
+    print(type(PointType.fixed_point))
+    print(PointType.fixed_point.value)

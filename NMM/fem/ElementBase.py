@@ -45,6 +45,7 @@ class Element(object):
         self.material_id = 0
         self.joint_list = []
         self.patch_list = []
+        self.special_point_list = []
         self.joint_array = None
         self.material_dict = {
             'id': 1,
@@ -68,7 +69,11 @@ class Element(object):
 
         # constant variable
         self.__loading_point = EPoint('loading')
+        self.__loading_point_list = []
         self.__fixed_point = EPoint('fixed')
+        self.__fixed_point_list = []
+        self.__measured_point = EPoint('measured')
+        self.__measured_point_list = []
         self.__body_force = None
         self.__time_step = None
         self.__constant_spring = None
@@ -232,6 +237,11 @@ class Element(object):
     def loading_point(self, point: EPoint):
         self.__loading_point = point
 
+    # TODO: Get loading point list from database
+    @property
+    def loading_point_list(self):
+        return self.__loading_point_list
+
     # TODO: Get fixed point from database
     @property
     def fixed_point(self):
@@ -240,6 +250,16 @@ class Element(object):
     @fixed_point.setter
     def fixed_point(self, point: EPoint):
         self.__fixed_point = point
+
+    # TODO: Get fixed point list from database
+    @property
+    def fixed_point_list(self):
+        return self.__fixed_point_list
+
+    # TODO: Get measured point list from database
+    @property
+    def measured_point_list(self):
+        return self.__measured_point_list
 
     @property
     def body_force(self):

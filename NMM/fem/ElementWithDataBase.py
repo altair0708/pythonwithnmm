@@ -45,3 +45,11 @@ def get_one_element_material(id_value: int, cursor: sqlite3.Cursor):
     result = cursor.execute(database_statement)
     result = result.fetchall()
     return result
+
+
+def get_one_special_point(id_value: int, cursor: sqlite3.Cursor):
+    database_statement = 'SELECT * FROM SpecialPoints ' \
+                         'WHERE elementID = {id_value}'.format(id_value=id_value)
+    result = cursor.execute(database_statement)
+    result = result.fetchall()
+    return result
