@@ -72,7 +72,7 @@ def test_get_angle_degree():
     assert result == 90
 
 
-# TODO:
+# TODO: Did angle == 180 is a contact?
 # def test_is_contact_group_180_false():
 #     """
 #     angle = 180

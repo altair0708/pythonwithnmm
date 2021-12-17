@@ -1,5 +1,5 @@
 import numpy as np
 
-a = np.array([[1], [1], [1]])
+a = np.array([[1, 2], [1, 2], [1, 2]])
 
-print(type(a))
+print(a.shape)
