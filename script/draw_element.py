@@ -1,7 +1,3 @@
-import sqlite3
-
-import matplotlib.pyplot as plt
-
 from NMM.fem.ElementBase import *
 from NMM.fem.ElementCreator import *
 

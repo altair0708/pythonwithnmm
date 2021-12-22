@@ -3,6 +3,7 @@ import json
 from ElementWithDataBase import *
 from ElementBase import Element
 from PointBase import EPoint, PointType
+from PatchWithDataBase import get_one_patch
 
 
 def create_an_element(id_value: int, cursor: sqlite3.Cursor) -> Element:
@@ -12,11 +13,15 @@ def create_an_element(id_value: int, cursor: sqlite3.Cursor) -> Element:
     joint_list = get_one_element_joint(id_value=id_value, cursor=cursor)
     for each_joint in joint_list:
         element.joint_list.append(each_joint)
-    element.joint_array = np.array(element.joint_list)
 
     patch_list = get_one_element_patch(id_value=id_value, cursor=cursor)
     for each_patch in patch_list:
-        element.patch_list.append(each_patch)
+        element.patch_id.append(each_patch[0])
+        element.patch_list.append(each_patch[1:3])
+
+    for each_id in element.patch_id:
+        id_value, x, y, u, v = get_one_patch(each_id, cursor)
+        element.patch_displacement.append([u, v])
 
     with open('../data/material_coefficient.json') as material_coefficient:
         element.material_dict = json.load(material_coefficient)
@@ -41,7 +46,6 @@ class ElementCreator(object):
         joint_list = get_one_element_joint(id_value=element.id, cursor=self.__database_cursor)
         for each_joint in joint_list:
             element.joint_list.append(each_joint)
-        element.joint_array = np.array(element.joint_list)
 
     def assembly_patch(self, element):
         patch_list = get_one_element_patch(id_value=element.id, cursor=self.__database_cursor)
@@ -65,12 +69,24 @@ class ElementCreator(object):
                 else:
                     raise Exception('point type error:{point_type}'.format(point_type=temp_point.point_type))
 
-    def run(self):
+    def assembly_patch_displacement(self, element: Element):
+        for each_id in element.patch_id:
+            id_value, x, y, u, v = get_one_patch(each_id, self.__database_cursor)
+            element.patch_displacement.append([u, v])
+
+    def start(self):
         print('element number is {}'.format(self.__element_number))
         for each_id in range(1, self.__element_number + 1):
             temp_element = self.create_an_element(each_id)
             self.assembly_patch(temp_element)
             self.assembly_special_point(temp_element)
             self.assembly_joint_point(temp_element)
+            self.assembly_patch_displacement(temp_element)
             self.__element_list.append(temp_element)
+        return self.__element_list
+
+    def run(self):
+        for each_element in self.__element_list:
+            each_element.clean_all()
+            self.assembly_patch_displacement(each_element)
         return self.__element_list

@@ -10,7 +10,7 @@ def get_patch_number(cursor: sqlite3.Cursor) -> int:
 
 
 def get_one_patch(id_value: int, cursor: sqlite3.Cursor):
-    database_statement = 'SELECT ID, xValue, yValue FROM PhysicalPatches ' \
+    database_statement = 'SELECT ID, xValue, yValue, vdis, udis FROM PhysicalPatches ' \
                          'WHERE ID = {id_value}'.format(id_value=id_value)
     result = cursor.execute(database_statement)
     result = result.fetchall()[0]

@@ -8,7 +8,8 @@ database_cursor = database_connect.cursor()
 patch_number = get_patch_number(database_cursor)
 
 for each_id in range(1, patch_number + 1):
-    id, x, y = get_one_patch(each_id, database_cursor)
+    id, x, y, u, v = get_one_patch(each_id, database_cursor)
+    print(u, v)
     plt.scatter(x, y)
 
 plt.show()

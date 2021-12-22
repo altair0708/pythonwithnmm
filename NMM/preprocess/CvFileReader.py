@@ -28,6 +28,7 @@ class CvFileReader(object):
         self.id_generator = None
         self.sql_statement = ''
         self.geometry_dict = {}
+        self.print_switch = False
 
     def write_number_info(self):
         self.manifold_element_number, \
@@ -78,7 +79,9 @@ class CvFileReader(object):
             self.cursor.execute('CREATE TABLE PhysicalPatches('
                                 'ID        INT  PRIMARY KEY          NOT NULL,'
                                 'xValue    REAL DEFAULT 0            NOT NULL,'
-                                'yValue    REAL DEFAULT 0            NOT NULL );')
+                                'yValue    REAL DEFAULT 0            NOT NULL,'
+                                'uDis      REAL DEFAULT 0            NOT NULL,'
+                                'vDis      REAL DEFAULT 0            NOT NULL );')
         except sqlite3.OperationalError:
             print('PhysicalPatches table is already existed')
         try:
@@ -112,8 +115,9 @@ class CvFileReader(object):
                 insert_a_rows(table_name='SpecialPoints', data=self.each_line, database_cursor=self.cursor)
             except sqlite3.IntegrityError:
                 temp_count = temp_count + 1
-        print('Total of {} Fixed point, {} piece(s) of Fixed point are not inserted.'
-              .format(self.fixed_point_number, temp_count))
+        if self.print_switch:
+            print('Total of {} Fixed point, {} piece(s) of Fixed point are not inserted.'
+                  .format(self.fixed_point_number, temp_count))
 
         temp_count = 0
         for i in range(int(self.loading_point_number)):
@@ -125,8 +129,9 @@ class CvFileReader(object):
                 insert_a_rows(table_name='SpecialPoints', data=self.each_line, database_cursor=self.cursor)
             except sqlite3.IntegrityError:
                 temp_count = temp_count + 1
-        print('Total of {} Loading point, {} piece(s) of Loading point are not inserted.'
-              .format(self.loading_point_number, temp_count))
+        if self.print_switch:
+            print('Total of {} Loading point, {} piece(s) of Loading point are not inserted.'
+                  .format(self.loading_point_number, temp_count))
 
         temp_count = 0
         for i in range(int(self.measured_point_number)):
@@ -138,8 +143,9 @@ class CvFileReader(object):
                 insert_a_rows(table_name='SpecialPoints', data=self.each_line, database_cursor=self.cursor)
             except sqlite3.IntegrityError:
                 temp_count = temp_count + 1
-        print('Total of {} Measured point, {} piece(s) of Measured point are not inserted.'
-              .format(self.measured_point_number, temp_count))
+        if self.print_switch:
+            print('Total of {} Measured point, {} piece(s) of Measured point are not inserted.'
+                  .format(self.measured_point_number, temp_count))
 
         self.database.commit()
         self.id_generator = None
@@ -161,9 +167,11 @@ class CvFileReader(object):
                 except sqlite3.IntegrityError:
                     temp_count = temp_count + 1
                 temp_joint_order = temp_joint_order + 1
-        print('Total of {} Manifold element, total of {} pieces of data,'
-              ' {} piece(s) of pieces of data not are not inserted.'
-              .format(self.manifold_element_number, next(temp_id_generator) - 1, temp_count))
+
+        if self.print_switch:
+            print('Total of {} Manifold element, total of {} pieces of data,'
+                  ' {} piece(s) of pieces of data not are not inserted.'
+                  .format(self.manifold_element_number, next(temp_id_generator) - 1, temp_count))
 
         self.database.commit()
 
@@ -178,8 +186,9 @@ class CvFileReader(object):
                 insert_a_rows(table_name='JointPoints', data=self.each_line, database_cursor=self.cursor)
             except sqlite3.IntegrityError:
                 temp_count = temp_count + 1
-        print('Total of {} joint points, {} piece(s) of joint point are not inserted.'
-              .format(self.joint_point_number, temp_count))
+        if self.print_switch:
+            print('Total of {} joint points, {} piece(s) of joint point are not inserted.'
+                  .format(self.joint_point_number, temp_count))
         self.database.commit()
 
     def write_physical_patch_info(self):
@@ -189,12 +198,15 @@ class CvFileReader(object):
             self.each_line = self.cv_file.readline()
             self.each_line = self.each_line.split()
             self.each_line.insert(0, str(next(temp_id_generator)))
+            self.each_line.append('0')
+            self.each_line.append('0')
             try:
                 insert_a_rows(table_name='PhysicalPatches', data=self.each_line, database_cursor=self.cursor)
             except sqlite3.IntegrityError:
                 temp_count = temp_count + 1
-        print('Total of {} Physical Patches, {} piece(s) of Physical Patch are not inserted.'
-              .format(self.physical_patch_number, temp_count))
+        if self.print_switch:
+            print('Total of {} Physical Patches, {} piece(s) of Physical Patch are not inserted.'
+                  .format(self.physical_patch_number, temp_count))
         self.database.commit()
 
     def write_element_patch_info(self):
@@ -211,9 +223,10 @@ class CvFileReader(object):
                 except sqlite3.IntegrityError:
                     temp_count = temp_count + 1
                 temp_patch_order = temp_patch_order + 1
-        print('Total of {} Manifold element, total of {} pieces of data,'
-              ' {} piece(s) of pieces of data not are not inserted.'
-              .format(self.manifold_element_number, next(temp_id_generator) - 1, temp_count))
+        if self.print_switch:
+            print('Total of {} Manifold element, total of {} pieces of data,'
+                  ' {} piece(s) of pieces of data not are not inserted.'
+                  .format(self.manifold_element_number, next(temp_id_generator) - 1, temp_count))
         self.database.commit()
 
     def write_contact_loop_info(self):
@@ -237,9 +250,10 @@ class CvFileReader(object):
                     insert_a_rows(table_name='ContactLoops', data=temp_list, database_cursor=self.cursor)
                 except sqlite3.OperationalError:
                     temp_count = temp_count + 1
-        print('Total of {} Contact Loop, total of {} pieces of data,'
-              ' {} piece(s) of pieces of data not are not inserted.'
-              .format(self.contact_loop_number, next(temp_id_generator) - 1, temp_count))
+        if self.print_switch:
+            print('Total of {} Contact Loop, total of {} pieces of data,'
+                  ' {} piece(s) of pieces of data not are not inserted.'
+                  .format(self.contact_loop_number, next(temp_id_generator) - 1, temp_count))
         self.database.commit()
 
     def run(self):
