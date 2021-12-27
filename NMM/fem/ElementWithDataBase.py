@@ -19,7 +19,7 @@ def get_element_joint_number(id_value: int, cursor: sqlite3.Cursor) -> int:
 
 
 def get_one_element_joint(id_value: int, cursor: sqlite3.Cursor):
-    database_statement = 'SELECT xValue, yValue FROM ElementJoints AS EJ ' \
+    database_statement = 'SELECT jointID, xValue, yValue FROM ElementJoints AS EJ ' \
                          'INNER JOIN JointPoints AS JP ON EJ.jointID = JP.ID ' \
                          'WHERE elementID = {id_value}'.format(id_value=id_value)
 
@@ -53,3 +53,4 @@ def get_one_special_point(id_value: int, cursor: sqlite3.Cursor):
     result = cursor.execute(database_statement)
     result = result.fetchall()
     return result
+

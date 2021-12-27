@@ -1,18 +1,13 @@
 import sqlite3
 
-cv_filename = 'cv04'
-mf_filename = 'mf04'
-database_name = 'test.db'
-work_path = '../data/'
+database_name = '../data/test.db'
+with sqlite3.connect(database_name) as connection:
+    database_cursor = connection.cursor()
+    database_statement = 'SELECT * FROM PhysicalPatches WHERE (xValue, yValue) in ' \
+                         '(SELECT xValue, yValue FROM PhysicalPatches GROUP BY xValue, yValue HAVING COUNT(*) > 1)'
 
-mysql = sqlite3.connect(work_path+database_name)
-c = mysql.cursor()
-# c.execute('DROP TABLE point;')
-c.execute('CREATE TABLE point('
-          'ID     INT PRIMARY KEY NOT NULL,'
-          'XVALUE INT             NOT NULL,'
-          'YVALUE INT             NOT NULL);')
-c.execute('INSERT INTO point (ID, XVALUE, YVALUE)'
-          'VALUES (1, 1, 3);')
-mysql.commit()
-mysql.close()
+    result = database_cursor.execute(database_statement)
+    result = result.fetchall()
+    for each_patch in result:
+        print(each_patch)
+

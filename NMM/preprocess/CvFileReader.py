@@ -72,7 +72,9 @@ class CvFileReader(object):
             self.cursor.execute('CREATE TABLE JointPoints('
                                 'ID        INT  PRIMARY KEY          NOT NULL,'
                                 'xValue    REAL DEFAULT 0            NOT NULL,'
-                                'yValue    REAL DEFAULT 0            NOT NULL );')
+                                'yValue    REAL DEFAULT 0            NOT NULL,'
+                                'uDis      REAL DEFAULT 0            NOT NULL,'
+                                'vDis      REAL DEFAULT 0            NOT NULL );')
         except sqlite3.OperationalError:
             print('JointPoints table is already existed')
         try:
@@ -182,6 +184,8 @@ class CvFileReader(object):
             self.each_line = self.cv_file.readline()
             self.each_line = self.each_line.split()
             self.each_line.insert(0, str(next(temp_id_generator)))
+            self.each_line.append('0')
+            self.each_line.append('0')
             try:
                 insert_a_rows(table_name='JointPoints', data=self.each_line, database_cursor=self.cursor)
             except sqlite3.IntegrityError:
@@ -279,8 +283,8 @@ def id_generator():
 
 
 if __name__ == '__main__':
-    cv_filename = 'cv08'
-    mf_filename = 'mf08'
+    cv_filename = 'cv00'
+    mf_filename = 'mf06'
     database_name = 'test.db'
     work_path = '../../data/'
 

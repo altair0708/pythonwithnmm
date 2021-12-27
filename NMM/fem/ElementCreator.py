@@ -1,9 +1,11 @@
 import numpy as np
 import json
+from typing import List
 from ElementWithDataBase import *
 from ElementBase import Element
 from PointBase import EPoint, PointType
 from PatchWithDataBase import get_one_patch
+from JointWithDataBase import get_one_joint
 
 
 def create_an_element(id_value: int, cursor: sqlite3.Cursor) -> Element:
@@ -12,7 +14,8 @@ def create_an_element(id_value: int, cursor: sqlite3.Cursor) -> Element:
 
     joint_list = get_one_element_joint(id_value=id_value, cursor=cursor)
     for each_joint in joint_list:
-        element.joint_list.append(each_joint)
+        element.joint_id.append(each_joint[0])
+        element.joint_list.append(each_joint[1:3])
 
     patch_list = get_one_element_patch(id_value=id_value, cursor=cursor)
     for each_patch in patch_list:
@@ -45,7 +48,8 @@ class ElementCreator(object):
     def assembly_joint_point(self, element):
         joint_list = get_one_element_joint(id_value=element.id, cursor=self.__database_cursor)
         for each_joint in joint_list:
-            element.joint_list.append(each_joint)
+            element.joint_id.append(each_joint[0])
+            element.joint_list.append(each_joint[1:3])
 
     def assembly_patch(self, element):
         patch_list = get_one_element_patch(id_value=element.id, cursor=self.__database_cursor)
@@ -74,6 +78,11 @@ class ElementCreator(object):
             id_value, x, y, u, v = get_one_patch(each_id, self.__database_cursor)
             element.patch_displacement.append([u, v])
 
+    def assembly_joint_displacement(self, element: Element):
+        for each_id in element.joint_id:
+            id_value, x, y, u, v = get_one_joint(each_id, self.__database_cursor)
+            element.joint_displacement_increment.append([u, v])
+
     def start(self):
         print('element number is {}'.format(self.__element_number))
         for each_id in range(1, self.__element_number + 1):
@@ -90,3 +99,10 @@ class ElementCreator(object):
             each_element.clean_all()
             self.assembly_patch_displacement(each_element)
         return self.__element_list
+
+    @staticmethod
+    def clean(element_list: List[Element]):
+        for each_element in element_list:
+            each_element.clean_all()
+
+

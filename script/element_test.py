@@ -23,3 +23,4 @@ with sqlite3.connect(database_name) as connection:
     joint_y = joint_coord[:, 1]
     z = griddata(patch_coord, patch_displacement, joint_coord, method='cubic')
     print(z)
+    print(patch_displacement)

@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.spatial import Delaunay
+from scipy.interpolate import griddata
 from typing import Tuple
 
 from NMM.GlobalVariable import CONST
@@ -66,6 +67,7 @@ class Element(object):
 
         # TODO: something can be modified
         self.joint_list = []
+        self.joint_id = []
         self.patch_list = []
         self.patch_id = []
         self.__loading_point_list = []
@@ -87,6 +89,8 @@ class Element(object):
         # draw a counter
         # refresh at the end of time step
         self.patch_displacement = []
+        self.__joint_displacement_increment = []
+        self.joint_displacement_total = []
         self.__initial_stress = None
         self.__initial_strain = None
         self.__initial_velocity = None
@@ -325,13 +329,23 @@ class Element(object):
             self.__constant_spring = CONST.CONSTANT_SPRING_STIFF
         return self.__constant_spring
 
-    def displacement_interpolation(self):
-        pass
-
+    @property
+    def joint_displacement_increment(self):
+        if len(self.__joint_displacement_increment) == 0:
+            temp_patch_displacement = np.array(self.patch_displacement)
+            temp_patch_coordinate = np.array(self.patch_list)
+            temp_joint_coordinate = np.array(self.joint_list)
+            self.__joint_displacement_increment = griddata(temp_patch_coordinate, temp_patch_displacement, temp_joint_coordinate)
+        self.__joint_displacement_increment = list(self.__joint_displacement_increment)
+        if len(self.__joint_displacement_increment) != len(self.joint_list):
+            raise Exception('joint displacement number error!')
+        return self.__joint_displacement_increment
 
     def clean_all(self):
         # refresh at the end of time step
         self.patch_displacement.clear()
+        self.__joint_displacement_increment.clear()
+        self.joint_displacement_total.clear()
         self.__initial_stress = None
         self.__initial_strain = None
         self.__initial_velocity = None
