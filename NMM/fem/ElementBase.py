@@ -1,5 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from shapely.geometry import Polygon
+from shapely.affinity import scale
 from scipy.spatial import Delaunay
 from scipy.interpolate import griddata
 from typing import Tuple
@@ -108,6 +110,9 @@ class Element(object):
         # total stiff matrix
         self.__total_matrix = None
         self.__total_force = None
+
+        # something generated to deal with calculate error
+        self.__minified_joint_list = []
 
     def draw_edge(self):
         temp_list = self.joint_list.copy()
@@ -336,16 +341,38 @@ class Element(object):
             temp_patch_coordinate = np.array(self.patch_list)
             temp_joint_coordinate = np.array(self.joint_list)
             self.__joint_displacement_increment = griddata(temp_patch_coordinate, temp_patch_displacement, temp_joint_coordinate)
+            if np.isnan(self.__joint_displacement_increment).any():
+                temp_joint_coordinate = np.array(self.minified_joint_list)
+                self.__joint_displacement_increment = griddata(temp_patch_coordinate, temp_patch_displacement, temp_joint_coordinate)
         self.__joint_displacement_increment = list(self.__joint_displacement_increment)
         if len(self.__joint_displacement_increment) != len(self.joint_list):
             raise Exception('joint displacement number error!')
         return self.__joint_displacement_increment
+
+    @property
+    def minified_joint_list(self):
+        if len(self.__minified_joint_list) == 0:
+            self.__minified_joint_list = self.minify_polygon(self.joint_list)
+        return self.__minified_joint_list
+
+    @staticmethod
+    def minify_polygon(point_list: list, factor: float = 0.95):
+        temp_polygon = Polygon(point_list)
+        temp_polygon = scale(temp_polygon, factor, factor, origin='centroid')
+        temp_x, temp_y = temp_polygon.exterior.xy
+        temp_x = np.array(temp_x).reshape((-1, 1))
+        temp_y = np.array(temp_y).reshape((-1, 1))
+        temp_point_list = np.c_[temp_x, temp_y]
+        temp_point_list = list(temp_point_list)
+        temp_point_list.pop()
+        return temp_point_list
 
     def clean_all(self):
         # refresh at the end of time step
         self.patch_displacement.clear()
         self.__joint_displacement_increment.clear()
         self.joint_displacement_total.clear()
+        self.__minified_joint_list.clear()
         self.__initial_stress = None
         self.__initial_strain = None
         self.__initial_velocity = None

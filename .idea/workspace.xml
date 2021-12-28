@@ -5,26 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee2d47d0-e2aa-4f90-bbdf-1f6aa5b06364" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/NMM/fem/ElementRefresh.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/NMM/fem/JointWithDataBase.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/script/mc_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/345b474f-bb18-4f59-a44f-0622d7cf0746.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/7a85bf53-330d-48cd-82ed-57bca64d3c41.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/script/interpolate_test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NMM/base/DataBase.py" beforeDir="false" afterPath="$PROJECT_DIR$/NMM/base/DataBase.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NMM/contact/BlockBase.py" beforeDir="false" afterPath="$PROJECT_DIR$/NMM/contact/BlockBase.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NMM/fem/ElementBase.py" beforeDir="false" afterPath="$PROJECT_DIR$/NMM/fem/ElementBase.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NMM/fem/ElementCreator.py" beforeDir="false" afterPath="$PROJECT_DIR$/NMM/fem/ElementCreator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NMM/fem/ElementWithDataBase.py" beforeDir="false" afterPath="$PROJECT_DIR$/NMM/fem/ElementWithDataBase.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NMM/fem/PatchWithDataBase.py" beforeDir="false" afterPath="$PROJECT_DIR$/NMM/fem/PatchWithDataBase.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NMM/preprocess/CvFileReader.py" beforeDir="false" afterPath="$PROJECT_DIR$/NMM/preprocess/CvFileReader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NMM/fem/JointWithDataBase.py" beforeDir="false" afterPath="$PROJECT_DIR$/NMM/fem/JointWithDataBase.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NMM/plot/PlotPatchDisplacement.py" beforeDir="false" afterPath="$PROJECT_DIR$/NMM/plot/PlotPatchDisplacement.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/test.db" beforeDir="false" afterPath="$PROJECT_DIR$/data/test.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/database_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/database_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/draw_element.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/draw_element.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/element_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/element_test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/script/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/ndarray_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/ndarray_test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,29 +80,7 @@
     </key>
   </component>
   <component name="RunManager" selected="Python.main">
-    <configuration name="CvFileReader" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="python-NMM" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/NMM/preprocess" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/NMM/preprocess/CvFileReader.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="ElementBase" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="ElementRefresh" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="python-NMM" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -127,7 +93,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/NMM/fem/ElementBase.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/NMM/fem/ElementRefresh.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -158,6 +124,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="interpolate_test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="python-NMM" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/script" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/script/interpolate_test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="python-NMM" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -180,7 +168,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="mc_test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="ndarray_test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="python-NMM" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -193,7 +181,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/script/mc_test.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/script/ndarray_test.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -205,10 +193,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.ElementRefresh" />
+        <item itemvalue="Python.interpolate_test" />
+        <item itemvalue="Python.ndarray_test" />
         <item itemvalue="Python.draw_element" />
-        <item itemvalue="Python.CvFileReader" />
-        <item itemvalue="Python.mc_test" />
-        <item itemvalue="Python.ElementBase" />
       </list>
     </recent_temporary>
   </component>
@@ -230,7 +218,7 @@
       <workItem from="1639371386373" duration="126053000" />
       <workItem from="1640156314709" duration="14828000" />
       <workItem from="1640579949944" duration="18485000" />
-      <workItem from="1640605623193" duration="4649000" />
+      <workItem from="1640605623193" duration="14748000" />
     </task>
     <servers />
   </component>
@@ -249,42 +237,44 @@
     <SUITE FILE_PATH="coverage/python_NMM$code_test.coverage" NAME="code_test Coverage Results" MODIFIED="1639655562041" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
     <SUITE FILE_PATH="coverage/python_NMM$ElementCreator.coverage" NAME="ElementCreator Coverage Results" MODIFIED="1639746613079" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NMM/fem" />
     <SUITE FILE_PATH="coverage/python_NMM$CvFileReader.coverage" NAME="CvFileReader Coverage Results" MODIFIED="1640610312233" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NMM/preprocess" />
-    <SUITE FILE_PATH="coverage/python_NMM$code_test1.coverage" NAME="code_test1 Coverage Results" MODIFIED="1639573248637" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
     <SUITE FILE_PATH="coverage/python_NMM$pytest_for_testBlockBase_test_is_contact_group_180_true.coverage" NAME="pytest for testBlockBase.test_is_contact_group_180_true Coverage Results" MODIFIED="1638890414855" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/python_NMM$ElementBase.coverage" NAME="ElementBase Coverage Results" MODIFIED="1640601399117" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NMM/fem" />
     <SUITE FILE_PATH="coverage/python_NMM$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1640235892804" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
     <SUITE FILE_PATH="coverage/python_NMM$pytecplot_test.coverage" NAME="pytecplot_test Coverage Results" MODIFIED="1640076271988" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
-    <SUITE FILE_PATH="coverage/python_NMM$pytest_for_testMathMethod_test_SOR.coverage" NAME="pytest for testMathMethod.test_SOR Coverage Results" MODIFIED="1639977872560" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/python_NMM$pytest_for_testBlockBase_test_is_contact_group_false.coverage" NAME="pytest for testBlockBase.test_is_contact_group_false Coverage Results" MODIFIED="1638886759121" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/python_NMM$element_test.coverage" NAME="element_test Coverage Results" MODIFIED="1640580554579" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
-    <SUITE FILE_PATH="coverage/python_NMM$pytest_for_testBlockBase_test_vectors_multiple.coverage" NAME="pytest for testBlockBase.test_vectors_multiple Coverage Results" MODIFIED="1639042713316" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/python_NMM$pytest_for_testBlockBase_test_cross_value.coverage" NAME="pytest for testBlockBase.test_cross_value Coverage Results" MODIFIED="1638890172753" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/python_NMM$pytest_for_testBlockBase_test_is_same_direct.coverage" NAME="pytest for testBlockBase.test_is_same_direct Coverage Results" MODIFIED="1638885814612" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/python_NMM$element_creator_test.coverage" NAME="element_creator_test Coverage Results" MODIFIED="1639999637682" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
-    <SUITE FILE_PATH="coverage/python_NMM$draw_EAB_test.coverage" NAME="draw_EAB_test Coverage Results" MODIFIED="1640236238502" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
-    <SUITE FILE_PATH="coverage/python_NMM$draw_patch.coverage" NAME="draw_patch Coverage Results" MODIFIED="1640238802833" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
-    <SUITE FILE_PATH="coverage/python_NMM$main.coverage" NAME="main Coverage Results" MODIFIED="1640610393989" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
-    <SUITE FILE_PATH="coverage/python_NMM$PatchBase.coverage" NAME="PatchBase Coverage Results" MODIFIED="1639202938324" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NMM/fem" />
+    <SUITE FILE_PATH="coverage/python_NMM$main.coverage" NAME="main Coverage Results" MODIFIED="1640676494501" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
+    <SUITE FILE_PATH="coverage/python_NMM$ElementRefresh.coverage" NAME="ElementRefresh Coverage Results" MODIFIED="1640675185338" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NMM/fem" />
     <SUITE FILE_PATH="coverage/python_NMM$sparse_matrix.coverage" NAME="sparse_matrix Coverage Results" MODIFIED="1639743188034" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
     <SUITE FILE_PATH="coverage/python_NMM$json_test.coverage" NAME="json_test Coverage Results" MODIFIED="1639228837718" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
-    <SUITE FILE_PATH="coverage/python_NMM$tricontourf_test.coverage" NAME="tricontourf_test Coverage Results" MODIFIED="1640085877120" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
     <SUITE FILE_PATH="coverage/python_NMM$draw_loops.coverage" NAME="draw_loops Coverage Results" MODIFIED="1640239525510" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
     <SUITE FILE_PATH="coverage/python_NMM$draw_contourf.coverage" NAME="draw_contourf Coverage Results" MODIFIED="1640255145138" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
-    <SUITE FILE_PATH="coverage/python_NMM$pytest_for_testBlockBase_test_get_angle_degree.coverage" NAME="pytest for testBlockBase.test_get_angle_degree Coverage Results" MODIFIED="1639042719402" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/python_NMM$generate_test_database.coverage" NAME="generate_test_database Coverage Results" MODIFIED="1639117897055" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
     <SUITE FILE_PATH="coverage/python_NMM$code_test_1.coverage" NAME="code_test_1 Coverage Results" MODIFIED="1639991048178" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
     <SUITE FILE_PATH="coverage/python_NMM$quary_database.coverage" NAME="quary_database Coverage Results" MODIFIED="1639203390111" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
     <SUITE FILE_PATH="coverage/python_NMM$ContactWithDatabase.coverage" NAME="ContactWithDatabase Coverage Results" MODIFIED="1639042482410" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NMM/contact" />
-    <SUITE FILE_PATH="coverage/python_NMM$ndarray_test.coverage" NAME="ndarray_test Coverage Results" MODIFIED="1640003126463" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
     <SUITE FILE_PATH="coverage/python_NMM$BlockBase.coverage" NAME="BlockBase Coverage Results" MODIFIED="1640239547769" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NMM/contact" />
     <SUITE FILE_PATH="coverage/python_NMM$pytest_for_testElementWithDataBase_test_get_element_number.coverage" NAME="pytest for testElementWithDataBase.test_get_element_number Coverage Results" MODIFIED="1639223314542" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/python_NMM$christmas_tree.coverage" NAME="christmas_tree Coverage Results" MODIFIED="1639660622881" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
-    <SUITE FILE_PATH="coverage/python_NMM$ginput_manual_clabel_sgskip.coverage" NAME="ginput_manual_clabel_sgskip Coverage Results" MODIFIED="1640083468454" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
     <SUITE FILE_PATH="coverage/python_NMM$mc_test.coverage" NAME="mc_test Coverage Results" MODIFIED="1640608108329" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
     <SUITE FILE_PATH="coverage/python_NMM$pytest_in_testBlockBase_py.coverage" NAME="pytest in testBlockBase.py Coverage Results" MODIFIED="1639121477622" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/python_NMM$genertator_test.coverage" NAME="genertator_test Coverage Results" MODIFIED="1638883892675" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
     <SUITE FILE_PATH="coverage/python_NMM$pytest_for_testBlockBase_test_is_contact_group_true.coverage" NAME="pytest for testBlockBase.test_is_contact_group_true Coverage Results" MODIFIED="1638886814295" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/python_NMM$vector_test.coverage" NAME="vector_test Coverage Results" MODIFIED="1639470980125" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
+    <SUITE FILE_PATH="coverage/python_NMM$code_test1.coverage" NAME="code_test1 Coverage Results" MODIFIED="1639573248637" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
+    <SUITE FILE_PATH="coverage/python_NMM$ElementBase.coverage" NAME="ElementBase Coverage Results" MODIFIED="1640601399117" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NMM/fem" />
+    <SUITE FILE_PATH="coverage/python_NMM$pytest_for_testMathMethod_test_SOR.coverage" NAME="pytest for testMathMethod.test_SOR Coverage Results" MODIFIED="1639977872560" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/python_NMM$pytest_for_testBlockBase_test_vectors_multiple.coverage" NAME="pytest for testBlockBase.test_vectors_multiple Coverage Results" MODIFIED="1639042713316" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/python_NMM$pytest_for_testBlockBase_test_cross_value.coverage" NAME="pytest for testBlockBase.test_cross_value Coverage Results" MODIFIED="1638890172753" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/python_NMM$draw_EAB_test.coverage" NAME="draw_EAB_test Coverage Results" MODIFIED="1640236238502" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
+    <SUITE FILE_PATH="coverage/python_NMM$draw_patch.coverage" NAME="draw_patch Coverage Results" MODIFIED="1640238802833" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
+    <SUITE FILE_PATH="coverage/python_NMM$PatchBase.coverage" NAME="PatchBase Coverage Results" MODIFIED="1639202938324" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NMM/fem" />
+    <SUITE FILE_PATH="coverage/python_NMM$tricontourf_test.coverage" NAME="tricontourf_test Coverage Results" MODIFIED="1640085877120" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
+    <SUITE FILE_PATH="coverage/python_NMM$pytest_for_testBlockBase_test_get_angle_degree.coverage" NAME="pytest for testBlockBase.test_get_angle_degree Coverage Results" MODIFIED="1639042719402" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/python_NMM$generate_test_database.coverage" NAME="generate_test_database Coverage Results" MODIFIED="1639117897055" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
+    <SUITE FILE_PATH="coverage/python_NMM$ndarray_test.coverage" NAME="ndarray_test Coverage Results" MODIFIED="1640665720304" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
+    <SUITE FILE_PATH="coverage/python_NMM$interpolate_test.coverage" NAME="interpolate_test Coverage Results" MODIFIED="1640672744073" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
+    <SUITE FILE_PATH="coverage/python_NMM$christmas_tree.coverage" NAME="christmas_tree Coverage Results" MODIFIED="1639660622881" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
+    <SUITE FILE_PATH="coverage/python_NMM$ginput_manual_clabel_sgskip.coverage" NAME="ginput_manual_clabel_sgskip Coverage Results" MODIFIED="1640083468454" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
     <SUITE FILE_PATH="coverage/python_NMM$pytest_for_testBlockBase_test_is_contact_group_180_false.coverage" NAME="pytest for testBlockBase.test_is_contact_group_180_false Coverage Results" MODIFIED="1639042738118" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
   </component>
 </project>
