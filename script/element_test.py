@@ -1,8 +1,7 @@
-import matplotlib.pyplot as plt
 import numpy as np
 import sqlite3
 from scipy.interpolate import griddata
-from NMM.fem.ElementCreator import create_an_element
+from NMM.control.ElementCreator import create_an_element
 from NMM.fem.ElementWithDataBase import get_element_number
 
 database_name = '../data/test.db'

@@ -1,12 +1,12 @@
 {
     "id": 1,
-    "unit_mass": 0.05,
+    "unit_mass": 1,
     "body_force": [
         0,
-        -1
+        1
     ],
-    "elastic_modulus": 5000,
-    "possion_ratio": 0.3,
+    "elastic_modulus": 100000000000,
+    "possion_ratio": 0.2,
     "initial_force": [
         0,
         0,

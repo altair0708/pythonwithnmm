@@ -1,4 +1,5 @@
 import sqlite3
+import matplotlib.pyplot as plt
 from NMM.fem.PatchWithDataBase import *
 
 database_name = '../data/test.db'

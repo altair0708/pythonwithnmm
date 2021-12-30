@@ -4,9 +4,9 @@ from shapely.geometry import Polygon
 from shapely.affinity import scale
 from scipy.spatial import Delaunay
 from scipy.interpolate import griddata
-from typing import Tuple
-
+from typing import Tuple, List
 from NMM.GlobalVariable import CONST
+from NMM.fem.PointBase import EPoint, PointType
 
 
 def calculate_integration(point_list: np.ndarray):
@@ -54,10 +54,10 @@ class Element(object):
         self.material_id = 0
         self.material_dict = {
             'id': 1,
-            'unit_mass': 0.05,
-            'body_force': (0, -1),
-            'elastic_modulus': 5000,
-            'possion_ratio': 0.3,
+            'unit_mass': 0.0,
+            'body_force': (0, 0),
+            'elastic_modulus': 200000000000,
+            'possion_ratio': 0.28,
             'initial_force': (0, 0, 0),
             'yield_coefficient': {
                 'friction_angle': 0,
@@ -72,9 +72,9 @@ class Element(object):
         self.joint_id = []
         self.patch_list = []
         self.patch_id = []
-        self.__loading_point_list = []
-        self.__fixed_point_list = []
-        self.__measured_point_list = []
+        self.__loading_point_list: List[EPoint] = []
+        self.__fixed_point_list: List[EPoint] = []
+        self.__measured_point_list: List[EPoint] = []
 
         # constant variable
         self.__body_force = None
@@ -92,7 +92,6 @@ class Element(object):
         # refresh at the end of time step
         self.patch_displacement = []
         self.__joint_displacement_increment = []
-        self.joint_displacement_total = []
         self.__initial_stress = None
         self.__initial_strain = None
         self.__initial_velocity = None
@@ -113,6 +112,28 @@ class Element(object):
 
         # something generated to deal with calculate error
         self.__minified_joint_list = []
+
+    def clean_all(self):
+        # refresh at the end of time step
+        self.patch_displacement = []
+        self.__joint_displacement_increment = []
+        self.__minified_joint_list = []
+        self.__initial_stress = None
+        self.__initial_strain = None
+        self.__initial_velocity = None
+
+        # refresh at the start of time step
+        self.__stiff_matrix = None
+        self.__initial_matrix = None
+        self.__loading_matrix = None
+        self.__body_matrix = None
+        self.__mass_matrix = None
+        self.__mass_force = None
+        self.__fixed_matrix = None
+
+        # total stiff matrix
+        self.__total_matrix = None
+        self.__total_force = None
 
     def draw_edge(self):
         temp_list = self.joint_list.copy()
@@ -149,7 +170,7 @@ class Element(object):
             for each_triangle in self.triangle_list:
                 temp_S, temp_xS, temp_yS = calculate_integration(each_triangle)
                 temp_initial_matrix = temp_S * np.dot(self.B_shape_matrix.T, self.initial_stress)
-                self.__initial_matrix = self.__initial_matrix - temp_initial_matrix.reshape(6, 1)
+                self.__initial_matrix = self.__initial_matrix - temp_initial_matrix
             check_shape(self.__initial_matrix, (6, 1))
         return self.__initial_matrix
 
@@ -158,7 +179,7 @@ class Element(object):
         if self.__loading_matrix is None:
             self.__loading_matrix = np.zeros((6, 1))
             for loading_point in self.loading_point_list:
-                temp = self.T_shape_matrix(coord=loading_point.coord, delta_matrix=self.delta_matrix).T
+                temp = self.T_shape_matrix(1, loading_point.coord[0][0], loading_point[0][1], delta_matrix=self.delta_matrix).T
                 self.__loading_matrix = self.__loading_matrix + np.dot(temp, loading_point.force).reshape(6, 1)
             check_shape(self.__loading_matrix, (6, 1))
         return self.__loading_matrix
@@ -169,7 +190,7 @@ class Element(object):
             self.__body_matrix = np.zeros((6, 1))
             for each_triangle in self.triangle_list:
                 temp_S, temp_xS, temp_yS = calculate_integration(each_triangle)
-                temp = self.T_shape_matrix(coord=np.array([[temp_xS, temp_yS]]), delta_matrix=self.delta_matrix)
+                temp = self.T_shape_matrix(temp_S, temp_xS, temp_yS, delta_matrix=self.delta_matrix)
                 temp_body_matrix = np.dot(temp.T, self.body_force)
                 self.__body_matrix = self.body_matrix + temp_body_matrix.reshape(6, 1)
             check_shape(self.__body_matrix, (6, 1))
@@ -183,9 +204,19 @@ class Element(object):
             self.__mass_force = np.zeros((6, 1))
             for each_triangle in self.triangle_list:
                 temp_S, temp_xS, temp_yS = calculate_integration(each_triangle)
-                temp_T = self.T_shape_matrix(coord=np.array([[temp_xS, temp_yS]]), delta_matrix=self.delta_matrix)
-                temp_mass_matrix = np.dot(temp_T.T, temp_T)
-                temp_mass_force = np.dot(temp_mass_matrix, self.initial_velocity)
+                temp_xxS, temp_yyS, temp_xyS = calculate_twice_integration(each_triangle)
+                ff = np.array(self.delta_matrix)
+                temp_matrix = np.zeros((6, 6))
+                for r in range(3):
+                    for s in range(3):
+                        temp = ff[r][0] * ff[s][0] * temp_S + (ff[r][0] * ff[s][1] + ff[r][1] * ff[s][0]) * temp_xS +\
+                               (ff[r][0] * ff[s][2] + ff[r][2] * ff[s][0]) * temp_yS + ff[r][1] * ff[s][1] * temp_xxS + \
+                               (ff[r][1] * ff[s][2] + ff[r][2] * ff[s][1]) * temp_xyS + ff[r][2] * ff[s][2] * temp_yyS
+                        temp_matrix[2 * r][2 * s] = temp
+                        temp_matrix[2 * r + 1][2 * s + 1] = temp
+                check_shape(temp_matrix, (6, 6))
+                temp_mass_matrix = temp_matrix
+                temp_mass_force = np.dot(temp_matrix, self.initial_velocity)
                 temp_mass_matrix = temp_mass_matrix * (2 * self.unit_mass / self.time_step ** 2)
                 temp_mass_force = temp_mass_force * (2 * self.unit_mass / self.time_step)
                 self.__mass_matrix = self.__mass_matrix + temp_mass_matrix
@@ -199,7 +230,7 @@ class Element(object):
         if self.__fixed_matrix is None:
             self.__fixed_matrix = np.zeros((6, 6))
             for fixed_point in self.fixed_point_list:
-                temp = self.T_shape_matrix(coord=fixed_point.coord, delta_matrix=self.delta_matrix)
+                temp = self.T_shape_matrix(1, fixed_point.coord[0][0], fixed_point.coord[0][1], delta_matrix=self.delta_matrix)
                 temp = np.dot(temp.T, temp)
                 temp = self.constant_spring * temp
                 self.__fixed_matrix = self.__fixed_matrix + temp
@@ -210,9 +241,10 @@ class Element(object):
     @property
     def total_matrix(self):
         if self.__total_matrix is None:
-            self.__total_matrix = self.stiff_matrix + self.mass_matrix[0] + self.fixed_matrix
+            self.__total_matrix = self.stiff_matrix + self.fixed_matrix + self.mass_matrix[0]
         return self.__total_matrix
 
+    # TODO:Debug!!!!!!!!!!!!!!!!!!!
     @property
     def total_force(self):
         if self.__total_force is None:
@@ -234,18 +266,22 @@ class Element(object):
     def B_shape_matrix(self):
         if self.__B_shape_matrix is None:
             delta_matrix = self.delta_matrix
-            self.__B_shape_matrix = np.array([[delta_matrix[0, 1],                  0, delta_matrix[1, 1],                  0, delta_matrix[2, 1],                 0],
+            self.__B_shape_matrix = np.array([[delta_matrix[0, 1],                  0, delta_matrix[1, 1],                  0, delta_matrix[2, 1],                  0],
                                               [                 0, delta_matrix[0, 2],                  0, delta_matrix[1, 2],                  0, delta_matrix[2, 2]],
                                               [delta_matrix[0, 2], delta_matrix[0, 1], delta_matrix[1, 2], delta_matrix[1, 1], delta_matrix[2, 2], delta_matrix[2, 1]]])
             check_shape(self.__B_shape_matrix, (3, 6))
         return self.__B_shape_matrix
 
     @staticmethod
-    def T_shape_matrix(coord: np.ndarray, delta_matrix: np.ndarray):
-        We1 = delta_matrix[0, 0] + delta_matrix[0, 1] * coord[0][0] + delta_matrix[0, 2] * coord[0][1]
-        We2 = delta_matrix[1, 0] + delta_matrix[1, 1] * coord[0][0] + delta_matrix[1, 2] * coord[0][1]
-        We3 = delta_matrix[2, 0] + delta_matrix[2, 1] * coord[0][0] + delta_matrix[2, 2] * coord[0][1]
+    def T_shape_matrix(S: float, xS: float, yS: float, delta_matrix: np.ndarray):
+        def weight_matrix(s, xs, ys):
+            return np.dot(delta_matrix, np.array([[s], [xs], [ys]]))
+        check_shape(weight_matrix(1, 1, 1), (3, 1))
+        We1 = np.array(weight_matrix(S, xS, yS))[0][0]
+        We2 = np.array(weight_matrix(S, xS, yS))[1][0]
+        We3 = np.array(weight_matrix(S, xS, yS))[2][0]
         T_shape_matrix = np.c_[We1 * np.identity(2), We2 * np.identity(2), We3 * np.identity(2)]
+
         if T_shape_matrix.shape != (2, 6):
             raise Exception('T matrix shape error')
         return T_shape_matrix
@@ -277,12 +313,14 @@ class Element(object):
             temp_displacement = np.array(self.patch_displacement).reshape((6, 1))
             temp_displacement = np.dot(self.B_shape_matrix, temp_displacement)
             self.__initial_strain = temp_displacement
+            # self.__initial_strain = np.array([[0], [0], [0]])
         return self.__initial_strain
 
     @property
     def initial_stress(self):
         if self.__initial_stress is None:
             self.__initial_stress = np.dot(self.elastic_matrix, self.initial_strain)
+            check_shape(self.__initial_stress, (3, 1))
         return self.__initial_stress
 
     # TODO: Initial velocity
@@ -331,9 +369,10 @@ class Element(object):
     @property
     def constant_spring(self):
         if self.__constant_spring is None:
-            self.__constant_spring = CONST.CONSTANT_SPRING_STIFF
+            self.__constant_spring = CONST.CONSTANT_SPRING_STIFF * 100
         return self.__constant_spring
 
+    # displacement interpolation
     @property
     def joint_displacement_increment(self):
         if len(self.__joint_displacement_increment) == 0:
@@ -345,6 +384,15 @@ class Element(object):
                 temp_joint_coordinate = np.array(self.minified_joint_list)
                 self.__joint_displacement_increment = griddata(temp_patch_coordinate, temp_patch_displacement, temp_joint_coordinate)
         self.__joint_displacement_increment = list(self.__joint_displacement_increment)
+
+        # special point interpolation
+        for each_point in self.fixed_point_list:
+            self.special_points_interpolation(each_point, self.patch_list, self.patch_displacement)
+        for each_point in self.loading_point_list:
+            self.special_points_interpolation(each_point, self.patch_list, self.patch_displacement)
+        for each_point in self.measured_point_list:
+            self.special_points_interpolation(each_point, self.patch_list, self.patch_displacement)
+
         if len(self.__joint_displacement_increment) != len(self.joint_list):
             raise Exception('joint displacement number error!')
         return self.__joint_displacement_increment
@@ -356,7 +404,7 @@ class Element(object):
         return self.__minified_joint_list
 
     @staticmethod
-    def minify_polygon(point_list: list, factor: float = 0.95):
+    def minify_polygon(point_list: list, factor: float = 0.97):
         temp_polygon = Polygon(point_list)
         temp_polygon = scale(temp_polygon, factor, factor, origin='centroid')
         temp_x, temp_y = temp_polygon.exterior.xy
@@ -367,25 +415,11 @@ class Element(object):
         temp_point_list.pop()
         return temp_point_list
 
-    def clean_all(self):
-        # refresh at the end of time step
-        self.patch_displacement.clear()
-        self.__joint_displacement_increment.clear()
-        self.joint_displacement_total.clear()
-        self.__minified_joint_list.clear()
-        self.__initial_stress = None
-        self.__initial_strain = None
-        self.__initial_velocity = None
+    # special points interpolation
+    @staticmethod
+    def special_points_interpolation(point: EPoint, patch_coord: list, patch_displacement: list):
+        temp_coord = point.coord[0]
+        temp_patch_coord = np.array(patch_coord)
+        temp_patch_displacement = np.array(patch_displacement)
+        point.displacement_increment = griddata(temp_patch_coord, temp_patch_displacement, temp_coord)[0]
 
-        # refresh at the start of time step
-        self.__stiff_matrix = None
-        self.__initial_matrix = None
-        self.__loading_matrix = None
-        self.__body_matrix = None
-        self.__mass_matrix = None
-        self.__mass_force = None
-        self.__fixed_matrix = None
-
-        # total stiff matrix
-        self.__total_matrix = None
-        self.__total_force = None

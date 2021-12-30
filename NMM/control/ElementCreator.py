@@ -1,11 +1,11 @@
 import numpy as np
 import json
 from typing import List
-from ElementWithDataBase import *
-from ElementBase import Element
-from PointBase import EPoint, PointType
-from PatchWithDataBase import get_one_patch
-from JointWithDataBase import get_one_joint
+from NMM.fem.ElementWithDataBase import *
+from NMM.fem.ElementBase import Element
+from NMM.fem.PointBase import EPoint, PointType
+from NMM.fem.PatchWithDataBase import get_one_patch
+from NMM.fem.JointWithDataBase import get_one_joint
 
 
 def create_an_element(id_value: int, cursor: sqlite3.Cursor) -> Element:
@@ -63,6 +63,7 @@ class ElementCreator(object):
             for each_point in special_point_list:
                 temp_point = EPoint(PointType(each_point[4]))
                 temp_point.element_id = element.id
+                temp_point.id = int(each_point[0])
                 temp_point.coord = np.array([each_point[1:3]])
                 if temp_point.point_type == PointType.fixed_point:
                     element.fixed_point_list.append(temp_point)

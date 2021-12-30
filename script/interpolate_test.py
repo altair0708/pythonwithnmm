@@ -30,6 +30,6 @@ fig.show()
 x = x.reshape((-1, 1))
 y = y.reshape((-1, 1))
 point = np.c_[x, y]
-print(point)
+point = np.array([[0, 0]])
 result = griddata(points, z, point)
 print(result)

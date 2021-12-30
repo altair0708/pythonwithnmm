@@ -56,7 +56,9 @@ class CvFileReader(object):
                                 'xValue    REAL DEFAULT 0            NOT NULL,'
                                 'yValue    REAL DEFAULT 0            NOT NULL,'
                                 'elementID INT  DEFAULT 0            NOT NULL,'
-                                "pointType TEXT DEFAULT 0            NOT NULL );")
+                                'pointType TEXT DEFAULT 0            NOT NULL,'
+                                'uDis      REAL DEFAULT 0            NOT NULL,'
+                                'vDis      REAL DEFAULT 0            NOT NULL );')
         except sqlite3.OperationalError:
             print('SpecialPoints table is already existed')
         try:
@@ -113,6 +115,8 @@ class CvFileReader(object):
             self.each_line = self.each_line.split()
             self.each_line.insert(0, str(next(self.id_generator)))
             self.each_line.append('Fixed')
+            self.each_line.append('0')
+            self.each_line.append('0')
             try:
                 insert_a_rows(table_name='SpecialPoints', data=self.each_line, database_cursor=self.cursor)
             except sqlite3.IntegrityError:

@@ -1,8 +1,5 @@
 import sqlite3
-import matplotlib.pyplot as plt
-import numpy as np
 from NMM.fem.ElementBase import Element
-from shapely.geometry import Point, Polygon
 
 
 def get_one_joint(id_value: int, cursor: sqlite3.Cursor):

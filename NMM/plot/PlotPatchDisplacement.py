@@ -33,6 +33,8 @@ def plot_joint_displacement(cursor: sqlite3.Cursor):
         temp_u = result[:, 2]
         plt.tricontourf(temp_x, temp_y, temp_u, levels=500, cmap=cm.jet)
     plt.colorbar()
+    plt.axis('equal')
+    plt.title('x displacement')
     plt.show()
 
     for loop_id in range(1, loop_number + 1):
@@ -46,4 +48,6 @@ def plot_joint_displacement(cursor: sqlite3.Cursor):
         temp_v = result[:, 2]
         plt.tricontourf(temp_x, temp_y, temp_v, levels=500, cmap=cm.jet)
     plt.colorbar()
+    plt.axis('equal')
+    plt.title('y displacement')
     plt.show()
