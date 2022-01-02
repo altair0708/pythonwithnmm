@@ -1,6 +1,5 @@
 import numpy as np
 import json
-from typing import List
 from NMM.fem.ElementWithDataBase import *
 from NMM.fem.ElementBase import Element
 from NMM.fem.PointBase import EPoint, PointType

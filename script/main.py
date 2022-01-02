@@ -1,4 +1,3 @@
-import numpy as np
 from NMM.control.ElementCreator import ElementCreator
 from NMM.fem.PatchWithDataBase import get_patch_number
 from NMM.control.MatrixAssembly import MatrixAssembler
@@ -24,13 +23,12 @@ for i in range(10):
     stiff_matrix = MatrixAssembler.stiff_matrix(temp_element_list, patch_number)
     force_vector = MatrixAssembler.force_vector(temp_element_list, patch_number)
 
-    print('########################')
-    temp_matrix = stiff_matrix.toarray()
     x = spsolve(stiff_matrix, force_vector)
 
     element_creator.clean(temp_element_list)
     ElementRefresher.refresh_patch_displacement(x, temp_element_list, database_cursor)
     ElementRefresher.refresh_joint_displacement(temp_element_list, database_cursor)
+    print('########################')
 
 plot_joint_displacement(database_cursor)
 cv_reader.close()

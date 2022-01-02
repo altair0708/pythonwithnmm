@@ -105,6 +105,7 @@ class Element(object):
         self.__mass_matrix = None
         self.__mass_force = None
         self.__fixed_matrix = None
+        self.__fixed_force = None
 
         # total stiff matrix
         self.__total_matrix = None
@@ -130,6 +131,7 @@ class Element(object):
         self.__mass_matrix = None
         self.__mass_force = None
         self.__fixed_matrix = None
+        self.__fixed_force = None
 
         # total stiff matrix
         self.__total_matrix = None
@@ -153,7 +155,7 @@ class Element(object):
     @property
     def stiff_matrix(self):
         if self.__stiff_matrix is None:
-            self.__stiff_matrix = np.zeros((6, 6))
+            self.__stiff_matrix = np.zeros((6, 6), dtype=np.float64)
             for each_triangle in self.triangle_list:
                 temp_S, temp_xS, temp_yS = calculate_integration(each_triangle)
                 temp_stiff_matrix = temp_S * self.B_shape_matrix.T
@@ -166,7 +168,7 @@ class Element(object):
     @property
     def initial_matrix(self):
         if self.__initial_matrix is None:
-            self.__initial_matrix = np.zeros((6, 1))
+            self.__initial_matrix = np.zeros((6, 1), dtype=np.float64)
             for each_triangle in self.triangle_list:
                 temp_S, temp_xS, temp_yS = calculate_integration(each_triangle)
                 temp_initial_matrix = temp_S * np.dot(self.B_shape_matrix.T, self.initial_stress)
@@ -177,7 +179,7 @@ class Element(object):
     @property
     def loading_matrix(self):
         if self.__loading_matrix is None:
-            self.__loading_matrix = np.zeros((6, 1))
+            self.__loading_matrix = np.zeros((6, 1), dtype=np.float64)
             for loading_point in self.loading_point_list:
                 temp = self.T_shape_matrix(1, loading_point.coord[0][0], loading_point[0][1], delta_matrix=self.delta_matrix).T
                 self.__loading_matrix = self.__loading_matrix + np.dot(temp, loading_point.force).reshape(6, 1)
@@ -187,7 +189,7 @@ class Element(object):
     @property
     def body_matrix(self):
         if self.__body_matrix is None:
-            self.__body_matrix = np.zeros((6, 1))
+            self.__body_matrix = np.zeros((6, 1), dtype=np.float64)
             for each_triangle in self.triangle_list:
                 temp_S, temp_xS, temp_yS = calculate_integration(each_triangle)
                 temp = self.T_shape_matrix(temp_S, temp_xS, temp_yS, delta_matrix=self.delta_matrix)
@@ -200,13 +202,13 @@ class Element(object):
     @property
     def mass_matrix(self):
         if self.__mass_matrix is None:
-            self.__mass_matrix = np.zeros((6, 6))
-            self.__mass_force = np.zeros((6, 1))
+            self.__mass_matrix = np.zeros((6, 6), dtype=np.float64)
+            self.__mass_force = np.zeros((6, 1), dtype=np.float64)
             for each_triangle in self.triangle_list:
                 temp_S, temp_xS, temp_yS = calculate_integration(each_triangle)
                 temp_xxS, temp_yyS, temp_xyS = calculate_twice_integration(each_triangle)
                 ff = np.array(self.delta_matrix)
-                temp_matrix = np.zeros((6, 6))
+                temp_matrix = np.zeros((6, 6), dtype=np.float64)
                 for r in range(3):
                     for s in range(3):
                         temp = ff[r][0] * ff[s][0] * temp_S + (ff[r][0] * ff[s][1] + ff[r][1] * ff[s][0]) * temp_xS +\
@@ -228,34 +230,39 @@ class Element(object):
     @property
     def fixed_matrix(self):
         if self.__fixed_matrix is None:
-            self.__fixed_matrix = np.zeros((6, 6))
+            self.__fixed_matrix = np.zeros((6, 6), dtype=np.float64)
+            self.__fixed_force = np.zeros((6, 1), dtype=np.float64)
             for fixed_point in self.fixed_point_list:
                 temp = self.T_shape_matrix(1, fixed_point.coord[0][0], fixed_point.coord[0][1], delta_matrix=self.delta_matrix)
-                temp = np.dot(temp.T, temp)
-                temp = self.constant_spring * temp
-                self.__fixed_matrix = self.__fixed_matrix + temp
-        if self.__fixed_matrix.shape != (6, 6):
-            raise Exception('fixed matrix shape error')
-        return self.__fixed_matrix
+                temp_matrix = np.dot(temp.T, temp)
+                temp_matrix = self.constant_spring * temp_matrix
+                temp_force = np.dot(temp.T, fixed_point.displacement_total.reshape((2, 1)))
+                temp_force = self.constant_spring * temp_force
+                self.__fixed_matrix = self.__fixed_matrix + temp_matrix
+                self.__fixed_force = self.__fixed_force - temp_force
+        check_shape(self.__fixed_matrix, (6, 6))
+        check_shape(self.__fixed_force, (6, 1))
+        return self.__fixed_matrix, self.__fixed_force
 
     @property
     def total_matrix(self):
         if self.__total_matrix is None:
-            self.__total_matrix = self.stiff_matrix + self.fixed_matrix + self.mass_matrix[0]
+            self.__total_matrix = self.stiff_matrix + self.fixed_matrix[0] + self.mass_matrix[0]
         return self.__total_matrix
 
     # TODO:Debug!!!!!!!!!!!!!!!!!!!
     @property
     def total_force(self):
         if self.__total_force is None:
-            self.__total_force = self.initial_matrix + self.loading_matrix + self.body_matrix + self.mass_matrix[1]
+            self.__total_force = self.initial_matrix + self.loading_matrix + self.body_matrix + self.fixed_matrix[1] + self.mass_matrix[1]
+            # self.__total_force = self.fixed_matrix[1] + self.loading_matrix + self.body_matrix + self.mass_matrix[1]
         return self.__total_force
 
     # temp_matrix
     @property
     def delta_matrix(self):
         if self.__delta_matrix is None:
-            delta_matrix = np.c_[np.ones((3, 1)), np.array(self.patch_list)]
+            delta_matrix = np.c_[np.ones((3, 1), dtype=np.float64), np.array(self.patch_list, dtype=np.float64)]
             delta_matrix = np.matrix(delta_matrix)
             delta_matrix = delta_matrix.I
             self.__delta_matrix = delta_matrix.T
@@ -275,7 +282,7 @@ class Element(object):
     @staticmethod
     def T_shape_matrix(S: float, xS: float, yS: float, delta_matrix: np.ndarray):
         def weight_matrix(s, xs, ys):
-            return np.dot(delta_matrix, np.array([[s], [xs], [ys]]))
+            return np.dot(delta_matrix, np.array([[s], [xs], [ys]], dtype=np.float64))
         check_shape(weight_matrix(1, 1, 1), (3, 1))
         We1 = np.array(weight_matrix(S, xS, yS))[0][0]
         We2 = np.array(weight_matrix(S, xS, yS))[1][0]
@@ -293,15 +300,15 @@ class Element(object):
             temp_mu = self.material_dict['possion_ratio']
             elastic_matrix = temp_E / (1 - temp_mu ** 2) * np.matrix([[1, temp_mu, 0],
                                                                       [temp_mu, 1, 0],
-                                                                      [0, 0, (1 - temp_mu) / 2]])
+                                                                      [0, 0, (1 - temp_mu) / 2]], dtype=np.float64)
             self.__elastic_matrix = elastic_matrix
         return self.__elastic_matrix
 
     @property
     def triangle_list(self):
         if self.__triangle_array is None:
-            triangle_delaunay = Delaunay(np.array(self.joint_list))
-            self.__triangle_array = np.array(self.joint_list)[triangle_delaunay.simplices]
+            triangle_delaunay = Delaunay(np.array(self.joint_list, dtype=np.float64))
+            self.__triangle_array = np.array(self.joint_list, dtype=np.float64)[triangle_delaunay.simplices]
         return self.__triangle_array
 
     # TODO: get initial stress from database,
@@ -310,7 +317,7 @@ class Element(object):
     @property
     def initial_strain(self):
         if self.__initial_strain is None:
-            temp_displacement = np.array(self.patch_displacement).reshape((6, 1))
+            temp_displacement = np.array(self.patch_displacement, dtype=np.float64).reshape((6, 1))
             temp_displacement = np.dot(self.B_shape_matrix, temp_displacement)
             self.__initial_strain = temp_displacement
             # self.__initial_strain = np.array([[0], [0], [0]])
@@ -320,6 +327,8 @@ class Element(object):
     def initial_stress(self):
         if self.__initial_stress is None:
             self.__initial_stress = np.dot(self.elastic_matrix, self.initial_strain)
+            self.__initial_stress = np.array(self.__initial_stress, dtype=np.float64)
+            print(self.__initial_stress)
             check_shape(self.__initial_stress, (3, 1))
         return self.__initial_stress
 
@@ -327,7 +336,7 @@ class Element(object):
     @property
     def initial_velocity(self):
         if self.__initial_velocity is None:
-            self.__initial_velocity = np.zeros((6, 1))
+            self.__initial_velocity = np.zeros((6, 1), dtype=np.float64)
             if self.__initial_velocity.shape != (6, 1):
                 raise Exception('initial velocity shape error')
         return self.__initial_velocity
@@ -348,7 +357,7 @@ class Element(object):
     def body_force(self):
         if self.__body_force is None:
             self.__body_force = self.material_dict['body_force']
-            self.__body_force = np.array([self.__body_force])
+            self.__body_force = np.array([self.__body_force], dtype=np.float64)
             self.__body_force = self.__body_force.T
             if self.__body_force.shape != (2, 1):
                 raise Exception('body force shape error')
@@ -376,23 +385,23 @@ class Element(object):
     @property
     def joint_displacement_increment(self):
         if len(self.__joint_displacement_increment) == 0:
-            temp_patch_displacement = np.array(self.patch_displacement)
-            temp_patch_coordinate = np.array(self.patch_list)
-            temp_joint_coordinate = np.array(self.joint_list)
+            temp_patch_displacement = np.array(self.patch_displacement, dtype=np.float64)
+            temp_patch_coordinate = np.array(self.patch_list, dtype=np.float64)
+            temp_joint_coordinate = np.array(self.joint_list, dtype=np.float64)
             self.__joint_displacement_increment = griddata(temp_patch_coordinate, temp_patch_displacement, temp_joint_coordinate)
             if np.isnan(self.__joint_displacement_increment).any():
-                temp_joint_coordinate = np.array(self.minified_joint_list)
+                temp_joint_coordinate = np.array(self.minified_joint_list, dtype=np.float64)
                 self.__joint_displacement_increment = griddata(temp_patch_coordinate, temp_patch_displacement, temp_joint_coordinate)
+
+            # special point interpolation
+            for each_point in self.fixed_point_list:
+                self.special_points_interpolation(each_point, self.patch_list, self.patch_displacement)
+            for each_point in self.loading_point_list:
+                self.special_points_interpolation(each_point, self.patch_list, self.patch_displacement)
+            for each_point in self.measured_point_list:
+                self.special_points_interpolation(each_point, self.patch_list, self.patch_displacement)
+
         self.__joint_displacement_increment = list(self.__joint_displacement_increment)
-
-        # special point interpolation
-        for each_point in self.fixed_point_list:
-            self.special_points_interpolation(each_point, self.patch_list, self.patch_displacement)
-        for each_point in self.loading_point_list:
-            self.special_points_interpolation(each_point, self.patch_list, self.patch_displacement)
-        for each_point in self.measured_point_list:
-            self.special_points_interpolation(each_point, self.patch_list, self.patch_displacement)
-
         if len(self.__joint_displacement_increment) != len(self.joint_list):
             raise Exception('joint displacement number error!')
         return self.__joint_displacement_increment
@@ -404,12 +413,12 @@ class Element(object):
         return self.__minified_joint_list
 
     @staticmethod
-    def minify_polygon(point_list: list, factor: float = 0.97):
+    def minify_polygon(point_list: list, factor: float = 1.0):
         temp_polygon = Polygon(point_list)
         temp_polygon = scale(temp_polygon, factor, factor, origin='centroid')
         temp_x, temp_y = temp_polygon.exterior.xy
-        temp_x = np.array(temp_x).reshape((-1, 1))
-        temp_y = np.array(temp_y).reshape((-1, 1))
+        temp_x = np.array(temp_x, dtype=np.float64).reshape((-1, 1))
+        temp_y = np.array(temp_y, dtype=np.float64).reshape((-1, 1))
         temp_point_list = np.c_[temp_x, temp_y]
         temp_point_list = list(temp_point_list)
         temp_point_list.pop()
@@ -419,7 +428,8 @@ class Element(object):
     @staticmethod
     def special_points_interpolation(point: EPoint, patch_coord: list, patch_displacement: list):
         temp_coord = point.coord[0]
-        temp_patch_coord = np.array(patch_coord)
-        temp_patch_displacement = np.array(patch_displacement)
-        point.displacement_increment = griddata(temp_patch_coord, temp_patch_displacement, temp_coord)[0]
+        temp_patch_coord = np.array(patch_coord, dtype=np.float64)
+        temp_patch_displacement = np.array(patch_displacement, dtype=np.float64)
+        temp_point_displacement = griddata(temp_patch_coord, temp_patch_displacement, temp_coord)[0]
+        point.displacement_increment = temp_point_displacement
 

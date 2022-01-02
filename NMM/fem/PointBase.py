@@ -1,5 +1,4 @@
 import numpy as np
-from typing import List
 from enum import Enum
 
 
@@ -13,10 +12,11 @@ class EPoint(object):
     def __init__(self, point_type):
         self.__id = 0
         self.__element_id = 0
-        self.__coord = np.zeros((1, 2))
-        self.__force = np.zeros((2, 1))
+        self.__coord = np.zeros((1, 2), dtype=np.float64)
+        self.__force = np.zeros((2, 1), dtype=np.float64)
         self.__type = point_type
-        self.__displacement_increment = np.zeros((1, 2))
+        self.__displacement_increment = np.zeros((1, 2), dtype=np.float64)
+        self.__displacement_total = np.zeros((1, 2), dtype=np.float64)
 
     @property
     def element_id(self):
@@ -51,8 +51,13 @@ class EPoint(object):
         return self.__displacement_increment
 
     @displacement_increment.setter
-    def displacement_increment(self, value: List[float]):
-        self.__displacement_increment = [value]
+    def displacement_increment(self, value: np.ndarray):
+        self.__displacement_increment = value.reshape((1, 2))
+        self.__displacement_total = self.__displacement_total + value.reshape((1, 2))
+
+    @property
+    def displacement_total(self):
+        return self.__displacement_total
 
     @property
     def point_type(self):

@@ -3,7 +3,7 @@ from NMM.fem.ElementBase import Element
 
 
 def get_one_joint(id_value: int, cursor: sqlite3.Cursor):
-    database_statement = 'SELECT ID, xValue, yValue, vdis, udis FROM JointPoints ' \
+    database_statement = 'SELECT ID, xValue, yValue, udis, vdis FROM JointPoints ' \
                          'WHERE ID = {id_value}'.format(id_value=id_value)
     result = cursor.execute(database_statement)
     result = result.fetchall()[0]
