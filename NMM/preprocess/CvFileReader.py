@@ -57,8 +57,10 @@ class CvFileReader(object):
                                 'yValue    REAL DEFAULT 0            NOT NULL,'
                                 'elementID INT  DEFAULT 0            NOT NULL,'
                                 'pointType TEXT DEFAULT 0            NOT NULL,'
-                                'uDis      REAL DEFAULT 0            NOT NULL,'
-                                'vDis      REAL DEFAULT 0            NOT NULL );')
+                                'xDis      REAL DEFAULT 0            NOT NULL,'
+                                'yDis      REAL DEFAULT 0            NOT NULL,'
+                                'xVelocity REAL DEFAULT 0            NOT NULL,'
+                                'yVelocity REAL DEFAULT 0            NOT NULL );')
         except sqlite3.OperationalError:
             print('SpecialPoints table is already existed')
         try:
@@ -75,8 +77,8 @@ class CvFileReader(object):
                                 'ID        INT  PRIMARY KEY          NOT NULL,'
                                 'xValue    REAL DEFAULT 0            NOT NULL,'
                                 'yValue    REAL DEFAULT 0            NOT NULL,'
-                                'uDis      REAL DEFAULT 0            NOT NULL,'
-                                'vDis      REAL DEFAULT 0            NOT NULL );')
+                                'xDis      REAL DEFAULT 0            NOT NULL,'
+                                'yDis      REAL DEFAULT 0            NOT NULL );')
         except sqlite3.OperationalError:
             print('JointPoints table is already existed')
         try:
@@ -84,8 +86,8 @@ class CvFileReader(object):
                                 'ID        INT  PRIMARY KEY          NOT NULL,'
                                 'xValue    REAL DEFAULT 0            NOT NULL,'
                                 'yValue    REAL DEFAULT 0            NOT NULL,'
-                                'uDis      REAL DEFAULT 0            NOT NULL,'
-                                'vDis      REAL DEFAULT 0            NOT NULL );')
+                                'xDis      REAL DEFAULT 0            NOT NULL,'
+                                'yDis      REAL DEFAULT 0            NOT NULL );')
         except sqlite3.OperationalError:
             print('PhysicalPatches table is already existed')
         try:
@@ -115,6 +117,8 @@ class CvFileReader(object):
             self.each_line = self.each_line.split()
             self.each_line.insert(0, str(next(self.id_generator)))
             self.each_line.append('Fixed')
+            self.each_line.append('0')
+            self.each_line.append('0')
             self.each_line.append('0')
             self.each_line.append('0')
             try:

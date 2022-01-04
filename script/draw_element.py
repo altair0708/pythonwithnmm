@@ -9,5 +9,5 @@ with sqlite3.connect(database_name) as connection:
         element = create_an_element(id_value=each_id, cursor=database_cursor)
         element.draw_edge()
         element.draw_patch()
-        plt.show()
-        plt.clf()
+    plt.axis('equal')
+    plt.show()

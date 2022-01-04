@@ -23,7 +23,7 @@ def plot_patch_displacement(cursor: sqlite3.Cursor):
 def plot_joint_displacement(cursor: sqlite3.Cursor):
     loop_number = get_loop_number(cursor)
     for loop_id in range(1, loop_number + 1):
-        database_statement = 'SELECT xValue, yValue, uDis FROM JointPoints AS JP INNER JOIN ContactLoops AS CL on ' \
+        database_statement = 'SELECT xValue, yValue, xDis FROM JointPoints AS JP INNER JOIN ContactLoops AS CL on ' \
                              'JP.ID = CL.jointID WHERE loopID = {loop_id}'.format(loop_id=loop_id)
         result = cursor.execute(database_statement)
         result = result.fetchall()
@@ -32,13 +32,14 @@ def plot_joint_displacement(cursor: sqlite3.Cursor):
         temp_y = result[:, 1]
         temp_u = result[:, 2]
         plt.tricontourf(temp_x, temp_y, temp_u, levels=500, cmap=cm.jet)
-    plt.colorbar()
+
     plt.axis('equal')
     plt.title('x displacement')
+    plt.colorbar()
     plt.show()
 
     for loop_id in range(1, loop_number + 1):
-        database_statement = 'SELECT xValue, yValue, vDis FROM JointPoints AS JP INNER JOIN ContactLoops AS CL on ' \
+        database_statement = 'SELECT xValue, yValue, yDis FROM JointPoints AS JP INNER JOIN ContactLoops AS CL on ' \
                              'JP.ID = CL.jointID WHERE loopID = {loop_id}'.format(loop_id=loop_id)
         result = cursor.execute(database_statement)
         result = result.fetchall()

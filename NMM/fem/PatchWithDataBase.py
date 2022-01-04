@@ -10,7 +10,7 @@ def get_patch_number(cursor: sqlite3.Cursor) -> int:
 
 
 def get_one_patch(id_value: int, cursor: sqlite3.Cursor):
-    database_statement = 'SELECT ID, xValue, yValue, udis, vdis FROM PhysicalPatches ' \
+    database_statement = 'SELECT ID, xValue, yValue, xdis, ydis FROM PhysicalPatches ' \
                          'WHERE ID = {id_value}'.format(id_value=id_value)
     result = cursor.execute(database_statement)
     result = result.fetchall()[0]
@@ -26,8 +26,8 @@ def write_patch_displacement_into_database(displacement_array: np.ndarray, datab
         print(patch_number)
         raise Exception('patch number error: {}'.format(displacement_array.shape))
     for id, point_displacement in enumerate(displacement_array):
-        database_statement = 'UPDATE PhysicalPatches SET uDis = {uDis}, vDis = {vDis} ' \
-                             'WHERE ID = {ID}'.format(uDis=point_displacement[0], vDis=point_displacement[1], ID=id+1)
+        database_statement = 'UPDATE PhysicalPatches SET xDis = {xDis}, yDis = {yDis} ' \
+                             'WHERE ID = {ID}'.format(xDis=point_displacement[0], yDis=point_displacement[1], ID=id+1)
         database_cursor.execute(database_statement)
     database_cursor.connection.commit()
 

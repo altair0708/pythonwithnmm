@@ -64,6 +64,7 @@ class ElementCreator(object):
                 temp_point.element_id = element.id
                 temp_point.id = int(each_point[0])
                 temp_point.coord = np.array([each_point[1:3]])
+                temp_point.velocity = np.array([each_point[7:9]])
                 if temp_point.point_type == PointType.fixed_point:
                     element.fixed_point_list.append(temp_point)
                 elif temp_point.point_type == PointType.loading_point:

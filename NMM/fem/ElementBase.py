@@ -93,7 +93,8 @@ class Element(object):
         self.patch_displacement = []
         self.__joint_displacement_increment = []
         self.__initial_stress = None
-        self.__initial_strain = None
+        self.__initial_strain_increment = None
+        self.__initial_strain_total = np.zeros((3, 1))
         self.__initial_velocity = None
 
         # calculate matrix
@@ -120,8 +121,14 @@ class Element(object):
         self.__joint_displacement_increment = []
         self.__minified_joint_list = []
         self.__initial_stress = None
-        self.__initial_strain = None
+        self.__initial_strain_increment = None
         self.__initial_velocity = None
+        for each_point in self.fixed_point_list:
+            each_point.clean()
+        for each_point in self.measured_point_list:
+            each_point.clean()
+        for each_point in self.loading_point_list:
+            each_point.clean()
 
         # refresh at the start of time step
         self.__stiff_matrix = None
@@ -315,20 +322,19 @@ class Element(object):
     #  database generate at the end of first step,
     #  then refresh at each end of step
     @property
-    def initial_strain(self):
-        if self.__initial_strain is None:
+    def initial_strain_total(self):
+        if self.__initial_strain_increment is None:
             temp_displacement = np.array(self.patch_displacement, dtype=np.float64).reshape((6, 1))
             temp_displacement = np.dot(self.B_shape_matrix, temp_displacement)
-            self.__initial_strain = temp_displacement
-            # self.__initial_strain = np.array([[0], [0], [0]])
-        return self.__initial_strain
+            self.__initial_strain_increment = temp_displacement
+            self.__initial_strain_total = self.__initial_strain_total + self.__initial_strain_increment
+        return self.__initial_strain_total
 
     @property
     def initial_stress(self):
         if self.__initial_stress is None:
-            self.__initial_stress = np.dot(self.elastic_matrix, self.initial_strain)
+            self.__initial_stress = np.dot(self.elastic_matrix, self.initial_strain_total)
             self.__initial_stress = np.array(self.__initial_stress, dtype=np.float64)
-            print(self.__initial_stress)
             check_shape(self.__initial_stress, (3, 1))
         return self.__initial_stress
 
@@ -413,7 +419,7 @@ class Element(object):
         return self.__minified_joint_list
 
     @staticmethod
-    def minify_polygon(point_list: list, factor: float = 1.0):
+    def minify_polygon(point_list: list, factor: float = 0.999):
         temp_polygon = Polygon(point_list)
         temp_polygon = scale(temp_polygon, factor, factor, origin='centroid')
         temp_x, temp_y = temp_polygon.exterior.xy

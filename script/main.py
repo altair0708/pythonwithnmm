@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 from NMM.control.ElementCreator import ElementCreator
 from NMM.fem.PatchWithDataBase import get_patch_number
 from NMM.control.MatrixAssembly import MatrixAssembler
@@ -28,7 +29,6 @@ for i in range(10):
     element_creator.clean(temp_element_list)
     ElementRefresher.refresh_patch_displacement(x, temp_element_list, database_cursor)
     ElementRefresher.refresh_joint_displacement(temp_element_list, database_cursor)
-    print('########################')
 
 plot_joint_displacement(database_cursor)
 cv_reader.close()

@@ -62,8 +62,8 @@ def write_special_point_displacement_into_database(element: Element, cursor: sql
 
     def write_one_type(temp_point_list: List[EPoint], temp_cursor:sqlite3.Cursor):
         for each_point in temp_point_list:
-            database_statement = 'UPDATE SpecialPoints SET uDis = uDis + {uDis}, vDis = vDis + {vDis} WHERE ID = {ID}'\
-                .format(uDis=each_point.displacement_increment[0][0], vDis=each_point.displacement_increment[0][1], ID=each_point.id)
+            database_statement = 'UPDATE SpecialPoints SET xDis = xDis + {xDis}, yDis = yDis + {yDis} WHERE ID = {ID}'\
+                .format(xDis=each_point.displacement_increment[0][0], yDis=each_point.displacement_increment[0][1], ID=each_point.id)
             temp_cursor.execute(database_statement)
             temp_cursor.connection.commit()
     write_one_type(element.fixed_point_list, cursor)
