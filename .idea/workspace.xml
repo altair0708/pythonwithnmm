@@ -5,21 +5,66 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee2d47d0-e2aa-4f90-bbdf-1f6aa5b06364" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/other.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NMM/preprocess_3D/GmshReader.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/NMM/preprocess_3D/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data_3D/math_cover.vtu" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data_3D/original_gmsh.vtu" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data_3D/temp_grid.vtu" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/script/3D_script/begin_pygmsh.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/script/3D_script/gmsh_study/000_hello_world.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/script/3D_script/gmsh_study/001_flat_shapes.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/script/3D_script/vtk_study/000_begin_vtk.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/script/3D_script/vtk_study/001_read_Exodusdata.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/script/3D_script/vtk_study/002_write_xml_file.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/script/3D_script/vtk_study/003_ploydata_exercise.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/script/3D_script/vtk_study/004_vertex.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/script/3D_script/vtk_study/005_3D_cell_demonstration.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/script/3D_script/vtk_study/006_cell_source_type.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/script/3D_script/vtk_study/007_BooleanOperationImplicitFunctions.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/script/3D_script/vtk_study/008_BooleanOperationPolyDataFilter.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/script/3D_script/vtk_study/009_cutter_cube.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/script/3D_script/vtk_study/010_clip_solid.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/script/3D_script/vtk_study/011_convert_unstructured_grid_to_polydata.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/script/3D_script/vtk_study/012 polyhedron.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/script/3D_script/vtk_study/013_DataSetSurfaceFilter.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/script/3D_script/vtk_study/014_generate_math_cover.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/00766b8f-dd5a-4471-8eff-0a4414c8b82c.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NMM/control/ElementCreator.py" beforeDir="false" afterPath="$PROJECT_DIR$/NMM/control/ElementCreator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NMM/contact/BlockBase.py" beforeDir="false" afterPath="$PROJECT_DIR$/NMM/contact/BlockBase.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NMM/control/MatrixAssembly.py" beforeDir="false" afterPath="$PROJECT_DIR$/NMM/control/MatrixAssembly.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NMM/fem/ElementBase.py" beforeDir="false" afterPath="$PROJECT_DIR$/NMM/fem/ElementBase.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NMM/fem/ElementWithDataBase.py" beforeDir="false" afterPath="$PROJECT_DIR$/NMM/fem/ElementWithDataBase.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NMM/fem/JointWithDataBase.py" beforeDir="false" afterPath="$PROJECT_DIR$/NMM/fem/JointWithDataBase.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NMM/fem/PatchWithDataBase.py" beforeDir="false" afterPath="$PROJECT_DIR$/NMM/fem/PatchWithDataBase.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NMM/fem/PointBase.py" beforeDir="false" afterPath="$PROJECT_DIR$/NMM/fem/PointBase.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NMM/plot/PlotPatchDisplacement.py" beforeDir="false" afterPath="$PROJECT_DIR$/NMM/plot/PlotPatchDisplacement.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/NMM/preprocess/CvFileReader.py" beforeDir="false" afterPath="$PROJECT_DIR$/NMM/preprocess/CvFileReader.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/cv00" beforeDir="false" afterPath="$PROJECT_DIR$/data/cv00" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/cv00" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/data/test.db" beforeDir="false" afterPath="$PROJECT_DIR$/data/test.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/draw_element.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/draw_element.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/christmas_tree.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/christmas_tree.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/clockwise_angle_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/clockwise_angle_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/copy_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/copy_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/database_special_point_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/database_special_point_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/database_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/database_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/draw_EAB_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/draw_EAB_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/draw_contourf.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/draw_contourf.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/draw_element.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/draw_element.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/draw_loops.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/draw_loops.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/draw_patch.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/draw_patch.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/element_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/element_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/enum_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/enum_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/generate_test_database.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/generate_test_database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/genertator_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/genertator_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/interpolate_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/interpolate_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/json_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/json_test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/script/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/matrix_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/matrix_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/mc_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/mc_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/ndarray_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/ndarray_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/quary_database.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/quary_database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/sparse_matrix.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/sparse_matrix.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/sparse_solver.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/sparse_solver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/tricontourf_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/tricontourf_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/vector_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/vector_test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,7 +114,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Desktop" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/data_3D" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -81,14 +126,19 @@
     <property name="settings.editor.selected.configurable" value="PyScientificConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\science\NMM\python-NMM\data_3D" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\science\NMM\python-NMM" />
+      <recent name="D:\science\NMM\python-NMM\script\3D_script\vtk_study" />
+      <recent name="D:\science\NMM\python-NMM\script\draw_mesh" />
       <recent name="D:\science\NMM\python-NMM\NMM\control" />
       <recent name="D:\science\NMM\python-NMM\NMM\fem" />
-      <recent name="D:\science\NMM\python-NMM\NMM\contact" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main">
-    <configuration name="CvFileReader" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.014_generate_math_cover">
+    <configuration name="009_cutter_cube" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="python-NMM" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -96,12 +146,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/NMM/preprocess" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/script/3D_script/vtk_study" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/NMM/preprocess/CvFileReader.py" />
+      <option name="SCRIPT_NAME" value="D:\science\NMM\python-NMM\script\3D_script\vtk_study\009_cutter_cube.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -110,7 +160,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="ElementBase" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="011_convert_unstructured_grid_to_polydata" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="python-NMM" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -118,12 +168,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/NMM/fem" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/script/3D_script/vtk_study" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/NMM/fem/ElementBase.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/script/3D_script/vtk_study/011_convert_unstructured_grid_to_polydata.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -132,7 +182,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="draw_element" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="013_DataSetSurfaceFilter" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="python-NMM" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -140,12 +190,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/script" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/script/3D_script/vtk_study" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/script/draw_element.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/script/3D_script/vtk_study/013_DataSetSurfaceFilter.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -154,7 +204,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="interpolate_test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="014_generate_math_cover" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="python-NMM" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -162,12 +212,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/script" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/script/3D_script/vtk_study" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/script/interpolate_test.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/script/3D_script/vtk_study/014_generate_math_cover.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -176,7 +226,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="BlockBase" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="python-NMM" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -184,12 +234,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/script" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/NMM/contact" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/script/main.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/NMM/contact/BlockBase.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -200,11 +250,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.main" />
-        <item itemvalue="Python.draw_element" />
-        <item itemvalue="Python.CvFileReader" />
-        <item itemvalue="Python.interpolate_test" />
-        <item itemvalue="Python.ElementBase" />
+        <item itemvalue="Python.014_generate_math_cover" />
+        <item itemvalue="Python.009_cutter_cube" />
+        <item itemvalue="Python.011_convert_unstructured_grid_to_polydata" />
+        <item itemvalue="Python.013_DataSetSurfaceFilter" />
+        <item itemvalue="Python.BlockBase" />
       </list>
     </recent_temporary>
   </component>
@@ -229,7 +279,33 @@
       <workItem from="1640605623193" duration="17415000" />
       <workItem from="1640680527145" duration="56921000" />
       <workItem from="1640855571430" duration="84000" />
-      <workItem from="1641192457701" duration="17410000" />
+      <workItem from="1641192457701" duration="17858000" />
+      <workItem from="1641286404576" duration="30397000" />
+      <workItem from="1641708471712" duration="799000" />
+      <workItem from="1641731311013" duration="1579000" />
+      <workItem from="1641733091904" duration="556000" />
+      <workItem from="1642075214191" duration="6158000" />
+      <workItem from="1642146596375" duration="1278000" />
+      <workItem from="1642742661799" duration="773000" />
+      <workItem from="1646299972960" duration="715000" />
+      <workItem from="1646981757668" duration="2000" />
+      <workItem from="1647075702323" duration="883000" />
+      <workItem from="1647180343831" duration="897000" />
+      <workItem from="1647331435830" duration="3313000" />
+      <workItem from="1647869777335" duration="88000" />
+      <workItem from="1648190686909" duration="3374000" />
+      <workItem from="1648466988040" duration="1122000" />
+      <workItem from="1648474033143" duration="1238000" />
+      <workItem from="1648545260835" duration="373000" />
+      <workItem from="1648622909141" duration="29724000" />
+      <workItem from="1648795773815" duration="8525000" />
+      <workItem from="1648886646516" duration="19311000" />
+      <workItem from="1649317554411" duration="2767000" />
+      <workItem from="1649333879969" duration="15321000" />
+      <workItem from="1649402115074" duration="19224000" />
+      <workItem from="1650178872016" duration="929000" />
+      <workItem from="1650694065904" duration="12166000" />
+      <workItem from="1650864348183" duration="57631000" />
     </task>
     <servers />
   </component>
@@ -250,55 +326,75 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/python_NMM$pytest_for_testBlockBase_test_is_contact_group.coverage" NAME="pytest for testBlockBase.test_is_contact_group Coverage Results" MODIFIED="1638886396495" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/python_NMM$matrix_test.coverage" NAME="matrix_test Coverage Results" MODIFIED="1639471670255" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
-    <SUITE FILE_PATH="coverage/python_NMM$database_test.coverage" NAME="database_test Coverage Results" MODIFIED="1640237747028" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
     <SUITE FILE_PATH="coverage/python_NMM$MatrixAssembly.coverage" NAME="MatrixAssembly Coverage Results" MODIFIED="1640764541480" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NMM/fem" />
+    <SUITE FILE_PATH="coverage/python_NMM$database_test.coverage" NAME="database_test Coverage Results" MODIFIED="1641360006184" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
     <SUITE FILE_PATH="coverage/python_NMM$pytest_for_testElementBase_test_create_element.coverage" NAME="pytest for testElementBase.test_create_element Coverage Results" MODIFIED="1640755952351" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/python_NMM$PlotPatchDisplacement.coverage" NAME="PlotPatchDisplacement Coverage Results" MODIFIED="1640238743583" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NMM/plot" />
     <SUITE FILE_PATH="coverage/python_NMM$DataBase.coverage" NAME="DataBase Coverage Results" MODIFIED="1640004530686" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NMM/base" />
-    <SUITE FILE_PATH="coverage/python_NMM$draw_element.coverage" NAME="draw_element Coverage Results" MODIFIED="1641283886509" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
+    <SUITE FILE_PATH="coverage/python_NMM$draw_element.coverage" NAME="draw_element Coverage Results" MODIFIED="1651047016066" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/2D_script" />
     <SUITE FILE_PATH="coverage/python_NMM$code_test.coverage" NAME="code_test Coverage Results" MODIFIED="1639655562041" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
     <SUITE FILE_PATH="coverage/python_NMM$ElementCreator.coverage" NAME="ElementCreator Coverage Results" MODIFIED="1639746613079" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NMM/fem" />
-    <SUITE FILE_PATH="coverage/python_NMM$CvFileReader.coverage" NAME="CvFileReader Coverage Results" MODIFIED="1641283815402" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NMM/preprocess" />
+    <SUITE FILE_PATH="coverage/python_NMM$CvFileReader.coverage" NAME="CvFileReader Coverage Results" MODIFIED="1651047055038" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NMM/preprocess" />
     <SUITE FILE_PATH="coverage/python_NMM$pytest_for_testBlockBase_test_is_contact_group_180_true.coverage" NAME="pytest for testBlockBase.test_is_contact_group_180_true Coverage Results" MODIFIED="1638890414855" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/python_NMM$main__1_.coverage" NAME="main (1) Coverage Results" MODIFIED="1640235892804" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
     <SUITE FILE_PATH="coverage/python_NMM$pytecplot_test.coverage" NAME="pytecplot_test Coverage Results" MODIFIED="1640076271988" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
     <SUITE FILE_PATH="coverage/python_NMM$pytest_for_testBlockBase_test_is_contact_group_false.coverage" NAME="pytest for testBlockBase.test_is_contact_group_false Coverage Results" MODIFIED="1638886759121" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/python_NMM$element_test.coverage" NAME="element_test Coverage Results" MODIFIED="1640580554579" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
+    <SUITE FILE_PATH="coverage/python_NMM$004_vertex.coverage" NAME="004_vertex Coverage Results" MODIFIED="1648647730538" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/3D_script/vtk_study" />
     <SUITE FILE_PATH="coverage/python_NMM$pytest_for_testBlockBase_test_is_same_direct.coverage" NAME="pytest for testBlockBase.test_is_same_direct Coverage Results" MODIFIED="1638885814612" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/python_NMM$element_creator_test.coverage" NAME="element_creator_test Coverage Results" MODIFIED="1639999637682" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
-    <SUITE FILE_PATH="coverage/python_NMM$main.coverage" NAME="main Coverage Results" MODIFIED="1641285917790" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
+    <SUITE FILE_PATH="coverage/python_NMM$main.coverage" NAME="main Coverage Results" MODIFIED="1648545271405" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
     <SUITE FILE_PATH="coverage/python_NMM$ElementRefresh.coverage" NAME="ElementRefresh Coverage Results" MODIFIED="1640675185338" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NMM/fem" />
     <SUITE FILE_PATH="coverage/python_NMM$sparse_matrix.coverage" NAME="sparse_matrix Coverage Results" MODIFIED="1639743188034" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
     <SUITE FILE_PATH="coverage/python_NMM$json_test.coverage" NAME="json_test Coverage Results" MODIFIED="1639228837718" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
-    <SUITE FILE_PATH="coverage/python_NMM$draw_contourf.coverage" NAME="draw_contourf Coverage Results" MODIFIED="1640255145138" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
+    <SUITE FILE_PATH="coverage/python_NMM$001_read_Exodusdata.coverage" NAME="001_read_Exodusdata Coverage Results" MODIFIED="1648630246668" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/3D_script/vtk_study" />
     <SUITE FILE_PATH="coverage/python_NMM$draw_loops.coverage" NAME="draw_loops Coverage Results" MODIFIED="1640694382869" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
+    <SUITE FILE_PATH="coverage/python_NMM$draw_contourf.coverage" NAME="draw_contourf Coverage Results" MODIFIED="1651046925018" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/2D_script" />
+    <SUITE FILE_PATH="coverage/python_NMM$013_DataSetSurfaceFilter.coverage" NAME="013_DataSetSurfaceFilter Coverage Results" MODIFIED="1651061037501" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/3D_script/vtk_study" />
     <SUITE FILE_PATH="coverage/python_NMM$code_test_1.coverage" NAME="code_test_1 Coverage Results" MODIFIED="1639991048178" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
+    <SUITE FILE_PATH="coverage/python_NMM$009_cutter_cube.coverage" NAME="009_cutter_cube Coverage Results" MODIFIED="1651124536847" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/3D_script/vtk_study" />
     <SUITE FILE_PATH="coverage/python_NMM$quary_database.coverage" NAME="quary_database Coverage Results" MODIFIED="1639203390111" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
     <SUITE FILE_PATH="coverage/python_NMM$ContactWithDatabase.coverage" NAME="ContactWithDatabase Coverage Results" MODIFIED="1639042482410" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NMM/contact" />
-    <SUITE FILE_PATH="coverage/python_NMM$BlockBase.coverage" NAME="BlockBase Coverage Results" MODIFIED="1640694093781" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NMM/contact" />
+    <SUITE FILE_PATH="coverage/python_NMM$begin_pygmsh.coverage" NAME="begin_pygmsh Coverage Results" MODIFIED="1648194893983" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/3D_script" />
+    <SUITE FILE_PATH="coverage/python_NMM$music_download.coverage" NAME="music_download Coverage Results" MODIFIED="1641708505894" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
+    <SUITE FILE_PATH="coverage/python_NMM$BlockBase.coverage" NAME="BlockBase Coverage Results" MODIFIED="1651047119517" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NMM/contact" />
     <SUITE FILE_PATH="coverage/python_NMM$pytest_for_testElementWithDataBase_test_get_element_number.coverage" NAME="pytest for testElementWithDataBase.test_get_element_number Coverage Results" MODIFIED="1639223314542" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/python_NMM$mc_test.coverage" NAME="mc_test Coverage Results" MODIFIED="1640608108329" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
     <SUITE FILE_PATH="coverage/python_NMM$pytest_in_testBlockBase_py.coverage" NAME="pytest in testBlockBase.py Coverage Results" MODIFIED="1639121477622" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/python_NMM$begin_vtk.coverage" NAME="begin_vtk Coverage Results" MODIFIED="1648628783035" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/3D_script" />
+    <SUITE FILE_PATH="coverage/python_NMM$002_write_xml_file.coverage" NAME="002_write_xml_file Coverage Results" MODIFIED="1648642242998" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/3D_script/vtk_study" />
     <SUITE FILE_PATH="coverage/python_NMM$genertator_test.coverage" NAME="genertator_test Coverage Results" MODIFIED="1638883892675" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
+    <SUITE FILE_PATH="coverage/python_NMM$014_generate_math_cover.coverage" NAME="014_generate_math_cover Coverage Results" MODIFIED="1651128740195" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/3D_script/vtk_study" />
     <SUITE FILE_PATH="coverage/python_NMM$pytest_for_testBlockBase_test_is_contact_group_true.coverage" NAME="pytest for testBlockBase.test_is_contact_group_true Coverage Results" MODIFIED="1638886814295" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/python_NMM$vector_test.coverage" NAME="vector_test Coverage Results" MODIFIED="1639470980125" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
+    <SUITE FILE_PATH="coverage/python_NMM$007_BooleanOperationImplicitFunctions.coverage" NAME="007_BooleanOperationImplicitFunctions Coverage Results" MODIFIED="1650959726376" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/3D_script/vtk_study" />
+    <SUITE FILE_PATH="coverage/python_NMM$011_convert_unstructured_grid_to_polydata.coverage" NAME="011_convert_unstructured_grid_to_polydata Coverage Results" MODIFIED="1651068021053" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/3D_script/vtk_study" />
     <SUITE FILE_PATH="coverage/python_NMM$code_test1.coverage" NAME="code_test1 Coverage Results" MODIFIED="1639573248637" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
+    <SUITE FILE_PATH="coverage/python_NMM$005_3D_cell_demonstration.coverage" NAME="005_3D_cell_demonstration Coverage Results" MODIFIED="1650959711765" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/3D_script/vtk_study" />
     <SUITE FILE_PATH="coverage/python_NMM$ElementBase.coverage" NAME="ElementBase Coverage Results" MODIFIED="1640769948098" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NMM/fem" />
+    <SUITE FILE_PATH="coverage/python_NMM$003_ploydata_exercise.coverage" NAME="003_ploydata_exercise Coverage Results" MODIFIED="1648993370504" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/3D_script/vtk_study" />
     <SUITE FILE_PATH="coverage/python_NMM$pytest_for_testMathMethod_test_SOR.coverage" NAME="pytest for testMathMethod.test_SOR Coverage Results" MODIFIED="1639977872560" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/python_NMM$pytest_for_testElementBase_test_element_weight_function.coverage" NAME="pytest for testElementBase.test_element_weight_function Coverage Results" MODIFIED="1640757556544" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/python_NMM$pytest_for_testBlockBase_test_vectors_multiple.coverage" NAME="pytest for testBlockBase.test_vectors_multiple Coverage Results" MODIFIED="1639042713316" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/python_NMM$pytest_for_testBlockBase_test_cross_value.coverage" NAME="pytest for testBlockBase.test_cross_value Coverage Results" MODIFIED="1638890172753" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/python_NMM$draw_EAB_test.coverage" NAME="draw_EAB_test Coverage Results" MODIFIED="1640694378110" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
     <SUITE FILE_PATH="coverage/python_NMM$draw_patch.coverage" NAME="draw_patch Coverage Results" MODIFIED="1640767399624" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
+    <SUITE FILE_PATH="coverage/python_NMM$draw_EAB_test.coverage" NAME="draw_EAB_test Coverage Results" MODIFIED="1651047063315" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/2D_script" />
     <SUITE FILE_PATH="coverage/python_NMM$PatchBase.coverage" NAME="PatchBase Coverage Results" MODIFIED="1639202938324" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NMM/fem" />
     <SUITE FILE_PATH="coverage/python_NMM$pytest_in_testElementBase_py.coverage" NAME="pytest in testElementBase.py Coverage Results" MODIFIED="1640757523533" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/python_NMM$1_generate_mesh_in_python_with_gmsh.coverage" NAME="1_generate_mesh_in_python_with_gmsh Coverage Results" MODIFIED="1648801467515" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/3D_script/gmsh_study" />
     <SUITE FILE_PATH="coverage/python_NMM$tricontourf_test.coverage" NAME="tricontourf_test Coverage Results" MODIFIED="1640085877120" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
+    <SUITE FILE_PATH="coverage/python_NMM$000_hello_world.coverage" NAME="000_hello_world Coverage Results" MODIFIED="1648884948099" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/3D_script/gmsh_study" />
     <SUITE FILE_PATH="coverage/python_NMM$pytest_for_testBlockBase_test_get_angle_degree.coverage" NAME="pytest for testBlockBase.test_get_angle_degree Coverage Results" MODIFIED="1639042719402" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/python_NMM$generate_test_database.coverage" NAME="generate_test_database Coverage Results" MODIFIED="1639117897055" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
-    <SUITE FILE_PATH="coverage/python_NMM$ndarray_test.coverage" NAME="ndarray_test Coverage Results" MODIFIED="1640665720304" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
+    <SUITE FILE_PATH="coverage/python_NMM$001_flat_shapes.coverage" NAME="001_flat_shapes Coverage Results" MODIFIED="1648888328208" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/3D_script/gmsh_study" />
     <SUITE FILE_PATH="coverage/python_NMM$interpolate_test.coverage" NAME="interpolate_test Coverage Results" MODIFIED="1640852656879" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
+    <SUITE FILE_PATH="coverage/python_NMM$ndarray_test.coverage" NAME="ndarray_test Coverage Results" MODIFIED="1641359806764" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
+    <SUITE FILE_PATH="coverage/python_NMM$008_BooleanOperationPolyDataFilter.coverage" NAME="008_BooleanOperationPolyDataFilter Coverage Results" MODIFIED="1650959745510" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/3D_script/vtk_study" />
+    <SUITE FILE_PATH="coverage/python_NMM$006_cell_source_type.coverage" NAME="006_cell_source_type Coverage Results" MODIFIED="1648712264022" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/3D_script/vtk_study" />
     <SUITE FILE_PATH="coverage/python_NMM$christmas_tree.coverage" NAME="christmas_tree Coverage Results" MODIFIED="1639660622881" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
+    <SUITE FILE_PATH="coverage/python_NMM$012_polyhedron.coverage" NAME="012 polyhedron Coverage Results" MODIFIED="1650889408874" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/3D_script/vtk_study" />
     <SUITE FILE_PATH="coverage/python_NMM$ginput_manual_clabel_sgskip.coverage" NAME="ginput_manual_clabel_sgskip Coverage Results" MODIFIED="1640083468454" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
+    <SUITE FILE_PATH="coverage/python_NMM$010_clip_solid.coverage" NAME="010_clip_solid Coverage Results" MODIFIED="1650959967225" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/3D_script/vtk_study" />
     <SUITE FILE_PATH="coverage/python_NMM$pytest_for_testBlockBase_test_is_contact_group_180_false.coverage" NAME="pytest for testBlockBase.test_is_contact_group_180_false Coverage Results" MODIFIED="1639042738118" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
   </component>
 </project>

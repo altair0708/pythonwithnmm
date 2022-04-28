@@ -1,8 +1,8 @@
 import json
 
-file_name = '../data/global_variable.json'
-material_file_name = '../data/material_coefficient.json'
-joint_material_file_name = '../data/joint_material_coefficient.json'
+file_name = '../../data/global_variable.json'
+material_file_name = '../../data/material_coefficient.json'
+joint_material_file_name = '../../data/joint_material_coefficient.json'
 geometry_number_file_name = '../data/geometry_number.json'
 global_variable = {
     'dynamic_coefficient': 1,

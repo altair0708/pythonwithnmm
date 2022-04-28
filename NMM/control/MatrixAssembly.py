@@ -1,10 +1,13 @@
+import sqlite3
 import numpy as np
+from NMM.fem.PatchWithDataBase import get_patch_number
 from scipy.sparse import coo_matrix
 
 
 class MatrixAssembler:
     @staticmethod
-    def stiff_matrix(element_list, patch_number):
+    def stiff_matrix(element_list, cursor: sqlite3.Cursor):
+        patch_number = get_patch_number(cursor)
         temp_stiff_matrix = coo_matrix((2 * patch_number, 2 * patch_number), dtype=np.float64)
         temp_total_row = np.array([[]], dtype=np.int32)
         temp_total_column = np.array([[]], dtype=np.int32)
@@ -29,7 +32,8 @@ class MatrixAssembler:
         return temp_stiff_matrix
 
     @staticmethod
-    def force_vector(element_list, patch_number):
+    def force_vector(element_list, cursor: sqlite3.Cursor):
+        patch_number = get_patch_number(cursor)
         force_vector = np.zeros(2 * patch_number, dtype=np.float64)
         for temp_element in element_list:
             # force vector

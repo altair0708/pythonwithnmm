@@ -67,7 +67,6 @@ class Element(object):
             'initial_velocity': (0, 0, 0)
         }
 
-        # TODO: something can be modified
         self.joint_list = []
         self.joint_id = []
         self.patch_list = []
@@ -205,7 +204,6 @@ class Element(object):
             check_shape(self.__body_matrix, (6, 1))
         return self.__body_matrix
 
-    # TODO: Simplex integral VS Numerical integral
     @property
     def mass_matrix(self):
         if self.__mass_matrix is None:
@@ -241,6 +239,10 @@ class Element(object):
             self.__fixed_force = np.zeros((6, 1), dtype=np.float64)
             for fixed_point in self.fixed_point_list:
                 temp = self.T_shape_matrix(1, fixed_point.coord[0][0], fixed_point.coord[0][1], delta_matrix=self.delta_matrix)
+                '''fixed test'''
+                # temp_zero = np.array([[0, 0, 0, 0, 0, 0]])
+                # temp[[0], :] = temp_zero
+                '''fixed test'''
                 temp_matrix = np.dot(temp.T, temp)
                 temp_matrix = self.constant_spring * temp_matrix
                 temp_force = np.dot(temp.T, fixed_point.displacement_total.reshape((2, 1)))
@@ -257,7 +259,6 @@ class Element(object):
             self.__total_matrix = self.stiff_matrix + self.fixed_matrix[0] + self.mass_matrix[0]
         return self.__total_matrix
 
-    # TODO:Debug!!!!!!!!!!!!!!!!!!!
     @property
     def total_force(self):
         if self.__total_force is None:
@@ -318,9 +319,6 @@ class Element(object):
             self.__triangle_array = np.array(self.joint_list, dtype=np.float64)[triangle_delaunay.simplices]
         return self.__triangle_array
 
-    # TODO: get initial stress from database,
-    #  database generate at the end of first step,
-    #  then refresh at each end of step
     @property
     def initial_strain_total(self):
         if self.__initial_strain_increment is None:
@@ -391,51 +389,72 @@ class Element(object):
     @property
     def joint_displacement_increment(self):
         if len(self.__joint_displacement_increment) == 0:
-            temp_patch_displacement = np.array(self.patch_displacement, dtype=np.float64)
-            temp_patch_coordinate = np.array(self.patch_list, dtype=np.float64)
-            temp_joint_coordinate = np.array(self.joint_list, dtype=np.float64)
-            self.__joint_displacement_increment = griddata(temp_patch_coordinate, temp_patch_displacement, temp_joint_coordinate)
-            if np.isnan(self.__joint_displacement_increment).any():
-                temp_joint_coordinate = np.array(self.minified_joint_list, dtype=np.float64)
-                self.__joint_displacement_increment = griddata(temp_patch_coordinate, temp_patch_displacement, temp_joint_coordinate)
+            temp_patch_displacement = np.array(self.patch_displacement, dtype=np.float64).reshape((6, 1))
+            for each_joint in self.joint_list:
+                temp_coord = np.array(each_joint).reshape((1, 2))
+                temp_displacement_increment = Element.displacement_interpolation(temp_coord, temp_patch_displacement, self.delta_matrix)
+                self.__joint_displacement_increment.append(temp_displacement_increment[0])
+
+            # temp_patch_displacement = np.array(self.patch_displacement, dtype=np.float64)
+            # temp_patch_coordinate = np.array(self.patch_list, dtype=np.float64)
+            # temp_joint_coordinate = np.array(self.joint_list, dtype=np.float64)
+            # self.__joint_displacement_increment = griddata(temp_patch_coordinate, temp_patch_displacement, temp_joint_coordinate)
+            # if np.isnan(self.__joint_displacement_increment).any():
+            #     temp_joint_coordinate = np.array(self.minified_joint_list, dtype=np.float64)
+            #     self.__joint_displacement_increment = griddata(temp_patch_coordinate, temp_patch_displacement, temp_joint_coordinate)
 
             # special point interpolation
             for each_point in self.fixed_point_list:
-                self.special_points_interpolation(each_point, self.patch_list, self.patch_displacement)
+                self.special_points_interpolation(each_point, temp_patch_displacement, self.delta_matrix)
             for each_point in self.loading_point_list:
-                self.special_points_interpolation(each_point, self.patch_list, self.patch_displacement)
+                self.special_points_interpolation(each_point, temp_patch_displacement, self.delta_matrix)
             for each_point in self.measured_point_list:
-                self.special_points_interpolation(each_point, self.patch_list, self.patch_displacement)
+                self.special_points_interpolation(each_point, temp_patch_displacement, self.delta_matrix)
 
         self.__joint_displacement_increment = list(self.__joint_displacement_increment)
         if len(self.__joint_displacement_increment) != len(self.joint_list):
             raise Exception('joint displacement number error!')
         return self.__joint_displacement_increment
 
-    @property
-    def minified_joint_list(self):
-        if len(self.__minified_joint_list) == 0:
-            self.__minified_joint_list = self.minify_polygon(self.joint_list)
-        return self.__minified_joint_list
-
-    @staticmethod
-    def minify_polygon(point_list: list, factor: float = 0.999):
-        temp_polygon = Polygon(point_list)
-        temp_polygon = scale(temp_polygon, factor, factor, origin='centroid')
-        temp_x, temp_y = temp_polygon.exterior.xy
-        temp_x = np.array(temp_x, dtype=np.float64).reshape((-1, 1))
-        temp_y = np.array(temp_y, dtype=np.float64).reshape((-1, 1))
-        temp_point_list = np.c_[temp_x, temp_y]
-        temp_point_list = list(temp_point_list)
-        temp_point_list.pop()
-        return temp_point_list
+    # @property
+    # def minified_joint_list(self):
+    #     if len(self.__minified_joint_list) == 0:
+    #         self.__minified_joint_list = self.minify_polygon(self.joint_list)
+    #     return self.__minified_joint_list
+    #
+    # @staticmethod
+    # def minify_polygon(point_list: list, factor: float = 0.999):
+    #     temp_polygon = Polygon(point_list)
+    #     temp_polygon = scale(temp_polygon, factor, factor, origin='centroid')
+    #     temp_x, temp_y = temp_polygon.exterior.xy
+    #     temp_x = np.array(temp_x, dtype=np.float64).reshape((-1, 1))
+    #     temp_y = np.array(temp_y, dtype=np.float64).reshape((-1, 1))
+    #     temp_point_list = np.c_[temp_x, temp_y]
+    #     temp_point_list = list(temp_point_list)
+    #     temp_point_list.pop()
+    #     return temp_point_list
 
     # special points interpolation
     @staticmethod
-    def special_points_interpolation(point: EPoint, patch_coord: list, patch_displacement: list):
-        temp_coord = point.coord[0]
-        temp_patch_coord = np.array(patch_coord, dtype=np.float64)
-        temp_patch_displacement = np.array(patch_displacement, dtype=np.float64)
-        temp_point_displacement = griddata(temp_patch_coord, temp_patch_displacement, temp_coord)[0]
+    def special_points_interpolation(point: EPoint, patch_displacement: np.ndarray, delta_matrix: np.ndarray):
+
+        temp_coord = point.coord
+        temp_point_displacement = Element.displacement_interpolation(temp_coord, patch_displacement, delta_matrix)
         point.displacement_increment = temp_point_displacement
 
+    # @staticmethod
+    # def special_points_interpolation(point: EPoint, patch_displacement: list, patch_list: list):
+    #     temp_patch_displacement = np.array(patch_displacement, dtype=np.float64)
+    #     temp_patch_coordinate = np.array(patch_list, dtype=np.float64)
+    #     temp_point_coordinate = point.coord[0]
+    #     self.__joint_displacement_increment = griddata(temp_point_coordinate, temp_patch_displacement, temp_joint_coordinate)
+    #     point.displacement_increment = temp_point_displacement
+
+    @staticmethod
+    def displacement_interpolation(point_coord: np.ndarray, patch_displacement: np.ndarray, delta_matrix: np.ndarray):
+        check_shape(point_coord, (1, 2))
+        check_shape(patch_displacement, (6, 1))
+        check_shape(delta_matrix, (3, 3))
+        temp_T = Element.T_shape_matrix(1, point_coord[0][0], point_coord[0][1], delta_matrix)
+        temp_displacement = np.dot(temp_T, patch_displacement).reshape((1, 2))
+        return temp_displacement

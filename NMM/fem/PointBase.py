@@ -55,8 +55,11 @@ class EPoint(object):
             if value.shape != (1, 2):
                 raise Exception('point velocity shape error!')
             self.__velocity = value
+
+            """fixed point test"""
             if 0.0999 < self.coord[0][1] < 0.1001 and self.point_type == PointType.fixed_point:
-                self.__velocity = np.array([[0, -0.0001]])
+                self.__velocity = np.array([[0, -0.00001]])
+            """fixed point test"""
 
     @property
     def force(self):

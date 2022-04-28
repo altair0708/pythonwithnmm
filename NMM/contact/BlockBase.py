@@ -282,7 +282,7 @@ if __name__ == "__main__":
     database_connect = sqlite3.connect(database_name)
     database_cursor = database_connect.cursor()
     blockA = Block(id_value=4, cursor=database_cursor)
-    blockB = Block(id_value=1, cursor=database_cursor)
+    blockB = Block(id_value=2, cursor=database_cursor)
     blockA.draw_boundary()
     blockB.draw_boundary()
     centroid_a = blockA.centroid.xy

@@ -16,7 +16,6 @@ def write_joint_displacement_into_database(element: Element, cursor: sqlite3.Cur
     for each_index in range(element_joint_number):
         joint_id = element.joint_id[each_index]
         joint_displacement_increment = element.joint_displacement_increment[each_index]
-        # TODO: get element joint
         database_statement = 'UPDATE JointPoints SET xDis = xDis + {xDis}, yDis = yDis + {yDis} WHERE ID = {ID}'\
             .format(xDis=joint_displacement_increment[0], yDis=joint_displacement_increment[1], ID=joint_id)
         cursor.execute(database_statement)

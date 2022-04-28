@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<VTKFile type="UnstructuredGrid" version="0.1" byte_order="LittleEndian" header_type="UInt32" compressor="vtkZLibDataCompressor">
+  <UnstructuredGrid>
+    <Piece NumberOfPoints="45"                   NumberOfCells="1"                   >
+      <PointData>
+      </PointData>
+      <CellData>
+      </CellData>
+      <Points>
+        <DataArray type="Float64" Name="Points" NumberOfComponents="3" format="appended" RangeMin="0"                    RangeMax="1.7320508076"         offset="0"                   />
+      </Points>
+      <Cells>
+        <DataArray type="Int64" Name="connectivity" format="appended" RangeMin=""                     RangeMax=""                     offset="268"                 />
+        <DataArray type="Int64" Name="offsets" format="appended" RangeMin=""                     RangeMax=""                     offset="340"                 />
+        <DataArray type="UInt8" Name="types" format="appended" RangeMin=""                     RangeMax=""                     offset="380"                 />
+        <DataArray type="Int64" IdType="1" Name="faces" format="appended" RangeMin=""                     RangeMax=""                     offset="416"                 />
+        <DataArray type="Int64" IdType="1" Name="faceoffsets" format="appended" RangeMin=""                     RangeMax=""                     offset="568"                 />
+      </Cells>
+    </Piece>
+  </UnstructuredGrid>
+  <AppendedData encoding="base64">
+   _AQAAAACAAAA4BAAAtgAAAA==eJyNkDsOAjEMRAMXYW8yR+JoXIMSKJYOtojElrkAH202JsrEI3BjeTJ6HicErxJcWfrY/++s9vC76qom+LPKofzsUzyeuSu/2vcrh7pH5bCa0XariHeuK+kXbEs35bXYdiM2GR9pD/NNZ77pzE/w+Zx3Fnljl9f2tLx6h5+X+fUOzuvz6x0t/9TlbXsI695zmR9fPfOH8i/D2P1Hy0/Erbl8foLPL3fsb3gu/XBf9eOED07vuRA=AQAAAACAAABQAAAAIwAAAA==eJxjYYAAXigtCKWlobQMlJaF0hpQWhNKa0NpHSgNACYQAR8=AQAAAACAAAAIAAAACwAAAA==eJzjYoAAAABYAAs=AQAAAACAAAABAAAACQAAAA==eJzTAgAAKwArAQAAAACAAAAIAgAAYAAAAA==eJx1jjEKwDAMAwvJGmjmuHtK+//3dahvOXAWEZ0s+zz+11J36kzt4vhRcP4rdRT9veD0LuWa8vC76B8Ff+S/Bd/KuZ/cFMe/Ck4f93s/eeZDHJ89ng/lzJdy8A8f4wWtAQAAAACAAAAIAAAACwAAAA==eJxzZIAAAAIQAEI=
+  </AppendedData>
+</VTKFile>

@@ -1,6 +1,7 @@
 import sqlite3
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import colors
 from matplotlib import cm
 from NMM.contact.ContactWithDatabase import get_loop_number
 
@@ -20,7 +21,7 @@ def plot_patch_displacement(cursor: sqlite3.Cursor):
     plt.show()
 
 
-def plot_joint_displacement(cursor: sqlite3.Cursor):
+def plot_joint_x_displacement(cursor: sqlite3.Cursor, ax: plt.Axes):
     loop_number = get_loop_number(cursor)
     for loop_id in range(1, loop_number + 1):
         database_statement = 'SELECT xValue, yValue, xDis FROM JointPoints AS JP INNER JOIN ContactLoops AS CL on ' \
@@ -31,13 +32,16 @@ def plot_joint_displacement(cursor: sqlite3.Cursor):
         temp_x = result[:, 0]
         temp_y = result[:, 1]
         temp_u = result[:, 2]
-        plt.tricontourf(temp_x, temp_y, temp_u, levels=500, cmap=cm.jet)
+        norm = colors.Normalize(vmin=-0.00005, vmax=0.00005)
+        tri_ax1 = ax.tricontourf(temp_x, temp_y, temp_u, levels=500, cmap=cm.jet, norm=norm)
+    ax.axis('equal')
+    ax.set_title('x displacement')
+    sm = cm.ScalarMappable(norm=norm, cmap=cm.jet)
+    ax.figure.colorbar(mappable=sm, ax=ax)
 
-    plt.axis('equal')
-    plt.title('x displacement')
-    plt.colorbar()
-    plt.show()
 
+def plot_joint_y_displacement(cursor: sqlite3.Cursor, ax: plt.Axes):
+    loop_number = get_loop_number(cursor)
     for loop_id in range(1, loop_number + 1):
         database_statement = 'SELECT xValue, yValue, yDis FROM JointPoints AS JP INNER JOIN ContactLoops AS CL on ' \
                              'JP.ID = CL.jointID WHERE loopID = {loop_id}'.format(loop_id=loop_id)
@@ -47,8 +51,9 @@ def plot_joint_displacement(cursor: sqlite3.Cursor):
         temp_x = result[:, 0]
         temp_y = result[:, 1]
         temp_v = result[:, 2]
-        plt.tricontourf(temp_x, temp_y, temp_v, levels=500, cmap=cm.jet)
-    plt.colorbar()
-    plt.axis('equal')
-    plt.title('y displacement')
-    plt.show()
+        norm = colors.Normalize(vmin=-0.001, vmax=0)
+        tri_ax2 = ax.tricontourf(temp_x, temp_y, temp_v, levels=500, cmap=cm.jet, norm=norm)
+    ax.axis('equal')
+    ax.set_title('y displacement')
+    sm = cm.ScalarMappable(norm=norm, cmap=cm.jet)
+    ax.figure.colorbar(mappable=sm, ax=ax)
