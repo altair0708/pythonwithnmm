@@ -5,66 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee2d47d0-e2aa-4f90-bbdf-1f6aa5b06364" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/other.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/NMM/preprocess_3D/GmshReader.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/NMM/preprocess_3D/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data_3D/math_cover.vtu" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data_3D/original_gmsh.vtu" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data_3D/temp_grid.vtu" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/script/3D_script/begin_pygmsh.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/script/3D_script/gmsh_study/000_hello_world.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/script/3D_script/gmsh_study/001_flat_shapes.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/script/3D_script/vtk_study/000_begin_vtk.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/script/3D_script/vtk_study/001_read_Exodusdata.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/script/3D_script/vtk_study/002_write_xml_file.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/script/3D_script/vtk_study/003_ploydata_exercise.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/script/3D_script/vtk_study/004_vertex.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/script/3D_script/vtk_study/005_3D_cell_demonstration.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/script/3D_script/vtk_study/006_cell_source_type.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/script/3D_script/vtk_study/007_BooleanOperationImplicitFunctions.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/script/3D_script/vtk_study/008_BooleanOperationPolyDataFilter.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/script/3D_script/vtk_study/009_cutter_cube.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/script/3D_script/vtk_study/010_clip_solid.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/script/3D_script/vtk_study/011_convert_unstructured_grid_to_polydata.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/script/3D_script/vtk_study/012 polyhedron.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/script/3D_script/vtk_study/013_DataSetSurfaceFilter.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/script/3D_script/vtk_study/014_generate_math_cover.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/00766b8f-dd5a-4471-8eff-0a4414c8b82c.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NMM/contact/BlockBase.py" beforeDir="false" afterPath="$PROJECT_DIR$/NMM/contact/BlockBase.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NMM/control/MatrixAssembly.py" beforeDir="false" afterPath="$PROJECT_DIR$/NMM/control/MatrixAssembly.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NMM/fem/ElementBase.py" beforeDir="false" afterPath="$PROJECT_DIR$/NMM/fem/ElementBase.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NMM/fem/JointWithDataBase.py" beforeDir="false" afterPath="$PROJECT_DIR$/NMM/fem/JointWithDataBase.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NMM/fem/PointBase.py" beforeDir="false" afterPath="$PROJECT_DIR$/NMM/fem/PointBase.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NMM/plot/PlotPatchDisplacement.py" beforeDir="false" afterPath="$PROJECT_DIR$/NMM/plot/PlotPatchDisplacement.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/NMM/preprocess/CvFileReader.py" beforeDir="false" afterPath="$PROJECT_DIR$/NMM/preprocess/CvFileReader.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/cv00" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/test.db" beforeDir="false" afterPath="$PROJECT_DIR$/data/test.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/christmas_tree.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/christmas_tree.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/clockwise_angle_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/clockwise_angle_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/copy_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/copy_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/database_special_point_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/database_special_point_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/database_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/database_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/draw_EAB_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/draw_EAB_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/draw_contourf.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/draw_contourf.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/draw_element.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/draw_element.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/draw_loops.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/draw_loops.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/draw_patch.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/draw_patch.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/element_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/element_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/enum_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/enum_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/generate_test_database.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/generate_test_database.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/genertator_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/genertator_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/interpolate_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/interpolate_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/json_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/json_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/matrix_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/matrix_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/mc_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/mc_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/ndarray_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/ndarray_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/quary_database.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/quary_database.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/sparse_matrix.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/sparse_matrix.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/sparse_solver.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/sparse_solver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/tricontourf_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/tricontourf_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/script/vector_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/2D_script/vector_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/NMM/preprocess_3D/GmshReader.py" beforeDir="false" afterPath="$PROJECT_DIR$/NMM/preprocess_3D/GmshReader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_3D/math_cover.vtu" beforeDir="false" afterPath="$PROJECT_DIR$/data_3D/math_cover.vtu" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_3D/original_gmsh.vtu" beforeDir="false" afterPath="$PROJECT_DIR$/data_3D/original_gmsh.vtu" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/3D_script/vtk_study/014_generate_math_cover.py" beforeDir="false" afterPath="$PROJECT_DIR$/script/3D_script/vtk_study/014_generate_math_cover.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/3D_script/vtk_study/cell.vtu" beforeDir="false" afterPath="$PROJECT_DIR$/script/3D_script/vtk_study/cell.vtu" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/3D_script/vtk_study/math_cover.vtu" beforeDir="false" afterPath="$PROJECT_DIR$/script/3D_script/vtk_study/math_cover.vtu" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/script/3D_script/vtk_study/original_gmsh.vtu" beforeDir="false" afterPath="$PROJECT_DIR$/script/3D_script/vtk_study/original_gmsh.vtu" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,7 +85,7 @@
       <recent name="D:\science\NMM\python-NMM\NMM\fem" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.014_generate_math_cover">
+  <component name="RunManager" selected="Python.GmshReader">
     <configuration name="009_cutter_cube" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="python-NMM" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -226,7 +174,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="BlockBase" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="GmshReader" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="python-NMM" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -234,12 +182,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/NMM/contact" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/NMM/preprocess_3D" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/NMM/contact/BlockBase.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/NMM/preprocess_3D/GmshReader.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -250,11 +198,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.GmshReader" />
         <item itemvalue="Python.014_generate_math_cover" />
         <item itemvalue="Python.009_cutter_cube" />
         <item itemvalue="Python.011_convert_unstructured_grid_to_polydata" />
         <item itemvalue="Python.013_DataSetSurfaceFilter" />
-        <item itemvalue="Python.BlockBase" />
       </list>
     </recent_temporary>
   </component>
@@ -305,7 +253,7 @@
       <workItem from="1649402115074" duration="19224000" />
       <workItem from="1650178872016" duration="929000" />
       <workItem from="1650694065904" duration="12166000" />
-      <workItem from="1650864348183" duration="57631000" />
+      <workItem from="1650864348183" duration="76946000" />
     </task>
     <servers />
   </component>
@@ -352,6 +300,7 @@
     <SUITE FILE_PATH="coverage/python_NMM$draw_contourf.coverage" NAME="draw_contourf Coverage Results" MODIFIED="1651046925018" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/2D_script" />
     <SUITE FILE_PATH="coverage/python_NMM$013_DataSetSurfaceFilter.coverage" NAME="013_DataSetSurfaceFilter Coverage Results" MODIFIED="1651061037501" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/3D_script/vtk_study" />
     <SUITE FILE_PATH="coverage/python_NMM$code_test_1.coverage" NAME="code_test_1 Coverage Results" MODIFIED="1639991048178" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
+    <SUITE FILE_PATH="coverage/python_NMM$GmshReader.coverage" NAME="GmshReader Coverage Results" MODIFIED="1651239008825" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NMM/preprocess_3D" />
     <SUITE FILE_PATH="coverage/python_NMM$009_cutter_cube.coverage" NAME="009_cutter_cube Coverage Results" MODIFIED="1651124536847" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/3D_script/vtk_study" />
     <SUITE FILE_PATH="coverage/python_NMM$quary_database.coverage" NAME="quary_database Coverage Results" MODIFIED="1639203390111" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
     <SUITE FILE_PATH="coverage/python_NMM$ContactWithDatabase.coverage" NAME="ContactWithDatabase Coverage Results" MODIFIED="1639042482410" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/NMM/contact" />
@@ -364,7 +313,7 @@
     <SUITE FILE_PATH="coverage/python_NMM$begin_vtk.coverage" NAME="begin_vtk Coverage Results" MODIFIED="1648628783035" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/3D_script" />
     <SUITE FILE_PATH="coverage/python_NMM$002_write_xml_file.coverage" NAME="002_write_xml_file Coverage Results" MODIFIED="1648642242998" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/3D_script/vtk_study" />
     <SUITE FILE_PATH="coverage/python_NMM$genertator_test.coverage" NAME="genertator_test Coverage Results" MODIFIED="1638883892675" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
-    <SUITE FILE_PATH="coverage/python_NMM$014_generate_math_cover.coverage" NAME="014_generate_math_cover Coverage Results" MODIFIED="1651128740195" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/3D_script/vtk_study" />
+    <SUITE FILE_PATH="coverage/python_NMM$014_generate_math_cover.coverage" NAME="014_generate_math_cover Coverage Results" MODIFIED="1651238966965" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/3D_script/vtk_study" />
     <SUITE FILE_PATH="coverage/python_NMM$pytest_for_testBlockBase_test_is_contact_group_true.coverage" NAME="pytest for testBlockBase.test_is_contact_group_true Coverage Results" MODIFIED="1638886814295" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/python_NMM$vector_test.coverage" NAME="vector_test Coverage Results" MODIFIED="1639470980125" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script" />
     <SUITE FILE_PATH="coverage/python_NMM$007_BooleanOperationImplicitFunctions.coverage" NAME="007_BooleanOperationImplicitFunctions Coverage Results" MODIFIED="1650959726376" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/script/3D_script/vtk_study" />

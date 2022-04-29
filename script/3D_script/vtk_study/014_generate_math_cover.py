@@ -14,7 +14,7 @@ from vtkmodules.vtkCommonCore import vtkPoints, vtkIdList, vtkUnsignedCharArray
 
 with pygmsh.occ.Geometry() as geom:
     geom.add_box([0, 0, 0],
-                 [1, 1, 1], mesh_size=0.5)
+                 [1, 1, 1], mesh_size=0.1)
     mesh = geom.generate_mesh()
 mesh.write('original_gmsh.vtu')
 
@@ -26,6 +26,7 @@ uGrid: vtkUnstructuredGrid = uGridReader.GetOutput()
 # TODO:2.get number of tetrahedron
 # TODO:step1.get all tetrahedron from uGrid
 cellType = VTK_TETRA
+print(type(VTK_TETRA))
 
 tetraGrid = vtkUnstructuredGrid()
 cellNumber = uGrid.GetNumberOfCells()
@@ -85,7 +86,7 @@ mathWriter.SetInputData(mathCover)
 mathWriter.Write()
 
 mathReader = vtkXMLUnstructuredGridReader()
-mathReader.SetFileName('math_cover.vtu')
+mathReader.SetFileName('../../../data_3D/math_cover.vtu')
 mathReader.Update()
 mathCover1: vtkUnstructuredGrid = mathReader.GetOutput()
 temp_cell = vtkIdList()
