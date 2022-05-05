@@ -7,36 +7,65 @@ from NMM.fem.PointBase import EPoint, PointType
 
 
 def calculate_integration(point_list: np.ndarray):
-    if point_list.shape != (3, 2):
+    if point_list.shape != (4, 3):
         raise Exception('please input a 3 rows 2 columns matrix')
-    jacobi = np.c_[np.ones((3, 1)), point_list]
+    jacobi = np.c_[np.ones((4, 1)), point_list]
     jacobi = np.matrix(jacobi)
     jacobi = np.linalg.det(jacobi)
-    S = 0.5 * jacobi
-    xS = (1 / 6) * jacobi * (np.sum(point_list[:, 0]))
-    yS = (1 / 6) * jacobi * (np.sum(point_list[:, 1]))
-    return S, xS, yS
+    S = (1 / 6) * jacobi
+    xS = (1 / 24) * jacobi * (np.sum(point_list[:, 0]))
+    yS = (1 / 24) * jacobi * (np.sum(point_list[:, 1]))
+    zS = (1 / 24) * jacobi * (np.sum(point_list[:, 2]))
+    return S, xS, yS, zS
 
 
 def calculate_twice_integration(point_list: np.ndarray):
-    if point_list.shape != (3, 2):
+    if point_list.shape != (4, 3):
         raise Exception('please input a 3 rows 2 columns matrix')
     x0 = point_list[0, 0]
     y0 = point_list[0, 1]
+    z0 = point_list[0, 2]
+
     x1 = point_list[1, 0]
     y1 = point_list[1, 1]
+    z1 = point_list[1, 2]
+
     x2 = point_list[2, 0]
     y2 = point_list[2, 1]
-    jacobi = np.c_[np.ones((3, 1)), point_list]
+    z2 = point_list[2, 2]
+
+    x3 = point_list[2, 0]
+    y3 = point_list[2, 1]
+    z3 = point_list[3, 2]
+    jacobi = np.c_[np.ones((4, 1)), point_list]
     jacobi = np.matrix(jacobi)
     jacobi = np.linalg.det(jacobi)
-    xxS = (1 / 12) * jacobi * (x0 * x0 + x0 * x1 + x0 * x2 + x1 * x1 + x1 * x2 + x2 * x2)
-    yyS = (1 / 12) * jacobi * (y0 * y0 + y0 * y1 + y0 * y2 + y1 * y1 + y1 * y2 + y2 * y2)
-    xyS = (1 / 24) * jacobi * (2 * x0 * y0 + x0 * y1 + x0 * y2 +
-                               x1 * y0 + 2 * x1 * y1 + x1 * y2 +
-                               x2 * y0 + x2 * y1 + 2 * x2 * y2)
+    xxS = (1 / 120) * jacobi * (2 * x0 * x0 + x0 * x1 + x0 * x2 + x0 * x3 +
+                                x1 * x0 + 2 * x1 * x1 + x1 * x2 + x1 * x3 +
+                                x2 * x0 + x2 * x1 + 2 * x2 * x2 + x2 * x3 +
+                                x3 * x0 + x3 * x1 + x3 * x2 + 2 * x3 * x3)
+    yyS = (1 / 120) * jacobi * (2 * y0 * y0 + y0 * y1 + y0 * y2 + y0 * y3 +
+                                y1 * y0 + 2 * y1 * y1 + y1 * y2 + y1 * y3 +
+                                y2 * y0 + y2 * y1 + 2 * y2 * y2 + y2 * y3 +
+                                y3 * y0 + y3 * y1 + y3 * y2 + 2 * y3 * y3)
+    zzS = (1 / 120) * jacobi * (2 * z0 * z0 + z0 * z1 + z0 * z2 + z0 * z3 +
+                                z1 * z0 + 2 * z1 * z1 + z1 * z2 + z1 * z3 +
+                                z2 * z0 + z2 * z1 + 2 * z2 * z2 + z2 * z3 +
+                                z3 * z0 + z3 * z1 + z3 * z2 + 2 * z3 * z3)
+    xyS = (1 / 120) * jacobi * (2 * x0 * y0 + x0 * y1 + x0 * y2 + x0 * y3 +
+                                x1 * y0 + 2 * x1 * y1 + x1 * y2 + x1 * y3 +
+                                x2 * y0 + x2 * y1 + 2 * x2 * y2 + x2 * y3 +
+                                x3 * y0 + x3 * y1 + x3 * y2 + 2 * x3 * y3)
+    xzS = (1 / 120) * jacobi * (2 * x0 * z0 + x0 * z1 + x0 * z2 + x0 * z3 +
+                                x1 * z0 + 2 * x1 * z1 + x1 * z2 + x1 * z3 +
+                                x2 * z0 + x2 * z1 + 2 * x2 * z2 + x2 * z3 +
+                                x3 * z0 + x3 * z1 + x3 * z2 + 2 * x3 * z3)
+    yzS = (1 / 120) * jacobi * (2 * y0 * z0 + y0 * z1 + y0 * z2 + y0 * z3 +
+                                y1 * z0 + 2 * y1 * z1 + y1 * z2 + y1 * z3 +
+                                y2 * z0 + y2 * z1 + 2 * y2 * z2 + y2 * z3 +
+                                y3 * z0 + y3 * z1 + y3 * z2 + 2 * y3 * z3)
 
-    return xxS, yyS, xyS
+    return xxS, yyS, zzS, xyS, xzS, yzS
 
 
 def check_shape(array: np.ndarray, shape: Tuple[int, int]):
@@ -145,12 +174,12 @@ class Element3D(object):
     def stiff_matrix(self):
         if self.__stiff_matrix is None:
             self.__stiff_matrix = np.zeros((12, 12), dtype=np.float64)
-            for each_triangle in self.triangle_list:
-                temp_S, temp_xS, temp_yS = calculate_integration(each_triangle)
-                temp_stiff_matrix = temp_S * self.B_shape_matrix.T
-                temp_stiff_matrix = np.dot(temp_stiff_matrix, self.elastic_matrix)
-                temp_stiff_matrix = np.dot(temp_stiff_matrix, self.B_shape_matrix)
-                self.__stiff_matrix = self.__stiff_matrix + temp_stiff_matrix
+            # TODO: check if input correct?python list or np.array?
+            temp_S, temp_xS, temp_yS, temp_zS = calculate_integration(np.array(self.joint_list))
+            temp_stiff_matrix = temp_S * self.B_shape_matrix.T
+            temp_stiff_matrix = np.dot(temp_stiff_matrix, self.elastic_matrix)
+            temp_stiff_matrix = np.dot(temp_stiff_matrix, self.B_shape_matrix)
+            self.__stiff_matrix = self.__stiff_matrix + temp_stiff_matrix
             check_shape(self.__stiff_matrix, (12, 12))
         return self.__stiff_matrix
 
@@ -158,10 +187,10 @@ class Element3D(object):
     def initial_matrix(self):
         if self.__initial_matrix is None:
             self.__initial_matrix = np.zeros((12, 1), dtype=np.float64)
-            for each_triangle in self.triangle_list:
-                temp_S, temp_xS, temp_yS = calculate_integration(each_triangle)
-                temp_initial_matrix = temp_S * np.dot(self.B_shape_matrix.T, self.initial_stress)
-                self.__initial_matrix = self.__initial_matrix - temp_initial_matrix
+            # TODO: check if input correct?python list or np.array?
+            temp_S, temp_xS, temp_yS, temp_zS = calculate_integration(np.array(self.joint_list))
+            temp_initial_matrix = temp_S * np.dot(self.B_shape_matrix.T, self.initial_stress)
+            self.__initial_matrix = self.__initial_matrix - temp_initial_matrix
             check_shape(self.__initial_matrix, (12, 1))
         return self.__initial_matrix
 
@@ -180,7 +209,7 @@ class Element3D(object):
         if self.__body_matrix is None:
             self.__body_matrix = np.zeros((12, 1), dtype=np.float64)
             for each_triangle in self.triangle_list:
-                temp_S, temp_xS, temp_yS = calculate_integration(each_triangle)
+                temp_S, temp_xS, temp_yS, temp_zS = calculate_integration(each_triangle)
                 temp = self.T_shape_matrix(temp_S, temp_xS, temp_yS, delta_matrix=self.delta_matrix)
                 temp_body_matrix = np.dot(temp.T, self.body_force)
                 self.__body_matrix = self.body_matrix + temp_body_matrix.reshape(12, 1)
@@ -193,11 +222,10 @@ class Element3D(object):
             self.__mass_matrix = np.zeros((12, 12), dtype=np.float64)
             self.__mass_force = np.zeros((12, 1), dtype=np.float64)
             for each_triangle in self.triangle_list:
-                temp_S, temp_xS, temp_yS = calculate_integration(each_triangle)
-                temp_xxS, temp_yyS, temp_xyS = calculate_twice_integration(each_triangle)
+                temp_S, temp_xS, temp_yS, temp_zS = calculate_integration(each_triangle)
+                temp_xxS, temp_yyS, temp_zzS, temp_xyS, temp_xzS, temp_yzS = calculate_twice_integration(each_triangle)
                 ff = np.array(self.delta_matrix)
                 temp_matrix = np.zeros((12, 12), dtype=np.float64)
-                # TODO
                 for r in range(3):
                     for s in range(3):
                         temp = ff[r][0] * ff[s][0] * temp_S + (ff[r][0] * ff[s][1] + ff[r][1] * ff[s][0]) * temp_xS +\
@@ -300,9 +328,13 @@ class Element3D(object):
         if self.__elastic_matrix is None:
             temp_E = self.material_dict['elastic_modulus']
             temp_mu = self.material_dict['possion_ratio']
-            elastic_matrix = temp_E / (1 - temp_mu ** 2) * np.matrix([[1, temp_mu, 0],
-                                                                      [temp_mu, 1, 0],
-                                                                      [0, 0, (1 - temp_mu) / 2]], dtype=np.float64)
+            elastic_matrix = temp_E / (1 + temp_mu) * (1 - 2 * temp_mu) * \
+                             np.matrix([[1 - temp_mu,     temp_mu,     temp_mu,                     0,                     0,                     0],
+                                        [    temp_mu, 1 - temp_mu,     temp_mu,                     0,                     0,                     0],
+                                        [    temp_mu,     temp_mu, 1 - temp_mu,                     0,                     0,                     0],
+                                        [          0,           0,           0, (1 - 2 * temp_mu) / 2,                     0,                     0],
+                                        [          0,           0,           0,                     0, (1 - 2 * temp_mu) / 2,                     0],
+                                        [          0,           0,           0,                     0,                     0, (1 - 2 * temp_mu) / 2]])
             self.__elastic_matrix = elastic_matrix
         return self.__elastic_matrix
 
@@ -316,7 +348,7 @@ class Element3D(object):
     @property
     def initial_strain_total(self):
         if self.__initial_strain_increment is None:
-            temp_displacement = np.array(self.patch_displacement, dtype=np.float64).reshape((6, 1))
+            temp_displacement = np.array(self.patch_displacement, dtype=np.float64).reshape((12, 1))
             temp_displacement = np.dot(self.B_shape_matrix, temp_displacement)
             self.__initial_strain_increment = temp_displacement
             self.__initial_strain_total = self.__initial_strain_total + self.__initial_strain_increment
@@ -327,7 +359,7 @@ class Element3D(object):
         if self.__initial_stress is None:
             self.__initial_stress = np.dot(self.elastic_matrix, self.initial_strain_total)
             self.__initial_stress = np.array(self.__initial_stress, dtype=np.float64)
-            check_shape(self.__initial_stress, (3, 1))
+            check_shape(self.__initial_stress, (6, 1))
         return self.__initial_stress
 
     # TODO: Initial velocity
