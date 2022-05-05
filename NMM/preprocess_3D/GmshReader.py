@@ -2,7 +2,7 @@ from vtkmodules.vtkIOXML import (
     vtkXMLUnstructuredGridWriter,
     vtkXMLUnstructuredGridReader
 )
-from vtkmodules.vtkCommonCore import vtkIdList, vtkPoints, vtkFloatArray
+from vtkmodules.vtkCommonCore import vtkIdList, vtkPoints, vtkDoubleArray, vtkIntArray
 from vtkmodules.vtkFiltersGeometry import vtkGeometryFilter
 from vtkmodules.vtkCommonDataModel import (
     vtkUnstructuredGrid,
@@ -17,6 +17,7 @@ from vtkmodules.vtkCommonDataModel import (
     VTK_TETRA,
     VTK_POLYHEDRON
 )
+import sqlite3
 
 
 class GmshReader:
@@ -58,8 +59,17 @@ class GmshReader:
         uGridReader = vtkXMLUnstructuredGridReader()
         uGridReader.SetFileName(gmsh_file_name)
         uGridReader.Update()
-        gmshGrid = uGridReader.GetOutput()
+        gmshGrid: vtkUnstructuredGrid = uGridReader.GetOutput()
         mathCover = vtkUnstructuredGrid()
+
+        mathPointId = vtkIntArray()
+        mathPointId.SetName('math_cover_id')
+
+        mathPointCoordinate = vtkDoubleArray()
+        mathPointCoordinate.SetName('math_cover_coordinate')
+        mathPointCoordinate.SetNumberOfComponents(3)
+
+        print('original mesh info:')
         print('number of points: {}'.format(gmshGrid.GetNumberOfPoints()))
         print('number of cells: {}'.format(gmshGrid.GetNumberOfCells()))
         for each_id in range(gmshGrid.GetNumberOfPoints()):
@@ -90,9 +100,16 @@ class GmshReader:
                 faceIdList.InsertNextId(temp_face.GetNumberOfPoints())
                 for i in range(temp_face.GetNumberOfPoints()):
                     faceIdList.InsertNextId(temp_face.GetPointId(i))
+
             mathCover.InsertNextCell(VTK_POLYHEDRON, faceIdList)
+            mathPointId.InsertValue(each_id, each_id)
+            mathPointCoordinate.InsertNextTuple(gmshGrid.GetPoint(each_id))
+            # print(mathPointCoordinate.GetTuple(each_id) == gmshGrid.GetPoint(each_id))
 
         mathCover.SetPoints(gmshGrid.GetPoints())
+        mathCover.GetCellData().SetScalars(mathPointId)
+        mathCover.GetCellData().SetVectors(mathPointCoordinate)
+
         mathWriter = vtkXMLUnstructuredGridWriter()
         outputFile = output_path + 'math_cover.vtu'
         mathWriter.SetFileName(outputFile)
@@ -128,13 +145,41 @@ class GmshReader:
         uGridReader.Update()
         elementGrid: vtkUnstructuredGrid = uGridReader.GetOutput()
 
-        elementScalar = vtkFloatArray()
+        elementScalar = vtkDoubleArray()
         elementNumber = elementGrid.GetNumberOfCells()
         elementScalar.SetName('test_element_value')
+
+        # connect to database
+        with sqlite3.connect('../../data_3D/manifold_mathcover.db') as connection:
+            database_cursor = connection.cursor()
+            database_statement = 'CREATE TABLE ElementMathcover(' \
+                                 'ID          INTEGER PRIMARY KEY AUTOINCREMENT ,' \
+                                 'ElementId   INT                 NOT NULL,' \
+                                 'MathcoverId INT                 NOT NULL);'
+            try:
+                database_cursor.execute(database_statement)
+            except sqlite3.OperationalError:
+                database_statement = 'DROP TABLE ElementMathcover;'
+                database_cursor.execute(database_statement)
+                database_statement = 'CREATE TABLE ElementMathcover(' \
+                                     'ID          INTEGER PRIMARY KEY AUTOINCREMENT ,' \
+                                     'ElementId   INT                 NOT NULL,' \
+                                     'MathcoverId INT                 NOT NULL);'
+                database_cursor.execute(database_statement)
+            for each_id in range(elementNumber):
+                temp_id_list = vtkIdList()
+                elementGrid.GetCellPoints(each_id, temp_id_list)
+                for each_point_id in range(temp_id_list.GetNumberOfIds()):
+                    temp_point_id = temp_id_list.GetId(each_point_id)
+                    database_statement = 'INSERT INTO ElementMathcover (ElementId, MathcoverId)' \
+                                         'VALUES ({elementId}, {mathcoverId})'\
+                        .format(elementId=each_id, mathcoverId=temp_point_id)
+                    database_cursor.execute(database_statement)
+
         for each_id in range(elementNumber):
             elementScalar.InsertValue(each_id, each_id * 100)
 
-        pointScalar = vtkFloatArray()
+        pointScalar = vtkDoubleArray()
         pointNumber = elementGrid.GetNumberOfPoints()
         pointScalar.SetName('test_point_value')
         [pointScalar.InsertValue(i, i * 100) for i in range(pointNumber)]
