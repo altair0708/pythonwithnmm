@@ -270,6 +270,7 @@ class Element3D(object):
     def total_matrix(self):
         if self.__total_matrix is None:
             self.__total_matrix = self.stiff_matrix + self.fixed_matrix[0] + self.mass_matrix[0]
+            check_shape(self.__total_matrix, (12, 12))
         return self.__total_matrix
 
     @property
@@ -277,6 +278,7 @@ class Element3D(object):
         if self.__total_force is None:
             self.__total_force = self.initial_matrix + self.loading_matrix + self.body_matrix + self.fixed_matrix[1] + self.mass_matrix[1]
             # self.__total_force = self.fixed_matrix[1] + self.loading_matrix + self.body_matrix + self.mass_matrix[1]
+            check_shape(self.__total_force, (12, 1))
         return self.__total_force
 
     # temp_matrix
@@ -356,6 +358,7 @@ class Element3D(object):
 
     @property
     def initial_stress(self):
+        # sigma(x) sigma(y) sigma(z) tau(xy) tau(xz) tau(yz)
         if self.__initial_stress is None:
             self.__initial_stress = np.dot(self.elastic_matrix, self.initial_strain_total)
             self.__initial_stress = np.array(self.__initial_stress, dtype=np.float64)

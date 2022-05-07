@@ -144,10 +144,7 @@ class GmshReader:
         uGridReader.SetFileName(gmsh_file_name)
         uGridReader.Update()
         elementGrid: vtkUnstructuredGrid = uGridReader.GetOutput()
-
-        elementScalar = vtkDoubleArray()
         elementNumber = elementGrid.GetNumberOfCells()
-        elementScalar.SetName('test_element_value')
 
         # connect to database
         with sqlite3.connect('../../data_3D/manifold_mathcover.db') as connection:
@@ -176,15 +173,22 @@ class GmshReader:
                         .format(elementId=each_id, mathcoverId=temp_point_id)
                     database_cursor.execute(database_statement)
 
+        elementScalar = vtkDoubleArray()
+        elementScalar.SetName('test_element_value')
         for each_id in range(elementNumber):
             elementScalar.InsertValue(each_id, each_id * 100)
+
+        elementMaterialId = vtkIntArray()
+        elementMaterialId.SetName('material_id')
+        [elementMaterialId.InsertValue(i, 0) for i in range(elementNumber)]
 
         pointScalar = vtkDoubleArray()
         pointNumber = elementGrid.GetNumberOfPoints()
         pointScalar.SetName('test_point_value')
         [pointScalar.InsertValue(i, i * 100) for i in range(pointNumber)]
 
-        elementGrid.GetCellData().SetScalars(elementScalar)
+        elementGrid.GetCellData().AddArray(elementScalar)
+        elementGrid.GetCellData().AddArray(elementMaterialId)
         elementGrid.GetPointData().SetScalars(pointScalar)
 
         outputFile = 'manifold_element.vtu'
