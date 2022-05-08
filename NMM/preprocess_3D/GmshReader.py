@@ -5,7 +5,7 @@ from vtkmodules.vtkIOXML import (
 from vtkmodules.vtkCommonCore import vtkIdList, vtkPoints, vtkDoubleArray, vtkIntArray
 from vtkmodules.vtkFiltersGeometry import vtkGeometryFilter
 from vtkmodules.vtkCommonDataModel import (
-    vtkUnstructuredGrid,
+    vtkUnstructuredGrid, vtkCellData,
     vtkCell,
     vtkPolyData,
     vtkPolygon,
@@ -64,10 +64,15 @@ class GmshReader:
 
         mathPointId = vtkIntArray()
         mathPointId.SetName('math_cover_id')
+        mathPointId.SetNumberOfComponents(1)
 
         mathPointCoordinate = vtkDoubleArray()
         mathPointCoordinate.SetName('math_cover_coordinate')
         mathPointCoordinate.SetNumberOfComponents(3)
+
+        mathPointDisplacement = vtkDoubleArray()
+        mathPointDisplacement.SetName('math_cover_displacement')
+        mathPointDisplacement.SetNumberOfComponents(3)
 
         print('original mesh info:')
         print('number of points: {}'.format(gmshGrid.GetNumberOfPoints()))
@@ -104,11 +109,14 @@ class GmshReader:
             mathCover.InsertNextCell(VTK_POLYHEDRON, faceIdList)
             mathPointId.InsertValue(each_id, each_id)
             mathPointCoordinate.InsertNextTuple(gmshGrid.GetPoint(each_id))
+            temp_displacement = (0, 0, 0)
+            mathPointDisplacement.InsertNextTuple(temp_displacement)
             # print(mathPointCoordinate.GetTuple(each_id) == gmshGrid.GetPoint(each_id))
 
         mathCover.SetPoints(gmshGrid.GetPoints())
-        mathCover.GetCellData().SetScalars(mathPointId)
-        mathCover.GetCellData().SetVectors(mathPointCoordinate)
+        mathCover.GetCellData().AddArray(mathPointId)
+        mathCover.GetCellData().AddArray(mathPointCoordinate)
+        mathCover.GetCellData().AddArray(mathPointDisplacement)
 
         mathWriter = vtkXMLUnstructuredGridWriter()
         outputFile = output_path + 'math_cover.vtu'

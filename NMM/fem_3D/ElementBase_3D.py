@@ -81,16 +81,16 @@ class Element3D(object):
         self.material_dict = {
             'id': 1,
             'unit_mass': 0.0,
-            'body_force': (0, 0),
+            'body_force': (0, 0, 0),
             'elastic_modulus': 200000000000,
             'possion_ratio': 0.28,
-            'initial_force': (0, 0, 0),
+            'initial_force': (0, 0, 0, 0, 0, 0),
             'yield_coefficient': {
                 'friction_angle': 0,
                 'cohesion': 0,
                 'tensile_strength': 0
             },
-            'initial_velocity': (0, 0, 0)
+            'initial_velocity': (0, 0, 0, 0, 0, 0)
         }
 
         self.joint_list = []
