@@ -14,7 +14,7 @@ from vtkmodules.vtkCommonCore import vtkPoints, vtkIdList, vtkUnsignedCharArray
 
 with pygmsh.occ.Geometry() as geom:
     geom.add_box([0, 0, 0],
-                 [1, 1, 1], mesh_size=0.1)
+                 [1, 1, 1], mesh_size=0.5)
     mesh = geom.generate_mesh()
 mesh.write('original_gmsh.vtu')
 

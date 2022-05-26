@@ -1,9 +1,8 @@
 import numpy as np
-import matplotlib.pyplot as plt
 from scipy.spatial import Delaunay
 from typing import Tuple, List
 from NMM.GlobalVariable import CONST
-from NMM.fem.PointBase import EPoint, PointType
+from NMM.fem_3D.PointBase_3D import EPoint3D, PointType
 
 
 def calculate_integration(point_list: np.ndarray):
@@ -70,7 +69,7 @@ def calculate_twice_integration(point_list: np.ndarray):
 
 def check_shape(array: np.ndarray, shape: Tuple[int, int]):
     if array.shape != shape:
-        raise Exception('array shape error')
+        raise Exception('array shape error, expect shape: {}, input shape: {}'.format(shape, array.shape))
 
 
 class Element3D(object):
@@ -83,7 +82,7 @@ class Element3D(object):
             'unit_mass': 0.0,
             'body_force': (0, 0, 0),
             'elastic_modulus': 200000000000,
-            'possion_ratio': 0.28,
+            'poisson_ratio': 0.28,
             'initial_force': (0, 0, 0, 0, 0, 0),
             'yield_coefficient': {
                 'friction_angle': 0,
@@ -93,13 +92,13 @@ class Element3D(object):
             'initial_velocity': (0, 0, 0, 0, 0, 0)
         }
 
-        self.joint_list = []
-        self.joint_id = []
-        self.patch_list = []
-        self.patch_id = []
-        self.__loading_point_list: List[EPoint] = []
-        self.__fixed_point_list: List[EPoint] = []
-        self.__measured_point_list: List[EPoint] = []
+        self.joint_list = [(0, 0, 0), (0, 0, 0), (0, 0, 0), (0, 0, 0)]
+        self.joint_id = [0, 0, 0, 0]
+        self.patch_list = [(0, 0, 0), (0, 0, 0), (0, 0, 0), (0, 0, 0)]
+        self.patch_id = [0, 0, 0, 0]
+        self.__loading_point_list: List[EPoint3D] = []
+        self.__fixed_point_list: List[EPoint3D] = []
+        self.__measured_point_list: List[EPoint3D] = []
 
         # constant variable
         self.__body_force = None
@@ -115,11 +114,11 @@ class Element3D(object):
 
         # draw a counter
         # refresh at the end of time step
-        self.patch_displacement = []
+        self.patch_displacement = [(0, 0, 0), (0, 0, 0), (0, 0, 0), (0, 0, 0)]
         self.__joint_displacement_increment = []
         self.__initial_stress = None
         self.__initial_strain_increment = None
-        self.__initial_strain_total = np.zeros((3, 1))
+        self.__initial_strain_total = np.zeros((6, 1))
         self.__initial_velocity = None
 
         # calculate matrix
@@ -142,7 +141,7 @@ class Element3D(object):
 
     def clean_all(self):
         # refresh at the end of time step
-        self.patch_displacement = []
+        self.patch_displacement = [(0, 0, 0), (0, 0, 0), (0, 0, 0), (0, 0, 0)]
         self.__joint_displacement_increment = []
         self.__minified_joint_list = []
         self.__initial_stress = None
@@ -199,7 +198,7 @@ class Element3D(object):
         if self.__loading_matrix is None:
             self.__loading_matrix = np.zeros((12, 1), dtype=np.float64)
             for loading_point in self.loading_point_list:
-                temp = self.T_shape_matrix(1, loading_point.coord[0][0], loading_point.coord[0][1], delta_matrix=self.delta_matrix).T
+                temp = self.T_shape_matrix(1, loading_point.coord[0][0], loading_point.coord[0][1], loading_point.coord[0][2], delta_matrix=self.delta_matrix).T
                 self.__loading_matrix = self.__loading_matrix + np.dot(temp, loading_point.force).reshape(12, 1)
             check_shape(self.__loading_matrix, (12, 1))
         return self.__loading_matrix
@@ -210,7 +209,7 @@ class Element3D(object):
             self.__body_matrix = np.zeros((12, 1), dtype=np.float64)
             for each_triangle in self.triangle_list:
                 temp_S, temp_xS, temp_yS, temp_zS = calculate_integration(each_triangle)
-                temp = self.T_shape_matrix(temp_S, temp_xS, temp_yS, delta_matrix=self.delta_matrix)
+                temp = self.T_shape_matrix(temp_S, temp_xS, temp_yS, temp_zS, delta_matrix=self.delta_matrix)
                 temp_body_matrix = np.dot(temp.T, self.body_force)
                 self.__body_matrix = self.body_matrix + temp_body_matrix.reshape(12, 1)
             check_shape(self.__body_matrix, (12, 1))
@@ -251,7 +250,7 @@ class Element3D(object):
             self.__fixed_force = np.zeros((12, 1), dtype=np.float64)
             # TODO
             for fixed_point in self.fixed_point_list:
-                temp = self.T_shape_matrix(1, fixed_point.coord[0][0], fixed_point.coord[0][1], delta_matrix=self.delta_matrix)
+                temp = self.T_shape_matrix(1, fixed_point.coord[0][0], fixed_point.coord[0][1], fixed_point.coord[0][1], delta_matrix=self.delta_matrix)
                 '''fixed test'''
                 # temp_zero = np.array([[0, 0, 0, 0, 0, 0]])
                 # temp[[0], :] = temp_zero
@@ -269,14 +268,14 @@ class Element3D(object):
     @property
     def total_matrix(self):
         if self.__total_matrix is None:
-            self.__total_matrix = self.stiff_matrix + self.fixed_matrix[0] + self.mass_matrix[0]
+            self.__total_matrix = self.stiff_matrix + self.fixed_matrix[0]  # + self.mass_matrix[0]
             check_shape(self.__total_matrix, (12, 12))
         return self.__total_matrix
 
     @property
     def total_force(self):
         if self.__total_force is None:
-            self.__total_force = self.initial_matrix + self.loading_matrix + self.body_matrix + self.fixed_matrix[1] + self.mass_matrix[1]
+            self.__total_force = self.initial_matrix + self.loading_matrix + self.body_matrix + self.fixed_matrix[1]  # + self.mass_matrix[1]
             # self.__total_force = self.fixed_matrix[1] + self.loading_matrix + self.body_matrix + self.mass_matrix[1]
             check_shape(self.__total_force, (12, 1))
         return self.__total_force
@@ -295,33 +294,34 @@ class Element3D(object):
     @property
     def B_shape_matrix(self):
         if self.__B_shape_matrix is None:
-            delta_matrix = self.delta_matrix
+            delta_matrix: np.ndarray = self.delta_matrix
             # self.__B_shape_matrix = np.array([[delta_matrix[0, 1],                  0, delta_matrix[1, 1],                  0, delta_matrix[2, 1],                  0],
             #                                   [                 0, delta_matrix[0, 2],                  0, delta_matrix[1, 2],                  0, delta_matrix[2, 2]],
             #                                   [delta_matrix[0, 2], delta_matrix[0, 1], delta_matrix[1, 2], delta_matrix[1, 1], delta_matrix[2, 2], delta_matrix[2, 1]]])
             self.__B_shape_matrix = np.empty((6, 0), dtype=np.float64)
             for i in range(4):
-                temp_B = np.array([[delta_matrix[i][1],                  0,                  0],
-                                   [                 0, delta_matrix[i][2],                  0],
-                                   [                 0,                  0, delta_matrix[i][3]],
-                                   [delta_matrix[i][2], delta_matrix[i][1],                  0],
-                                   [delta_matrix[i][3],                  0, delta_matrix[i][1]],
-                                   [                 0, delta_matrix[i][3], delta_matrix[i][2]]])
+                # TODO: Is row and column conversed between delta_matrix[i][1] and delta_matrix[i, 1]?
+                temp_B = np.array([[delta_matrix[i, 1],                  0,                  0],
+                                   [                 0, delta_matrix[i, 2],                  0],
+                                   [                 0,                  0, delta_matrix[i, 3]],
+                                   [delta_matrix[i, 2], delta_matrix[i, 1],                  0],
+                                   [delta_matrix[i, 3],                  0, delta_matrix[i, 1]],
+                                   [                 0, delta_matrix[i, 3], delta_matrix[i, 2]]])
                 self.__B_shape_matrix = np.c_[self.__B_shape_matrix, temp_B]
             check_shape(self.__B_shape_matrix, (6, 12))
         return self.__B_shape_matrix
 
     @staticmethod
-    def T_shape_matrix(S: float, xS: float, yS: float, delta_matrix: np.ndarray):
-        def weight_matrix(s, xs, ys):
-            return np.dot(delta_matrix, np.array([[s], [xs], [ys]], dtype=np.float64))
-        check_shape(weight_matrix(1, 1, 1), (3, 1))
-        We1 = np.array(weight_matrix(S, xS, yS))[0][0]
-        We2 = np.array(weight_matrix(S, xS, yS))[1][0]
-        We3 = np.array(weight_matrix(S, xS, yS))[2][0]
-        T_shape_matrix = np.c_[We1 * np.identity(2), We2 * np.identity(2), We3 * np.identity(2)]
-
-        if T_shape_matrix.shape != (2, 6):
+    def T_shape_matrix(S: float, xS: float, yS: float, zS: float, delta_matrix: np.ndarray):
+        def weight_matrix(s, xs, ys, zs):
+            return np.dot(delta_matrix, np.array([[s], [xs], [ys], [zs]], dtype=np.float64))
+        check_shape(weight_matrix(1, 1, 1, 1), (4, 1))
+        We1 = np.array(weight_matrix(S, xS, yS, zS))[0][0]
+        We2 = np.array(weight_matrix(S, xS, yS, zS))[1][0]
+        We3 = np.array(weight_matrix(S, xS, yS, zS))[2][0]
+        We4 = np.array(weight_matrix(S, xS, yS, zS))[3][0]
+        T_shape_matrix = np.c_[We1 * np.identity(3), We2 * np.identity(3), We3 * np.identity(3), We4 * np.identity(3)]
+        if T_shape_matrix.shape != (3, 12):
             raise Exception('T matrix shape error')
         return T_shape_matrix
 
@@ -329,7 +329,7 @@ class Element3D(object):
     def elastic_matrix(self):
         if self.__elastic_matrix is None:
             temp_E = self.material_dict['elastic_modulus']
-            temp_mu = self.material_dict['possion_ratio']
+            temp_mu = self.material_dict['poisson_ratio']
             elastic_matrix = temp_E / (1 + temp_mu) * (1 - 2 * temp_mu) * \
                              np.matrix([[1 - temp_mu,     temp_mu,     temp_mu,                     0,                     0,                     0],
                                         [    temp_mu, 1 - temp_mu,     temp_mu,                     0,                     0,                     0],
@@ -350,10 +350,14 @@ class Element3D(object):
     @property
     def initial_strain_total(self):
         if self.__initial_strain_increment is None:
-            temp_displacement = np.array(self.patch_displacement, dtype=np.float64).reshape((12, 1))
-            temp_displacement = np.dot(self.B_shape_matrix, temp_displacement)
-            self.__initial_strain_increment = temp_displacement
+            if len(self.patch_displacement) != 0:
+                temp_displacement = np.array(self.patch_displacement, dtype=np.float64).reshape((12, 1))
+                temp_displacement = np.dot(self.B_shape_matrix, temp_displacement)
+                self.__initial_strain_increment = temp_displacement
+            else:
+                self.__initial_strain_increment = np.zeros((6, 1))
             self.__initial_strain_total = self.__initial_strain_total + self.__initial_strain_increment
+        check_shape(self.__initial_strain_total, (6, 1))
         return self.__initial_strain_total
 
     @property
@@ -392,7 +396,7 @@ class Element3D(object):
             self.__body_force = self.material_dict['body_force']
             self.__body_force = np.array([self.__body_force], dtype=np.float64)
             self.__body_force = self.__body_force.T
-            if self.__body_force.shape != (2, 1):
+            if self.__body_force.shape != (3, 1):
                 raise Exception('body force shape error')
         return self.__body_force
 
@@ -418,9 +422,9 @@ class Element3D(object):
     @property
     def joint_displacement_increment(self):
         if len(self.__joint_displacement_increment) == 0:
-            temp_patch_displacement = np.array(self.patch_displacement, dtype=np.float64).reshape((6, 1))
+            temp_patch_displacement = np.array(self.patch_displacement, dtype=np.float64).reshape((12, 1))
             for each_joint in self.joint_list:
-                temp_coord = np.array(each_joint).reshape((1, 2))
+                temp_coord = np.array(each_joint).reshape((1, 3))
                 temp_displacement_increment = Element3D.displacement_interpolation(temp_coord, temp_patch_displacement, self.delta_matrix)
                 self.__joint_displacement_increment.append(temp_displacement_increment[0])
 
@@ -432,13 +436,13 @@ class Element3D(object):
             #     temp_joint_coordinate = np.array(self.minified_joint_list, dtype=np.float64)
             #     self.__joint_displacement_increment = griddata(temp_patch_coordinate, temp_patch_displacement, temp_joint_coordinate)
 
-            # special point interpolation
-            for each_point in self.fixed_point_list:
-                self.special_points_interpolation(each_point, temp_patch_displacement, self.delta_matrix)
-            for each_point in self.loading_point_list:
-                self.special_points_interpolation(each_point, temp_patch_displacement, self.delta_matrix)
-            for each_point in self.measured_point_list:
-                self.special_points_interpolation(each_point, temp_patch_displacement, self.delta_matrix)
+            # TODO: important!!! special point interpolation
+            # for each_point in self.fixed_point_list:
+            #     self.special_points_interpolation(each_point, temp_patch_displacement, self.delta_matrix)
+            # for each_point in self.loading_point_list:
+            #     self.special_points_interpolation(each_point, temp_patch_displacement, self.delta_matrix)
+            # for each_point in self.measured_point_list:
+            #     self.special_points_interpolation(each_point, temp_patch_displacement, self.delta_matrix)
 
         self.__joint_displacement_increment = list(self.__joint_displacement_increment)
         if len(self.__joint_displacement_increment) != len(self.joint_list):
@@ -465,7 +469,7 @@ class Element3D(object):
 
     # special points interpolation
     @staticmethod
-    def special_points_interpolation(point: EPoint, patch_displacement: np.ndarray, delta_matrix: np.ndarray):
+    def special_points_interpolation(point: EPoint3D, patch_displacement: np.ndarray, delta_matrix: np.ndarray):
 
         temp_coord = point.coord
         temp_point_displacement = Element3D.displacement_interpolation(temp_coord, patch_displacement, delta_matrix)
@@ -481,9 +485,9 @@ class Element3D(object):
 
     @staticmethod
     def displacement_interpolation(point_coord: np.ndarray, patch_displacement: np.ndarray, delta_matrix: np.ndarray):
-        check_shape(point_coord, (1, 2))
-        check_shape(patch_displacement, (6, 1))
-        check_shape(delta_matrix, (3, 3))
-        temp_T = Element3D.T_shape_matrix(1, point_coord[0][0], point_coord[0][1], delta_matrix)
-        temp_displacement = np.dot(temp_T, patch_displacement).reshape((1, 2))
+        check_shape(point_coord, (1, 3))
+        check_shape(patch_displacement, (12, 1))
+        check_shape(delta_matrix, (4, 4))
+        temp_T = Element3D.T_shape_matrix(1, point_coord[0][0], point_coord[0][1], point_coord[0][2], delta_matrix)
+        temp_displacement = np.dot(temp_T, patch_displacement).reshape((1, 3))
         return temp_displacement

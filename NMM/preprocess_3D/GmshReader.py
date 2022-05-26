@@ -2,10 +2,13 @@ from vtkmodules.vtkIOXML import (
     vtkXMLUnstructuredGridWriter,
     vtkXMLUnstructuredGridReader
 )
-from vtkmodules.vtkCommonCore import vtkIdList, vtkPoints, vtkDoubleArray, vtkIntArray
+from vtkmodules.vtkCommonCore import vtkIdList, vtkPoints, vtkDoubleArray, vtkIntArray, reference
 from vtkmodules.vtkFiltersGeometry import vtkGeometryFilter
 from vtkmodules.vtkCommonDataModel import (
-    vtkUnstructuredGrid, vtkCellData,
+    vtkUnstructuredGrid,
+    vtkCellData,
+    vtkTetra,
+    vtkGenericCell,
     vtkCell,
     vtkPolyData,
     vtkPolygon,
@@ -131,6 +134,7 @@ class GmshReader:
         uGridReader.Update()
         gmshGrid: vtkUnstructuredGrid = uGridReader.GetOutput()
         pointNumber = gmshGrid.GetNumberOfPoints()
+        print('math_cover_number:{}'.format(pointNumber))
         vertexGrid = vtkUnstructuredGrid()
         for each_id in range(pointNumber):
             vertex = vtkVertex()
@@ -138,7 +142,6 @@ class GmshReader:
             vertexGrid.InsertNextCell(vertex.GetCellType(), vertex.GetPointIds())
 
         vertexGrid.SetPoints(gmshGrid.GetPoints())
-
         outputFile = 'math_point.vtu'
         writer = vtkXMLUnstructuredGridWriter()
         writer.SetFileName(output_path + outputFile)
@@ -147,12 +150,21 @@ class GmshReader:
 
     # generate relate manifold_element
     @staticmethod
-    def generate_manifold_element(gmsh_file_name: str, output_path: str):
+    def generate_manifold_element(gmsh_file_name: str, special_point_file_name: str, output_path: str):
         uGridReader = vtkXMLUnstructuredGridReader()
         uGridReader.SetFileName(gmsh_file_name)
         uGridReader.Update()
         elementGrid: vtkUnstructuredGrid = uGridReader.GetOutput()
         elementNumber = elementGrid.GetNumberOfCells()
+        print('element_number:{}'.format(elementNumber))
+
+        specialPointReader = vtkXMLUnstructuredGridReader()
+        specialPointReader.SetFileName(special_point_file_name)
+        specialPointReader.Update()
+        specialPointGrid: vtkUnstructuredGrid = specialPointReader.GetOutput()
+        specialPointNumber = specialPointGrid.GetNumberOfPoints()
+        print('special_point_number:{}'.format(specialPointNumber))
+
 
         # connect to database
         with sqlite3.connect('../../data_3D/manifold_mathcover.db') as connection:
@@ -161,16 +173,31 @@ class GmshReader:
                                  'ID          INTEGER PRIMARY KEY AUTOINCREMENT ,' \
                                  'ElementId   INT                 NOT NULL,' \
                                  'MathcoverId INT                 NOT NULL);'
+            database_statement_1 = 'CREATE TABLE ElementSpecialPoint(' \
+                                   'ID             INTEGER PRIMARY KEY AUTOINCREMENT ,' \
+                                   'ElementId      INT                 NOT NULL,' \
+                                   'SpecialPointId INT                 NOT NULL);'
+            # create table
             try:
                 database_cursor.execute(database_statement)
+                database_cursor.execute(database_statement_1)
             except sqlite3.OperationalError:
                 database_statement = 'DROP TABLE ElementMathcover;'
+                database_statement_1 = 'DROP TABLE ElementSpecialPoint;'
                 database_cursor.execute(database_statement)
+                database_cursor.execute(database_statement_1)
                 database_statement = 'CREATE TABLE ElementMathcover(' \
                                      'ID          INTEGER PRIMARY KEY AUTOINCREMENT ,' \
                                      'ElementId   INT                 NOT NULL,' \
                                      'MathcoverId INT                 NOT NULL);'
+                database_statement_1 = 'CREATE TABLE ElementSpecialPoint(' \
+                                       'ID             INTEGER PRIMARY KEY AUTOINCREMENT ,' \
+                                       'ElementId      INT                 NOT NULL,' \
+                                       'SpecialPointId INT                 NOT NULL);'
                 database_cursor.execute(database_statement)
+                database_cursor.execute(database_statement_1)
+
+            # input element math cover relationship
             for each_id in range(elementNumber):
                 temp_id_list = vtkIdList()
                 elementGrid.GetCellPoints(each_id, temp_id_list)
@@ -180,6 +207,25 @@ class GmshReader:
                                          'VALUES ({elementId}, {mathcoverId})'\
                         .format(elementId=each_id, mathcoverId=temp_point_id)
                     database_cursor.execute(database_statement)
+
+            # input element special point relationship
+            special_point_element_grid = vtkUnstructuredGrid()
+            for each_point_id in range(specialPointNumber):
+                temp_special_points = specialPointGrid.GetPoint(each_point_id)
+                generic_cell = vtkGenericCell()
+                sub_id = reference(0)
+                temp_cell: vtkTetra = elementGrid.FindAndGetCell(temp_special_points, generic_cell, 0, 0.0, sub_id, [0, 0, 0], [0, 0, 0, 0])
+                temp_id = elementGrid.FindCell(temp_special_points, generic_cell, 0, 0.0, sub_id, [0, 0, 0], [0, 0, 0, 0])
+                database_statement = 'INSERT INTO ElementSpecialPoint (ElementId, SpecialPointId)' \
+                                     'VALUES ({elementId}, {pointId})' \
+                    .format(elementId=temp_id, pointId=each_point_id)
+                database_cursor.execute(database_statement)
+                special_point_element_grid.InsertNextCell(temp_cell.GetCellType(), temp_cell.GetPointIds())
+            special_point_element_grid.SetPoints(elementGrid.GetPoints())
+            temp_writer = vtkXMLUnstructuredGridWriter()
+            temp_writer.SetFileName(output_path + 'special_point_element.vtu')
+            temp_writer.SetInputData(special_point_element_grid)
+            temp_writer.Write()
 
         elementScalar = vtkDoubleArray()
         elementScalar.SetName('test_element_value')
@@ -195,9 +241,15 @@ class GmshReader:
         pointScalar.SetName('test_point_value')
         [pointScalar.InsertValue(i, i * 100) for i in range(pointNumber)]
 
+        pointDisplacementVector = vtkDoubleArray()
+        pointDisplacementVector.SetName('point_displacement')
+        pointDisplacementVector.SetNumberOfComponents(3)
+        [pointDisplacementVector.InsertTuple(i, (0, 0, 0)) for i in range(pointNumber)]
+
         elementGrid.GetCellData().AddArray(elementScalar)
         elementGrid.GetCellData().AddArray(elementMaterialId)
-        elementGrid.GetPointData().SetScalars(pointScalar)
+        elementGrid.GetPointData().AddArray(pointScalar)
+        elementGrid.GetPointData().AddArray(pointDisplacementVector)
 
         outputFile = 'manifold_element.vtu'
         writer = vtkXMLUnstructuredGridWriter()
@@ -206,7 +258,7 @@ class GmshReader:
         writer.Write()
 
     @staticmethod
-    def generate_all_vtu_file(gmsh_file_name, output_path):
+    def generate_all_vtu_file(gmsh_file_name, special_point_file_name, output_path):
         GmshReader.generate_geometry_info(gmsh_file_name, output_path, VTK_VERTEX)
         GmshReader.generate_geometry_info(gmsh_file_name, output_path, VTK_LINE)
         GmshReader.generate_geometry_info(gmsh_file_name, output_path, VTK_TRIANGLE)
@@ -218,13 +270,15 @@ class GmshReader:
         GmshReader.generate_math_cover(gmsh_tetrahedron_file_name, output_path)
         GmshReader.generate_math_point(gmsh_tetrahedron_file_name, output_path)
 
-        GmshReader.generate_manifold_element(gmsh_tetrahedron_file_name, output_path)
+        GmshReader.generate_manifold_element(gmsh_tetrahedron_file_name, special_point_file_name, output_path)
 
 
 if __name__ == '__main__':
-    file_name = 'original_gmsh.vtu'
+    file_name = 'cylinder.vtu'
+    special_point_file = 'special_point.vtu'
     work_path = '../../data_3D/'
     gmsh_file = work_path + file_name
+    special_point_file = work_path + special_point_file
 
-    GmshReader.generate_all_vtu_file(gmsh_file, work_path)
+    GmshReader.generate_all_vtu_file(gmsh_file,special_point_file, work_path)
 

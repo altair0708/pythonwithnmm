@@ -11,6 +11,7 @@ def get_one_joint(id_value: int, cursor: sqlite3.Cursor):
 
 
 def write_joint_displacement_into_database(element: Element, cursor: sqlite3.Cursor):
+    # TODO: different element use the same joint point, lead to every joint displacement repeated add.
     element_joint_number = len(element.joint_id)
     assert len(element.joint_displacement_increment) == element_joint_number
     for each_index in range(element_joint_number):

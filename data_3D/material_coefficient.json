@@ -7,7 +7,7 @@
         1
     ],
     "elastic_modulus": 100000000000,
-    "possion_ratio": 0.2,
+    "poisson_ratio": 0.2,
     "initial_force": [
         0,
         0,

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<VTKFile type="UnstructuredGrid" version="0.1" byte_order="LittleEndian" header_type="UInt32" compressor="vtkZLibDataCompressor">
+  <UnstructuredGrid>
+    <Piece NumberOfPoints="6"                    NumberOfCells="6"                   >
+      <PointData>
+      </PointData>
+      <CellData>
+        <DataArray type="Int32" Name="point_type" format="appended" RangeMin="1"                    RangeMax="1"                    offset="0"                   />
+        <DataArray type="Float64" Name="velocity" NumberOfComponents="3" format="appended" RangeMin="0.0001"               RangeMax="0.0001"               offset="44"                  />
+        <DataArray type="Float64" Name="force" NumberOfComponents="3" format="appended" RangeMin="0"                    RangeMax="8.6602540378"         offset="104"                 />
+      </CellData>
+      <Points>
+        <DataArray type="Float32" Name="Points" NumberOfComponents="3" format="appended" RangeMin="9.8999996185"         RangeMax="10.198039027"         offset="168"                 />
+      </Points>
+      <Cells>
+        <DataArray type="Int64" Name="connectivity" format="appended" RangeMin=""                     RangeMax=""                     offset="240"                 />
+        <DataArray type="Int64" Name="offsets" format="appended" RangeMin=""                     RangeMax=""                     offset="296"                 />
+        <DataArray type="UInt8" Name="types" format="appended" RangeMin=""                     RangeMax=""                     offset="352"                 />
+      </Cells>
+    </Piece>
+  </UnstructuredGrid>
+  <AppendedData encoding="base64">
+   _AQAAAACAAAAYAAAADgAAAA==eJxjZGBgYMSCAQBsAAc=AQAAAACAAACQAAAAGgAAAA==eJxjYEAFus4yrx+ZSe1noI64PaniAPciEvE=AQAAAACAAACQAAAAHAAAAA==eJxjYMAHPthjpxkcsNMcOGgBHLQIBg0ADXsHEg==AQAAAACAAABIAAAAJAAAAA==eJxjYIABBUcGhgZ7BJvBAYkNBmlpcgdhaiBsiBoQGwDIbggjAQAAAACAAAAwAAAAGAAAAA==eJxjYIAARijNBKWZoTQLlGaF0gABSAAQAQAAAACAAAAwAAAAGAAAAA==eJxjZIAAJijNDKVZoDQrlGaD0gAB8AAWAQAAAACAAAAGAAAACwAAAA==eJxjZAQBAAAbAAc=
+  </AppendedData>
+</VTKFile>
