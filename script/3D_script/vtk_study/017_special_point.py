@@ -9,9 +9,9 @@ for each_point_id in range(6):
     special_point_grid.InsertNextCell(temp_point.GetCellType(), temp_point.GetPointIds())
 
 special_points_coordinate = vtkPoints()
-special_points_coordinate.InsertPoint(0, (0, 0, 10))
-special_points_coordinate.InsertPoint(1, (1, 0, 10))
-special_points_coordinate.InsertPoint(2, (2, 0, 10))
+special_points_coordinate.InsertPoint(0, (0, 0, 9.9))
+special_points_coordinate.InsertPoint(1, (1, 0, 9.9))
+special_points_coordinate.InsertPoint(2, (2, 0, 9.9))
 special_points_coordinate.InsertPoint(3, (0, 0, -9.9))
 special_points_coordinate.InsertPoint(4, (1, 0, -9.9))
 special_points_coordinate.InsertPoint(5, (2, 0, -9.9))

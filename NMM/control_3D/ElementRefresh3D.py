@@ -54,18 +54,29 @@ class ElementRefresher3D:
         manifold_element_reader.Update()
         manifold_element_grid: vtkUnstructuredGrid = manifold_element_reader.GetOutput()
         manifold_element_cell_data: vtkCellData = manifold_element_grid.GetPointData()
-        manifold_element_displacement_list: vtkDataArray = manifold_element_cell_data.GetArray(1)
-        if manifold_element_displacement_list.GetName() != 'point_displacement':
-            raise Exception('point_displacement dataArray Index Error!')
+        manifold_element_displacement_increment_list: vtkDataArray = manifold_element_cell_data.GetArray(1)
+        if manifold_element_displacement_increment_list.GetName() != 'point_displacement_increment':
+            raise Exception('point_displacement_increment dataArray Index Error!')
         manifold_element_number = manifold_element_grid.GetNumberOfCells()
         for element_id in range(manifold_element_number):
             temp_displacement_list = element_list[element_id].joint_displacement_increment
             point_number = len(element_list[0].joint_list)
             for point_id in range(point_number):
                 temp_point_id = element_list[element_id].joint_id[point_id]
-                if temp_point_id == 1000:
-                    print(temp_displacement_list[point_id])
-                manifold_element_displacement_list.InsertTuple(temp_point_id, temp_displacement_list[point_id])
+                manifold_element_displacement_increment_list.InsertTuple(temp_point_id, temp_displacement_list[point_id])
+
+        manifold_element_displacement_total_list: vtkDataArray = manifold_element_cell_data.GetArray(2)
+        if manifold_element_displacement_total_list.GetName() != 'point_displacement_total':
+            raise Exception('point_displacement_total dataArray Index Error!')
+        for each_point_id in range(manifold_element_grid.GetNumberOfPoints()):
+            temp_increment = manifold_element_displacement_increment_list.GetTuple(each_point_id)
+            temp_total = manifold_element_displacement_total_list.GetTuple(each_point_id)
+            temp_total = np.array(temp_increment, dtype=np.float64) + np.array(temp_total, dtype=np.float64)
+            # if each_point_id == 1:
+            #     print(temp_increment)
+            #     print(temp_total)
+            manifold_element_displacement_total_list.InsertTuple(each_point_id, temp_total)
+
         manifold_element_grid_writer = vtkXMLUnstructuredGridWriter()
         manifold_element_grid_writer.SetFileName(manifold_element_file)
         manifold_element_grid_writer.SetInputData(manifold_element_grid)

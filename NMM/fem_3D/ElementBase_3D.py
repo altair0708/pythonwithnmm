@@ -141,7 +141,7 @@ class Element3D(object):
 
     def clean_all(self):
         # refresh at the end of time step
-        self.patch_displacement = [(0, 0, 0), (0, 0, 0), (0, 0, 0), (0, 0, 0)]
+        # self.patch_displacement = [(0, 0, 0), (0, 0, 0), (0, 0, 0), (0, 0, 0)]
         self.__joint_displacement_increment = []
         self.__minified_joint_list = []
         self.__initial_stress = None
@@ -207,11 +207,10 @@ class Element3D(object):
     def body_matrix(self):
         if self.__body_matrix is None:
             self.__body_matrix = np.zeros((12, 1), dtype=np.float64)
-            for each_triangle in self.triangle_list:
-                temp_S, temp_xS, temp_yS, temp_zS = calculate_integration(each_triangle)
-                temp = self.T_shape_matrix(temp_S, temp_xS, temp_yS, temp_zS, delta_matrix=self.delta_matrix)
-                temp_body_matrix = np.dot(temp.T, self.body_force)
-                self.__body_matrix = self.body_matrix + temp_body_matrix.reshape(12, 1)
+            temp_S, temp_xS, temp_yS, temp_zS = calculate_integration(np.array(self.joint_list))
+            temp = self.T_shape_matrix(temp_S, temp_xS, temp_yS, temp_zS, delta_matrix=self.delta_matrix)
+            temp_body_matrix = np.dot(temp.T, self.body_force)
+            self.__body_matrix = self.body_matrix + temp_body_matrix.reshape(12, 1)
             check_shape(self.__body_matrix, (12, 1))
         return self.__body_matrix
 
@@ -220,25 +219,33 @@ class Element3D(object):
         if self.__mass_matrix is None:
             self.__mass_matrix = np.zeros((12, 12), dtype=np.float64)
             self.__mass_force = np.zeros((12, 1), dtype=np.float64)
-            for each_triangle in self.triangle_list:
-                temp_S, temp_xS, temp_yS, temp_zS = calculate_integration(each_triangle)
-                temp_xxS, temp_yyS, temp_zzS, temp_xyS, temp_xzS, temp_yzS = calculate_twice_integration(each_triangle)
-                ff = np.array(self.delta_matrix)
-                temp_matrix = np.zeros((12, 12), dtype=np.float64)
-                for r in range(3):
-                    for s in range(3):
-                        temp = ff[r][0] * ff[s][0] * temp_S + (ff[r][0] * ff[s][1] + ff[r][1] * ff[s][0]) * temp_xS +\
-                               (ff[r][0] * ff[s][2] + ff[r][2] * ff[s][0]) * temp_yS + ff[r][1] * ff[s][1] * temp_xxS + \
-                               (ff[r][1] * ff[s][2] + ff[r][2] * ff[s][1]) * temp_xyS + ff[r][2] * ff[s][2] * temp_yyS
-                        temp_matrix[2 * r][2 * s] = temp
-                        temp_matrix[2 * r + 1][2 * s + 1] = temp
-                check_shape(temp_matrix, (12, 12))
-                temp_mass_matrix = temp_matrix
-                temp_mass_force = np.dot(temp_matrix, self.initial_velocity)
-                temp_mass_matrix = temp_mass_matrix * (2 * self.unit_mass / self.time_step ** 2)
-                temp_mass_force = temp_mass_force * (2 * self.unit_mass / self.time_step)
-                self.__mass_matrix = self.__mass_matrix + temp_mass_matrix
-                self.__mass_force = self.__mass_force + temp_mass_force.reshape(12, 1)
+            temp_S, temp_xS, temp_yS, temp_zS = calculate_integration(np.array(self.joint_list))
+            temp_xxS, temp_yyS, temp_zzS, temp_xyS, temp_xzS, temp_yzS = calculate_twice_integration(np.array(self.joint_list))
+            ff = np.array(self.delta_matrix)
+            temp_matrix = np.zeros((12, 12), dtype=np.float64)
+            # TODO: mass matrix
+            for r in range(4):
+                for s in range(4):
+                    temp = ff[r][0] * ff[s][0] * temp_S +\
+                           (ff[r][0] * ff[s][1] + ff[r][1] * ff[s][0]) * temp_xS +\
+                           (ff[r][0] * ff[s][2] + ff[r][2] * ff[s][0]) * temp_yS +\
+                           (ff[r][0] * ff[s][3] + ff[r][3] * ff[s][0]) * temp_zS +\
+                           ff[r][1] * ff[s][1] * temp_xxS +\
+                           ff[r][2] * ff[s][2] * temp_yyS +\
+                           ff[r][3] * ff[s][3] * temp_zzS +\
+                           (ff[r][1] * ff[s][2] + ff[r][2] * ff[s][1]) * temp_xyS +\
+                           (ff[r][1] * ff[s][3] + ff[r][3] * ff[s][1]) * temp_xzS + \
+                           (ff[r][2] * ff[s][3] + ff[r][3] * ff[s][2]) * temp_yzS
+                    temp_matrix[3 * r][3 * s] = temp
+                    temp_matrix[3 * r + 1][3 * s + 1] = temp
+                    temp_matrix[3 * r + 2][3 * s + 2] = temp
+            check_shape(temp_matrix, (12, 12))
+            temp_mass_matrix = temp_matrix
+            temp_mass_force = np.dot(temp_matrix, self.initial_velocity)
+            temp_mass_matrix = temp_mass_matrix * (2 * self.unit_mass / self.time_step ** 2)
+            temp_mass_force = temp_mass_force * (2 * self.unit_mass / self.time_step)
+            self.__mass_matrix = self.__mass_matrix + temp_mass_matrix
+            self.__mass_force = self.__mass_force + temp_mass_force.reshape(12, 1)
             check_shape(self.__mass_matrix, (12, 12))
             check_shape(self.__mass_force, (12, 1))
         return self.__mass_matrix, self.__mass_force
@@ -250,7 +257,7 @@ class Element3D(object):
             self.__fixed_force = np.zeros((12, 1), dtype=np.float64)
             # TODO
             for fixed_point in self.fixed_point_list:
-                temp = self.T_shape_matrix(1, fixed_point.coord[0][0], fixed_point.coord[0][1], fixed_point.coord[0][1], delta_matrix=self.delta_matrix)
+                temp = self.T_shape_matrix(1, fixed_point.coord[0][0], fixed_point.coord[0][1], fixed_point.coord[0][2], delta_matrix=self.delta_matrix)
                 '''fixed test'''
                 # temp_zero = np.array([[0, 0, 0, 0, 0, 0]])
                 # temp[[0], :] = temp_zero
@@ -268,14 +275,15 @@ class Element3D(object):
     @property
     def total_matrix(self):
         if self.__total_matrix is None:
-            self.__total_matrix = self.stiff_matrix + self.fixed_matrix[0]  # + self.mass_matrix[0]
+            self.__total_matrix = self.stiff_matrix  # + self.fixed_matrix[0] + self.mass_matrix[0]
             check_shape(self.__total_matrix, (12, 12))
         return self.__total_matrix
 
     @property
     def total_force(self):
         if self.__total_force is None:
-            self.__total_force = self.initial_matrix + self.loading_matrix + self.body_matrix + self.fixed_matrix[1]  # + self.mass_matrix[1]
+            self.__total_force = self.fixed_matrix[1]
+            # self.__total_force = self.initial_matrix + self.loading_matrix + self.body_matrix  # + self.fixed_matrix[1] + self.mass_matrix[1]
             # self.__total_force = self.fixed_matrix[1] + self.loading_matrix + self.body_matrix + self.mass_matrix[1]
             check_shape(self.__total_force, (12, 1))
         return self.__total_force
@@ -350,12 +358,9 @@ class Element3D(object):
     @property
     def initial_strain_total(self):
         if self.__initial_strain_increment is None:
-            if len(self.patch_displacement) != 0:
-                temp_displacement = np.array(self.patch_displacement, dtype=np.float64).reshape((12, 1))
-                temp_displacement = np.dot(self.B_shape_matrix, temp_displacement)
-                self.__initial_strain_increment = temp_displacement
-            else:
-                self.__initial_strain_increment = np.zeros((6, 1))
+            temp_displacement = np.array(self.patch_displacement, dtype=np.float64).reshape((12, 1))
+            temp_displacement = np.dot(self.B_shape_matrix, temp_displacement)
+            self.__initial_strain_increment = temp_displacement
             self.__initial_strain_total = self.__initial_strain_total + self.__initial_strain_increment
         check_shape(self.__initial_strain_total, (6, 1))
         return self.__initial_strain_total
@@ -369,12 +374,12 @@ class Element3D(object):
             check_shape(self.__initial_stress, (6, 1))
         return self.__initial_stress
 
-    # TODO: Initial velocity
+    # TODO: math cover initial velocity
     @property
     def initial_velocity(self):
         if self.__initial_velocity is None:
-            self.__initial_velocity = np.zeros((6, 1), dtype=np.float64)
-            if self.__initial_velocity.shape != (6, 1):
+            self.__initial_velocity = np.zeros((12, 1), dtype=np.float64)
+            if self.__initial_velocity.shape != (12, 1):
                 raise Exception('initial velocity shape error')
         return self.__initial_velocity
 
@@ -437,12 +442,12 @@ class Element3D(object):
             #     self.__joint_displacement_increment = griddata(temp_patch_coordinate, temp_patch_displacement, temp_joint_coordinate)
 
             # TODO: important!!! special point interpolation
-            # for each_point in self.fixed_point_list:
-            #     self.special_points_interpolation(each_point, temp_patch_displacement, self.delta_matrix)
-            # for each_point in self.loading_point_list:
-            #     self.special_points_interpolation(each_point, temp_patch_displacement, self.delta_matrix)
-            # for each_point in self.measured_point_list:
-            #     self.special_points_interpolation(each_point, temp_patch_displacement, self.delta_matrix)
+            for each_point in self.fixed_point_list:
+                self.special_points_interpolation(each_point, temp_patch_displacement, self.delta_matrix)
+            for each_point in self.loading_point_list:
+                self.special_points_interpolation(each_point, temp_patch_displacement, self.delta_matrix)
+            for each_point in self.measured_point_list:
+                self.special_points_interpolation(each_point, temp_patch_displacement, self.delta_matrix)
 
         self.__joint_displacement_increment = list(self.__joint_displacement_increment)
         if len(self.__joint_displacement_increment) != len(self.joint_list):

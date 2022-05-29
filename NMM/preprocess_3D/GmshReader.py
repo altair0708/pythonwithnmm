@@ -241,15 +241,21 @@ class GmshReader:
         pointScalar.SetName('test_point_value')
         [pointScalar.InsertValue(i, i * 100) for i in range(pointNumber)]
 
-        pointDisplacementVector = vtkDoubleArray()
-        pointDisplacementVector.SetName('point_displacement')
-        pointDisplacementVector.SetNumberOfComponents(3)
-        [pointDisplacementVector.InsertTuple(i, (0, 0, 0)) for i in range(pointNumber)]
+        pointDisplacementIncrementVector = vtkDoubleArray()
+        pointDisplacementIncrementVector.SetName('point_displacement_increment')
+        pointDisplacementIncrementVector.SetNumberOfComponents(3)
+        [pointDisplacementIncrementVector.InsertTuple(i, (0, 0, 0)) for i in range(pointNumber)]
+
+        pointDisplacementTotalVector = vtkDoubleArray()
+        pointDisplacementTotalVector.SetName('point_displacement_total')
+        pointDisplacementTotalVector.SetNumberOfComponents(3)
+        [pointDisplacementTotalVector.InsertTuple(i, (0, 0, 0)) for i in range(pointNumber)]
 
         elementGrid.GetCellData().AddArray(elementScalar)
         elementGrid.GetCellData().AddArray(elementMaterialId)
         elementGrid.GetPointData().AddArray(pointScalar)
-        elementGrid.GetPointData().AddArray(pointDisplacementVector)
+        elementGrid.GetPointData().AddArray(pointDisplacementIncrementVector)
+        elementGrid.GetPointData().AddArray(pointDisplacementTotalVector)
 
         outputFile = 'manifold_element.vtu'
         writer = vtkXMLUnstructuredGridWriter()
@@ -274,7 +280,7 @@ class GmshReader:
 
 
 if __name__ == '__main__':
-    file_name = 'cylinder.vtu'
+    file_name = 'cylinder_2.vtu'
     special_point_file = 'special_point.vtu'
     work_path = '../../data_3D/'
     gmsh_file = work_path + file_name

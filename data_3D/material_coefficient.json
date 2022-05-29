@@ -4,7 +4,7 @@
     "body_force": [
         0,
         0,
-        1
+        -1
     ],
     "elastic_modulus": 100000000000,
     "poisson_ratio": 0.2,

@@ -1,9 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from shapely.geometry import Polygon
-from shapely.affinity import scale
 from scipy.spatial import Delaunay
-from scipy.interpolate import griddata
 from typing import Tuple, List
 from NMM.GlobalVariable import CONST
 from NMM.fem.PointBase import EPoint, PointType

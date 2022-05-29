@@ -75,6 +75,8 @@ class EPoint(object):
             self.__displacement_increment = value.reshape((1, 2))
             temp_displacement = value.reshape((1, 2)) - self.__velocity
             self.__displacement_total = self.__displacement_total + temp_displacement
+            if self.__id == 1:
+                print(self.__displacement_total)
 
     @property
     def displacement_total(self):
