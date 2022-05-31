@@ -65,6 +65,9 @@ def create_an_element(id_value: int,
     with open(material_coefficient) as material_coefficient:
         element.material_dict = json.load(material_coefficient)
 
+    if special_point_grid.GetNumberOfPoints() == 0:
+        return element
+
     # get special point info
     special_point_data: vtkCellData = special_point_grid.GetCellData()
     point_type_list: vtkDataArray = special_point_data.GetArray(0)

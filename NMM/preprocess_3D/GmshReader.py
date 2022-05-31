@@ -141,7 +141,13 @@ class GmshReader:
             vertex.GetPointIds().SetId(0, each_id)
             vertexGrid.InsertNextCell(vertex.GetCellType(), vertex.GetPointIds())
 
+        mathPointDisplacement = vtkDoubleArray()
+        mathPointDisplacement.SetName('math_point_displacement')
+        mathPointDisplacement.SetNumberOfComponents(3)
+
         vertexGrid.SetPoints(gmshGrid.GetPoints())
+        vertexGrid.GetPointData().AddArray(mathPointDisplacement)
+
         outputFile = 'math_point.vtu'
         writer = vtkXMLUnstructuredGridWriter()
         writer.SetFileName(output_path + outputFile)
@@ -280,8 +286,10 @@ class GmshReader:
 
 
 if __name__ == '__main__':
-    file_name = 'cylinder_2.vtu'
-    special_point_file = 'special_point.vtu'
+    file_name = 'simplex.vtu'
+    special_point_file = 'special_points_simplex.vtu'
+    # file_name = 'cylinder_2.vtu'
+    # special_point_file = 'special_point.vtu'
     work_path = '../../data_3D/'
     gmsh_file = work_path + file_name
     special_point_file = work_path + special_point_file

@@ -72,9 +72,6 @@ class ElementRefresher3D:
             temp_increment = manifold_element_displacement_increment_list.GetTuple(each_point_id)
             temp_total = manifold_element_displacement_total_list.GetTuple(each_point_id)
             temp_total = np.array(temp_increment, dtype=np.float64) + np.array(temp_total, dtype=np.float64)
-            # if each_point_id == 1:
-            #     print(temp_increment)
-            #     print(temp_total)
             manifold_element_displacement_total_list.InsertTuple(each_point_id, temp_total)
 
         manifold_element_grid_writer = vtkXMLUnstructuredGridWriter()

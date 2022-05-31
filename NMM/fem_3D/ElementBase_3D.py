@@ -33,8 +33,8 @@ def calculate_twice_integration(point_list: np.ndarray):
     y2 = point_list[2, 1]
     z2 = point_list[2, 2]
 
-    x3 = point_list[2, 0]
-    y3 = point_list[2, 1]
+    x3 = point_list[3, 0]
+    y3 = point_list[3, 1]
     z3 = point_list[3, 2]
     jacobi = np.c_[np.ones((4, 1)), point_list]
     jacobi = np.matrix(jacobi)
@@ -80,9 +80,9 @@ class Element3D(object):
         self.material_dict = {
             'id': 1,
             'unit_mass': 0.0,
-            'body_force': (0, 0, 0),
-            'elastic_modulus': 200000000000,
-            'poisson_ratio': 0.28,
+            'body_force': (0, 0, 1),
+            'elastic_modulus': 1,
+            'poisson_ratio': 0.2,
             'initial_force': (0, 0, 0, 0, 0, 0),
             'yield_coefficient': {
                 'friction_angle': 0,
@@ -178,7 +178,7 @@ class Element3D(object):
             temp_stiff_matrix = temp_S * self.B_shape_matrix.T
             temp_stiff_matrix = np.dot(temp_stiff_matrix, self.elastic_matrix)
             temp_stiff_matrix = np.dot(temp_stiff_matrix, self.B_shape_matrix)
-            self.__stiff_matrix = self.__stiff_matrix + temp_stiff_matrix
+            self.__stiff_matrix = temp_stiff_matrix
             check_shape(self.__stiff_matrix, (12, 12))
         return self.__stiff_matrix
 
@@ -210,7 +210,7 @@ class Element3D(object):
             temp_S, temp_xS, temp_yS, temp_zS = calculate_integration(np.array(self.joint_list))
             temp = self.T_shape_matrix(temp_S, temp_xS, temp_yS, temp_zS, delta_matrix=self.delta_matrix)
             temp_body_matrix = np.dot(temp.T, self.body_force)
-            self.__body_matrix = self.body_matrix + temp_body_matrix.reshape(12, 1)
+            self.__body_matrix = temp_body_matrix.reshape(12, 1)
             check_shape(self.__body_matrix, (12, 1))
         return self.__body_matrix
 
@@ -222,6 +222,17 @@ class Element3D(object):
             temp_S, temp_xS, temp_yS, temp_zS = calculate_integration(np.array(self.joint_list))
             temp_xxS, temp_yyS, temp_zzS, temp_xyS, temp_xzS, temp_yzS = calculate_twice_integration(np.array(self.joint_list))
             ff = np.array(self.delta_matrix)
+            print(ff)
+            print(temp_S)
+            print(temp_xS)
+            print(temp_yS)
+            print(temp_zS)
+            print(temp_xxS)
+            print(temp_yyS)
+            print(temp_zzS)
+            print(temp_xyS)
+            print(temp_xzS)
+            print(temp_yzS)
             temp_matrix = np.zeros((12, 12), dtype=np.float64)
             # TODO: mass matrix
             for r in range(4):
@@ -236,6 +247,7 @@ class Element3D(object):
                            (ff[r][1] * ff[s][2] + ff[r][2] * ff[s][1]) * temp_xyS +\
                            (ff[r][1] * ff[s][3] + ff[r][3] * ff[s][1]) * temp_xzS + \
                            (ff[r][2] * ff[s][3] + ff[r][3] * ff[s][2]) * temp_yzS
+                    print('r:{}, s:{}, temp:{}'.format(r, s, temp))
                     temp_matrix[3 * r][3 * s] = temp
                     temp_matrix[3 * r + 1][3 * s + 1] = temp
                     temp_matrix[3 * r + 2][3 * s + 2] = temp
@@ -275,15 +287,16 @@ class Element3D(object):
     @property
     def total_matrix(self):
         if self.__total_matrix is None:
-            self.__total_matrix = self.stiff_matrix  # + self.fixed_matrix[0] + self.mass_matrix[0]
+            # self.__total_matrix = self.stiff_matrix
+            self.__total_matrix = self.stiff_matrix + self.fixed_matrix[0] + self.mass_matrix[0]
             check_shape(self.__total_matrix, (12, 12))
         return self.__total_matrix
 
     @property
     def total_force(self):
         if self.__total_force is None:
-            self.__total_force = self.fixed_matrix[1]
-            # self.__total_force = self.initial_matrix + self.loading_matrix + self.body_matrix  # + self.fixed_matrix[1] + self.mass_matrix[1]
+            # self.__total_force = self.body_matrix
+            self.__total_force = self.initial_matrix + self.loading_matrix + self.body_matrix + self.fixed_matrix[1] + self.mass_matrix[1]
             # self.__total_force = self.fixed_matrix[1] + self.loading_matrix + self.body_matrix + self.mass_matrix[1]
             check_shape(self.__total_force, (12, 1))
         return self.__total_force
@@ -338,13 +351,13 @@ class Element3D(object):
         if self.__elastic_matrix is None:
             temp_E = self.material_dict['elastic_modulus']
             temp_mu = self.material_dict['poisson_ratio']
-            elastic_matrix = temp_E / (1 + temp_mu) * (1 - 2 * temp_mu) * \
-                             np.matrix([[1 - temp_mu,     temp_mu,     temp_mu,                     0,                     0,                     0],
-                                        [    temp_mu, 1 - temp_mu,     temp_mu,                     0,                     0,                     0],
-                                        [    temp_mu,     temp_mu, 1 - temp_mu,                     0,                     0,                     0],
-                                        [          0,           0,           0, (1 - 2 * temp_mu) / 2,                     0,                     0],
-                                        [          0,           0,           0,                     0, (1 - 2 * temp_mu) / 2,                     0],
-                                        [          0,           0,           0,                     0,                     0, (1 - 2 * temp_mu) / 2]])
+            elastic_matrix = temp_E / ((1 + temp_mu) * (1 - 2 * temp_mu)) * \
+                             np.matrix([[1 - temp_mu,     temp_mu,     temp_mu,                 0,                 0,                 0],
+                                        [    temp_mu, 1 - temp_mu,     temp_mu,                 0,                 0,                 0],
+                                        [    temp_mu,     temp_mu, 1 - temp_mu,                 0,                 0,                 0],
+                                        [          0,           0,           0, (1 - 2*temp_mu)/2,                 0,                 0],
+                                        [          0,           0,           0,                 0, (1 - 2*temp_mu)/2,                 0],
+                                        [          0,           0,           0,                 0,                 0, (1 - 2*temp_mu)/2]])
             self.__elastic_matrix = elastic_matrix
         return self.__elastic_matrix
 
