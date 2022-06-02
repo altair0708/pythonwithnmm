@@ -178,7 +178,7 @@ class Element3D(object):
             temp_stiff_matrix = temp_S * self.B_shape_matrix.T
             temp_stiff_matrix = np.dot(temp_stiff_matrix, self.elastic_matrix)
             temp_stiff_matrix = np.dot(temp_stiff_matrix, self.B_shape_matrix)
-            self.__stiff_matrix = temp_stiff_matrix
+            self.__stiff_matrix = temp_stiff_matrix * 10
             check_shape(self.__stiff_matrix, (12, 12))
         return self.__stiff_matrix
 
@@ -222,17 +222,6 @@ class Element3D(object):
             temp_S, temp_xS, temp_yS, temp_zS = calculate_integration(np.array(self.joint_list))
             temp_xxS, temp_yyS, temp_zzS, temp_xyS, temp_xzS, temp_yzS = calculate_twice_integration(np.array(self.joint_list))
             ff = np.array(self.delta_matrix)
-            print(ff)
-            print(temp_S)
-            print(temp_xS)
-            print(temp_yS)
-            print(temp_zS)
-            print(temp_xxS)
-            print(temp_yyS)
-            print(temp_zzS)
-            print(temp_xyS)
-            print(temp_xzS)
-            print(temp_yzS)
             temp_matrix = np.zeros((12, 12), dtype=np.float64)
             # TODO: mass matrix
             for r in range(4):
@@ -247,7 +236,6 @@ class Element3D(object):
                            (ff[r][1] * ff[s][2] + ff[r][2] * ff[s][1]) * temp_xyS +\
                            (ff[r][1] * ff[s][3] + ff[r][3] * ff[s][1]) * temp_xzS + \
                            (ff[r][2] * ff[s][3] + ff[r][3] * ff[s][2]) * temp_yzS
-                    print('r:{}, s:{}, temp:{}'.format(r, s, temp))
                     temp_matrix[3 * r][3 * s] = temp
                     temp_matrix[3 * r + 1][3 * s + 1] = temp
                     temp_matrix[3 * r + 2][3 * s + 2] = temp
@@ -256,7 +244,7 @@ class Element3D(object):
             temp_mass_force = np.dot(temp_matrix, self.initial_velocity)
             temp_mass_matrix = temp_mass_matrix * (2 * self.unit_mass / self.time_step ** 2)
             temp_mass_force = temp_mass_force * (2 * self.unit_mass / self.time_step)
-            self.__mass_matrix = self.__mass_matrix + temp_mass_matrix
+            self.__mass_matrix = temp_mass_matrix
             self.__mass_force = self.__mass_force + temp_mass_force.reshape(12, 1)
             check_shape(self.__mass_matrix, (12, 12))
             check_shape(self.__mass_force, (12, 1))
@@ -287,7 +275,7 @@ class Element3D(object):
     @property
     def total_matrix(self):
         if self.__total_matrix is None:
-            # self.__total_matrix = self.stiff_matrix
+            # self.__total_matrix = self.mass_matrix[0]
             self.__total_matrix = self.stiff_matrix + self.fixed_matrix[0] + self.mass_matrix[0]
             check_shape(self.__total_matrix, (12, 12))
         return self.__total_matrix
@@ -296,6 +284,11 @@ class Element3D(object):
     def total_force(self):
         if self.__total_force is None:
             # self.__total_force = self.body_matrix
+            # print('body matrix: {}'.format(self.body_matrix))
+            # print('initial matrix: {}'.format(self.initial_matrix))
+            # print('loading matrix: {}'.format(self.loading_matrix))
+            # print('fixed_matrix_force: {}'.format(self.fixed_matrix[1]))
+            # print('mass_matrix_force: {}'.format(self.mass_matrix[1]))
             self.__total_force = self.initial_matrix + self.loading_matrix + self.body_matrix + self.fixed_matrix[1] + self.mass_matrix[1]
             # self.__total_force = self.fixed_matrix[1] + self.loading_matrix + self.body_matrix + self.mass_matrix[1]
             check_shape(self.__total_force, (12, 1))
