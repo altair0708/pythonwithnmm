@@ -289,8 +289,8 @@ if __name__ == '__main__':
     # file_name = 'simplex.vtu'
     # special_point_file = 'special_points_simplex.vtu'
     file_name = 'cylinder.vtu'
-    special_point_file = 'special_point_1.vtu'
-    # special_point_file = 'special_point.vtu'
+    # special_point_file = 'special_point_1.vtu'
+    special_point_file = 'special_point.vtu'
     work_path = '../../data_3D/'
     gmsh_file = work_path + file_name
     special_point_file = work_path + special_point_file

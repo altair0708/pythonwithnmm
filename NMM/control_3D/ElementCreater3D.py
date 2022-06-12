@@ -150,6 +150,8 @@ class ElementCreator3D:
         for each_element_id in range(element_number):
             temp = create_an_element(each_element_id, database_cursor, elementGrid, mathGrid, specialPointGrid, material_coefficient_file_name)
             element_list.append(temp)
+            print('\rcreat element: {}%'.format(each_element_id * 100 / element_number), end='')
+        print('\rcreat element completed!')
         return element_list
 
 

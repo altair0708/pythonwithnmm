@@ -33,9 +33,10 @@ class MatrixAssembler3D:
             temp_total_column = temp_total_column.astype('int32')
             temp_stiff_matrix = coo_matrix((temp_total_value[0], (temp_total_row[0], temp_total_column[0])), dtype=np.float64)
             temp_stiff_matrix = temp_stiff_matrix.tocsc()
+            print('\rstiff matrix assembled : {}%'.format(element_id * 100/len(element_list)), end='')
         if temp_stiff_matrix.shape != (3 * math_cover_number, 3 * math_cover_number):
             raise Exception('stiff matrix shape don\'t equal patch number')
-        print('stiff matrix assembled complete!')
+        print('\rstiff matrix assembled complete!')
         return temp_stiff_matrix
 
     @staticmethod
