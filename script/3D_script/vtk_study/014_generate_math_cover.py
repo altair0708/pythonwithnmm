@@ -14,7 +14,7 @@ from vtkmodules.vtkCommonCore import vtkPoints, vtkIdList, vtkUnsignedCharArray
 
 with pygmsh.occ.Geometry() as geom:
     geom.add_box([0, 0, 0],
-                 [1, 1, 1], mesh_size=0.5)
+                 [1, 1, 1], mesh_size=0.1)
     mesh = geom.generate_mesh()
 mesh.write('original_gmsh.vtu')
 
@@ -44,6 +44,7 @@ writer.Write()
 
 # Get CellId from UnstructuredGrid by selected point
 mathCover = vtkUnstructuredGrid()
+temp_math_cover = vtkUnstructuredGrid()
 print('number of points: {}'.format(tetraGrid.GetNumberOfPoints()))
 print('number of cells: {}'.format(tetraGrid.GetNumberOfCells()))
 for each_id in range(tetraGrid.GetNumberOfPoints()):
@@ -77,6 +78,8 @@ for each_id in range(tetraGrid.GetNumberOfPoints()):
             faceIdList.InsertNextId(temp_face.GetPointId(i))
 
     mathCover.InsertNextCell(VTK_POLYHEDRON, faceIdList)
+    if each_id == 0:
+        temp_math_cover.InsertNextCell(VTK_POLYHEDRON, faceIdList)
     print(each_id)
 
 mathCover.SetPoints(tetraGrid.GetPoints())
@@ -84,6 +87,12 @@ mathWriter = vtkXMLUnstructuredGridWriter()
 mathWriter.SetFileName('math_cover.vtu')
 mathWriter.SetInputData(mathCover)
 mathWriter.Write()
+
+temp_math_cover.SetPoints(tetraGrid.GetPoints())
+temp_mathWriter = vtkXMLUnstructuredGridWriter()
+temp_mathWriter.SetFileName('temp_math_cover.vtu')
+temp_mathWriter.SetInputData(temp_math_cover)
+temp_mathWriter.Write()
 
 mathReader = vtkXMLUnstructuredGridReader()
 mathReader.SetFileName('../../../data_3D/math_cover.vtu')

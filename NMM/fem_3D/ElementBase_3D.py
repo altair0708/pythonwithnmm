@@ -244,7 +244,7 @@ class Element3D(object):
             temp_mass_force = np.dot(temp_matrix, self.initial_velocity)
             temp_mass_matrix = temp_mass_matrix * (2 * self.unit_mass / self.time_step ** 2)
             temp_mass_force = temp_mass_force * (2 * self.unit_mass / self.time_step)
-            self.__mass_matrix = temp_mass_matrix
+            self.__mass_matrix = self.__mass_matrix + temp_mass_matrix
             self.__mass_force = self.__mass_force + temp_mass_force.reshape(12, 1)
             check_shape(self.__mass_matrix, (12, 12))
             check_shape(self.__mass_force, (12, 1))
