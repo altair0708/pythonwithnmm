@@ -66,16 +66,16 @@ for face_id in range(result_1.GetNumberOfCells()):
 element_cover.InsertNextCell(VTK_POLYHEDRON, faceIdList)
 
 element_writer = vtkXMLUnstructuredGridWriter()
-element_writer.SetFileName('re023_clipped_element.vtu')
+element_writer.SetFileName('re022_1.vtu')
 element_writer.SetInputData(result)
 element_writer.Write()
 
 element_writer = vtkXMLUnstructuredGridWriter()
-element_writer.SetFileName('re023_cover_element.vtu')
+element_writer.SetFileName('re022_2.vtu')
 element_writer.SetInputData(element_cover)
 element_writer.Write()
 
 element_writer = vtkXMLUnstructuredGridWriter()
-element_writer.SetFileName('re023_clipper_element.vtu')
+element_writer.SetFileName('re022_3.vtu')
 element_writer.SetInputData(u_grid)
 element_writer.Write()

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<VTKFile type="UnstructuredGrid" version="0.1" byte_order="LittleEndian" header_type="UInt32" compressor="vtkZLibDataCompressor">
+  <UnstructuredGrid>
+    <Piece NumberOfPoints="7"                    NumberOfCells="8"                   >
+      <PointData>
+      </PointData>
+      <CellData>
+      </CellData>
+      <Points>
+        <DataArray type="Float32" Name="Points" NumberOfComponents="3" format="appended" RangeMin="0"                    RangeMax="1"                    offset="0"                   />
+      </Points>
+      <Cells>
+        <DataArray type="Int64" Name="connectivity" format="appended" RangeMin=""                     RangeMax=""                     offset="56"                  />
+        <DataArray type="Int64" Name="offsets" format="appended" RangeMin=""                     RangeMax=""                     offset="152"                 />
+        <DataArray type="UInt8" Name="types" format="appended" RangeMin=""                     RangeMax=""                     offset="216"                 />
+        <DataArray type="Int64" IdType="1" Name="faces" format="appended" RangeMin=""                     RangeMax=""                     offset="256"                 />
+        <DataArray type="Int64" IdType="1" Name="faceoffsets" format="appended" RangeMin=""                     RangeMax=""                     offset="420"                 />
+      </Cells>
+    </Piece>
+  </UnstructuredGrid>
+  <AppendedData encoding="base64">
+   _AQAAAACAAABUAAAAFgAAAA==eJxjYEAGDfYMBPkN+9HEMPgAuYIF+w==AQAAAACAAAAAAQAANAAAAA==eJxjYIAARijNBKWZGVABujwbDnmYPlYc8jBxdP3o9rLgkIeJo+tH14duP7o4TD8AJPAAVQ==AQAAAACAAABAAAAAHgAAAA==eJxjYYAADijNA6UFoLQIlJaA0jJQWgFKAwAPQACRAQAAAACAAAAIAAAACwAAAA==eJzT0oIAAAXwAVE=AQAAAACAAABABAAAaQAAAA==eJytkjEKwDAMA9Xa6f+f3KF46IFIiOMlIBlzEUp9E/rPBT2g38YvXcYX9upeTjieCQd9ctDf5XB5DOOXLuMLe908hvHJ4fJY5aAe0E/1I/E6Dv6HHN1+rHK4PE71o5vHqX7UvRfyPgF9AQAAAACAAABAAAAAHgAAAA==eJwTZIAAJShtDKVdoHQolE6D0uVQugNKAwBAAAJl
+  </AppendedData>
+</VTKFile>
