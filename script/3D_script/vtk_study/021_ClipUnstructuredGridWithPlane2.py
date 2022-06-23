@@ -71,6 +71,7 @@ clipper3.SetValue(0.0)
 clipper3.GenerateClippedOutputOn()
 clipper3.Update()
 result: vtkUnstructuredGrid = clipper3.GetOutput()
+print(result.GetBounds())
 
 element_writer = vtkXMLUnstructuredGridWriter()
 element_writer.SetFileName('re021_1.vtu')
