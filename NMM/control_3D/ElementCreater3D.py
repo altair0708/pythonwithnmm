@@ -7,6 +7,7 @@ from vtkmodules.vtkCommonDataModel import vtkUnstructuredGrid, vtkTetra, vtkCell
 from vtkmodules.vtkCommonCore import vtkDataArray, vtkPoints, vtkIdList
 from NMM.fem_3D.ElementBase_3D import Element3D
 from NMM.fem_3D.PointBase_3D import EPoint3D, PointType
+from NMM.GlobalVariable import DataStructure
 
 
 def create_an_element(id_value: int,
@@ -24,6 +25,11 @@ def create_an_element(id_value: int,
     if material_id_list.GetName() != 'material_id':
         raise Exception('DataArray Index Error!')
     element.material_id = material_id_list.GetTuple(id_value)
+
+    strain_total_list: vtkDataArray = temp_cell_data_list.GetArray(2)
+    if strain_total_list.GetName() != 'strain_total':
+        raise Exception('DataArray Index Error!')
+    element.initial_strain_total = strain_total_list.GetTuple(id_value)
 
     joint_list: vtkPoints = temp_cell.GetPoints()
     joint_id_list = vtkIdList()
@@ -149,6 +155,21 @@ class ElementCreator3D:
         element_list = []
         for each_element_id in range(element_number):
             temp = create_an_element(each_element_id, database_cursor, elementGrid, mathGrid, specialPointGrid, material_coefficient_file_name)
+            element_list.append(temp)
+            print('\rcreat element: {}%'.format(each_element_id * 100 / element_number), end='')
+        print('\rcreat element completed!')
+        return element_list
+
+    @staticmethod
+    def create_element_list(data_structure: DataStructure, material_coefficient_file_name):
+        element_list = []
+        element_number = data_structure.manifold_element.content.GetNumberOfCells()
+        database_cursor = data_structure.relationship_element_cover.content
+        manifold_element = data_structure.manifold_element.content
+        physical_cover = data_structure.physical_cover.content
+        special_point = data_structure.special_point.content
+        for each_element_id in range(element_number):
+            temp = create_an_element(each_element_id, database_cursor, manifold_element, physical_cover, special_point, material_coefficient_file_name)
             element_list.append(temp)
             print('\rcreat element: {}%'.format(each_element_id * 100 / element_number), end='')
         print('\rcreat element completed!')

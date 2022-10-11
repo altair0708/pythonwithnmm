@@ -289,7 +289,8 @@ class Element3D(object):
             # print('loading matrix: {}'.format(self.loading_matrix))
             # print('fixed_matrix_force: {}'.format(self.fixed_matrix[1]))
             # print('mass_matrix_force: {}'.format(self.mass_matrix[1]))
-            self.__total_force = self.initial_matrix + self.loading_matrix + self.body_matrix + self.fixed_matrix[1] + self.mass_matrix[1]
+            # self.__total_force = self.initial_matrix + self.loading_matrix + self.body_matrix + self.fixed_matrix[1] + self.mass_matrix[1]
+            self.__total_force = self.loading_matrix + self.body_matrix + self.fixed_matrix[1] + self.mass_matrix[1]
             # self.__total_force = self.fixed_matrix[1] + self.loading_matrix + self.body_matrix + self.mass_matrix[1]
             check_shape(self.__total_force, (12, 1))
         return self.__total_force
@@ -370,6 +371,11 @@ class Element3D(object):
             self.__initial_strain_total = self.__initial_strain_total + self.__initial_strain_increment
         check_shape(self.__initial_strain_total, (6, 1))
         return self.__initial_strain_total
+
+    @initial_strain_total.setter
+    def initial_strain_total(self, value):
+        self.__initial_strain_total = np.array(value).reshape((6, 1))
+        check_shape(self.__initial_strain_total, (6, 1))
 
     @property
     def initial_stress(self):

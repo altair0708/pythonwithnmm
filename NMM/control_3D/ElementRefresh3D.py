@@ -1,8 +1,9 @@
 import numpy as np
 from typing import List
+from NMM.GlobalVariable import NmmObjectBase, DataStructure
 from NMM.fem_3D.ElementBase_3D import Element3D
 from vtkmodules.vtkIOXML import vtkXMLUnstructuredGridReader, vtkXMLUnstructuredGridWriter
-from vtkmodules.vtkCommonDataModel import vtkUnstructuredGrid, vtkCellData
+from vtkmodules.vtkCommonDataModel import vtkUnstructuredGrid, vtkCellData, vtkPointData
 from vtkmodules.vtkCommonCore import vtkDataArray
 
 
@@ -96,3 +97,77 @@ class ElementRefresher3D:
     # @staticmethod
     # def refresh_special_point_displacement(element_list: List[Element], cursor: sqlite3.Cursor):
     #     pass
+
+    @staticmethod
+    def refresh_physical_cover(x: np.ndarray, physical_cover: NmmObjectBase):
+        physical_cover = physical_cover.content
+        temp_physical_displacement = x.reshape((-1, 3))
+        for each_physical_cover in range(len(temp_physical_displacement)):
+            set_property(physical_cover, 'math_cover_displacement', each_physical_cover, temp_physical_displacement[each_physical_cover])
+            # math_grid_displacement.SetTuple(each_math_cover, (each_math_cover * 1000, each_math_cover * 1000, each_math_cover * 1000))
+
+    @staticmethod
+    def refresh_manifold_element(data_structure: DataStructure, element_list):
+        for element in element_list:
+            temp_element_math_cover_id = element.patch_id
+            if len(element.patch_displacement) != 4:
+                raise Exception('math_displacement size error, length: {}'.format(len(element.patch_displacement)))
+            for math_id in range(len(temp_element_math_cover_id)):
+                temp_math_displacement = get_property(data_structure.physical_cover.content, 'math_cover_displacement', temp_element_math_cover_id[math_id])
+                element.patch_displacement[math_id] = temp_math_displacement
+
+        manifold_element_grid = data_structure.manifold_element.content
+        manifold_element_number = manifold_element_grid.GetNumberOfCells()
+        for element_id in range(manifold_element_number):
+            temp_displacement_list = element_list[element_id].joint_displacement_increment
+            point_number = len(element_list[0].joint_list)
+            for point_id in range(point_number):
+                temp_point_id = element_list[element_id].joint_id[point_id]
+                # manifold_element_displacement_increment_list.InsertTuple(temp_point_id, temp_displacement_list[point_id])
+                set_property(manifold_element_grid, 'point_displacement_increment', temp_point_id, temp_displacement_list[point_id])
+
+        for each_point_id in range(manifold_element_grid.GetNumberOfPoints()):
+            temp_increment = get_property(manifold_element_grid, 'point_displacement_increment', each_point_id)
+            temp_total = get_property(manifold_element_grid, 'point_displacement_total', each_point_id)
+            temp_total = np.array(temp_increment, dtype=np.float64) + np.array(temp_total, dtype=np.float64)
+            set_property(manifold_element_grid, 'point_displacement_total', each_point_id, temp_total)
+
+
+def get_property(vtk_model: vtkUnstructuredGrid, property_name: str, temp_id: int):
+    property_value = None
+    property_cell_data: vtkCellData = vtk_model.GetCellData()
+    number = property_cell_data.GetNumberOfArrays()
+    for property_id in range(number):
+        if property_cell_data.GetArrayName(property_id) == property_name:
+            property_data: vtkDataArray = property_cell_data.GetArray(property_id)
+            property_value = property_data.GetTuple(temp_id)
+
+    property_point_data: vtkPointData = vtk_model.GetPointData()
+    number = property_point_data.GetNumberOfArrays()
+    for property_id in range(number):
+        if property_point_data.GetArrayName(property_id) == property_name:
+            property_data: vtkDataArray = property_point_data.GetArray(property_id)
+            property_value = property_data.GetTuple(temp_id)
+
+    return property_value
+
+
+def set_property(vtk_model: vtkUnstructuredGrid, property_name: str, temp_id: int, value):
+    property_cell_data: vtkCellData = vtk_model.GetCellData()
+    number = property_cell_data.GetNumberOfArrays()
+    flag = False
+    for property_id in range(number):
+        if property_cell_data.GetArrayName(property_id) == property_name:
+            property_data: vtkDataArray = property_cell_data.GetArray(property_id)
+            property_data.SetTuple(temp_id, value)
+            flag = True
+
+    property_point_data: vtkPointData = vtk_model.GetPointData()
+    number = property_point_data.GetNumberOfArrays()
+    for property_id in range(number):
+        if property_point_data.GetArrayName(property_id) == property_name:
+            property_data: vtkDataArray = property_point_data.GetArray(property_id)
+            property_data.SetTuple(temp_id, value)
+            flag = True
+    if not flag:
+        raise Exception('Can\'t find property, value not insert!!!')

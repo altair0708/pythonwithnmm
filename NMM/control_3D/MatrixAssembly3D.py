@@ -1,18 +1,10 @@
 import numpy as np
-from vtkmodules.vtkIOXML import vtkXMLUnstructuredGridReader
-from vtkmodules.vtkCommonDataModel import vtkUnstructuredGrid
 from scipy.sparse import coo_matrix
 
 
 class MatrixAssembler3D:
     @staticmethod
-    def stiff_matrix(element_list, math_cover_file):
-        uGridReader = vtkXMLUnstructuredGridReader()
-        uGridReader.SetFileName(math_cover_file)
-        uGridReader.Update()
-        gmshGrid: vtkUnstructuredGrid = uGridReader.GetOutput()
-        math_cover_number = gmshGrid.GetNumberOfCells()
-
+    def stiff_matrix(element_list, math_cover_number):
         temp_stiff_matrix = coo_matrix((3 * math_cover_number, 3 * math_cover_number), dtype=np.float64)
         temp_total_row = np.array([[]], dtype=np.int32)
         temp_total_column = np.array([[]], dtype=np.int32)
@@ -40,12 +32,7 @@ class MatrixAssembler3D:
         return temp_stiff_matrix
 
     @staticmethod
-    def force_vector(element_list, math_cover_file):
-        uGridReader = vtkXMLUnstructuredGridReader()
-        uGridReader.SetFileName(math_cover_file)
-        uGridReader.Update()
-        gmshGrid: vtkUnstructuredGrid = uGridReader.GetOutput()
-        math_cover_number = gmshGrid.GetNumberOfCells()
+    def force_vector(element_list, math_cover_number):
 
         force_vector = np.zeros(3 * math_cover_number, dtype=np.float64)
         for temp_element in element_list:

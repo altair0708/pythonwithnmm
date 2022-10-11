@@ -242,6 +242,11 @@ class GmshReader:
         elementMaterialId.SetName('material_id')
         [elementMaterialId.InsertValue(i, 0) for i in range(elementNumber)]
 
+        elementStrain = vtkDoubleArray()
+        elementStrain.SetName('strain_total')
+        elementStrain.SetNumberOfComponents(6)
+        [elementStrain.InsertTuple(i, (0, 0, 0, 0, 0, 0)) for i in range(elementNumber)]
+
         pointScalar = vtkDoubleArray()
         pointNumber = elementGrid.GetNumberOfPoints()
         pointScalar.SetName('test_point_value')
@@ -259,6 +264,7 @@ class GmshReader:
 
         elementGrid.GetCellData().AddArray(elementScalar)
         elementGrid.GetCellData().AddArray(elementMaterialId)
+        elementGrid.GetCellData().AddArray(elementStrain)
         elementGrid.GetPointData().AddArray(pointScalar)
         elementGrid.GetPointData().AddArray(pointDisplacementIncrementVector)
         elementGrid.GetPointData().AddArray(pointDisplacementTotalVector)
