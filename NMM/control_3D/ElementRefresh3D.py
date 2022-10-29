@@ -107,7 +107,8 @@ class ElementRefresher3D:
             # math_grid_displacement.SetTuple(each_math_cover, (each_math_cover * 1000, each_math_cover * 1000, each_math_cover * 1000))
 
     @staticmethod
-    def refresh_manifold_element(data_structure: DataStructure, element_list):
+    def refresh_manifold_element(data_structure: DataStructure, element_list: List[Element3D]):
+        # get physical_cover displacement(increment)
         for element in element_list:
             temp_element_math_cover_id = element.patch_id
             if len(element.patch_displacement) != 4:
@@ -120,12 +121,28 @@ class ElementRefresher3D:
         manifold_element_number = manifold_element_grid.GetNumberOfCells()
         for element_id in range(manifold_element_number):
             temp_displacement_list = element_list[element_id].joint_displacement_increment
-            point_number = len(element_list[0].joint_list)
+            point_number = len(element_list[element_id].joint_list)
+
+            # write element_point_displacement_increment into vtk model
             for point_id in range(point_number):
                 temp_point_id = element_list[element_id].joint_id[point_id]
                 # manifold_element_displacement_increment_list.InsertTuple(temp_point_id, temp_displacement_list[point_id])
                 set_property(manifold_element_grid, 'point_displacement_increment', temp_point_id, temp_displacement_list[point_id])
 
+            # write strain_total into vtk model
+            temp_strain_total = element_list[element_id].initial_strain_total
+            temp_strain_total = temp_strain_total.reshape((6, ))
+            set_property(manifold_element_grid, 'strain_total', element_id, temp_strain_total)
+            # temp_strain_total_1 = get_property(manifold_element_grid, 'strain_total', element_id)
+
+            # write special_point info into vtk model
+            if len(element_list[element_id].fixed_point_list) != 0:
+                for each_point in element_list[element_id].fixed_point_list:
+                    temp_displacement_total = each_point.displacement_total[0]
+                    temp_special_point = data_structure.special_point.content
+                    set_property(temp_special_point, 'displacement_total', each_point.id, temp_displacement_total)
+
+        # point_displacement_total(t1) = point_displacement_total(t0) + point_displacement_increment(t1)
         for each_point_id in range(manifold_element_grid.GetNumberOfPoints()):
             temp_increment = get_property(manifold_element_grid, 'point_displacement_increment', each_point_id)
             temp_total = get_property(manifold_element_grid, 'point_displacement_total', each_point_id)

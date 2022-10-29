@@ -85,6 +85,9 @@ def create_an_element(id_value: int,
     force_list: vtkDataArray = special_point_data.GetArray(2)
     if force_list.GetName() != 'force':
         raise Exception('special_point_force dataArray Index error!')
+    displacement_total_list: vtkDataArray = special_point_data.GetArray(3)
+    if displacement_total_list.GetName() != 'displacement_total':
+        raise Exception('displacement_total dataArray Index error!')
     database_statement = 'SELECT SpecialPointId FROM ElementSpecialPoint WHERE ElementId={elementId}'.format(elementId=id_value)
     special_point_list = cursor.execute(database_statement)
     special_point_list = special_point_list.fetchall()
@@ -109,9 +112,11 @@ def create_an_element(id_value: int,
             # temp_special_point.velocity = np.array([[1, 2, 3]], dtype=np.float64)
             # temp_special_point.force = np.array([[1, 2, 3]], dtype=np.float64)
             temp_points: vtkPoints = special_point_grid.GetPoints()
+            temp_special_point.id = each_id
             temp_special_point.coord = np.array(temp_points.GetPoint(each_id), dtype=np.float64).reshape(1, 3)
             temp_special_point.velocity = np.array(velocity_list.GetTuple(each_id), dtype=np.float64).reshape(1, 3)
             temp_special_point.force = np.array(force_list.GetTuple(each_id), dtype=np.float64).reshape(1, 3)
+            temp_special_point.displacement_total = np.array(displacement_total_list.GetTuple(each_id), dtype=np.float64).reshape(1, 3)
             # print(temp_points.GetPoint(each_id))
             # print(velocity_list.GetTuple(each_id))
             # print(force_list.GetTuple(each_id))

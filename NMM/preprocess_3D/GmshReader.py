@@ -4,6 +4,7 @@ from vtkmodules.vtkIOXML import (
 )
 from vtkmodules.vtkCommonCore import vtkIdList, vtkPoints, vtkDoubleArray, vtkIntArray, reference
 from vtkmodules.vtkFiltersGeometry import vtkGeometryFilter
+from itertools import combinations
 from vtkmodules.vtkCommonDataModel import (
     vtkUnstructuredGrid,
     vtkCellData,
@@ -162,6 +163,7 @@ class GmshReader:
         uGridReader.Update()
         elementGrid: vtkUnstructuredGrid = uGridReader.GetOutput()
         elementNumber = elementGrid.GetNumberOfCells()
+
         print('element_number:{}'.format(elementNumber))
 
         specialPointReader = vtkXMLUnstructuredGridReader()
@@ -215,6 +217,7 @@ class GmshReader:
                     database_cursor.execute(database_statement)
 
             # input element special point relationship
+            print('---------1----------')
             special_point_element_grid = vtkUnstructuredGrid()
             for each_point_id in range(specialPointNumber):
                 temp_special_points = specialPointGrid.GetPoint(each_point_id)
@@ -233,6 +236,7 @@ class GmshReader:
             temp_writer.SetInputData(special_point_element_grid)
             temp_writer.Write()
 
+        print('---------2----------')
         elementScalar = vtkDoubleArray()
         elementScalar.SetName('test_element_value')
         for each_id in range(elementNumber):
@@ -246,6 +250,10 @@ class GmshReader:
         elementStrain.SetName('strain_total')
         elementStrain.SetNumberOfComponents(6)
         [elementStrain.InsertTuple(i, (0, 0, 0, 0, 0, 0)) for i in range(elementNumber)]
+
+        elementCracked = vtkIntArray()
+        elementCracked.SetName('cracked')
+        [elementCracked.InsertValue(i, 0) for i in range(elementNumber)]
 
         pointScalar = vtkDoubleArray()
         pointNumber = elementGrid.GetNumberOfPoints()
@@ -265,6 +273,7 @@ class GmshReader:
         elementGrid.GetCellData().AddArray(elementScalar)
         elementGrid.GetCellData().AddArray(elementMaterialId)
         elementGrid.GetCellData().AddArray(elementStrain)
+        elementGrid.GetCellData().AddArray(elementCracked)
         elementGrid.GetPointData().AddArray(pointScalar)
         elementGrid.GetPointData().AddArray(pointDisplacementIncrementVector)
         elementGrid.GetPointData().AddArray(pointDisplacementTotalVector)
@@ -274,6 +283,21 @@ class GmshReader:
         writer.SetFileName(output_path + outputFile)
         writer.SetInputData(elementGrid)
         writer.Write()
+
+    @staticmethod
+    def generate_crack_surface_file(crack_surface_file, output_path):
+        if crack_surface_file is not None:
+            crackReader = vtkXMLUnstructuredGridReader()
+            crackReader.SetFileName(crack_surface_file)
+            crackReader.Update()
+            crackGrid: vtkUnstructuredGrid = crackReader.GetOutput()
+        else:
+            crackGrid = vtkUnstructuredGrid()
+        outputFile = 'crack_surface.vtu'
+        crackWriter = vtkXMLUnstructuredGridWriter()
+        crackWriter.SetFileName(output_path + outputFile)
+        crackWriter.SetInputData(crackGrid)
+        crackWriter.Write()
 
     @staticmethod
     def generate_all_vtu_file(gmsh_file_name, special_point_file_name, output_path):
@@ -289,6 +313,7 @@ class GmshReader:
         GmshReader.generate_math_point(gmsh_tetrahedron_file_name, output_path)
 
         GmshReader.generate_manifold_element(gmsh_tetrahedron_file_name, special_point_file_name, output_path)
+        GmshReader.generate_crack_surface_file(None, output_path)
 
 
 if __name__ == '__main__':

@@ -1,4 +1,4 @@
-from NMM.control_3D.ElementCreater3D import ElementCreator3D
+from NMM.control_3D.ElementCreator3D import ElementCreator3D
 from NMM.control_3D.MatrixAssembly3D import MatrixAssembler3D
 from NMM.control_3D.ElementRefresh3D import ElementRefresher3D
 from NMM.control_3D.ElementIO3D import ElementIOer3D

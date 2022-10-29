@@ -5,12 +5,40 @@
       <PointData>
       </PointData>
       <CellData>
-        <DataArray type="Int32" Name="math_cover_id" format="appended" RangeMin="0"                    RangeMax="285"                  offset="0"                   />
-        <DataArray type="Float64" Name="math_cover_coordinate" NumberOfComponents="3" format="appended" RangeMin="0.83785576983"        RangeMax="10.198039027"         offset="636"                 />
-        <DataArray type="Float64" Name="math_cover_displacement" NumberOfComponents="3" format="appended" RangeMin="0"                    RangeMax="0"                    offset="4540"                />
+        <DataArray type="Int32" Name="math_cover_id" format="appended" RangeMin="0"                    RangeMax="285"                  offset="0"                   >
+        </DataArray>
+        <DataArray type="Float64" Name="math_cover_coordinate" NumberOfComponents="3" format="appended" RangeMin="0.83785576983"        RangeMax="10.198039027"         offset="636"                 >
+          <InformationKey name="L2_NORM_RANGE" location="vtkDataArray" length="2">
+            <Value index="0">
+              0.83785576983
+            </Value>
+            <Value index="1">
+              10.198039027
+            </Value>
+          </InformationKey>
+        </DataArray>
+        <DataArray type="Float64" Name="math_cover_displacement" NumberOfComponents="3" format="appended" RangeMin="0"                    RangeMax="0"                    offset="4540"                >
+          <InformationKey name="L2_NORM_RANGE" location="vtkDataArray" length="2">
+            <Value index="0">
+              0
+            </Value>
+            <Value index="1">
+              0
+            </Value>
+          </InformationKey>
+        </DataArray>
       </CellData>
       <Points>
-        <DataArray type="Float64" Name="Points" NumberOfComponents="3" format="appended" RangeMin="0.83785576983"        RangeMax="10.198039027"         offset="4640"                />
+        <DataArray type="Float64" Name="Points" NumberOfComponents="3" format="appended" RangeMin="0.83785576983"        RangeMax="10.198039027"         offset="4640"                >
+          <InformationKey name="L2_NORM_RANGE" location="vtkDataArray" length="2">
+            <Value index="0">
+              0.83785576983
+            </Value>
+            <Value index="1">
+              10.198039027
+            </Value>
+          </InformationKey>
+        </DataArray>
       </Points>
       <Cells>
         <DataArray type="Int64" Name="connectivity" format="appended" RangeMin=""                     RangeMax=""                     offset="8544"                />

@@ -17,6 +17,7 @@ class PATH:
     work_path = '../data_3D/'
     element_file = '../data_3D/manifold_element.vtu'
     mathcover_file = '../data_3D/math_cover.vtu'
+    crack_file = '../data_3D/crack_surface.vtu'
     database_name = '../data_3D/manifold_mathcover.db'
     special_point_file = '../data_3D/special_point.vtu'
     material_coefficient_file = '../data_3D/material_coefficient.json'
@@ -31,6 +32,7 @@ class DataStructure(object):
     def __init__(self):
         self.__vtk_manifold_element = NmmObjectBase('manifold_element')
         self.__vtk_physical_cover = NmmObjectBase('physical_cover')
+        self.__vtk_crack_surface = NmmObjectBase('crack_surface')
         self.__relationship_element_cover = NmmObjectBase('relationship_element_cover')
         self.__special_point = NmmObjectBase('special_point')
 
@@ -49,6 +51,14 @@ class DataStructure(object):
     @physical_cover.setter
     def physical_cover(self, physical_cover):
         self.__vtk_physical_cover.content = physical_cover
+
+    @property
+    def crack_surface(self):
+        return self.__vtk_crack_surface
+
+    @crack_surface.setter
+    def crack_surface(self, crack_surface):
+        self.__vtk_crack_surface.content = crack_surface
 
     @property
     def relationship_element_cover(self):
