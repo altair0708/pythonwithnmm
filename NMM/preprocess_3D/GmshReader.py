@@ -254,6 +254,19 @@ class GmshReader:
         elementCracked = vtkIntArray()
         elementCracked.SetName('cracked')
         [elementCracked.InsertValue(i, 0) for i in range(elementNumber)]
+        elementCracked.InsertValue(18, 1)
+
+        crackPoint1 = vtkDoubleArray()
+        crackPoint1.SetName('crack_point_1')
+        crackPoint1.SetNumberOfComponents(3)
+        [crackPoint1.InsertTuple(i, (0, 0, 0)) for i in range(elementNumber)]
+        crackPoint1.InsertTuple(18, (2, 0, 0.573646))
+
+        crackPoint2 = vtkDoubleArray()
+        crackPoint2.SetName('crack_point_2')
+        crackPoint2.SetNumberOfComponents(3)
+        [crackPoint2.InsertTuple(i, (0, 0, 0)) for i in range(elementNumber)]
+        crackPoint2.InsertTuple(18, (2, 0, -0.596564))
 
         pointScalar = vtkDoubleArray()
         pointNumber = elementGrid.GetNumberOfPoints()
@@ -274,6 +287,8 @@ class GmshReader:
         elementGrid.GetCellData().AddArray(elementMaterialId)
         elementGrid.GetCellData().AddArray(elementStrain)
         elementGrid.GetCellData().AddArray(elementCracked)
+        elementGrid.GetCellData().AddArray(crackPoint1)
+        elementGrid.GetCellData().AddArray(crackPoint2)
         elementGrid.GetPointData().AddArray(pointScalar)
         elementGrid.GetPointData().AddArray(pointDisplacementIncrementVector)
         elementGrid.GetPointData().AddArray(pointDisplacementTotalVector)
@@ -293,6 +308,12 @@ class GmshReader:
             crackGrid: vtkUnstructuredGrid = crackReader.GetOutput()
         else:
             crackGrid = vtkUnstructuredGrid()
+
+        crackElementId = vtkIntArray()
+        crackElementId.SetName('element_id')
+        crackElementId.SetNumberOfComponents(1)
+        crackGrid.GetCellData().AddArray(crackElementId)
+
         outputFile = 'crack_surface.vtu'
         crackWriter = vtkXMLUnstructuredGridWriter()
         crackWriter.SetFileName(output_path + outputFile)

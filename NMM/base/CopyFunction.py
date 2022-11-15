@@ -1,4 +1,4 @@
-from vtkmodules.vtkCommonDataModel import vtkUnstructuredGrid, vtkCell, vtkPolygon, VTK_POLYHEDRON
+from vtkmodules.vtkCommonDataModel import vtkUnstructuredGrid, vtkCell, vtkPolygon, VTK_POLYHEDRON, vtkGenericCell
 from vtkmodules.vtkCommonCore import vtkIdList, vtkPoints
 
 
@@ -59,5 +59,23 @@ def copy_polyhedron(vtk_cell: vtkCell, vtk_points: vtkPoints):
     # print(temp_u_list.GetPoint(0))
 
     return temp_cell
+
+
+def copy_vtk_cell(vtk_cell: vtkCell, vtk_points: vtkPoints):
+    new_id_list = vtkIdList()
+    new_points = vtkPoints()
+    id_list: vtkIdList = vtk_cell.GetPointIds()
+    for each_Id in range(vtk_cell.GetNumberOfPoints()):
+        new_id_list.InsertNextId(each_Id)
+        old_id = id_list.GetId(each_Id)
+        point = vtk_points.GetPoint(old_id)
+        new_points.InsertNextPoint(point)
+
+    new_cell = vtkGenericCell()
+    new_cell.SetCellType(vtk_cell.GetCellType())
+    new_cell.SetPoints(new_points)
+    new_cell.SetPointIds(new_id_list)
+
+    return new_cell
 
 

@@ -28,7 +28,11 @@ def set_property(vtk_model: vtkUnstructuredGrid, property_name: str, temp_id: in
     for property_id in range(number):
         if property_cell_data.GetArrayName(property_id) == property_name:
             property_data: vtkDataArray = property_cell_data.GetArray(property_id)
-            property_data.SetTuple(temp_id, value)
+            property_data.InsertTuple(temp_id, value)
+            # try:
+            #     property_data.SetTuple(temp_id, value)
+            # except ValueError:
+            #     property_data.InsertTuple(temp_id, value)
             flag = True
 
     property_point_data: vtkPointData = vtk_model.GetPointData()
@@ -36,7 +40,11 @@ def set_property(vtk_model: vtkUnstructuredGrid, property_name: str, temp_id: in
     for property_id in range(number):
         if property_point_data.GetArrayName(property_id) == property_name:
             property_data: vtkDataArray = property_point_data.GetArray(property_id)
-            property_data.SetTuple(temp_id, value)
+            property_data.InsertTuple(temp_id, value)
+            # try:
+            #     property_data.SetTuple(temp_id, value)
+            # except ValueError:
+            #     property_data.InsertTuple(temp_id, value)
             flag = True
     if not flag:
         raise Exception('Can\'t find property, value not insert!!!')
