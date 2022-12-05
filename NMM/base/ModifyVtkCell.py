@@ -4,9 +4,11 @@ from vtkmodules.vtkCommonDataModel import (vtkUnstructuredGrid,
                                            VTK_POLYGON,
                                            vtkPolygon,
                                            vtkTetra,
+                                           vtkGenericCell,
                                            VTK_TETRA,
                                            vtkEmptyCell)
 from vtkmodules.vtkCommonCore import vtkPoints, vtkIdList
+import warnings
 
 
 def insert_a_cell(vtk_model: vtkUnstructuredGrid, vtk_cell: vtkCell):
@@ -47,8 +49,9 @@ def insert_a_cell(vtk_model: vtkUnstructuredGrid, vtk_cell: vtkCell):
         elif vtk_cell.GetCellType() == VTK_TETRA:
             new_cell = vtkTetra()
         else:
-            print(vtk_cell.GetCellType())
-            raise Exception('type error!!!')
+            new_cell = vtkGenericCell()
+            new_cell.SetCellType(vtk_cell.GetCellType())
+
 
         if vtk_model.GetNumberOfPoints() == 0:
             new_point_list = vtkPoints()

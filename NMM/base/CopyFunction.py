@@ -62,6 +62,9 @@ def copy_polyhedron(vtk_cell: vtkCell, vtk_points: vtkPoints):
 
 
 def copy_vtk_cell(vtk_cell: vtkCell, vtk_points: vtkPoints):
+    if vtk_cell.GetCellType() == VTK_POLYHEDRON:
+        return copy_polyhedron(vtk_cell=vtk_cell, vtk_points=vtk_points)
+
     new_id_list = vtkIdList()
     new_points = vtkPoints()
     id_list: vtkIdList = vtk_cell.GetPointIds()
@@ -70,12 +73,10 @@ def copy_vtk_cell(vtk_cell: vtkCell, vtk_points: vtkPoints):
         old_id = id_list.GetId(each_Id)
         point = vtk_points.GetPoint(old_id)
         new_points.InsertNextPoint(point)
-
     new_cell = vtkGenericCell()
     new_cell.SetCellType(vtk_cell.GetCellType())
     new_cell.SetPoints(new_points)
     new_cell.SetPointIds(new_id_list)
-
     return new_cell
 
 

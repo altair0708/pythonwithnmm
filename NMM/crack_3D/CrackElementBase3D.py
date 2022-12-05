@@ -1,9 +1,11 @@
+import sys
 import numpy as np
 from numpy.linalg import eigh
 from NMM.base.ModifyVtkCell import insert_a_cell
 from NMM.base.ShapeCheckFuction import check_shape
 from NMM.base.ElementClipFunction import clip_a_vtk_cell, generate_crack_edge_surface, calculate_mass_center
-from vtkmodules.vtkCommonDataModel import vtkCell, vtkTetra, vtkVertex, vtkUnstructuredGrid, vtkPolygon, vtkPlane
+from vtkmodules.vtkCommonDataModel import vtkCell, vtkTetra, vtkVertex, vtkUnstructuredGrid, vtkPolygon, vtkPlane, vtkPolyData
+from vtkmodules.vtkFiltersSources import vtkPlaneSource
 from vtkmodules.vtkCommonCore import vtkPoints
 from vtkmodules.vtkIOXML import vtkXMLUnstructuredGridWriter
 
@@ -18,9 +20,18 @@ class CrackedElement3D(object):
         self.__strain = Tensor(np.zeros((6, 1), dtype=np.float64))
 
         self.__cracked = 0
+        self.__crack_edge_number = 0
         self.__crack_surface = None
-        self.__crack_edge = []
+        self.__crack_edge = ([], [], [], [])
         self.__adjacent_element = []
+
+    @property
+    def crack_edge_number(self):
+        return self.__crack_edge_number
+
+    @crack_edge_number.setter
+    def crack_edge_number(self, number):
+        self.__crack_edge_number = number
 
     @property
     def crack_edge(self):
@@ -67,9 +78,10 @@ class CrackedElement3D(object):
     def cracked(self):
         # check the element crack status
         # 0: not cracked and have no choice to crack
-        # 1: not cracked but have choice to crack
-        # 2: have been crack in this step
-        # 3: have been crack in previous step
+        # 1: not cracked, adjacent element has been cracked this time step(status 3), unable to cracked.
+        # 2: not cracked, adjacent element has been cracked previous time step(status 4), be able to cracked.
+        # 3: have been crack in this step
+        # 4: have been crack in previous step
         return self.__cracked
 
     @cracked.setter
@@ -83,56 +95,36 @@ class CrackedElement3D(object):
         max_component = self.__strain.max_component
         max_direct = max_component[1]
 
-        point_1 = self.__crack_edge[0]
-        point_2 = self.__crack_edge[1]
-
-        vector_1 = np.array(point_2) - np.array(point_1)
-        vector_2 = np.array(max_direct).reshape(3)
+        try:
+            assert self.__crack_edge_number != 0
+        except AssertionError:
+            print(self.__id)
+            print('____error_exit____')
+            sys.exit()
 
         # todo: verify crack propagation direct
-        normal_vector = schmidt_orthogonalization(vector_1, vector_2)
-        # normal_vector = (0, 1, 0)
-        if self.__id == 18:
-            normal_vector = (0, 1, 0)
-            point_1 = self.__center
-        self.__crack_surface, grid_1, grid_2 = clip_a_vtk_cell(self.__vtkCell, point_1, normal_vector)
+        if self.__crack_edge_number == 1:
+            point_1 = self.__crack_edge[0][0]
+            point_2 = self.__crack_edge[0][1]
+            vector_1 = np.array(point_2) - np.array(point_1)
+            vector_2 = np.array(max_direct).reshape(3)
+            # normal_vector = schmidt_orthogonalization(vector_1, vector_2)
+            normal_vector = (1, 0, -1)
+        else:
+            point_1 = self.__crack_edge[0][0]
+            point_2 = self.__crack_edge[0][1]
+            vector_1 = np.array(point_2) - np.array(point_1)
+            point_1 = self.__crack_edge[1][0]
+            point_2 = self.__crack_edge[1][1]
+            vector_2 = np.array(point_2) - np.array(point_1)
+            normal_vector = np.cross(vector_1, vector_2)
+            assert np.linalg.norm(normal_vector) != 0
+            # normal_vector = (0, 1, 0)
 
-        # if self.__id == 29:
-        #     writer = vtkXMLUnstructuredGridWriter()
-        #     writer.SetFileName('error_1.vtu')
-        #     writer.SetInputData(grid_1)
-        #     writer.Write()
-        #
-        #     writer = vtkXMLUnstructuredGridWriter()
-        #     writer.SetFileName('error_2.vtu')
-        #     writer.SetInputData(grid_2)
-        #     writer.Write()
-        #
-        #     grid_3 = vtkUnstructuredGrid()
-        #     grid_3.SetPoints(self.__crack_surface.GetPoints())
-        #     grid_3.InsertNextCell(self.__crack_surface.GetCellType(), self.__crack_surface.GetPointIds())
-        #     writer = vtkXMLUnstructuredGridWriter()
-        #     writer.SetFileName('error_3.vtu')
-        #     writer.SetInputData(grid_3)
-        #     writer.Write()
-        # for each in range(3):
-        #     if self.__center[each] != calculate_mass_center(self.__vtkCell)[each]:
-        #         print(calculate_mass_center(self.__vtkCell))
-        #         print(self.__center)
-        #         print('center error!!!')
-        # print('##########cell_points#################')
-        # print(self.__vtkCell.GetPoints().GetPoint(0))
-        # print(self.__vtkCell.GetPoints().GetPoint(1))
-        # print(self.__vtkCell.GetPoints().GetPoint(2))
-        # print(self.__vtkCell.GetPoints().GetPoint(3))
-        # print('##########center#################')
-        # print(self.__center)
-        # print('##########direct#################')
-        # print(max_direct)
-        # print('#################################')
-
-        if self.__crack_surface is None:
-            print(self.__vtkCell.GetNumberOfPoints())
+        origin_point = self.__crack_edge[0][0]
+        try:
+            self.__crack_surface, _, _ = clip_a_vtk_cell(self.__vtkCell, origin_point, normal_vector)
+        except AssertionError:
             print(self.__id)
             tetra_1 = vtkTetra()
             tetra_1.GetPointIds().SetId(0, 0)
@@ -143,25 +135,43 @@ class CrackedElement3D(object):
             vertex_1 = vtkVertex()
             vertex_1.GetPointIds().SetId(0, 4)
 
+            vertex_2 = vtkVertex()
+            vertex_2.GetPointIds().SetId(0, 5)
+
             error_points = vtkPoints()
             error_points.DeepCopy(self.__vtkCell.GetPoints())
-            error_points.InsertNextPoint(self.__center)
+            error_points.InsertNextPoint(self.__crack_edge[0][0])
+            error_points.InsertNextPoint(self.__crack_edge[0][1])
+
+            plane = vtkPlaneSource()
+            plane.SetCenter(origin_point)
+            plane.SetNormal(normal_vector)
+            plane.Update()
+            plane_poly_data: vtkPolyData = plane.GetOutput()
+            plane_cell = plane_poly_data.GetCell(0)
 
             error_grid = vtkUnstructuredGrid()
             error_grid.InsertNextCell(tetra_1.GetCellType(), tetra_1.GetPointIds())
             error_grid.InsertNextCell(vertex_1.GetCellType(), vertex_1.GetPointIds())
+            error_grid.InsertNextCell(vertex_2.GetCellType(), vertex_2.GetPointIds())
             error_grid.SetPoints(error_points)
+            insert_a_cell(error_grid, plane_cell)
 
             writer = vtkXMLUnstructuredGridWriter()
             writer.SetInputData(error_grid)
             writer.SetFileName('error.vtu')
             writer.Write()
-
-        generate_crack_edge_surface(self.__adjacent_element, self.__crack_surface)
+            self.__cracked = 0
 
     @property
     def crack_surface(self):
         return self.__crack_surface
+
+    @crack_surface.setter
+    def crack_surface(self, crack_surface):
+        if self.__cracked < 3:
+            raise Exception('This element has not been cracked!')
+        self.__crack_surface = crack_surface
 
 
 class Tensor(object):

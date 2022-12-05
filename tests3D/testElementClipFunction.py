@@ -8,7 +8,7 @@ import numpy as np
 import random
 import pytest
 
-test_tetra = generate_tetra_polyhedron()
+test_tetra, _, _ = generate_tetra_polyhedron()
 
 
 def test_clip_tetrahedron():
@@ -49,4 +49,4 @@ def test_polygon_equal():
         for each_plane_2 in range(result_cell_2.GetNumberOfFaces()):
             temp_polygon_2: vtkPolygon = result_cell_2.GetFace(each_plane_2)
             if polygon_equal(temp_polygon_1, temp_polygon_2):
-                clip_surface = copy_vtk_cell(temp_polygon_1, temp_polygon_1)
+                clip_surface = polygon_equal(temp_polygon_1, temp_polygon_1)

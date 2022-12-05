@@ -21,12 +21,16 @@ class ElementIOer3D(object):
         return cursor
 
     @staticmethod
-    def write_vtk_model(vtk_model: NmmObjectBase):
+    def write_vtk_model(vtk_model: NmmObjectBase, path_file=None):
+        if path_file is not None:
+            path = path_file
+        else:
+            path = PATH
 
-        if not os.path.exists(PATH.output_path):
-            os.mkdir(PATH.output_path)
+        if not os.path.exists(path.output_path):
+            os.mkdir(path.output_path)
 
-        model_output = PATH.output_path + vtk_model.name
+        model_output = path.output_path + vtk_model.name
         if not os.path.exists(model_output):
             os.mkdir(model_output)
 

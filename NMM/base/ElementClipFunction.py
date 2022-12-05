@@ -1,9 +1,10 @@
-from vtkmodules.vtkCommonDataModel import vtkUnstructuredGrid, VTK_POLYHEDRON, vtkCell, vtkPlane, vtkPolygon, vtkPolyhedron, vtkTetra, vtkVertex
+from vtkmodules.vtkCommonDataModel import vtkUnstructuredGrid, VTK_POLYHEDRON, vtkCell, vtkPlane, vtkPolygon, vtkPolyhedron, vtkTetra, vtkVertex, vtkPolyData
 from vtkmodules.vtkCommonCore import vtkIdList, vtkPoints
 from vtkmodules.vtkFiltersGeneral import vtkClipDataSet
+from vtkmodules.vtkFiltersCore import vtkCutter
 from vtkmodules.vtkIOXML import vtkXMLUnstructuredGridWriter
 from NMM.base.ModifyVtkCell import insert_a_cell
-from NMM.base.CopyFunction import copy_vtk_cell
+from NMM.base.CopyFunction import copy_vtk_cell, copy_polyhedron
 import numpy as np
 
 
@@ -36,6 +37,7 @@ def generate_vtk_plane(vtk_points: vtkPoints):
 
 
 def clip_a_vtk_cell(vtk_cell: vtkCell, origin_point=None, normal_vector=None):
+    print('begin function clip_a_vtk_cell', end='')
     origin_point = np.array(origin_point).reshape((3, ))
     normal_vector = np.array(normal_vector).reshape((3, ))
 
@@ -68,42 +70,28 @@ def clip_a_vtk_cell(vtk_cell: vtkCell, origin_point=None, normal_vector=None):
         result: vtkUnstructuredGrid = clipper.GetOutput()
         return result
 
+    # total of three times cut/clip
+    # first clip
+    print('\rbegin vtkCutter', end='')
+    cutter = vtkCutter()
+    cutter.SetCutFunction(clip_plane_1)
+    cutter.SetInputData(u_grid)
+    cutter.Update()
+    poly_data: vtkPolyData = cutter.GetOutput()
+
+    # second and third cut
+    print('\rbegin vtkClipDataSet', end='')
     grid_1 = clip(u_grid, clip_plane_1)
     grid_2 = clip(u_grid, clip_plane_2)
 
-    result_cell_1: vtkCell = grid_1.GetCell(0)
-    result_cell_2: vtkCell = grid_2.GetCell(0)
+    assert grid_1.GetNumberOfCells() != 0
+    assert grid_2.GetNumberOfCells() != 0
+    assert poly_data.GetNumberOfCells() != 0
 
-    clip_polygon = None
-    for each_plane_1 in range(result_cell_1.GetNumberOfFaces()):
-        temp_polygon_1: vtkPolygon = result_cell_1.GetFace(each_plane_1)
-        for each_plane_2 in range(result_cell_2.GetNumberOfFaces()):
-            temp_polygon_2: vtkPolygon = result_cell_2.GetFace(each_plane_2)
-            if polygon_equal(temp_polygon_1, temp_polygon_2):
-                clip_polygon = copy_vtk_cell(temp_polygon_1, grid_1.GetPoints())
-    if clip_polygon is None:
-        tetra_1 = vtkTetra()
-        tetra_1.GetPointIds().SetId(0, 0)
-        tetra_1.GetPointIds().SetId(1, 1)
-        tetra_1.GetPointIds().SetId(2, 2)
-        tetra_1.GetPointIds().SetId(3, 3)
+    clip_polygon: vtkPolygon = poly_data.GetCell(0)
+    clip_polygon = copy_vtk_cell(clip_polygon, poly_data.GetPoints())
 
-        vertex_1 = vtkVertex()
-        vertex_1.GetPointIds().SetId(0, 4)
-
-        error_points = vtkPoints()
-        error_points.DeepCopy(u_grid.GetPoints())
-        error_points.InsertNextPoint(origin_point)
-
-        error_grid = vtkUnstructuredGrid()
-        error_grid.InsertNextCell(tetra_1.GetCellType(), tetra_1.GetPointIds())
-        error_grid.InsertNextCell(vertex_1.GetCellType(), vertex_1.GetPointIds())
-        error_grid.SetPoints(error_points)
-
-        writer = vtkXMLUnstructuredGridWriter()
-        writer.SetInputData(error_grid)
-        writer.SetFileName('error_1.vtu')
-        writer.Write()
+    print('\r########success######### \r', end='')
     return clip_polygon, grid_1, grid_2
 
 
@@ -223,7 +211,7 @@ if __name__ == '__main__':
     cell0: vtkCell = ugrid.GetCell(0)
     center = [1.5, -0.34870387, 0.30616728]
     direct = [0.99959329, -0.02529452, -0.01316967]
-    surface = clip_a_vtk_cell(cell0, center, direct)
+    surface, _, _ = clip_a_vtk_cell(cell0, center, direct)
 
     insert_a_cell(ugrid, surface)
     writer = vtkXMLUnstructuredGridWriter()

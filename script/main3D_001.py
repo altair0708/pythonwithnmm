@@ -14,7 +14,7 @@ data_structure.physical_cover = ElementIOer3D.load_vtk_model(PATH.mathcover_file
 data_structure.crack_surface = ElementIOer3D.load_vtk_model(PATH.crack_file)
 data_structure.relationship_element_cover = ElementIOer3D.load_database(PATH.database_name)
 data_structure.special_point = ElementIOer3D.load_vtk_model(PATH.special_point_file)
-for step in range(300):
+for step in range(20):
     print('step: {}'.format(step))
     Variable.cover_number = data_structure.physical_cover.content.GetNumberOfCells()
     Variable.element_number = data_structure.manifold_element.content.GetNumberOfCells()
