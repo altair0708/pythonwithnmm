@@ -237,8 +237,8 @@ class Element(object):
             for fixed_point in self.fixed_point_list:
                 temp = self.T_shape_matrix(1, fixed_point.coord[0][0], fixed_point.coord[0][1], delta_matrix=self.delta_matrix)
                 '''fixed test'''
-                # temp_zero = np.array([[0, 0, 0, 0, 0, 0]])
-                # temp[[0], :] = temp_zero
+                temp_zero = np.array([[0, 0, 0, 0, 0, 0]])
+                temp[[0], :] = temp_zero
                 '''fixed test'''
                 temp_matrix = np.dot(temp.T, temp)
                 temp_matrix = self.constant_spring * temp_matrix

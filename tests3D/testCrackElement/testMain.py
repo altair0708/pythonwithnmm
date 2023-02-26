@@ -1,6 +1,6 @@
 import sys
 
-from NMM.crack_3D.CrackElementBase3D import CrackedElement3D
+from NMM.crack_3D.CrackElementBase3D import Element3D
 from NMM.base.ModifyVtkCell import insert_a_cell
 from vtkmodules.vtkCommonDataModel import vtkUnstructuredGrid, VTK_POLYHEDRON
 from vtkmodules.vtkCommonCore import vtkIdList, vtkPoints
@@ -11,7 +11,7 @@ from tests3D.object.tetra_polyhedron import generate_tetra_polyhedron
 temp_cell, temp_cell_list, temp_point_list = generate_tetra_polyhedron()
 
 # new crack element
-temp_element = CrackedElement3D(id_value=0)
+temp_element = Element3D(id_value=0)
 
 # strain_total
 temp_element.strain_total = (3, 2, 1, 0, 0, 0)

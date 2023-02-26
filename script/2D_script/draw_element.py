@@ -1,7 +1,7 @@
 from NMM.fem.ElementBase import *
 from NMM.control.ElementCreator import *
 
-database_name = '../data/test.db'
+database_name = '../../data/test.db'
 with sqlite3.connect(database_name) as connection:
     database_cursor = connection.cursor()
     element_number = get_element_number(cursor=database_cursor)

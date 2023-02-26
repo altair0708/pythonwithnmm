@@ -2,9 +2,9 @@ from NMM.control_3D.ElementIO3D import ElementIOer3D
 from vtkmodules.vtkCommonDataModel import vtkUnstructuredGrid, vtkCell, VTK_VERTEX, VTK_LINE, VTK_TRIANGLE, VTK_TETRA
 from vtkmodules.vtkIOXML import vtkXMLUnstructuredGridWriter
 
-def generate_geometry_info(gmsh_file_name: str, output_path: str, cell_type: int):
-    gmshGrid = ElementIOer3D.load_vtk_model(gmsh_file_name)
 
+def generate_geometry_info(mesh_path: str, geometry_path: str, cell_type: int):
+    gmshGrid = ElementIOer3D.load_vtk_model(mesh_path + 'gmsh_file.vtu')
     geometryGrid = vtkUnstructuredGrid()
     cellNumber = gmshGrid.GetNumberOfCells()
 
@@ -25,6 +25,6 @@ def generate_geometry_info(gmsh_file_name: str, output_path: str, cell_type: int
         raise Exception('Cell type error!!')
 
     writer = vtkXMLUnstructuredGridWriter()
-    writer.SetFileName(output_path + outputFile)
+    writer.SetFileName(geometry_path + outputFile)
     writer.SetInputData(geometryGrid)
     writer.Write()

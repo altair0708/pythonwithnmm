@@ -80,8 +80,8 @@ class Element3D(object):
         self.material_dict = {
             'id': 1,
             'unit_mass': 0.0,
-            'body_force': (0, 0, 1),
-            'elastic_modulus': 1,
+            'body_force': (0, 0, 0),
+            'elastic_modulus': 5000000000,
             'poisson_ratio': 0.2,
             'initial_force': (0, 0, 0, 0, 0, 0),
             'yield_coefficient': {

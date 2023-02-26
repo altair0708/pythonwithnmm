@@ -12,6 +12,9 @@ import warnings
 
 
 def insert_a_cell(vtk_model: vtkUnstructuredGrid, vtk_cell: vtkCell):
+
+    # insert a deep copy cell of given vtkCell
+
     if vtk_cell.GetCellType() == VTK_POLYHEDRON:
         if vtk_model.GetNumberOfPoints() == 0:
             new_point_list = vtkPoints()
@@ -67,11 +70,14 @@ def insert_a_cell(vtk_model: vtkUnstructuredGrid, vtk_cell: vtkCell):
         cell_point_list.DeepCopy(vtk_cell.GetPoints())
         cell_point_number = cell_point_list.GetNumberOfPoints()
 
+        # don't merge the coincide points
         for each_point in range(cell_point_number):
             temp_point = cell_point_list.GetPoint(each_point)
             model_point_list.InsertNextPoint(temp_point)
             new_cell.GetPointIds().SetId(each_point, model_point_number + each_point)
         vtk_model.InsertNextCell(new_cell.GetCellType(), new_cell.GetPointIds())
+
+        # try to merge the coincide points
 
         # points_0 = vtk_cell.GetPoints()
         # points_1 = new_cell.GetPoints()

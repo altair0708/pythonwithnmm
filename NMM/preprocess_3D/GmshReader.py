@@ -370,7 +370,7 @@ class GmshReader:
             crackWriter.Write()
 
         write_vtk_model(manifold_element_grid, 'manifold_element.vtu', output_path)
-        write_vtk_model(crack_surface_grid, 'crack_surface.vtu', output_path)
+        write_vtk_model(crack_surface_grid, 're015_0.vtu', output_path)
 
 
         # if crack_surface_file is not None:
@@ -409,9 +409,9 @@ class GmshReader:
 if __name__ == '__main__':
     # file_name = 'simplex.vtu'
     # special_point_file = 'special_points_simplex.vtu'
-    file_name = 'cylinder.vtu'
+    file_name = 'generate_mesh/gmsh_file.vtu'
     # special_point_file = 'special_point_1.vtu'
-    special_point_file = 'special_point.vtu'
+    special_point_file = 'generate_mesh/special_point.vtu'
     work_path = '../../data_3D/'
     gmsh_file = work_path + file_name
     special_point_file = work_path + special_point_file

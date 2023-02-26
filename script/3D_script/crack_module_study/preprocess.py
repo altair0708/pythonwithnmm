@@ -1,17 +1,21 @@
-from NMM.preprocess_3D.GmshReader import GmshReader
 from NMM.preprocess_3D.ExtractElementSurface import generate_element_surface
+from NMM.preprocess_3D.GenerateManifoldElement import generate_manifold_element
+from NMM.preprocess_3D.GenerateMathCover import generate_math_point, generate_math_cover
+from NMM.preprocess_3D.GenerateCrackSurfaceFile import generate_crack_surface_file
+from NMM.preprocess_3D.GenerateGeometryInfo import generate_geometry_info
+from vtkmodules.vtkCommonDataModel import VTK_VERTEX, VTK_LINE, VTK_TRIANGLE, VTK_TETRA
 
-output_path = ''
-# tetrahedron_file = 'geometry_tetrahedron.vtu'
-tetrahedron_file = 'tetrahedron_grid.vtu'
-gmsh_tetrahedron_file_name = output_path + tetrahedron_file
+mesh_path = 'mesh_file/'
+geometry_path = 'geometry_file/'
 
-GmshReader.generate_math_cover(gmsh_tetrahedron_file_name, output_path)
-GmshReader.generate_math_point(gmsh_tetrahedron_file_name, output_path)
-GmshReader.generate_manifold_element(gmsh_tetrahedron_file_name, '', output_path)
+generate_geometry_info(mesh_path, geometry_path, VTK_VERTEX)
+generate_geometry_info(mesh_path, geometry_path, VTK_LINE)
+generate_geometry_info(mesh_path, geometry_path, VTK_TRIANGLE)
+generate_geometry_info(mesh_path, geometry_path, VTK_TETRA)
 
-element_manifold_file_name = output_path + 'manifold_element.vtu'
-initial_crack_file_name = output_path + 'initial_crack.vtu'
-generate_element_surface(element_manifold_file_name, output_path)
-GmshReader.generate_crack_surface_file(initial_crack_file_name, element_manifold_file_name, output_path)
+generate_math_cover(mesh_path, geometry_path)
+generate_math_point(mesh_path, geometry_path)
+generate_manifold_element(mesh_path, geometry_path)
 
+generate_element_surface(mesh_path, geometry_path)
+generate_crack_surface_file(mesh_path, geometry_path)

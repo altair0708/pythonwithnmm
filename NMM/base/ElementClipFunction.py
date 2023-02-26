@@ -37,7 +37,6 @@ def generate_vtk_plane(vtk_points: vtkPoints):
 
 
 def clip_a_vtk_cell(vtk_cell: vtkCell, origin_point=None, normal_vector=None):
-    print('begin function clip_a_vtk_cell', end='')
     origin_point = np.array(origin_point).reshape((3, ))
     normal_vector = np.array(normal_vector).reshape((3, ))
 
@@ -71,16 +70,14 @@ def clip_a_vtk_cell(vtk_cell: vtkCell, origin_point=None, normal_vector=None):
         return result
 
     # total of three times cut/clip
-    # first clip
-    print('\rbegin vtkCutter', end='')
+    # first clip: generate the cross section of the element
     cutter = vtkCutter()
     cutter.SetCutFunction(clip_plane_1)
     cutter.SetInputData(u_grid)
     cutter.Update()
     poly_data: vtkPolyData = cutter.GetOutput()
 
-    # second and third cut
-    print('\rbegin vtkClipDataSet', end='')
+    # second and third cut: generate two new vtk cell of the element
     grid_1 = clip(u_grid, clip_plane_1)
     grid_2 = clip(u_grid, clip_plane_2)
 
@@ -91,7 +88,6 @@ def clip_a_vtk_cell(vtk_cell: vtkCell, origin_point=None, normal_vector=None):
     clip_polygon: vtkPolygon = poly_data.GetCell(0)
     clip_polygon = copy_vtk_cell(clip_polygon, poly_data.GetPoints())
 
-    print('\r########success######### \r', end='')
     return clip_polygon, grid_1, grid_2
 
 

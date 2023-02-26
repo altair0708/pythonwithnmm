@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<VTKFile type="UnstructuredGrid" version="0.1" byte_order="LittleEndian" header_type="UInt32" compressor="vtkZLibDataCompressor">
+  <UnstructuredGrid>
+    <Piece NumberOfPoints="5"                    NumberOfCells="2"                   >
+      <PointData>
+        <DataArray type="Float64" Name="test_point_value" format="appended" RangeMin="0"                    RangeMax="400"                  offset="0"                   >
+        </DataArray>
+        <DataArray type="Float64" Name="point_displacement_increment" NumberOfComponents="3" format="appended" RangeMin="0"                    RangeMax="0"                    offset="56"                  >
+          <InformationKey name="L2_NORM_RANGE" location="vtkDataArray" length="2">
+            <Value index="0">
+              0
+            </Value>
+            <Value index="1">
+              0
+            </Value>
+          </InformationKey>
+        </DataArray>
+        <DataArray type="Float64" Name="point_displacement_total" NumberOfComponents="3" format="appended" RangeMin="0"                    RangeMax="0"                    offset="96"                  >
+          <InformationKey name="L2_NORM_RANGE" location="vtkDataArray" length="2">
+            <Value index="0">
+              0
+            </Value>
+            <Value index="1">
+              0
+            </Value>
+          </InformationKey>
+        </DataArray>
+      </PointData>
+      <CellData>
+        <DataArray type="Float64" Name="test_element_value" format="appended" RangeMin="0"                    RangeMax="100"                  offset="136"                 >
+        </DataArray>
+        <DataArray type="Int32" Name="material_id" format="appended" RangeMin="0"                    RangeMax="0"                    offset="180"                 >
+        </DataArray>
+        <DataArray type="Float64" Name="strain_total" NumberOfComponents="6" format="appended" RangeMin="0"                    RangeMax="0"                    offset="220"                 >
+          <InformationKey name="L2_NORM_RANGE" location="vtkDataArray" length="2">
+            <Value index="0">
+              0
+            </Value>
+            <Value index="1">
+              0
+            </Value>
+          </InformationKey>
+        </DataArray>
+        <DataArray type="Int32" Name="cracked" format="appended" RangeMin="2"                    RangeMax="4"                    offset="260"                 >
+        </DataArray>
+        <DataArray type="Int32" Name="crack_surface_id" format="appended" RangeMin="-1"                   RangeMax="0"                    offset="304"                 >
+        </DataArray>
+        <DataArray type="Int32" Name="surface_id" NumberOfComponents="4" format="appended" RangeMin="3.7416573868"         RangeMax="9.2736184955"         offset="344"                 >
+          <InformationKey name="L2_NORM_RANGE" location="vtkDataArray" length="2">
+            <Value index="0">
+              3.7416573868
+            </Value>
+            <Value index="1">
+              9.2736184955
+            </Value>
+          </InformationKey>
+        </DataArray>
+      </CellData>
+      <Points>
+        <DataArray type="Float32" Name="Points" NumberOfComponents="3" format="appended" RangeMin="0"                    RangeMax="1"                    offset="404"                 >
+          <InformationKey name="L2_NORM_RANGE" location="vtkDataArray" length="2">
+            <Value index="0">
+              0
+            </Value>
+            <Value index="1">
+              1
+            </Value>
+          </InformationKey>
+        </DataArray>
+      </Points>
+      <Cells>
+        <DataArray type="Int64" Name="connectivity" format="appended" RangeMin=""                     RangeMax=""                     offset="456"                 />
+        <DataArray type="Int64" Name="offsets" format="appended" RangeMin=""                     RangeMax=""                     offset="516"                 />
+        <DataArray type="UInt8" Name="types" format="appended" RangeMin=""                     RangeMax=""                     offset="560"                 />
+      </Cells>
+    </Piece>
+  </UnstructuredGrid>
+  <AppendedData encoding="base64">
+   _AQAAAACAAAAoAAAAFwAAAA==eJxjYEAGkQ4QOhNCHyiC8isdACs6A24=AQAAAACAAAB4AAAADAAAAA==eJxjYBgYAAAAeAABAQAAAACAAAB4AAAADAAAAA==eJxjYBgYAAAAeAABAQAAAACAAAAQAAAADQAAAA==eJxjYEAGkQ4AAQIAmg==AQAAAACAAAAIAAAACwAAAA==eJxjYIAAAAAIAAE=AQAAAACAAABgAAAADAAAAA==eJxjYKAtAAAAYAABAQAAAACAAAAIAAAADgAAAA==eJxjYWBgYAFiAAA4AAk=AQAAAACAAAAIAAAACwAAAA==eJxjZIAAAAAQAAI=AQAAAACAAAAgAAAAGwAAAA==eJxjYGBgYARiJiBmBmIWIGYFYjYoHwABYAAZAQAAAACAAAA8AAAAFQAAAA==eJxjYEAHDfaYfGSxhv0wFgBOXAN9AQAAAACAAABAAAAAGQAAAA==eJxjYIAARijNBKWZGVABujwLlAYAAagADg==AQAAAACAAAAQAAAADgAAAA==eJxjYYAADigNAACQAA0=AQAAAACAAAACAAAACgAAAA==eJzj4gIAACAAFQ==
+  </AppendedData>
+</VTKFile>

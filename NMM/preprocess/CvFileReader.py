@@ -10,7 +10,7 @@ class CvFileReader(object):
             cls._instance = object.__new__(cls)
         return cls._instance
 
-    def __init__(self, cv_file_name: str = 'cv04', data_base_name: str = 'test.db'):
+    def __init__(self, cv_file_name: str = 'cvUniaxialCompression01', data_base_name: str = 'test.db'):
         self.cv_filename = cv_file_name
         self.database_name = data_base_name
         self.database = sqlite3.connect(self.database_name)
@@ -291,7 +291,7 @@ def id_generator():
 
 
 if __name__ == '__main__':
-    cv_filename = 'cv06'
+    cv_filename = 'cvUniaxialCompression01'
     mf_filename = 'mf06'
     database_name = 'test.db'
     work_path = '../../data/'

@@ -5,8 +5,8 @@ from vtkmodules.vtkFiltersGeometry import vtkGeometryFilter
 from vtkmodules.vtkCommonCore import vtkIntArray, vtkDoubleArray, vtkIdList, vtkPoints
 
 
-def generate_math_cover(gmsh_file_name: str, output_path: str):
-    gmshGrid: vtkUnstructuredGrid = ElementIOer3D.load_vtk_model(gmsh_file_name)
+def generate_math_cover(mesh_path: str, geometry_path: str):
+    gmshGrid: vtkUnstructuredGrid = ElementIOer3D.load_vtk_model(geometry_path + 'geometry_tetrahedron.vtu')
 
     mathCover = vtkUnstructuredGrid()
 
@@ -67,14 +67,14 @@ def generate_math_cover(gmsh_file_name: str, output_path: str):
     mathCover.GetCellData().AddArray(mathPointDisplacement)
 
     mathWriter = vtkXMLUnstructuredGridWriter()
-    outputFile = output_path + 'math_cover.vtu'
+    outputFile = geometry_path + 'math_cover.vtu'
     mathWriter.SetFileName(outputFile)
     mathWriter.SetInputData(mathCover)
     mathWriter.Write()
 
 
-def generate_math_point(gmsh_file_name: str, output_path: str):
-    gmshGrid: vtkUnstructuredGrid = ElementIOer3D.load_vtk_model(gmsh_file_name)
+def generate_math_point(mesh_path: str, geometry_path: str):
+    gmshGrid: vtkUnstructuredGrid = ElementIOer3D.load_vtk_model(geometry_path + 'geometry_tetrahedron.vtu')
     pointNumber = gmshGrid.GetNumberOfPoints()
     print('math_cover_number:{}'.format(pointNumber))
     vertexGrid = vtkUnstructuredGrid()
@@ -92,6 +92,6 @@ def generate_math_point(gmsh_file_name: str, output_path: str):
 
     outputFile = 'math_point.vtu'
     writer = vtkXMLUnstructuredGridWriter()
-    writer.SetFileName(output_path + outputFile)
+    writer.SetFileName(geometry_path + outputFile)
     writer.SetInputData(vertexGrid)
     writer.Write()

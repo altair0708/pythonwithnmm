@@ -15,18 +15,25 @@ class CONST:
 
 class PATH:
     work_path = '../data_3D/'
-    element_file = '../data_3D/manifold_element.vtu'
-    mathcover_file = '../data_3D/math_cover.vtu'
-    crack_file = '../data_3D/crack_surface.vtu'
-    database_name = '../data_3D/manifold_mathcover.db'
-    special_point_file = '../data_3D/special_point.vtu'
-    material_coefficient_file = '../data_3D/material_coefficient.json'
+    mesh_file = '../data_3D/mesh/'
+    geometry_file = '../data_3D/geometry/'
+
+    element_file = '../data_3D/geometry/manifold_element.vtu'
+    mathcover_file = '../data_3D/geometry/math_cover.vtu'
+    crack_file = '../data_3D/geometry/crack_surface.vtu'
+    database_name = '../data_3D/geometry/manifold_mathcover.db'
+    special_point_file = '../data_3D/mesh/special_point.vtu'
+    material_coefficient_file = '../data_3D/materical/material_coefficient.json'
+    surface_file = '../data_3D/geometry/element_surface.vtu'
+    crack_edge = '../data_3D/geometry/crack_edge.vtu'
     output_path = '../data_3D/result/'
 
 
 class Variable:
     cover_number = 0
     element_number = 0
+    surface_number = 0
+
 
 class DataStructure(object):
     def __init__(self):
@@ -35,6 +42,8 @@ class DataStructure(object):
         self.__vtk_crack_surface = NmmObjectBase('crack_surface')
         self.__relationship_element_cover = NmmObjectBase('relationship_element_cover')
         self.__special_point = NmmObjectBase('special_point')
+        self.__element_surface = NmmObjectBase('element_surface')
+        self.__crack_edge = NmmObjectBase('crack_edge')
 
     @property
     def manifold_element(self):
@@ -75,3 +84,19 @@ class DataStructure(object):
     @special_point.setter
     def special_point(self, special_point):
         self.__special_point.content = special_point
+
+    @property
+    def element_surface(self):
+        return self.__element_surface
+
+    @element_surface.setter
+    def element_surface(self, element_surface):
+        self.__element_surface.content = element_surface
+
+    @property
+    def crack_edge(self):
+        return self.__crack_edge
+
+    @crack_edge.setter
+    def crack_edge(self, value):
+        self.__crack_edge.content = value

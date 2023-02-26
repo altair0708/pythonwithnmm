@@ -7,13 +7,13 @@ from NMM.GlobalVariable import CONST, DataStructure
 from scipy.sparse.linalg import spsolve
 
 work_path = '../data_3D/'
-element_file = '../data_3D/manifold_element.vtu'
-mathcover_file = '../data_3D/math_cover.vtu'
+element_file = '../data_3D/geometry/manifold_element.vtu'
+mathcover_file = '../data_3D/geometry/math_cover.vtu'
 database_name = '../data_3D/manifold_mathcover.db'
 # special_point_file = '../data_3D/special_points_simplex.vtu'
-special_point_file = '../data_3D/special_point.vtu'
+special_point_file = '../data_3D/mesh/special_point.vtu'
 # special_point_file = '../data_3D/special_point_1.vtu'
-material_coefficient_file = '../data_3D/material_coefficient.json'
+material_coefficient_file = '../data_3D/materical/material_coefficient.json'
 
 element_list = ElementCreator3D.create_all_element(database_name, element_file, mathcover_file, special_point_file, material_coefficient_file)
 

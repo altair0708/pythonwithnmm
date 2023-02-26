@@ -25,7 +25,7 @@ def create_an_element(id_value: int, cursor: sqlite3.Cursor) -> Element:
         id_value, x, y, u, v = get_one_patch(each_id, cursor)
         element.patch_displacement.append([u, v])
 
-    with open('../data/material_coefficient.json') as material_coefficient:
+    with open('../../data/material_coefficient.json') as material_coefficient:
         element.material_dict = json.load(material_coefficient)
 
     return element
