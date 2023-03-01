@@ -1,4 +1,9 @@
+import sys
+
 from vtkmodules.vtkCommonDataModel import (vtkUnstructuredGrid,
+                                           vtkMergePoints,
+                                           vtkPointLocator,
+                                           vtkDataSet,
                                            vtkCell,
                                            VTK_POLYHEDRON,
                                            VTK_POLYGON,
@@ -7,10 +12,11 @@ from vtkmodules.vtkCommonDataModel import (vtkUnstructuredGrid,
                                            vtkGenericCell,
                                            VTK_TETRA,
                                            vtkEmptyCell)
-from vtkmodules.vtkCommonCore import vtkPoints, vtkIdList
-import warnings
+from vtkmodules.vtkCommonCore import vtkPoints, vtkIdList, mutable, vtkMath
+from NMM.GlobalVariable import CONST
 
 
+# this method will lead to duplicated point
 def insert_a_cell(vtk_model: vtkUnstructuredGrid, vtk_cell: vtkCell):
 
     # insert a deep copy cell of given vtkCell
@@ -55,7 +61,6 @@ def insert_a_cell(vtk_model: vtkUnstructuredGrid, vtk_cell: vtkCell):
             new_cell = vtkGenericCell()
             new_cell.SetCellType(vtk_cell.GetCellType())
 
-
         if vtk_model.GetNumberOfPoints() == 0:
             new_point_list = vtkPoints()
             vtk_model.SetPoints(new_point_list)
@@ -89,3 +94,72 @@ def insert_a_cell(vtk_model: vtkUnstructuredGrid, vtk_cell: vtkCell):
         #     print(points_2.GetPoint(i))
 
 
+# this method will not lead to duplicated point
+def insert_a_cell_0(vtk_model: vtkUnstructuredGrid, vtk_cell: vtkCell):
+    if vtk_cell.GetCellType() == VTK_POLYGON:
+        new_cell = vtkPolygon()
+    elif vtk_cell.GetCellType() == VTK_TETRA:
+        new_cell = vtkTetra()
+    else:
+        new_cell = vtkGenericCell()
+        new_cell.SetCellType(vtk_cell.GetCellType())
+
+    if vtk_model.GetNumberOfPoints() == 0:
+        new_point_list = vtkPoints()
+        new_point_list.InsertNextPoint(0, 0, 0)
+        vtk_model.SetPoints(new_point_list)
+
+    new_cell.DeepCopy(vtk_cell)
+
+    model_point_list = vtkPoints()
+    model_point_list.ShallowCopy(vtk_model.GetPoints())
+    model_point_number = vtk_model.GetNumberOfPoints()
+
+    # merger = vtkMergePoints()
+    merger = vtkPointLocator()
+    merger.SetTolerance(CONST.TOLERANCE)
+    merger.SetDataSet(vtk_model)
+    merger.InitPointInsertion(vtk_model.GetPoints(), vtk_model.GetBounds())
+    merger.BuildLocator()
+
+    cell_point_list = vtkPoints()
+    cell_point_list.DeepCopy(vtk_cell.GetPoints())
+    cell_point_number = cell_point_list.GetNumberOfPoints()
+
+    # merge the coincide points
+    new_point_number = 0
+    for each_point in range(cell_point_number):
+
+        temp_point = cell_point_list.GetPoint(each_point)
+
+        point_id_list = vtkIdList()
+        merger.FindPointsWithinRadius(CONST.TOLERANCE, temp_point, point_id_list)
+        try:
+            assert point_id_list.GetNumberOfIds() < 10
+        except AssertionError:
+            print(point_id_list.GetNumberOfIds())
+            sys.exit()
+
+        # if result != -1:
+        #     close_point = model_point_list.GetPoint(result)
+        #     if vtkMath.Distance2BetweenPoints(temp_point, close_point) > CONST.TOLERANCE:
+        #         a = new_point_number + model_point_number
+        #         model_point_list.InsertNextPoint(temp_point)
+        #         new_point_number = new_point_number + 1
+        #     else:
+        #         a = result
+        # # vtkPoints have no point
+        # else:
+        #     a = 0
+        #     model_point_list.InsertNextPoint(temp_point)
+        #     new_point_number = new_point_number + 1
+
+        if point_id_list.GetNumberOfIds() == 0:
+            a = new_point_number + model_point_number
+            model_point_list.InsertNextPoint(temp_point)
+            new_point_number = new_point_number + 1
+        else:
+            a = point_id_list.GetId(0)
+        # print(a)
+        new_cell.GetPointIds().SetId(each_point, a)
+    vtk_model.InsertNextCell(new_cell.GetCellType(), new_cell.GetPointIds())

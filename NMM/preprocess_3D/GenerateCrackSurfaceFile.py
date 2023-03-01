@@ -98,6 +98,6 @@ def generate_crack_surface_file(mesh_path: str, geometry_path: str):
         crackWriter.Write()
 
     write_vtk_model(element_grid, 'manifold_element.vtu', geometry_path)
-    write_vtk_model(crack_surface_grid, 're015_0.vtu', geometry_path)
+    write_vtk_model(crack_surface_grid, 'crack_surface.vtu', geometry_path)
     write_vtk_model(surface_grid, 'element_surface.vtu', geometry_path)
     write_vtk_model(edge_grid, 'crack_edge.vtu', geometry_path)

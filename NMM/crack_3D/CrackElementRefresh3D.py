@@ -1,8 +1,7 @@
 import sys
-
 from NMM.GlobalVariable import DataStructure
 from NMM.base.PropertyGetSetFunction import set_property, get_property
-from NMM.base.ModifyVtkCell import insert_a_cell
+from NMM.base.ModifyVtkCell import insert_a_cell, insert_a_cell_0
 from NMM.crack_3D.CrackElementBase3D import Element3D, Surface3D
 from typing import List
 import numpy as np
@@ -40,7 +39,8 @@ class CrackElementRefresher:
                 set_property(element_grid, 'crack_surface_id', i, np.array((crack_number,)))
 
                 # insert the crack surface into crack surface model
-                insert_a_cell(crack_surface_grid, temp_crack_surface_vtk)
+                # insert_a_cell(crack_surface_grid, temp_crack_surface_vtk)
+                insert_a_cell_0(crack_surface_grid, temp_crack_surface_vtk)
                 assert i == each_element_cell.id
                 set_property(crack_surface_grid, 'element_id', crack_number, np.array((i,)))
 
@@ -69,8 +69,8 @@ class CrackElementRefresher:
                 set_property(surface_grid, 'cracked', i, np.array((2,)))
                 set_property(surface_grid, 'edge_id', i, np.array((crack_number,)))
 
-                # insert the crack surface into crack surface model
-                insert_a_cell(edge_grid, temp_edge_vtk)
+                # insert the crack edge into crack edge model
+                insert_a_cell_0(edge_grid, temp_edge_vtk)
                 set_property(edge_grid, 'surface_id', crack_number, np.array((i,)))
 
             # initial crack

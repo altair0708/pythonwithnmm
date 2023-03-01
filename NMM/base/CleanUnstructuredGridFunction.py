@@ -1,4 +1,5 @@
-from vtkmodules.vtkCommonDataModel import vtkMergePoints, vtkUnstructuredGrid, vtkPolygon
+from vtkmodules.vtkCommonDataModel import vtkMergePoints, vtkUnstructuredGrid, vtkPolygon, vtkPolyData
+from vtkmodules.vtkFiltersCore import vtkCleanPolyData
 from vtkmodules.vtkCommonCore import vtkPoints, reference, mutable
 from vtkmodules.vtkFiltersSources import vtkPointSource
 from vtkmodules.vtkIOXML import vtkXMLUnstructuredGridWriter
@@ -15,8 +16,10 @@ def clean_unstructured_grid(ugrid):
 
     out_grid = vtkUnstructuredGrid()
 
+    point_number = ugrid.GetNumberOfPoints()
+
     point_source = vtkPointSource()
-    point_source.SetNumberOfPoints(0)
+    point_source.SetNumberOfPoints(point_number)
     point_source.Update()
     point_s = point_source.GetOutput()
 
@@ -61,6 +64,14 @@ def clean_unstructured_grid(ugrid):
     out_grid.GetCellData().DeepCopy(ugrid.GetCellData())
 
     return out_grid
+
+
+def clean_poly_data(poly_data: vtkPolyData):
+    cleaner = vtkCleanPolyData()
+    cleaner.SetInputData(poly_data)
+    cleaner.Update()
+    result: vtkPolyData = cleaner.GetOutput()
+    return result
 
 
 if __name__ == '__main__':

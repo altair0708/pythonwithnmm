@@ -53,8 +53,10 @@ new_grid = vtkUnstructuredGrid()
 new_grid.DeepCopy(u_grid)
 
 cell_0 = vtkGenericCell()
+cell_0.SetCellType(u_grid.GetCell(0).GetCellType())
 cell_0.DeepCopy(u_grid.GetCell(0))
 cell_1 = vtkGenericCell()
+cell_0.SetCellType(u_grid.GetCell(1).GetCellType())
 cell_1.DeepCopy(u_grid.GetCell(1))
 
 id_list_0 = vtkIdList()

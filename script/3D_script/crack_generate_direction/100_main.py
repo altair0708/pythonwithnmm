@@ -9,6 +9,7 @@ from NMM.crack_3D.CrackElementRefresh3D import CrackElementRefresher
 from NMM.GlobalVariable import CONST, DataStructure, Variable
 from NMM.base.ModifyVtkCell import insert_a_cell
 from NMM.base.CleanUnstructuredGridFunction import clean_unstructured_grid
+from NMM.base.CheckDihedralAngle import check_dihedral_angle
 from vtkmodules.vtkCommonDataModel import VTK_TETRA, vtkUnstructuredGrid
 from vtkmodules.vtkIOXML import vtkXMLUnstructuredGridWriter
 
@@ -55,9 +56,7 @@ for i in range(2):
                     for each_crack_element in each_surface.element_cell_list:
                         insert_a_cell(u_grid, each_crack_element.crack_surface)
 
-                    print(u_grid.GetNumberOfPoints())
                     new_grid = clean_unstructured_grid(u_grid)
-                    print(new_grid.GetNumberOfPoints())
 
                     writer = vtkXMLUnstructuredGridWriter()
                     writer.SetFileName('crack_surface_000.vtu')
@@ -68,6 +67,8 @@ for i in range(2):
                     writer.SetFileName('re015_0.vtu')
                     writer.SetInputData(new_grid)
                     writer.Write()
+
+                    print(check_dihedral_angle(new_grid))
 
 
     CrackElementRefresher.refresh_manifold_element(data_structure, crack_element_list)
