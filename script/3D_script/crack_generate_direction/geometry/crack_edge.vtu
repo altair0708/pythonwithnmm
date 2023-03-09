@@ -1,23 +1,23 @@
 <?xml version="1.0"?>
 <VTKFile type="UnstructuredGrid" version="0.1" byte_order="LittleEndian" header_type="UInt32" compressor="vtkZLibDataCompressor">
   <UnstructuredGrid>
-    <Piece NumberOfPoints="8"                    NumberOfCells="4"                   >
+    <Piece NumberOfPoints="5"                    NumberOfCells="4"                   >
       <PointData>
       </PointData>
       <CellData>
         <DataArray type="Int32" Name="surface_id" format="appended" RangeMin="3"                    RangeMax="6"                    offset="0"                   />
       </CellData>
       <Points>
-        <DataArray type="Float32" Name="Points" NumberOfComponents="3" format="appended" RangeMin="0.5"                  RangeMax="0.70710678119"        offset="52"                  />
+        <DataArray type="Float32" Name="Points" NumberOfComponents="3" format="appended" RangeMin="0"                    RangeMax="0.70710678119"        offset="52"                  />
       </Points>
       <Cells>
-        <DataArray type="Int64" Name="connectivity" format="appended" RangeMin=""                     RangeMax=""                     offset="120"                 />
-        <DataArray type="Int64" Name="offsets" format="appended" RangeMin=""                     RangeMax=""                     offset="184"                 />
-        <DataArray type="UInt8" Name="types" format="appended" RangeMin=""                     RangeMax=""                     offset="236"                 />
+        <DataArray type="Int64" Name="connectivity" format="appended" RangeMin=""                     RangeMax=""                     offset="104"                 />
+        <DataArray type="Int64" Name="offsets" format="appended" RangeMin=""                     RangeMax=""                     offset="160"                 />
+        <DataArray type="UInt8" Name="types" format="appended" RangeMin=""                     RangeMax=""                     offset="212"                 />
       </Cells>
     </Piece>
   </UnstructuredGrid>
   <AppendedData encoding="base64">
-   _AQAAAACAAAAQAAAAEwAAAA==eJxjYWBgYAViNiBmBmIAAMgAEw==AQAAAACAAABgAAAAIAAAAA==eJxjYGDYz4AAILY9FjYDlG3PgKoeWQ6dDVYPAB4vBPU=AQAAAACAAABAAAAAHgAAAA==eJxjYIAARijNBKWZoTQLlGaF0mxQmh1KAwAC4AAdAQAAAACAAAAgAAAAEwAAAA==eJxjYoAAFijNBqU5oDQAAWAAFQ==AQAAAACAAAAEAAAADAAAAA==eJxjZmZmBgAAIgAN
+   _AQAAAACAAAAQAAAAEwAAAA==eJxjYWBgYAViNiBmBmIAAMgAEw==AQAAAACAAAA8AAAAFAAAAA==eJxjYEAB+9HY9kh8e3Q+AEkyAns=AQAAAACAAABAAAAAGAAAAA==eJxjZIAAJjSaGUozQmkWNBomDwACoAAVAQAAAACAAAAgAAAAEwAAAA==eJxjYoAAFijNBqU5oDQAAWAAFQ==AQAAAACAAAAEAAAADAAAAA==eJxjZmZmBgAAIgAN
   </AppendedData>
 </VTKFile>

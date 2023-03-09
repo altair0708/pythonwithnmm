@@ -86,6 +86,9 @@ class Element3D(object):
         self.__cracked = 0
         self.__crack_surface = None
 
+        # TODO
+        self.__crack_surface_extra = None
+
         self.__strain_total = np.zeros((6, 1), dtype=np.float64)
         self.__strain = Tensor(np.zeros((6, 1), dtype=np.float64))
 

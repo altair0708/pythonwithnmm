@@ -62,13 +62,13 @@ def check_dihedral_angle(u_grid: vtkDataSet):
     cutter.Update()
     angle: vtkPolyData = cutter.GetOutput()
 
+    # try to get the point used by two edges
     double_id_list = []
     for each_cell_id in range(angle.GetNumberOfCells()):
         temp_id_list = vtkIdList()
         temp_id_list.DeepCopy(angle.GetCell(each_cell_id).GetPointIds())
         for each_point_id in range(temp_id_list.GetNumberOfIds()):
             double_id_list.append(temp_id_list.GetId(each_point_id))
-
     single_id_list = [i for i in range(angle.GetNumberOfPoints())]
 
     for each_point_id in single_id_list:

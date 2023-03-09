@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <VTKFile type="UnstructuredGrid" version="0.1" byte_order="LittleEndian" header_type="UInt32" compressor="vtkZLibDataCompressor">
   <UnstructuredGrid>
-    <Piece NumberOfPoints="6"                    NumberOfCells="2"                   >
+    <Piece NumberOfPoints="5"                    NumberOfCells="2"                   >
       <PointData>
       </PointData>
       <CellData>
@@ -17,6 +17,6 @@
     </Piece>
   </UnstructuredGrid>
   <AppendedData encoding="base64">
-   _AQAAAACAAABIAAAAEwAAAA==eJxjYEAGDfaYbGLEGuwBj00FOg==AQAAAACAAABAAAAAGgAAAA==eJxjYIAARijNBKWZGVABC5RmRZMHAAIYABM=AQAAAACAAAAQAAAADgAAAA==eJxjYYAADigNAACQAA0=AQAAAACAAAACAAAACgAAAA==eJxjZwcAABcADw==
+   _AQAAAACAAAA8AAAAEwAAAA==eJxjYEAGDfaYbGQaVQwAajIEew==AQAAAACAAABAAAAAGQAAAA==eJxjYIAARijNBKWZGVABC5o4TB0AAfAAEA==AQAAAACAAAAQAAAADgAAAA==eJxjYYAADigNAACQAA0=AQAAAACAAAACAAAACgAAAA==eJxjZwcAABcADw==
   </AppendedData>
 </VTKFile>

@@ -135,6 +135,8 @@ def insert_a_cell_0(vtk_model: vtkUnstructuredGrid, vtk_cell: vtkCell):
         point_id_list = vtkIdList()
         merger.FindPointsWithinRadius(CONST.TOLERANCE, temp_point, point_id_list)
         try:
+            # TODO
+            # assert point_id_list.GetNumberOfIds() < 2
             assert point_id_list.GetNumberOfIds() < 10
         except AssertionError:
             print(point_id_list.GetNumberOfIds())
