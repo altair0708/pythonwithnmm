@@ -1,9 +1,10 @@
 import deprecation
 from typing import List
 from NMM.GlobalVariable import DataStructure, Variable
-from NMM.crack_3D.CrackElementBase3D import Element3D, Surface3D
-from NMM.base.PropertyGetSetFunction import get_property
-from NMM.base.CopyFunction import copy_polyhedron, copy_vtk_cell
+from NMM.crack_3D.ElementBase3D import Element3D, create_an_element
+from NMM.crack_3D.CrackSurfaceBase3D import CrackSurface3D, create_a_crack_surface
+from NMM.crack_3D.SurfaceBase3D import Surface3D, create_a_surface
+from NMM.crack_3D.CrackEdgeBase3D import CrackEdge3D, create_a_crack_edge
 from vtkmodules.vtkCommonDataModel import vtkUnstructuredGrid, vtkPolyhedron, vtkCell, vtkPolygon
 from vtkmodules.vtkCommonCore import vtkPoints, vtkIdList
 
@@ -11,81 +12,6 @@ from vtkmodules.vtkCommonCore import vtkPoints, vtkIdList
 # surface
 # crack surface
 # edge
-
-
-def create_a_surface(data_structure: DataStructure, surface_id: int):
-
-    # vtk element surface model
-    surface_grid: vtkUnstructuredGrid = data_structure.element_surface.content
-
-    # vtk edge model
-    edge_grid: vtkUnstructuredGrid = data_structure.crack_edge.content
-
-    # assemble a surface
-    surface_cell = Surface3D(surface_id)
-
-    # cracked flag
-    surface_cracked_flag = get_property(surface_grid, 'cracked', surface_id)
-    surface_cell.cracked = int(*surface_cracked_flag)
-    if surface_cell.cracked == 2 or surface_cell.cracked == 9:
-        edge_id = get_property(surface_grid, 'edge_id', surface_id)
-        edge_id = int(*edge_id)
-
-        edge_vtk_cell = edge_grid.GetCell(edge_id)
-        edge_vtk_cell = copy_vtk_cell(edge_vtk_cell, edge_grid.GetPoints())
-
-        surface_cell.crack_edge = edge_vtk_cell
-
-    # vtk_cell
-    surface_vtk_cell: vtkCell = surface_grid.GetCell(surface_id)
-    surface_grid_points: vtkPoints = surface_grid.GetPoints()
-    surface_cell.vtk_cell = copy_vtk_cell(surface_vtk_cell, surface_grid_points)
-
-    # element id
-    element_id_list = get_property(surface_grid, 'element_id', surface_id)
-    for i, each_element_id in enumerate(element_id_list):
-        surface_cell.element_id[i] = int(each_element_id)
-
-    return surface_cell
-
-
-def create_an_element(data_structure: DataStructure, element_id: int):
-
-    # vtk element model
-    element_grid: vtkUnstructuredGrid = data_structure.manifold_element.content
-    # vtk crack surface model
-    crack_surface_grid: vtkUnstructuredGrid = data_structure.crack_surface.content
-
-    # assemble a crack element
-    element_cell = Element3D(id_value=element_id)
-
-    # strain_total
-    element_cell.strain_total = get_property(element_grid, 'strain_total', element_id)
-
-    # vtk_cell
-    element_vtk_cell: vtkCell = element_grid.GetCell(element_id)
-    element_grid_points: vtkPoints = element_grid.GetPoints()
-    element_cell.vtk_cell = copy_polyhedron(element_vtk_cell, element_grid_points)
-
-    # element surface
-    surface_id_list = get_property(element_grid, 'surface_id', element_id)
-    for i, each_surface_id in enumerate(surface_id_list):
-        element_cell.surface_id[i] = int(each_surface_id)
-
-    # cracked flag
-    element_cracked_flag = get_property(element_grid, 'cracked', element_id)
-    element_cell.cracked = int(*element_cracked_flag)
-
-    # crack surface
-    if element_cell.cracked == 9 or element_cell.cracked == 4:
-        crack_surface_id = get_property(element_grid, 'crack_surface_id', element_id)
-        crack_surface_id = int(*crack_surface_id)
-
-        crack_surface_vtk_cell = crack_surface_grid.GetCell(crack_surface_id)
-        crack_surface_vtk_cell = copy_vtk_cell(crack_surface_vtk_cell, crack_surface_grid.GetPoints())
-        element_cell.crack_surface = crack_surface_vtk_cell
-
-    return element_cell
 
 
 class CrackElementCreator3D:
@@ -96,7 +22,6 @@ class CrackElementCreator3D:
         for each_element_id in range(Variable.element_number):
             temp_element_cell = create_an_element(data_structure, each_element_id)
             element_cell_list.append(temp_element_cell)
-
         return element_cell_list
 
     @staticmethod
@@ -105,22 +30,80 @@ class CrackElementCreator3D:
         for each_surface_id in range(Variable.surface_number):
             temp_surface_cell = create_a_surface(data_structure, each_surface_id)
             surface_cell_list.append(temp_surface_cell)
-
         return surface_cell_list
 
     @staticmethod
-    def build_element_surface_link(element_cell_list: List[Element3D], surface_cell_list: List[Surface3D]):
+    def create_all_crack_surface(data_structure: DataStructure):
+        crack_surface_cell_list = []
+        for crack_surface_id in range(Variable.crack_surface_number):
+            temp_crack_surface_cell = create_a_crack_surface(data_structure, crack_surface_id)
+            crack_surface_cell_list.append(temp_crack_surface_cell)
+        return crack_surface_cell_list
+
+    @staticmethod
+    def create_all_crack_edge(data_structure: DataStructure):
+        crack_edge_cell_list = []
+        for each_crack_edge_id in range(Variable.crack_edge_number):
+            temp_crack_edge_cell = create_a_crack_edge(data_structure, each_crack_edge_id)
+            crack_edge_cell_list.append(temp_crack_edge_cell)
+        return crack_edge_cell_list
+
+    @staticmethod
+    def build_all_link(element_cell_list: List[Element3D],
+                       surface_cell_list: List[Surface3D],
+                       crack_surface_cell_list: List[CrackSurface3D],
+                       crack_edge_cell_list: List[CrackEdge3D]):
+        # element and surface
         for each_element_cell in element_cell_list:
             for i, each_surface_id in enumerate(each_element_cell.surface_id):
                 if each_surface_id == -1:
                     continue
                 each_element_cell.surface_cell_list[i] = surface_cell_list[each_surface_id]
-
         for each_surface_cell in surface_cell_list:
             for i, each_element_id in enumerate(each_surface_cell.element_id):
                 if each_element_id == -1:
                     continue
                 each_surface_cell.element_cell_list[i] = element_cell_list[each_element_id]
+
+                if each_surface_cell.cracked > 1:
+                    if each_surface_cell.element_cell_list[i].cracked == 0:
+                        each_surface_cell.element_cell_list[i].cracked = 2
+
+        # element and crack surface
+        for each_element_cell in element_cell_list:
+            for i, each_crack_surface_id in enumerate(each_element_cell.crack_surface_id):
+                if each_crack_surface_id == -1:
+                    continue
+                each_element_cell.crack_surface_cell_list[i] = crack_surface_cell_list[each_crack_surface_id]
+        for each_crack_surface_cell in crack_surface_cell_list:
+            for i, each_element_id in enumerate(each_crack_surface_cell.element_id):
+                if each_element_id == -1:
+                    continue
+                each_crack_surface_cell.element_cell_list[i] = element_cell_list[each_element_id]
+
+        # surface and crack edge
+        for each_surface_cell in surface_cell_list:
+            for i, each_crack_edge_id in enumerate(each_surface_cell.crack_edge_id):
+                if each_crack_edge_id == -1:
+                    continue
+                each_surface_cell.crack_edge_cell_list[i] = crack_edge_cell_list[each_crack_edge_id]
+        for each_crack_edge_cell in crack_edge_cell_list:
+            for i, each_surface_id in enumerate(each_crack_edge_cell.surface_id):
+                if each_surface_id == -1:
+                    continue
+                each_crack_edge_cell.surface_cell_list[i] = surface_cell_list[each_surface_id]
+
+        # crack surface and crack edge
+        for each_crack_surface_cell in crack_surface_cell_list:
+            for i, each_crack_edge_id in enumerate(each_crack_surface_cell.crack_edge_id):
+                if each_crack_edge_id == -1:
+                    continue
+                each_crack_surface_cell.crack_edge_cell_list[i] = crack_edge_cell_list[each_crack_edge_id]
+        for each_crack_edge_cell in crack_edge_cell_list:
+            for i, each_crack_surface_id in enumerate(each_crack_edge_cell.crack_surface_id):
+                if each_crack_surface_id == -1:
+                    continue
+                each_crack_edge_cell.crack_surface_cell_list[i] = crack_surface_cell_list[each_crack_surface_id]
 
 
 @deprecation.deprecated()

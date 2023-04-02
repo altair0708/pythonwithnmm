@@ -12,8 +12,8 @@
         <DataArray type="Int32" Name="material_id" format="appended" RangeMin="0"                    RangeMax="0"                    offset="196"                 />
         <DataArray type="Float64" Name="strain_total" NumberOfComponents="6" format="appended" RangeMin="0"                    RangeMax="0"                    offset="236"                 />
         <DataArray type="Int32" Name="cracked" format="appended" RangeMin="0"                    RangeMax="9"                    offset="276"                 />
-        <DataArray type="Int32" Name="crack_surface_id" format="appended" RangeMin="-1"                   RangeMax="2"                    offset="320"                 />
-        <DataArray type="Int32" Name="surface_id" NumberOfComponents="4" format="appended" RangeMin="3.7416573868"         RangeMax="19.339079606"         offset="372"                 />
+        <DataArray type="Int32" Name="surface_id" NumberOfComponents="4" format="appended" RangeMin="3.7416573868"         RangeMax="19.339079606"         offset="320"                 />
+        <DataArray type="Int32" Name="crack_surface_id" NumberOfComponents="2" format="appended" RangeMin="1"                    RangeMax="2.2360679775"         offset="400"                 />
       </CellData>
       <Points>
         <DataArray type="Float32" Name="Points" NumberOfComponents="3" format="appended" RangeMin="0"                    RangeMax="1"                    offset="452"                 />
@@ -26,6 +26,6 @@
     </Piece>
   </UnstructuredGrid>
   <AppendedData encoding="base64">
-   _AQAAAACAAAA4AAAAHgAAAA==eJxjYEAGkQ4QOhNCHyiC8ishtEM9VLzJAQBvlAXvAQAAAACAAACoAAAADAAAAA==eJxjYBgaAAAAqAABAQAAAACAAACoAAAADAAAAA==eJxjYBgaAAAAqAABAQAAAACAAAAgAAAAFQAAAA==eJxjYEAGkQ4QOhNCHyhyAAAUYAK1AQAAAACAAAAQAAAACwAAAA==eJxjYEAFAAAQAAE=AQAAAACAAADAAAAADAAAAA==eJxjYBjaAAAAwAABAQAAAACAAAAQAAAADgAAAA==eJxjYGBg4ETCAADoABw=AQAAAACAAAAQAAAAFAAAAA==eJz7////fwYgYARiJiAGADnmBAA=AQAAAACAAABAAAAAKgAAAA==eJwtyskJADAQw0DlPvuvN4KsYR4GASRlFVW1+J2/oamlraMb/QMIFABUAQAAAACAAABUAAAAFgAAAA==eJxjYEAGDfYMBPkN+9HEMPgAuYIF+w==AQAAAACAAACAAAAAIQAAAA==eJxjYIAARijNBKWZGVABCwF5mH5WAvIw/WxQGgAH8AAiAQAAAACAAAAgAAAAEwAAAA==eJxjYYAADijNA6UFoDQAAqAAKQ==AQAAAACAAAAEAAAADAAAAA==eJzj4uLiAgAAaAAp
+   _AQAAAACAAAA4AAAAHgAAAA==eJxjYEAGkQ4QOhNCHyiC8ishtEM9VLzJAQBvlAXvAQAAAACAAACoAAAADAAAAA==eJxjYBgaAAAAqAABAQAAAACAAACoAAAADAAAAA==eJxjYBgaAAAAqAABAQAAAACAAAAgAAAAFQAAAA==eJxjYEAGkQ4QOhNCHyhyAAAUYAK1AQAAAACAAAAQAAAACwAAAA==eJxjYEAFAAAQAAE=AQAAAACAAADAAAAADAAAAA==eJxjYBjaAAAAwAABAQAAAACAAAAQAAAADgAAAA==eJxjYGBg4ETCAADoABw=AQAAAACAAABAAAAAKgAAAA==eJwtyskJADAQw0DlPvuvN4KsYR4GASRlFVW1+J2/oamlraMb/QMIFABUAQAAAACAAAAgAAAAFQAAAA==eJz7/x8CGIAARDNCaSYoDQBg7RPwAQAAAACAAABUAAAAFgAAAA==eJxjYEAGDfYMBPkN+9HEMPgAuYIF+w==AQAAAACAAACAAAAAIQAAAA==eJxjYIAARijNBKWZGVABCwF5mH5WAvIw/WxQGgAH8AAiAQAAAACAAAAgAAAAEwAAAA==eJxjYYAADijNA6UFoDQAAqAAKQ==AQAAAACAAAAEAAAADAAAAA==eJzj4uLiAgAAaAAp
   </AppendedData>
 </VTKFile>

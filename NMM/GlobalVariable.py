@@ -34,6 +34,8 @@ class Variable:
     cover_number = 0
     element_number = 0
     surface_number = 0
+    crack_surface_number = 0
+    crack_edge_number = 0
 
 
 class DataStructure(object):
@@ -101,3 +103,10 @@ class DataStructure(object):
     @crack_edge.setter
     def crack_edge(self, value):
         self.__crack_edge.content = value
+
+
+class CrackList(object):
+    element_list = None
+    surface_list = None
+    crack_surface_list = None
+    crack_edge_list = None

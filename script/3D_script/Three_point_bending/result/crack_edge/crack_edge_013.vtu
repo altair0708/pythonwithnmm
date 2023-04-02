@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<VTKFile type="UnstructuredGrid" version="0.1" byte_order="LittleEndian" header_type="UInt32" compressor="vtkZLibDataCompressor">
+  <UnstructuredGrid>
+    <Piece NumberOfPoints="125"                  NumberOfCells="245"                 >
+      <PointData>
+      </PointData>
+      <CellData>
+        <DataArray type="Int32" Name="surface_id" format="appended" RangeMin="380"                  RangeMax="2099"                 offset="0"                   >
+        </DataArray>
+        <DataArray type="Int32" Name="crack_surface_id" NumberOfComponents="2" format="appended" RangeMin="1"                    RangeMax="8.0622577483"         offset="716"                 >
+          <InformationKey name="L2_NORM_RANGE" location="vtkDataArray" length="2">
+            <Value index="0">
+              1
+            </Value>
+            <Value index="1">
+              8.0622577483
+            </Value>
+          </InformationKey>
+        </DataArray>
+      </CellData>
+      <Points>
+        <DataArray type="Float32" Name="Points" NumberOfComponents="3" format="appended" RangeMin="0"                    RangeMax="6.1379736526"         offset="1108"                />
+      </Points>
+      <Cells>
+        <DataArray type="Int64" Name="connectivity" format="appended" RangeMin=""                     RangeMax=""                     offset="2756"                />
+        <DataArray type="Int64" Name="offsets" format="appended" RangeMin=""                     RangeMax=""                     offset="3684"                />
+        <DataArray type="UInt8" Name="types" format="appended" RangeMin=""                     RangeMax=""                     offset="4256"                />
+      </Cells>
+    </Piece>
+  </UnstructuredGrid>
+  <AppendedData encoding="base64">
+   _AQAAAACAAADUAwAABQIAAA==eJwV0VtMj3EYB/BfdOCCxEUxMzc24wKVIq6KzfFG6ZxzZg6zxVgrhwobhnFj7kk2bmzWYYYrzFnmsMoFLbU5VCorK/m8F599n/f9Pf/n9+z9f48JoZof/GSEBhInhFA+MYRb6t3yKMfUlTI/NoQCtrKN7oQQekidFEIaVfrq+UUvw6zS1xsXQrbslwnmTOYuee7K8T5frpabZC7pbGYZ6/xmxNl6uYG1bCTN2VIyyGQ5Wawwd1j/Gj3T5FX7LVBfk/PlRTuVxIfwzb6X1QXqHvUF9SWukGXGP7NWykQzkmijnQ4+06ivhYVmFppxQG+R3CuLZSmVfKLM3UX6SritHmefO7s45byWbvVO8+7RRDnNjNpjjNnmzmEue9jPLueFZhazXX1fPuAhZ3lEn11rzK9jUH1anuEjbXzRc8c+o+Y1yaCnWdZGtZ12RHdQSqw94qJvrvek57HoO5GuHpcxfvtW/ZclxOsd8m6RO84z3buvMtm9M5nFAKneD8oKd153nuS5Rl3HDHUGmRRRHP1/lLGF45yI+nlDK+/oIsH9T6NdzEzlBvU88S7bfTkMec6VedykgWz35jDg7HD0f6orZIlsYYrvMpVkUpjHYzOf8ZwXvOQVr2mnjQ46+Uaf3fr5zQCDHHLHEaqoZtD9f6Id7HSORhbTynt7fOCgOkVvp/o/biCCpQ==AQAAAACAAACoBwAAEgEAAA==eJx1yYVOXQEQRdFLgVIcilOsuLsU1+JOsODubp8P3HBIXnZyJpms7JkgCIKo4GvePyfSWP3CjjTmc3+oIw3v0epIY/ULOzROt7BDf2rD/jYO/pLxMgEmyiSYDFNgqkyD6fC3MQNmGrOM2cYcYy7Mg/nwDywwFhqLYLEsMf6FpbAMlssKWGmsMlYba2StrDPWwwbYCJuMzbAFtso22S47YCfsgv+M3bIH9hr7YD8cgINwCA7DETkKx+R/47hxQk7KKTkNZ+AsnJPzcMG4KJfksnFFrsI14zrcMG4at4zbcAfuGveM+/AAHhqP4LE8gafwTJ7LC+Ol8Upewxt4a7yD9/JBPsIn+AxfjK/wzfgBWNLsNA==AQAAAACAAADcBQAAwQQAAA==eJxFVHtUjGkcnpCDsZckJLmdxbJ10GlZ08z7e5JOVthddCGXTFsnclxCLuk0Kgpnk7mVNc00FU1TTdNslNXazsah0zpIbtvallyyu0R2ihps87bD99fzPed5n9/z/M77fQLB+8fjyis2c1Ae7Pi3tB6OxypMzFc2l+zYbUoku2Xqw8kZQ0g/bztz4JzSTcyhsZ+3473DnokcWOTW1MvL6D3fh+38WCebyDG3fmcyObBD48jnwC3B/ejkYw0EXRPJ/l5crUdQnZjsekTnI6rex87T8D25cCudRx/ERVOOVI80aSRZjdmSmnt5SLKt5pqjl45C4LuFst58S3fcdNjWmkjJgd9LTjMdFujjab1rGCvYUIJr3Uv5rKjmYkwSCOmniSL63GyEV+UKPrfTsxgpVU4UkiqlF/v0cM/KoaQPpdTvlRYGXRH9FePBRjZoERtaTEbmziZ75MN8QUUxVd+x0J9NWB7vQZ15Y2jPsnKc2zWA9Gc+ocTLxdjVIKPdsjzmE25Ea08K1R27wJxXqtEgDOJ5XvprobiwlmaUetLTADUSoufzPLX7c3FuRDTveMdFjXV/BlBbx2CqMZZjcVsn27PFxsL8DViWF9+n32SC5CWjOT5vJS0oAJiBWhrjqOWhHm0PjnNNU1A51I8zST1zGo3bqMIMsQ/n+2/RINMrhNqNJUzZy0f48f0LMlblIk4QRolHytkwiwXWDf/wuzGoqwQ1ipts7t6RFJBgxsi8Dn43Lp0yovbZDa6pkmtwt0DL/atm5aJ5qY53iRUakNkdT37aJErbUI3dreF0b5GQ7qvLcX2y1X6WFrkqoe/vTRUTfCg62ITg7BL6xZbFwheYcLi1mHuK6wowe+spen4gX9KOE/hVe5GGlMokVQ0GRC6s55pEnQbTVlp4F2mzHFf9TpDJ/xy713QMU3VnOZ+z0oJ/H/Tj+cXO1Yib8JTn/8xbhcD5A7lP9hcqHLzmzHHoigpc71JJ7Dl/D+/NE3uG855h1XiiXk4BEefZ9FglLsk9ub+XUAldeiP3d8tXQqhsZNYod7rTpsSmsnHUkHCbXZQewvqYMooavq3X14C04Kvcc3uZAQlTz1NFzTYW2vgD/3ZeuTpT0VeVqBKGsZ7Ng+nRWzNcbjaw0abVlDrCwjVJP4ro4tYsbPYO4Ps8palF8pE0EgSGzhnATPi6Q06jnyXTql489IWc/O/a2KeHFaD2LjbpD1c21kuBHj8FM0da2c32dNxVlIr3zbKxzDfpKFvgK45cb2O3MuRwz26h7Loe1hlwFJkxT3nf1DWFCJreynFEog5dhTa60v2EXXY5gJSNRs6P25EJ30UaWna6kEU+McH68Bo1LTnOnD4qseeHvfvahdXYaQ6ntQlvmLay8t0/RBprQIqooW+3Y8xI/yaX72rV1gpYzhZyvPh5xTv9a0Xf3twOHWQhobV4FCMjs5eYrEtqcf+KjJ4rXrIpGw9zjTl1QO/5HDSPeM19kufJsePjdkn67HhqvJ3FNeOnWtmomvR3/oPrszBGNcl+HwSB3RVwWddBO4Z8yXLrNbxLxN82NnS/BTO9b9OovU50ck35/x0Fghsxeo4L2ltZwYwMiMRFvNfAokMIsajoPz5IKXM=AQAAAACAAABQDwAApgIAAA==eJx1lOlbjVEUR4UkUyUSQsMNTZIhGu4t3MqQkkxJlDnzTPjjffBbX9bzvH1Zz9r7vOfss8++1Wz6/7c53BJuVRyv0TryteE2eY3ideF2xe2sqw936Fw76zhvp1in/C6xXtytPM5+e7QvTp+ojz5wP/rVoPUNIt81Fjj7NWkfnPP3al+8Vs73zYrj7LtPebxR8f1hS4E3K35A++GtiuMHRc5n30PhYXmT4m3hEbFFefY9qvqOKY673naRujsK6iTOuZ3K45zTpfPwUkifuxXHuc9xrT+hOE5/Tmo9XpLzfXvYE/bKWxXvCzvk9KE/dP+JD4S8a5vinEO/6OspnYcPhqfl7g/5obAkPxN2y9vDs+G5Amd+uA91c3/uQ9/Oh8MFzvxRzwWR/tLHiyL35tyRsFcOR+WditPvsbBHznfM17hYkvM+QwXreUfqKIcDcuaqEnbJ6c+Evsfp42R4Sd6vOPfm/dn/ssg7XAmrOq+qPO86pf1x5ow5mQ775DOh55o4fb0q8vtg/2vhsPx6OCKn32XFb4Sjcs8T+dnwpu5BfEb5uXBeHFSee45rHc7+1EP/b4V+L+IL4aSceWE/+so9ea+K1t8Oy3LmdTG8ozrxKa3jO+aSe1DvXdWH3xN5/zGtux/Oy+k7c/AgXAorcvLc+6Hi+HI4K38kMh8r4eNwXPF55Z+Eq2JVed5/MlwLF+R891Qk/0z74c9F5o45eRG+lC8ozry9CqflzM3rcFHOeevhm7AiJ/82LMuZY+aJ/Zmrd8rj1PM+nJLz/4T78D70kfn5IC4V8GPo+XMcMjfM/adwWc5croafVS/+JZyTf9U5+LdwRU5d1Mk78F7cl9/Jd9WJ/wiZr3XFV8OfInP+K9yQe3435L/DNfmf8K/cvxvy/wB622x7AQAAAACAAACoBwAAmgEAAA==eJwtxUFEGAAAAMCWJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJEmSJElmkmRmj+4+FxjwI8jBDnGowxzuCEc6ytGOcazjHO8EJzrJyU5xqtOc7gxnOsvZznGu85zvAhe6yMUucanLXO4KV7rK1a5xretc7wY3usnNbnGr29zuDne6y93uca/73O8BD3rIwx7xqMc87glPesrTnvGs5zzvBS96ycte8arXvO4Nb3rL297xrve87wMf+sjHPvGpz3zuC1/6yte+8a3vfO8HP/rJz37xq9/87t/+4w9/+svf/ut/Dvj1U6CDHOwQhzrM4Y5wpKMc7RjHOs7xTnCik5zsFKc6zenOcKaznO0c5zrP+S5woYtc7BKXuszlrnClq1ztGte6zvVucKOb3OwWt7rN7e5wp7vc7R73us/9HvCghzzsEY96zOOe8KSnPO0Zz3rO817wope87BWves3r3vCmt7ztHe96z/s+8KGPfOwTn/rM577wpa987Rvf+s73fvCjn/zsF7/6P073deU=AQAAAACAAAD1AAAADAAAAA==eJxjZh6BAABiKQLg
+  </AppendedData>
+</VTKFile>

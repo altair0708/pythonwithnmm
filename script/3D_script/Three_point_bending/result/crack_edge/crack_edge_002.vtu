@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<VTKFile type="UnstructuredGrid" version="0.1" byte_order="LittleEndian" header_type="UInt32" compressor="vtkZLibDataCompressor">
+  <UnstructuredGrid>
+    <Piece NumberOfPoints="15"                   NumberOfCells="21"                  >
+      <PointData>
+      </PointData>
+      <CellData>
+        <DataArray type="Int32" Name="surface_id" format="appended" RangeMin="380"                  RangeMax="2099"                 offset="0"                   >
+        </DataArray>
+        <DataArray type="Int32" Name="crack_surface_id" NumberOfComponents="2" format="appended" RangeMin="1"                    RangeMax="8.0622577483"         offset="116"                 >
+          <InformationKey name="L2_NORM_RANGE" location="vtkDataArray" length="2">
+            <Value index="0">
+              1
+            </Value>
+            <Value index="1">
+              8.0622577483
+            </Value>
+          </InformationKey>
+        </DataArray>
+      </CellData>
+      <Points>
+        <DataArray type="Float32" Name="Points" NumberOfComponents="3" format="appended" RangeMin="0"                    RangeMax="5.1167941298"         offset="216"                 >
+          <InformationKey name="L2_NORM_RANGE" location="vtkDataArray" length="2">
+            <Value index="0">
+              0
+            </Value>
+            <Value index="1">
+              5.1167941298
+            </Value>
+          </InformationKey>
+        </DataArray>
+      </Points>
+      <Cells>
+        <DataArray type="Int64" Name="connectivity" format="appended" RangeMin=""                     RangeMax=""                     offset="376"                 />
+        <DataArray type="Int64" Name="offsets" format="appended" RangeMin=""                     RangeMax=""                     offset="496"                 />
+        <DataArray type="UInt8" Name="types" format="appended" RangeMin=""                     RangeMax=""                     offset="596"                 />
+      </Cells>
+    </Piece>
+  </UnstructuredGrid>
+  <AppendedData encoding="base64">
+   _AQAAAACAAABUAAAARQAAAA==eJwNxssNQEAAANHxSbhtL/TCkQstyCb0YytbCQpwM4eXmbuAXY9efToVSlgqSP5qNx1+tEMNoybNyg1c6lro9QM4ygu2AQAAAACAAACoAAAANwAAAA==eJxdiQkKACAQAu3Y9v8vrpUMJEGGUQBouNkVZ+ijO2e1y53ch9wZ+uhkaqOTS6U/5scD01Q4Jw==AQAAAACAAAC0AAAAZQAAAA==eJxjYEAA6Qs/7Qw5FjiA2LdafoPZcpPX2Zk0ONmD2KLqCXY31kHY9R1c9gtdSu1g7Blr8u1gakD6QexGoQ9WMLaV6BWgeIM9QhzCBonLMf6xgtl7sqLeHsaGqYG5D8YGAMpwLJs=AQAAAACAAABQAQAASAAAAA==eJxdjTkSwDAIA43jBJPr/891YalZmp2VGIi2p4uHOJDbA3vuT/GCB/IUJ3K690q88ZfuPf97wET/ggV+6O2+9+OufQGTUAEhAQAAAACAAACoAAAAOAAAAA==eJwtxdEGgDAAAMAkSSZJZiZJZrL//8Aedvdy49BNnr14dfDm3YdPRydnX779+HVx9efmH29YAc8=AQAAAACAAAAVAAAACwAAAA==eJxjZsYCAALKAEA=
+  </AppendedData>
+</VTKFile>

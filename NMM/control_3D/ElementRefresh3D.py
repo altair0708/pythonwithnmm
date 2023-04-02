@@ -2,6 +2,7 @@ import numpy as np
 from typing import List
 from NMM.GlobalVariable import NmmObjectBase, DataStructure
 from NMM.fem_3D.ElementBase_3D import Element3D
+from NMM.base.PropertyGetSetFunction import set_property, get_property
 from vtkmodules.vtkIOXML import vtkXMLUnstructuredGridReader, vtkXMLUnstructuredGridWriter
 from vtkmodules.vtkCommonDataModel import vtkUnstructuredGrid, vtkCellData, vtkPointData
 from vtkmodules.vtkCommonCore import vtkDataArray
@@ -138,7 +139,7 @@ class ElementRefresher3D:
             # write special_point info into vtk model
             if len(element_list[element_id].fixed_point_list) != 0:
                 for each_point in element_list[element_id].fixed_point_list:
-                    temp_displacement_total = each_point.displacement_total[0]
+                    temp_displacement_total = each_point.actual_displacement[0]
                     temp_special_point = data_structure.special_point.content
                     set_property(temp_special_point, 'displacement_total', each_point.id, temp_displacement_total)
 
@@ -150,41 +151,41 @@ class ElementRefresher3D:
             set_property(manifold_element_grid, 'point_displacement_total', each_point_id, temp_total)
 
 
-def get_property(vtk_model: vtkUnstructuredGrid, property_name: str, temp_id: int):
-    property_value = None
-    property_cell_data: vtkCellData = vtk_model.GetCellData()
-    number = property_cell_data.GetNumberOfArrays()
-    for property_id in range(number):
-        if property_cell_data.GetArrayName(property_id) == property_name:
-            property_data: vtkDataArray = property_cell_data.GetArray(property_id)
-            property_value = property_data.GetTuple(temp_id)
-
-    property_point_data: vtkPointData = vtk_model.GetPointData()
-    number = property_point_data.GetNumberOfArrays()
-    for property_id in range(number):
-        if property_point_data.GetArrayName(property_id) == property_name:
-            property_data: vtkDataArray = property_point_data.GetArray(property_id)
-            property_value = property_data.GetTuple(temp_id)
-
-    return property_value
-
-
-def set_property(vtk_model: vtkUnstructuredGrid, property_name: str, temp_id: int, value):
-    property_cell_data: vtkCellData = vtk_model.GetCellData()
-    number = property_cell_data.GetNumberOfArrays()
-    flag = False
-    for property_id in range(number):
-        if property_cell_data.GetArrayName(property_id) == property_name:
-            property_data: vtkDataArray = property_cell_data.GetArray(property_id)
-            property_data.SetTuple(temp_id, value)
-            flag = True
-
-    property_point_data: vtkPointData = vtk_model.GetPointData()
-    number = property_point_data.GetNumberOfArrays()
-    for property_id in range(number):
-        if property_point_data.GetArrayName(property_id) == property_name:
-            property_data: vtkDataArray = property_point_data.GetArray(property_id)
-            property_data.SetTuple(temp_id, value)
-            flag = True
-    if not flag:
-        raise Exception('Can\'t find property, value not insert!!!')
+# def get_property(vtk_model: vtkUnstructuredGrid, property_name: str, temp_id: int):
+#     property_value = None
+#     property_cell_data: vtkCellData = vtk_model.GetCellData()
+#     number = property_cell_data.GetNumberOfArrays()
+#     for property_id in range(number):
+#         if property_cell_data.GetArrayName(property_id) == property_name:
+#             property_data: vtkDataArray = property_cell_data.GetArray(property_id)
+#             property_value = property_data.GetTuple(temp_id)
+#
+#     property_point_data: vtkPointData = vtk_model.GetPointData()
+#     number = property_point_data.GetNumberOfArrays()
+#     for property_id in range(number):
+#         if property_point_data.GetArrayName(property_id) == property_name:
+#             property_data: vtkDataArray = property_point_data.GetArray(property_id)
+#             property_value = property_data.GetTuple(temp_id)
+#
+#     return property_value
+#
+#
+# def set_property(vtk_model: vtkUnstructuredGrid, property_name: str, temp_id: int, value):
+#     property_cell_data: vtkCellData = vtk_model.GetCellData()
+#     number = property_cell_data.GetNumberOfArrays()
+#     flag = False
+#     for property_id in range(number):
+#         if property_cell_data.GetArrayName(property_id) == property_name:
+#             property_data: vtkDataArray = property_cell_data.GetArray(property_id)
+#             property_data.SetTuple(temp_id, value)
+#             flag = True
+#
+#     property_point_data: vtkPointData = vtk_model.GetPointData()
+#     number = property_point_data.GetNumberOfArrays()
+#     for property_id in range(number):
+#         if property_point_data.GetArrayName(property_id) == property_name:
+#             property_data: vtkDataArray = property_point_data.GetArray(property_id)
+#             property_data.SetTuple(temp_id, value)
+#             flag = True
+#     if not flag:
+#         raise Exception('Can\'t find property, value not insert!!!')

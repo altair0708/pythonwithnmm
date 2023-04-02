@@ -17,6 +17,7 @@ class EPoint3D(object):
         self.__force = np.zeros((3, 1), dtype=np.float64)
         self.__type = point_type
         self.__displacement_total = np.zeros((1, 3), dtype=np.float64)
+        self.__displacement_difference = np.zeros((1, 3), dtype=np.float64)
         self.__velocity = None
 
         self.__expected_displacement = np.zeros((1, 3), dtype=np.float64)
@@ -90,14 +91,27 @@ class EPoint3D(object):
             self.__displacement_total = self.__displacement_total + temp_displacement
 
     @property
-    def displacement_total(self):
-        return self.__displacement_total
+    def actual_displacement(self):
+        return self.__actual_displacement
 
-    @displacement_total.setter
-    def displacement_total(self, value):
+    @actual_displacement.setter
+    def actual_displacement(self, value):
         if value.shape != (1, 3):
-            raise Exception('point force shape error!')
-        self.__displacement_total = value
+            raise Exception('displacement error!')
+        self.__actual_displacement = value
+
+    @property
+    def displacement_difference(self):
+        self.__expected_displacement = self.__velocity * CONST.STEP
+        self.__displacement_difference = self.__actual_displacement - self.__expected_displacement
+        return self.__displacement_difference
+
+    @displacement_difference.setter
+    def displacement_difference(self, value):
+        if value.shape != (1, 3):
+            raise Exception('displacement error!')
+        self.__displacement_difference = value
+
 
     @property
     def point_type(self):

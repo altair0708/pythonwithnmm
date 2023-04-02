@@ -1,278 +1,317 @@
 import sys
+import math
 import numpy as np
+from NMM.GlobalVariable import Variable, CrackList, CONST
+from NMM.base.CalculateArea import calculate_area
+from NMM.base.CopyFunction import copy_vtk_cell
 from NMM.base.ElementClipFunction import clip_a_vtk_cell
 from NMM.base.ModifyVtkCell import insert_a_cell, insert_a_cell_0
-from NMM.base.CheckDihedralAngle import check_dihedral_angle, generate_vector
-from NMM.crack_3D.CrackElementBase3D import Element3D, Surface3D, schmidt_orthogonalization
+from NMM.base.CheckDihedralAngle import check_dihedral_angle, generate_vector, check_dihedral_angle_0
+from NMM.crack_3D.ElementBase3D import Element3D, schmidt_orthogonalization
+from NMM.crack_3D.SurfaceBase3D import Surface3D
+from NMM.crack_3D.CrackSurfaceBase3D import CrackSurface3D
+from NMM.crack_3D.CrackEdgeBase3D import CrackEdge3D
+from NMM.base.CheckPointInPolygon import check_point_in_polygon
 from NMM.base.WriteErrorVTU import write_error_vtu
 from typing import List
-from vtkmodules.vtkCommonDataModel import vtkUnstructuredGrid, vtkGenericCell, vtkPolyData, VTK_LINE
-from vtkmodules.vtkCommonCore import vtkIdList
+from vtkmodules.vtkCommonDataModel import vtkUnstructuredGrid, vtkGenericCell, vtkCell, vtkTetra, VTK_TETRA, VTK_TRIANGLE
+from vtkmodules.vtkCommonCore import vtkPoints
 
 
-def change_adjacent_element_crack_status(element_list: List[Element3D], element_id_set: set):
-    element_id_set.discard(-1)
-    for each_element_id in element_id_set:
-        if element_list[each_element_id].cracked == 0:
-            element_list[each_element_id].cracked = 1
+def clip_an_element(element: Element3D):
 
-
-def generate_crack_surface(element: Element3D):
+    # TODO: max strain?
+    max_strain = element.strain.max_component_vector[1]
 
     # crack edge in element surface
-    edge_vtk_cell_list = []
-
-    # cracked adjacent element
-    element_cell_list = []
-
-    # vector of crack edge
-    vector_list = []
-    max_strain = element.strain.max_component[1]
+    crack_edge_cell_list = []
     for each_surface_cell in element.surface_cell_list:
+        each_surface_cell: Surface3D = each_surface_cell
+
         if each_surface_cell.cracked > 0:
+            crack_edge_cell: CrackEdge3D = each_surface_cell.crack_edge_cell_list[0]
+            # try:
+            #     vector_0 = crack_edge_cell.vector
+            # except AttributeError:
+            #     print(each_surface_cell.crack_edge_cell_list)
+            #     print(each_surface_cell.crack_edge_id)
+            #     print(each_surface_cell.cracked)
+            #     print(each_surface_cell.id)
+            #     sys.exit()
+            crack_edge_cell_list.append(crack_edge_cell)
 
-            temp_element = each_surface_cell.element_cell_list[0]
-            if temp_element.cracked != 4:
-                temp_element = each_surface_cell.element_cell_list[1]
-            element_cell_list.append(temp_element)
+    if len(crack_edge_cell_list) == 1:
 
-            edge_vtk_cell_list.append(each_surface_cell.crack_edge)
-            vector_list.append(each_surface_cell.edge_vector)
-    try:
-        origin_point = edge_vtk_cell_list[0].GetPoints().GetPoint(0)
-    except IndexError:
-        error_grid = vtkUnstructuredGrid()
-        for each_surface_cell in element.surface_cell_list:
-            insert_a_cell_0(error_grid, each_surface_cell.vtk_cell)
-        write_error_vtu(error_grid, 0)
-        sys.exit()
+        crack_edge_cell = crack_edge_cell_list[0]
+        vector_0 = crack_edge_cell.vector
+        origin_point = crack_edge_cell.point_0
 
-    # check the total number of crack edge
-    u_grid = vtkUnstructuredGrid()
-    for each_edge_sequence in range(len(edge_vtk_cell_list)):
-        temp_edge_vtk_cell = vtkGenericCell()
-        temp_edge_vtk_cell.SetCellType(VTK_LINE)
-        temp_edge_vtk_cell.DeepCopy(edge_vtk_cell_list[each_edge_sequence])
-        insert_a_cell_0(u_grid, temp_edge_vtk_cell)
-    print('edge 3:', u_grid.GetNumberOfPoints())
-
-    if len(edge_vtk_cell_list) == 1:
-        vector_0 = vector_list[0]
+        # assert crack edge only relate one crack surface
+        assert crack_edge_cell.crack_surface_id[1] == -1
 
         # specify propagation direction
         # project: crack_module_study
-        normal_vector = schmidt_orthogonalization(vector_0, (0, 1, 0))
+        # normal_vector = schmidt_orthogonalization(vector_0, (0, 1, 0))
 
         # project: crack_generate_direction
         # normal_vector = schmidt_orthogonalization(vector_0, (0, 0, 1))
 
         # don't specify propagation direction
         # max_strain = schmidt_orthogonalization(max_strain, (0, 1, 0))
-        # normal_vector = schmidt_orthogonalization(vector_0, max_strain)
-
-    elif len(edge_vtk_cell_list) == 2:
-        vector_0 = vector_list[0]
-        vector_1 = vector_list[1]
-        normal_vector = np.cross(vector_0, vector_1)
-
-        # edge_0 = vtkGenericCell()
-        # edge_0.SetCellType(VTK_LINE)
-        # edge_0.DeepCopy(edge_vtk_cell_list[0])
-        #
-        # edge_1 = vtkGenericCell()
-        # edge_1.SetCellType(VTK_LINE)
-        # edge_1.DeepCopy(edge_vtk_cell_list[1])
-        #
-        # u_grid = vtkUnstructuredGrid()
-        # insert_a_cell_0(u_grid, edge_0)
-        # insert_a_cell_0(u_grid, edge_1)
-        # print('edge 2:', u_grid.GetNumberOfPoints())
-
-    elif len(edge_vtk_cell_list) == 3:
-
-        # try to get the point used by two edges
-        double_id_list = []
-        for each_cell_id in range(u_grid.GetNumberOfCells()):
-            temp_id_list = vtkIdList()
-            temp_id_list.DeepCopy(u_grid.GetCell(each_cell_id).GetPointIds())
-            for each_point_id in range(temp_id_list.GetNumberOfIds()):
-                double_id_list.append(temp_id_list.GetId(each_point_id))
-        single_id_list = [i for i in range(u_grid.GetNumberOfPoints())]
-        # insert_a_cell_0 will insert a additional point(0, 0, 0, id = 0) which need to be remove
-        single_id_list.remove(0)
-        for each_point_id in single_id_list:
-            double_id_list.remove(each_point_id)
-        print('edge 3:', len(double_id_list))
-
-        surface_vtk_cell_grid = vtkUnstructuredGrid()
-        for each_point_id in double_id_list:
-            cell_id_list = vtkIdList()
-            u_grid.GetPointCells(each_point_id, cell_id_list)
-
-            vector_list = []
-            for each_cell_sequence in range(cell_id_list.GetNumberOfIds()):
-                temp_cell_id = cell_id_list.GetId(each_cell_sequence)
-                temp_cell = vtkGenericCell()
-                temp_cell.DeepCopy(u_grid.GetCell(temp_cell_id))
-
-                assert temp_cell.GetNumberOfPoints() == 2
-                end_point_id = temp_cell.GetPointId(0)
-                if end_point_id == each_point_id:
-                    end_point_id = temp_cell.GetPointId(1)
-                vector_list.append(generate_vector(u_grid, end_point_id, each_point_id))
-
-            assert len(vector_list) == 2
-            vector_0 = vector_list[0]
-            vector_1 = vector_list[1]
-            normal_vector = np.cross(vector_0, vector_1)
-            origin_point = u_grid.GetPoint(each_point_id)
-
-            surface_vtk_cell, _, _ = clip_a_vtk_cell(element.vtk_cell, origin_point, normal_vector)
-            insert_a_cell_0(surface_vtk_cell_grid, surface_vtk_cell)
-        write_error_vtu(surface_vtk_cell_grid, 0)
-
-        # # find an uncracked surface
-        # uncracked_surface_vtk_cell = None
-        # for each_surface_cell in element.surface_cell_list:
-        #     if each_surface_cell.cracked == 0:
-        #         uncracked_surface_vtk_cell = vtkGenericCell()
-        #         uncracked_surface_vtk_cell.SetCellType(each_surface_cell.vtk_cell.GetCellType())
-        #         uncracked_surface_vtk_cell.DeepCopy(each_surface_cell.vtk_cell)
-        #         break
-        # if uncracked_surface_vtk_cell is None:
-        #     raise Exception('Cannot find uncracked surface!')
-        #
-        # # find which crack edge intersect with the uncracked surface
-        # for sequence, each_crack_edge_vtk_cell in enumerate(edge_vtk_cell_list):
-        #     if uncracked_surface_vtk_cell.IntersectWithCell(each_crack_edge_vtk_cell) == 1:
-        #         vector_list.pop(sequence)
-        #         edge_vtk_cell_list.pop(sequence)
-        #
-        # if len(vector_list) == 2:
-        #     vector_0 = vector_list[0]
-        #     vector_1 = vector_list[1]
-        #     normal_vector = np.cross(vector_0, vector_1)
-        # elif len(vector_list) == 3:
-        #     # try to get the point used by two edges
-        #     double_id_list = []
-        #     for each_cell_id in range(u_grid.GetNumberOfCells()):
-        #         temp_id_list = vtkIdList()
-        #         temp_id_list.DeepCopy(u_grid.GetCell(each_cell_id).GetPointIds())
-        #         for each_point_id in range(temp_id_list.GetNumberOfIds()):
-        #             double_id_list.append(temp_id_list.GetId(each_point_id))
-        #     single_id_list = [i for i in range(u_grid.GetNumberOfPoints())]
-        #
-        #     for each_point_id in single_id_list:
-        #         double_id_list.remove(each_point_id)
-        #     print('edge 3:', len(double_id_list))
-        # else:
-        #     raise Exception('edge number error!')
-    else:
-        raise Exception('edge number error!')
-
-    # elif 1 < len(edge_vtk_cell_list) < 4:
-    #     vector_0 = vector_list[0]
-    #     vector_1 = vector_list[1]
-    #     normal_vector = np.cross(vector_0, vector_1)
-    # else:
-    #     raise Exception('edge number error!')
-
-    try:
-        surface_vtk_cell, _, _ = clip_a_vtk_cell(element.vtk_cell, origin_point, normal_vector)
-    except AssertionError:
-        return None
-
-    # check if the dihedral angle of two crack is Acute Angle
-    if len(element_cell_list) == 1:
-
-        temp_element_cell: Element3D = element_cell_list[0]
-        assert temp_element_cell.cracked == 4
-        temp_crack_surface_vtk_cell = vtkGenericCell()
-        temp_crack_surface_vtk_cell.SetCellType(temp_element_cell.crack_surface.GetCellType())
-        temp_crack_surface_vtk_cell.DeepCopy(temp_element_cell.crack_surface)
-
-        new_crack_surface_vtk_cell = vtkGenericCell()
-        new_crack_surface_vtk_cell.SetCellType(surface_vtk_cell.GetCellType())
-        new_crack_surface_vtk_cell.DeepCopy(surface_vtk_cell)
-
-        test_grid = vtkUnstructuredGrid()
-        insert_a_cell_0(test_grid, temp_crack_surface_vtk_cell)
-        insert_a_cell_0(test_grid, new_crack_surface_vtk_cell)
-        # write_error_vtu(test_grid, 0)
-
-        if check_dihedral_angle(test_grid) is False:
+        normal_vector = schmidt_orthogonalization(vector_0, max_strain)
+        try:
+            new_crack_surface_vtk_cell, _, _ = clip_a_vtk_cell(element.vtk_cell, origin_point, normal_vector)
+        except AssertionError:
             return None
 
-    element.crack_surface = surface_vtk_cell
-    return origin_point, normal_vector
+        # ensure the area of crack surface > 0
+        temp_points = vtkPoints()
+        temp_points.DeepCopy(new_crack_surface_vtk_cell.GetPoints())
+        area_0 = calculate_area(temp_points)
+        # if math.isnan(calculate_area(temp_points)):
+        #     return None
+        if not area_0 > 0.001:
+            return None
+
+        # check if the dihedral angle of two crack is Acute Angle
+        assert crack_edge_cell.crack_surface_id[0] != -1
+        crack_surface_cell: CrackSurface3D = crack_edge_cell.crack_surface_cell_list[0]
+
+        crack_surface_vtk_cell: vtkCell = crack_surface_cell.vtk_cell
+        # crack_surface_vtk_cell = copy_vtk_cell(crack_surface_vtk_cell, crack_surface_vtk_cell.GetPoints())
+
+        crack_surface_vtk_cell_0 = vtkGenericCell()
+        crack_surface_vtk_cell_0.SetCellType(crack_surface_vtk_cell.GetCellType())
+        crack_surface_vtk_cell_0.DeepCopy(crack_surface_vtk_cell)
+
+        crack_surface_vtk_cell_1 = vtkGenericCell()
+        crack_surface_vtk_cell_1.SetCellType(new_crack_surface_vtk_cell.GetCellType())
+        crack_surface_vtk_cell_1.DeepCopy(new_crack_surface_vtk_cell)
+
+        test_grid = vtkUnstructuredGrid()
+        insert_a_cell_0(test_grid, crack_surface_vtk_cell_0)
+        insert_a_cell_0(test_grid, crack_surface_vtk_cell_1)
+        # insert_a_cell_0(test_grid, edge_vtk_cell_list[0])
+
+        assert test_grid.GetNumberOfCells() == 2
+        # if element.id == 1302 or element.id == 2609:
+        #     print('1:', check_dihedral_angle(test_grid))
+        #     write_error_vtu(test_grid, element.id)
+        try:
+            if check_dihedral_angle_0(test_grid) is False:
+                # print('before:', normal_vector)
+                # normal_vector = schmidt_orthogonalization(vector_0, -max_strain)
+
+                nx = vector_0[0]
+                ny = vector_0[1]
+                nz = vector_0[2]
+                thet = 185
+                costhet = np.math.cos((thet/180)*np.pi)
+                sinthet = np.math.sin((thet/180)*np.pi)
+                rotation_matrix = np.array([[nx**2*(1-costhet) + costhet, nx*ny*(1-costhet) - nz*sinthet, nx*nz*(1-costhet) + ny*sinthet],
+                                            [nx*ny*(1-costhet) + nz*sinthet, ny**2*(1-costhet) + costhet, ny*nz*(1-costhet) - nx*sinthet],
+                                            [nx*nz*(1-costhet) - ny*sinthet, ny*nz*(1-costhet) + nx*sinthet, nz**2*(1-costhet) + costhet]])
+
+                normal_vector = np.dot(np.array(normal_vector).reshape((1, 3)), rotation_matrix)
+
+                # print('after:', normal_vector)
+                try:
+                    new_crack_surface_vtk_cell, _, _ = clip_a_vtk_cell(element.vtk_cell, origin_point, normal_vector)
+                except AssertionError:
+                    return None
+                # insert_a_cell_0(test_grid, new_crack_surface_vtk_cell)
+                # write_error_vtu(test_grid, element.id + 1)
+        except AssertionError:
+            print('area 0:', area_0)
+            sys.exit()
+
+        generate_crack_surface_cell(new_crack_surface_vtk_cell, element)
+
+    elif len(crack_edge_cell_list) == 2:
+
+        crack_edge_grid = vtkUnstructuredGrid()
+        for each_crack_edge_cell in crack_edge_cell_list:
+            temp_edge = vtkGenericCell()
+            temp_edge.SetCellType(each_crack_edge_cell.vtk_cell.GetCellType())
+            temp_edge.DeepCopy(each_crack_edge_cell.vtk_cell)
+            insert_a_cell_0(crack_edge_grid, temp_edge)
+
+        # actual point number is 3, 4 is include (0, 0, 0)
+        if crack_edge_grid.GetNumberOfPoints() == 4:
+            vector_0 = crack_edge_cell_list[0].vector
+            vector_1 = crack_edge_cell_list[1].vector
+
+            normal_vector = np.cross(vector_0, vector_1)
+            origin_point = crack_edge_cell_list[0].point_0
+            try:
+                new_crack_surface_vtk_cell, _, _ = clip_a_vtk_cell(element.vtk_cell, origin_point, normal_vector)
+            except AssertionError:
+                return None
+
+            # ensure the area of crack surface > 0
+            temp_points = vtkPoints()
+            temp_points.DeepCopy(new_crack_surface_vtk_cell.GetPoints())
+            if not calculate_area(temp_points) > 0.001:
+                return None
+
+            generate_crack_surface_cell(new_crack_surface_vtk_cell, element)
+
+        elif crack_edge_grid.GetNumberOfPoints() == 5:
+
+            new_crack_surface_vtk_cell = vtkTetra()
+            new_crack_surface_vtk_cell.GetPointIds().SetId(0, 1)
+            new_crack_surface_vtk_cell.GetPointIds().SetId(1, 2)
+            new_crack_surface_vtk_cell.GetPointIds().SetId(2, 3)
+            new_crack_surface_vtk_cell.GetPointIds().SetId(3, 4)
+
+            crack_surface_vtk_cell = copy_vtk_cell(new_crack_surface_vtk_cell, crack_edge_grid.GetPoints())
+            generate_crack_surface_cell(crack_surface_vtk_cell, element)
+
+    elif len(crack_edge_cell_list) >= 3:
+
+        crack_edge_grid = vtkUnstructuredGrid()
+        for each_crack_edge_cell in crack_edge_cell_list:
+            temp_edge = vtkGenericCell()
+            temp_edge.SetCellType(each_crack_edge_cell.vtk_cell.GetCellType())
+            temp_edge.DeepCopy(each_crack_edge_cell.vtk_cell)
+            insert_a_cell_0(crack_edge_grid, temp_edge)
+
+        if crack_edge_grid.GetNumberOfPoints() == 5:
+            new_crack_surface_vtk_cell = vtkTetra()
+            new_crack_surface_vtk_cell.GetPointIds().SetId(0, 1)
+            new_crack_surface_vtk_cell.GetPointIds().SetId(1, 2)
+            new_crack_surface_vtk_cell.GetPointIds().SetId(2, 3)
+            new_crack_surface_vtk_cell.GetPointIds().SetId(3, 4)
+
+            crack_surface_vtk_cell = copy_vtk_cell(new_crack_surface_vtk_cell, crack_edge_grid.GetPoints())
+            generate_crack_surface_cell(crack_surface_vtk_cell, element)
+        else:
+            return None
+
+    else:
+        return None
+        # raise Exception('edge number error: ', len(crack_edge_cell_list))
 
 
-def generate_crack_edge(surface: Surface3D, origin_point, normal_vector):
-    surface_vtk_cell = surface.vtk_cell
-    try:
-        edge_vtk_cell, _, _ = clip_a_vtk_cell(surface_vtk_cell, origin_point, normal_vector)
-    except AssertionError:
-        # surface.cracked = 0
-        return False
-    surface.cracked = 1
-    surface.crack_edge = edge_vtk_cell
-    assert edge_vtk_cell.GetPoints().GetNumberOfPoints() != 0
-    return True
+def generate_crack_surface_cell(crack_surface_vtk_cell: vtkCell, element: Element3D):
+    # crack surface cell
+    new_crack_surface_cell = CrackSurface3D(Variable.crack_surface_number)
+    new_crack_surface_cell.vtk_cell = crack_surface_vtk_cell
+
+    new_crack_surface_cell.element_id[0] = element.id
+    new_crack_surface_cell.element_cell_list[0] = element
+
+    # element
+    element.cracked = 3
+    element.crack_surface_id[0] = new_crack_surface_cell.id
+    element.crack_surface_cell_list[0] = new_crack_surface_cell
+    for i, each_surface_cell in enumerate(element.surface_cell_list):
+        # Do not crack
+        if each_surface_cell.cracked == 0:
+            temp_crack_edge_cell = generate_crack_edge_cell(each_surface_cell, new_crack_surface_cell, Variable.crack_edge_number)
+            if temp_crack_edge_cell is False:
+                continue
+
+            # surface
+            each_surface_cell.cracked = 1
+            each_surface_cell.crack_edge_id[0] = temp_crack_edge_cell.id
+            each_surface_cell.crack_edge_cell_list[0] = temp_crack_edge_cell
+
+            # new crack surface
+            new_crack_surface_cell.crack_edge_id[i] = temp_crack_edge_cell.id
+            new_crack_surface_cell.crack_edge_cell_list[i] = temp_crack_edge_cell
+
+            # new crack edge
+            CrackList.crack_edge_list.append(temp_crack_edge_cell)
+            Variable.crack_edge_number += 1
+        # cracked in this time step
+        elif each_surface_cell.cracked == 1:
+            temp_crack_edge_cell: CrackEdge3D = each_surface_cell.crack_edge_cell_list[0]
+            new_crack_surface_cell.crack_edge_id[i] = temp_crack_edge_cell.id
+            new_crack_surface_cell.crack_edge_cell_list[i] = temp_crack_edge_cell
+
+        # cracked in previous step
+        elif each_surface_cell.cracked == 2:
+            temp_crack_edge_cell: CrackEdge3D = each_surface_cell.crack_edge_cell_list[0]
+            new_crack_surface_cell.crack_edge_id[i] = temp_crack_edge_cell.id
+            new_crack_surface_cell.crack_edge_cell_list[i] = temp_crack_edge_cell
+
+    CrackList.crack_surface_list.append(new_crack_surface_cell)
+    Variable.crack_surface_number += 1
+
+
+def generate_crack_edge_cell(surface: Surface3D, crack_surface: CrackSurface3D, crack_edge_id: int):
+    if crack_surface.type == VTK_TETRA:
+        crack_surface_vtk_cell: vtkTetra = crack_surface.vtk_cell
+
+        point_list = []
+        for each_point_sequence in range(crack_surface_vtk_cell.GetNumberOfPoints()):
+            temp_point = crack_surface_vtk_cell.GetPoints().GetPoint(each_point_sequence)
+            if check_point_in_polygon(temp_point, surface.vtk_cell):
+                point_list.append(temp_point)
+
+        if crack_surface.element_id[0] == 2835:
+            print(point_list)
+            print(len(point_list))
+
+        if len(point_list) != 2:
+            return False
+        else:
+            temp_edge_vtk_cell = vtkGenericCell()
+            temp_edge_vtk_cell.SetCellTypeToLine()
+            temp_edge_vtk_cell.GetPointIds().SetId(0, 0)
+            temp_edge_vtk_cell.GetPointIds().SetId(1, 1)
+
+            temp_points = vtkPoints()
+            temp_points.InsertNextPoint(point_list[0])
+            temp_points.InsertNextPoint(point_list[1])
+
+            temp_grid = vtkUnstructuredGrid()
+            temp_grid.InsertNextCell(temp_edge_vtk_cell.GetCellType(), temp_edge_vtk_cell.GetPointIds())
+            temp_grid.SetPoints(temp_points)
+            edge_vtk_cell = temp_grid.GetCell(0)
+
+            # if crack_surface.element_id[0] == 2835:
+            #     print(point_list)
+            #     print(edge_vtk_cell)
+
+    else:
+        surface_vtk_cell = surface.vtk_cell
+        origin_point = crack_surface.point_0
+        normal_vector = crack_surface.normal_vector
+        try:
+            edge_vtk_cell, _, _ = clip_a_vtk_cell(surface_vtk_cell, origin_point, normal_vector)
+        except AssertionError:
+            # surface.cracked = 0
+            return False
+
+    crack_edge_cell = CrackEdge3D(crack_edge_id)
+    crack_edge_cell.vtk_cell = edge_vtk_cell
+
+    crack_edge_cell.surface_id[0] = surface.id
+    crack_edge_cell.surface_cell_list[0] = surface
+
+    crack_edge_cell.crack_surface_id[0] = crack_surface.id
+    crack_edge_cell.crack_surface_cell_list[0] = crack_surface
+
+    return crack_edge_cell
 
 
 class ElementCracker3D(object):
     @staticmethod
     def crack_all_element(element_list: List[Element3D]):
-
-        element_id_set = set()
         for each_element in element_list:
-            result = ElementCracker3D.crack_an_element(each_element)
-            if result is None:
-                continue
-            element_id_set = element_id_set.union(result)
-        change_adjacent_element_crack_status(element_list, element_id_set)
+            ElementCracker3D.crack_an_element(each_element)
 
     @staticmethod
     def crack_an_element(element: Element3D):
         # element crack!!!
 
         # if element.strain.max_component[0] > 0.00001 and element.cracked == 2:
-        if element.cracked == 2:
+        if element.cracked == 2 and element.strain.max_component_vector[0] > 0.00001:
             element.cracked = 3
 
-        # deliver adjacent element information
-        adjacent_element_set = set()
         if element.cracked == 3:
-
             # generate crack surface
-            result = generate_crack_surface(element)
-            if result is None:
-                element.cracked = 2
-                return None
-            origin_point = result[0]
-            normal_vector = result[1]
+            clip_an_element(element)
 
-            surface_list: List[Surface3D] = element.surface_cell_list
-            for each_surface_cell in surface_list:
-                # generate crack edge
-                if each_surface_cell.cracked == 0:
-
-                    result = generate_crack_edge(each_surface_cell, origin_point, normal_vector)
-                    if result is False:
-                        continue
-
-                    adjacent_element_id_list = each_surface_cell.element_id
-                    for each_element_id in adjacent_element_id_list:
-                        adjacent_element_set.add(each_element_id)
-
-        # initial crack
-        elif element.cracked == 9:
-            surface_list: List[Surface3D] = element.surface_cell_list
-            for each_surface_cell in surface_list:
-                # adjacent element id
-                if each_surface_cell.cracked == 9:
-                    adjacent_element_id_list = each_surface_cell.element_id
-                    for each_element_id in adjacent_element_id_list:
-                        adjacent_element_set.add(each_element_id)
-
-        return adjacent_element_set

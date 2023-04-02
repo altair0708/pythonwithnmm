@@ -1,8 +1,11 @@
+import sys
 import numpy as np
 from scipy.spatial import Delaunay
 from typing import Tuple, List
 from NMM.GlobalVariable import CONST
 from NMM.fem_3D.PointBase_3D import EPoint3D, PointType
+from NMM.base.DeltaFFunction import f_function
+from NMM.base.StiffMatrix import stiff_matrix
 
 
 def calculate_integration(point_list: np.ndarray):
@@ -79,9 +82,10 @@ class Element3D(object):
         self.material_id = 0
         self.material_dict = {
             'id': 1,
-            'unit_mass': 0.0,
+            'unit_mass': 1.0,
             'body_force': (0, 0, 0),
             'elastic_modulus': 5000000000,
+            # 'elastic_modulus': 5,
             'poisson_ratio': 0.2,
             'initial_force': (0, 0, 0, 0, 0, 0),
             'yield_coefficient': {
@@ -91,7 +95,7 @@ class Element3D(object):
             },
             'initial_velocity': (0, 0, 0, 0, 0, 0)
         }
-
+        # TODO: modify joint list to patch list in each matrix
         self.joint_list = [(0, 0, 0), (0, 0, 0), (0, 0, 0), (0, 0, 0)]
         self.joint_id = [0, 0, 0, 0]
         self.patch_list = [(0, 0, 0), (0, 0, 0), (0, 0, 0), (0, 0, 0)]
@@ -109,6 +113,7 @@ class Element3D(object):
         # template variable
         self.__B_shape_matrix = None
         self.__delta_matrix = None
+        self.__new_delta_matrix = None
         self.__triangle_array = None
         self.__elastic_matrix = None
 
@@ -173,12 +178,20 @@ class Element3D(object):
     def stiff_matrix(self):
         if self.__stiff_matrix is None:
             self.__stiff_matrix = np.zeros((12, 12), dtype=np.float64)
-            # TODO: check if input correct?python list or np.array?
             temp_S, temp_xS, temp_yS, temp_zS = calculate_integration(np.array(self.joint_list))
             temp_stiff_matrix = temp_S * self.B_shape_matrix.T
+            # temp_stiff_matrix = self.B_shape_matrix.T
             temp_stiff_matrix = np.dot(temp_stiff_matrix, self.elastic_matrix)
             temp_stiff_matrix = np.dot(temp_stiff_matrix, self.B_shape_matrix)
-            self.__stiff_matrix = temp_stiff_matrix * 10
+            self.__stiff_matrix = temp_stiff_matrix
+            # self.__stiff_matrix = temp_stiff_matrix * 10  # ???
+
+            # symbol calculation
+            # temp_mu = float(self.material_dict['poisson_ratio'])
+            # temp_E = float(self.material_dict['elastic_modulus'])
+            # temp_stiff_matrix = stiff_matrix(self.patch_list[0], self.patch_list[1], self.patch_list[2], self.patch_list[3], temp_mu)
+            # self.__stiff_matrix = (temp_S * temp_E / ((1 + temp_mu) * (1 - 2 * temp_mu))) * temp_stiff_matrix
+
             check_shape(self.__stiff_matrix, (12, 12))
         return self.__stiff_matrix
 
@@ -186,7 +199,6 @@ class Element3D(object):
     def initial_matrix(self):
         if self.__initial_matrix is None:
             self.__initial_matrix = np.zeros((12, 1), dtype=np.float64)
-            # TODO: check if input correct?python list or np.array?
             temp_S, temp_xS, temp_yS, temp_zS = calculate_integration(np.array(self.joint_list))
             temp_initial_matrix = temp_S * np.dot(self.B_shape_matrix.T, self.initial_stress)
             self.__initial_matrix = self.__initial_matrix - temp_initial_matrix
@@ -223,7 +235,6 @@ class Element3D(object):
             temp_xxS, temp_yyS, temp_zzS, temp_xyS, temp_xzS, temp_yzS = calculate_twice_integration(np.array(self.joint_list))
             ff = np.array(self.delta_matrix)
             temp_matrix = np.zeros((12, 12), dtype=np.float64)
-            # TODO: mass matrix
             for r in range(4):
                 for s in range(4):
                     temp = ff[r][0] * ff[s][0] * temp_S +\
@@ -255,7 +266,6 @@ class Element3D(object):
         if self.__fixed_matrix is None:
             self.__fixed_matrix = np.zeros((12, 12), dtype=np.float64)
             self.__fixed_force = np.zeros((12, 1), dtype=np.float64)
-            # TODO
             for fixed_point in self.fixed_point_list:
                 temp = self.T_shape_matrix(1, fixed_point.coord[0][0], fixed_point.coord[0][1], fixed_point.coord[0][2], delta_matrix=self.delta_matrix)
                 '''fixed test'''
@@ -264,7 +274,7 @@ class Element3D(object):
                 '''fixed test'''
                 temp_matrix = np.dot(temp.T, temp)
                 temp_matrix = self.constant_spring * temp_matrix
-                temp_force = np.dot(temp.T, fixed_point.displacement_total.reshape((3, 1)))
+                temp_force = np.dot(temp.T, fixed_point.displacement_difference.reshape((3, 1)))
                 temp_force = self.constant_spring * temp_force
                 self.__fixed_matrix = self.__fixed_matrix + temp_matrix
                 self.__fixed_force = self.__fixed_force - temp_force
@@ -276,7 +286,12 @@ class Element3D(object):
     def total_matrix(self):
         if self.__total_matrix is None:
             # self.__total_matrix = self.mass_matrix[0]
-            self.__total_matrix = self.stiff_matrix + self.fixed_matrix[0] + self.mass_matrix[0]
+            # self.__total_matrix = self.stiff_matrix
+            # self.__total_matrix = self.stiff_matrix + self.fixed_matrix[0]
+            self.__total_matrix = self.stiff_matrix + self.mass_matrix[0] + self.fixed_matrix[0]
+            # self.__total_matrix = self.mass_matrix[0] + self.fixed_matrix[0]
+            # self.__total_matrix = self.stiff_matrix + self.mass_matrix[0]
+            # print(np.linalg.det(self.__total_matrix))
             check_shape(self.__total_matrix, (12, 12))
         return self.__total_matrix
 
@@ -290,6 +305,7 @@ class Element3D(object):
             # print('fixed_matrix_force: {}'.format(self.fixed_matrix[1]))
             # print('mass_matrix_force: {}'.format(self.mass_matrix[1]))
             self.__total_force = self.initial_matrix + self.loading_matrix + self.body_matrix + self.fixed_matrix[1] + self.mass_matrix[1]
+            # self.__total_force = self.initial_matrix + self.loading_matrix + self.body_matrix + self.mass_matrix[1]
             # self.__total_force = self.loading_matrix + self.body_matrix + self.fixed_matrix[1] + self.mass_matrix[1]
             # self.__total_force = self.fixed_matrix[1] + self.loading_matrix + self.body_matrix + self.mass_matrix[1]
             check_shape(self.__total_force, (12, 1))
@@ -304,7 +320,15 @@ class Element3D(object):
             delta_matrix = delta_matrix.I
             self.__delta_matrix = delta_matrix.T
             check_shape(self.__delta_matrix, (4, 4))
+            # calculated by sympy
+            self.__delta_matrix = f_function(self.patch_list[0], self.patch_list[1], self.patch_list[2], self.patch_list[3])
         return self.__delta_matrix
+
+    @property
+    def new_delta_matrix(self):
+        # calculated by sympy
+        self.__new_delta_matrix = f_function(self.patch_list[0], self.patch_list[1], self.patch_list[2], self.patch_list[3])
+        return self.__new_delta_matrix
 
     @property
     def B_shape_matrix(self):
@@ -315,7 +339,6 @@ class Element3D(object):
             #                                   [delta_matrix[0, 2], delta_matrix[0, 1], delta_matrix[1, 2], delta_matrix[1, 1], delta_matrix[2, 2], delta_matrix[2, 1]]])
             self.__B_shape_matrix = np.empty((6, 0), dtype=np.float64)
             for i in range(4):
-                # TODO: Is row and column conversed between delta_matrix[i][1] and delta_matrix[i, 1]?
                 temp_B = np.array([[delta_matrix[i, 1],                  0,                  0],
                                    [                 0, delta_matrix[i, 2],                  0],
                                    [                 0,                  0, delta_matrix[i, 3]],
@@ -343,8 +366,8 @@ class Element3D(object):
     @property
     def elastic_matrix(self):
         if self.__elastic_matrix is None:
-            temp_E = self.material_dict['elastic_modulus']
-            temp_mu = self.material_dict['poisson_ratio']
+            temp_E = float(self.material_dict['elastic_modulus'])
+            temp_mu = float(self.material_dict['poisson_ratio'])
             elastic_matrix = temp_E / ((1 + temp_mu) * (1 - 2 * temp_mu)) * \
                              np.matrix([[1 - temp_mu,     temp_mu,     temp_mu,                 0,                 0,                 0],
                                         [    temp_mu, 1 - temp_mu,     temp_mu,                 0,                 0,                 0],
@@ -453,7 +476,6 @@ class Element3D(object):
             #     temp_joint_coordinate = np.array(self.minified_joint_list, dtype=np.float64)
             #     self.__joint_displacement_increment = griddata(temp_patch_coordinate, temp_patch_displacement, temp_joint_coordinate)
 
-            # TODO: important!!! special point interpolation
             for each_point in self.fixed_point_list:
                 self.special_points_interpolation(each_point, temp_patch_displacement, self.delta_matrix)
             for each_point in self.loading_point_list:

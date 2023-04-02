@@ -7,16 +7,16 @@
       <CellData>
       </CellData>
       <Points>
-        <DataArray type="Float32" Name="Points" NumberOfComponents="3" format="appended" RangeMin="3.6066164671"         RangeMax="4.9773605778"         offset="0"                   />
+        <DataArray type="Float32" Name="Points" NumberOfComponents="3" format="appended" RangeMin="0"                    RangeMax="2.8198311682"         offset="0"                   />
       </Points>
       <Cells>
         <DataArray type="Int64" Name="connectivity" format="appended" RangeMin=""                     RangeMax=""                     offset="100"                 />
-        <DataArray type="Int64" Name="offsets" format="appended" RangeMin=""                     RangeMax=""                     offset="156"                 />
-        <DataArray type="UInt8" Name="types" format="appended" RangeMin=""                     RangeMax=""                     offset="200"                 />
+        <DataArray type="Int64" Name="offsets" format="appended" RangeMin=""                     RangeMax=""                     offset="152"                 />
+        <DataArray type="UInt8" Name="types" format="appended" RangeMin=""                     RangeMax=""                     offset="196"                 />
       </Cells>
     </Piece>
   </UnstructuredGrid>
   <AppendedData encoding="base64">
-   _AQAAAACAAAA8AAAAOQAAAA==eJxjYGBw6L7EDsIHfr7wd7CsnG4PxPvV/cUcqjexg/ABBqiaHqCaB3/dHKRz2R0WLw84AAC7WhfSAQAAAACAAAAwAAAAFgAAAA==eJxjYIAARijNBKWZ0fgsUBoAASAADQ==AQAAAACAAAAQAAAADgAAAA==eJxjZoAANigNAABwAAo=AQAAAACAAAACAAAACgAAAA==eJxjZQUAABEACw==
+   _AQAAAACAAAA8AAAAOAAAAA==eJxjYECAp89+2Ddf2bEfiO2DbBfZ3/29cj8Q2zubzrDftat2PxDbX9t5wt5FqGw/ENsDANNfGuo=AQAAAACAAAAgAAAAEwAAAA==eJxjZIAAJijNDKVZoDQAAMAACw==AQAAAACAAAAQAAAADgAAAA==eJxjYYAAFigNAABwAAk=AQAAAACAAAACAAAACgAAAA==eJzjZAAAABQACg==
   </AppendedData>
 </VTKFile>

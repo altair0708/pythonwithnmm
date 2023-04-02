@@ -1,6 +1,6 @@
 import sys
 
-from NMM.crack_3D.CrackElementBase3D import Element3D
+from NMM.crack_3D.ElementBase3D import Element3D
 from NMM.base.ModifyVtkCell import insert_a_cell
 from vtkmodules.vtkCommonDataModel import vtkUnstructuredGrid, VTK_POLYHEDRON
 from vtkmodules.vtkCommonCore import vtkIdList, vtkPoints

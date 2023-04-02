@@ -6,7 +6,7 @@
       </PointData>
       <CellData>
         <DataArray type="Int32" Name="element_id" NumberOfComponents="2" format="appended" RangeMin="1"                    RangeMax="3.1622776602"         offset="0"                   />
-        <DataArray type="Int32" Name="cracked" format="appended" RangeMin="0"                    RangeMax="2"                    offset="72"                  />
+        <DataArray type="Int32" Name="cracked" format="appended" RangeMin="0"                    RangeMax="9"                    offset="72"                  />
         <DataArray type="Int32" Name="edge_id" format="appended" RangeMin="-1"                   RangeMax="10"                   offset="120"                 />
       </CellData>
       <Points>
@@ -20,6 +20,6 @@
     </Piece>
   </UnstructuredGrid>
   <AppendedData encoding="base64">
-   _AQAAAACAAABoAAAAIgAAAA==eJxjYGBgYGKAgP9AAKIZoXxmKBskjk4z4aCZcdAAQr4n8Q==AQAAAACAAAA0AAAAEAAAAA==eJxjYoAAJiIxCAAAAqQAFw==AQAAAACAAAA0AAAAJgAAAA==eJxjYWBg+A8ETECaiwECGIGYGYhZgZgNiNmBmAOIOaFqAcikCDA=AQAAAACAAABUAAAAFgAAAA==eJxjYEAGDfYMBPkN+9HEMPgAuYIF+w==AQAAAACAAAA4AQAAOwAAAA==eJxjYIAARijNjMZnQhNnICCOro8BTR0LDv0sqMrh8jBxdPex4jAfXZyRgDgbGp8JTRzdPTBxADCQAFg=AQAAAACAAABoAAAAKwAAAA==eJxjZoAANijNCaV5oDQ/lBaC0qJQWgJKS0NpOSitCKVVoLQ6lAYAKxABEg==AQAAAACAAAANAAAACwAAAA==eJxjZ0cCAAKKAFw=
+   _AQAAAACAAABoAAAAIgAAAA==eJxjYGBgYGKAgP9AAKIZoXxmKBskjk4z4aCZcdAAQr4n8Q==AQAAAACAAAA0AAAAEAAAAA==eJzjZIAATiIxCAAACywAZA==AQAAAACAAAA0AAAAJgAAAA==eJxjYWBg+A8ETECaiwECGIGYGYhZgZgNiNmBmAOIOaFqAcikCDA=AQAAAACAAABUAAAAFgAAAA==eJxjYEAGDfYMBPkN+9HEMPgAuYIF+w==AQAAAACAAAA4AQAAOwAAAA==eJxjYIAARijNjMZnQhNnICCOro8BTR0LDv0sqMrh8jBxdPex4jAfXZyRgDgbGp8JTRzdPTBxADCQAFg=AQAAAACAAABoAAAAKwAAAA==eJxjZoAANijNCaV5oDQ/lBaC0qJQWgJKS0NpOSitCKVVoLQ6lAYAKxABEg==AQAAAACAAAANAAAACwAAAA==eJxjZ0cCAAKKAFw=
   </AppendedData>
 </VTKFile>
