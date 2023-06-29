@@ -20,7 +20,6 @@ from vtkmodules.vtkCommonCore import vtkPoints
 
 def clip_an_element(element: Element3D):
 
-    # TODO: max strain?
     max_strain = element.strain.max_component_vector[1]
 
     # crack edge in element surface
@@ -39,6 +38,9 @@ def clip_an_element(element: Element3D):
             #     print(each_surface_cell.id)
             #     sys.exit()
             crack_edge_cell_list.append(crack_edge_cell)
+
+    if element.id == 3258:
+        print('crack edge number: ', len(crack_edge_cell_list))
 
     if len(crack_edge_cell_list) == 1:
 
@@ -176,6 +178,29 @@ def clip_an_element(element: Element3D):
             temp_edge.DeepCopy(each_crack_edge_cell.vtk_cell)
             insert_a_cell_0(crack_edge_grid, temp_edge)
 
+        if crack_edge_grid.GetNumberOfPoints() == 4:
+            vector_0 = crack_edge_cell_list[0].vector
+            vector_1 = crack_edge_cell_list[1].vector
+
+            if element.id == 3258:
+                print('crack point number: ', crack_edge_grid.GetNumberOfPoints())
+
+            normal_vector = np.cross(vector_0, vector_1)
+            origin_point = crack_edge_cell_list[0].point_0
+            try:
+                new_crack_surface_vtk_cell, _, _ = clip_a_vtk_cell(element.vtk_cell, origin_point, normal_vector)
+            except AssertionError:
+                return None
+
+            # ensure the area of crack surface > 0
+            temp_points = vtkPoints()
+            temp_points.DeepCopy(new_crack_surface_vtk_cell.GetPoints())
+            if not calculate_area(temp_points) > 0.001:
+                return None
+
+            generate_crack_surface_cell(new_crack_surface_vtk_cell, element)
+
+        # point number == 5, because there is an initial point == (0, 0, 0), actually there are 4 real points.
         if crack_edge_grid.GetNumberOfPoints() == 5:
             new_crack_surface_vtk_cell = vtkTetra()
             new_crack_surface_vtk_cell.GetPointIds().SetId(0, 1)
@@ -250,9 +275,9 @@ def generate_crack_edge_cell(surface: Surface3D, crack_surface: CrackSurface3D, 
             if check_point_in_polygon(temp_point, surface.vtk_cell):
                 point_list.append(temp_point)
 
-        if crack_surface.element_id[0] == 2835:
-            print(point_list)
-            print(len(point_list))
+        # if crack_surface.element_id[0] == 2835:
+        #     print(point_list)
+        #     print(len(point_list))
 
         if len(point_list) != 2:
             return False
@@ -310,6 +335,10 @@ class ElementCracker3D(object):
         # if element.strain.max_component[0] > 0.00001 and element.cracked == 2:
         if element.cracked == 2 and element.strain.max_component_vector[0] > 0.00001:
             element.cracked = 3
+
+        # crack propagation anyway
+        # if element.cracked == 2:
+        #     element.cracked = 3
 
         if element.cracked == 3:
             # generate crack surface

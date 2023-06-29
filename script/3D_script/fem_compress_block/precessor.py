@@ -1,3 +1,4 @@
+import sys
 from NMM.preprocess_3D.GenerateGeometryInfo import generate_geometry_info
 from NMM.preprocess_3D.GenerateMathCover import generate_math_point, generate_math_cover
 from NMM.preprocess_3D.GenerateManifoldElement import generate_manifold_element

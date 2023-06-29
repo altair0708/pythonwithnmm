@@ -1,6 +1,7 @@
 from NMM.base.ElementClipFunction import clip_a_vtk_cell
 from vtkmodules.vtkCommonDataModel import vtkUnstructuredGrid, VTK_POLYHEDRON, vtkPolygon, vtkTetra
 from vtkmodules.vtkCommonCore import vtkPoints, vtkIdList
+from vtkmodules.vtkIOXML import vtkXMLUnstructuredGridWriter
 import numpy as np
 import random
 
@@ -85,4 +86,11 @@ def generate_tetrahedron(point_1=(0, 0, 0), point_2=(1, 0, 0), point_3=(0, 1, 0)
 
     new_tetra = u_grid.GetCell(0)
 
-    return new_tetra
+    return new_tetra, u_grid
+
+if __name__ == '__main__':
+    tetra, grid = generate_tetrahedron()
+    writer = vtkXMLUnstructuredGridWriter()
+    writer.SetInputData(grid)
+    writer.SetFileName('gmsh_tetrahedron.vtu')
+    writer.Write()

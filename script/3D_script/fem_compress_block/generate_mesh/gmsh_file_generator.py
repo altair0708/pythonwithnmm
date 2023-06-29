@@ -8,4 +8,4 @@ with pygmsh.occ.Geometry() as geom:
     # geom.add_cylinder((0, 0, 0), (2, 0, 0), 10, mesh_size=1)
     geom.add_box((0, 0, 0), (10, 10, 10), mesh_size=1)
     mesh = geom.generate_mesh()
-mesh.write(output_path + '/gmsh_file.vtu')
+mesh.write(output_path + '/gmsh_file_with_hole.vtu')

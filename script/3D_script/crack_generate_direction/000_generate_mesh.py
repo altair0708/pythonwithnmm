@@ -33,7 +33,7 @@ except FileExistsError:
     pass
 
 writer = vtkXMLUnstructuredGridWriter()
-writer.SetFileName('./mesh/gmsh_file.vtu')
+writer.SetFileName('./mesh/gmsh_file_with_hole.vtu')
 writer.SetInputData(u_grid)
 writer.Write()
 

@@ -1,6 +1,6 @@
 from NMM.fem_3D.ElementBase_3D import Element3D, calculate_integration
 from NMM.base.TensorBase import Tensor
-import numpy as np
+import math
 
 joint_list = [(0, 0, 0),
               (1, 0, 0),
@@ -24,4 +24,6 @@ element.patch_displacement[3] = (0, 0, 0)
 # print(element.B_shape_matrix)
 strain = Tensor(element.initial_strain_total)
 print(strain.max_component_vector)
+
+print(math.sin(30*math.pi/180))
 

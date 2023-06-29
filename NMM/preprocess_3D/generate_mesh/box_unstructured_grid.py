@@ -161,7 +161,7 @@ element_grid.GetCellData().AddArray(element_type_id)
 
 tetra_grid.SetPoints(point_coord_list)
 tetra_writer = vtkXMLUnstructuredGridWriter()
-tetra_writer.SetFileName('gmsh_file.vtu')
+tetra_writer.SetFileName('gmsh_file_with_hole.vtu')
 tetra_writer.SetInputData(tetra_grid)
 tetra_writer.Write()
 

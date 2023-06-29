@@ -115,7 +115,7 @@ def create_an_element(id_value: int,
             temp_special_point.id = each_id
             temp_special_point.coord = np.array(temp_points.GetPoint(each_id), dtype=np.float64).reshape(1, 3)
             temp_special_point.velocity = np.array(velocity_list.GetTuple(each_id), dtype=np.float64).reshape(1, 3)
-            temp_special_point.force = np.array(force_list.GetTuple(each_id), dtype=np.float64).reshape(1, 3)
+            temp_special_point.force = np.array(force_list.GetTuple(each_id), dtype=np.float64).reshape(3, 1)
             temp_special_point.actual_displacement = np.array(displacement_total_list.GetTuple(each_id), dtype=np.float64).reshape(1, 3)
             # print(temp_points.GetPoint(each_id))
             # print(velocity_list.GetTuple(each_id))

@@ -43,7 +43,7 @@ u_grid.InsertNextCell(tetra_2.GetCellType(), tetra_2.GetPointIds())
 u_grid.InsertNextCell(tetra_3.GetCellType(), tetra_3.GetPointIds())
 
 writer = vtkXMLUnstructuredGridWriter()
-writer.SetFileName('gmsh_file.vtu')
+writer.SetFileName('gmsh_file_with_hole.vtu')
 writer.SetInputData(u_grid)
 writer.Write()
 

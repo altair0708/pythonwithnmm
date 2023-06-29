@@ -409,7 +409,7 @@ class GmshReader:
 if __name__ == '__main__':
     # file_name = 'simplex.vtu'
     # special_point_file = 'special_points_simplex.vtu'
-    file_name = 'generate_mesh/gmsh_file.vtu'
+    file_name = 'generate_mesh/gmsh_file_with_hole.vtu'
     # special_point_file = 'special_point_1.vtu'
     special_point_file = 'generate_mesh/special_point.vtu'
     work_path = '../../data_3D/'

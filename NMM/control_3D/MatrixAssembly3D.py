@@ -21,11 +21,11 @@ class MatrixAssembler3D:
             temp_total_row = np.c_[temp_total_row, row]
             temp_total_column = np.c_[temp_total_column, column]
             temp_total_value = np.c_[temp_total_value, value]
-            temp_total_row = temp_total_row.astype('int32')
-            temp_total_column = temp_total_column.astype('int32')
-            temp_stiff_matrix = coo_matrix((temp_total_value[0], (temp_total_row[0], temp_total_column[0])), dtype=np.float64)
-            temp_stiff_matrix = temp_stiff_matrix.tocsc()
             print('\rstiff matrix assembled : {}%'.format(element_id * 100/len(element_list)), end='')
+        temp_total_row = temp_total_row.astype('int32')
+        temp_total_column = temp_total_column.astype('int32')
+        temp_stiff_matrix = coo_matrix((temp_total_value[0], (temp_total_row[0], temp_total_column[0])), dtype=np.float64)
+        temp_stiff_matrix = temp_stiff_matrix.tocsc()
         if temp_stiff_matrix.shape != (3 * math_cover_number, 3 * math_cover_number):
             raise Exception('stiff matrix shape don\'t equal patch number')
         print('\rstiff matrix assembled complete!')

@@ -18,5 +18,5 @@ with pygmsh.geo.Geometry() as geom:
 # np.savetxt('points.txt', mesh.points)
 # np.savetxt('cells.txt', mesh.cells_dict['triangle'])
 #
-print(mesh.points)
+print(mesh.points_0)
 print(mesh.cells_dict['triangle'])

@@ -1,3 +1,5 @@
+import sys
+
 import numpy as np
 from NMM.control_3D.ElementIO3D import ElementIOer3D
 from NMM.base.CopyFunction import copy_vtk_cell, copy_polyhedron
@@ -335,7 +337,10 @@ def generate_crack_surface_file_1(mesh_path: str, geometry_path: str, initial_cr
                         crack_edge_id_list.append(temp_edge_id)
                 if len(crack_edge_id_list) == 3:
                     crack_edge_id_list.append(-1)
+
+                # if error happen, maybe crack surface interact with element at the vertex......
                 assert len(crack_edge_id_list) == 4
+
                 set_property(crack_surface_grid, 'edge_id', temp_crack_surface_id, crack_edge_id_list)
 
     def write_vtk_model(vtk_model, vtk_file_name, path):

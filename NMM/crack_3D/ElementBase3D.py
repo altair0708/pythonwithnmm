@@ -69,6 +69,9 @@ class Element3D(ObjectBase3D):
     def strain_total(self, strain_total):
         strain_total = np.array(strain_total).reshape(6, 1)
         check_shape(strain_total, (6, 1))
+        strain_total[3][0] = strain_total[3][0] / 2
+        strain_total[4][0] = strain_total[4][0] / 2
+        strain_total[5][0] = strain_total[5][0] / 2
         self.__strain_total = strain_total
         self.__strain = Tensor(self.__strain_total)
 

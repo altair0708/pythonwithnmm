@@ -32,7 +32,7 @@ u_grid.InsertNextCell(polyhedron.GetCellType(), face_id_list)
 # u_grid.InsertNextCell(tetrahedron.GetCellType(), tetrahedron.GetPointIds())
 
 reader = vtkXMLUnstructuredGridReader()
-reader.SetFileName('gmsh_file.vtu')
+reader.SetFileName('gmsh_file_with_hole.vtu')
 reader.Update()
 u_grid: vtkUnstructuredGrid = reader.GetOutput()
 

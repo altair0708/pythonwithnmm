@@ -84,8 +84,8 @@ class Element3D(object):
             'id': 1,
             'unit_mass': 1.0,
             'body_force': (0, 0, 0),
-            'elastic_modulus': 5000000000,
-            # 'elastic_modulus': 5,
+            # 'elastic_modulus': 1000000000,
+            'elastic_modulus': 5,
             'poisson_ratio': 0.2,
             'initial_force': (0, 0, 0, 0, 0, 0),
             'yield_coefficient': {
@@ -288,6 +288,9 @@ class Element3D(object):
             # self.__total_matrix = self.mass_matrix[0]
             # self.__total_matrix = self.stiff_matrix
             # self.__total_matrix = self.stiff_matrix + self.fixed_matrix[0]
+            # print('stiff matrix:', np.linalg.matrix_rank(self.stiff_matrix) == self.stiff_matrix.shape[0])
+            # print('mass matrix:', np.linalg.matrix_rank(self.mass_matrix[0]) == self.mass_matrix[0].shape[0])
+            # print('fixed matrix:', np.linalg.det(self.fixed_matrix[0]))
             self.__total_matrix = self.stiff_matrix + self.mass_matrix[0] + self.fixed_matrix[0]
             # self.__total_matrix = self.mass_matrix[0] + self.fixed_matrix[0]
             # self.__total_matrix = self.stiff_matrix + self.mass_matrix[0]
@@ -305,9 +308,12 @@ class Element3D(object):
             # print('fixed_matrix_force: {}'.format(self.fixed_matrix[1]))
             # print('mass_matrix_force: {}'.format(self.mass_matrix[1]))
             self.__total_force = self.initial_matrix + self.loading_matrix + self.body_matrix + self.fixed_matrix[1] + self.mass_matrix[1]
+            # self.__total_force = self.initial_matrix + self.loading_matrix + self.body_matrix + self.fixed_matrix[1]
             # self.__total_force = self.initial_matrix + self.loading_matrix + self.body_matrix + self.mass_matrix[1]
             # self.__total_force = self.loading_matrix + self.body_matrix + self.fixed_matrix[1] + self.mass_matrix[1]
             # self.__total_force = self.fixed_matrix[1] + self.loading_matrix + self.body_matrix + self.mass_matrix[1]
+            # self.__total_force = self.loading_matrix + self.fixed_matrix[1]
+            print(self.fixed_point_list)
             check_shape(self.__total_force, (12, 1))
         return self.__total_force
 
@@ -375,6 +381,13 @@ class Element3D(object):
                                         [          0,           0,           0, (1 - 2*temp_mu)/2,                 0,                 0],
                                         [          0,           0,           0,                 0, (1 - 2*temp_mu)/2,                 0],
                                         [          0,           0,           0,                 0,                 0, (1 - 2*temp_mu)/2]])
+            # elastic_matrix = temp_E / ((1 + temp_mu) * (1 - 2 * temp_mu)) * \
+            #                  np.matrix([[1 - temp_mu,     temp_mu,     temp_mu,               0,               0,               0],
+            #                             [    temp_mu, 1 - temp_mu,     temp_mu,               0,               0,               0],
+            #                             [    temp_mu,     temp_mu, 1 - temp_mu,               0,               0,               0],
+            #                             [          0,           0,           0, (1 - 2*temp_mu),               0,               0],
+            #                             [          0,           0,           0,               0, (1 - 2*temp_mu),               0],
+            #                             [          0,           0,           0,               0,               0, (1 - 2*temp_mu)]])
             self.__elastic_matrix = elastic_matrix
         return self.__elastic_matrix
 

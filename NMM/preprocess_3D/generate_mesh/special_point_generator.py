@@ -10,9 +10,9 @@ output_path = os.path.abspath(output_path)
 tol = 0.01
 start_point = (0, 0, 0)
 
-# row = 61
-row = 121
-column = 61
+row = 31
+# row = 101
+column = 31
 point_number = column * row * 2
 
 special_point_grid = vtkUnstructuredGrid()
@@ -24,16 +24,29 @@ for each_point_id in range(point_number):
 special_points_coordinate = vtkPoints()
 for each_row in range(row):
     for each_col in range(column):
+
         # x = 0 + (2 / (column - 1)) * each_col + start_point[0]
-        # y = 0 + (2 / (row - 1)) * each_row + start_point[1]
-        # z_0 = 19.9 + start_point[2]
-        # z_1 = 0.1 + start_point[2]
-        x = 0 + (2 / (column - 1)) * each_col
-        y = -2 + (4 / (row - 1)) * each_row
-        z_0 = 10 - tol
-        z_1 = -10 + tol
-        special_points_coordinate.InsertNextPoint((x, y, z_0))
-        special_points_coordinate.InsertNextPoint((x, y, z_1))
+        # y = -2 + (4 / (row - 1)) * each_row + start_point[1]
+        # # z_0 = -9.9 + start_point[2]
+        # # z_1 = 9.9 + start_point[2]
+        # z_0 = 9.9 + start_point[2]
+        # z_1 = -9.9 + start_point[2]
+
+        # (0, 0, 0) - (10, 2, 10)
+        # x = 0 + (10 / (column - 1)) * each_col
+        # y = 0 + (2 / (row - 1)) * each_row
+        # z_0 = 10 - tol
+        # z_1 = 0 + tol
+
+        x_0 = 0 + (5 / (column - 1)) * each_col
+        y_0 = 0 + (2 / (row - 1)) * each_row
+        z_0 = 0 + tol
+
+        x_1 = 0 + (5 / (column - 1)) * each_col
+        y_1 = 0 + (2 / (row - 1)) * each_row
+        z_1 = 10 - tol
+        special_points_coordinate.InsertNextPoint((x_0, y_0, z_0))
+        special_points_coordinate.InsertNextPoint((x_1, y_1, z_1))
 
 # id = 0 loading point
 # id = 1 fixed point
@@ -50,8 +63,14 @@ point_velocity.SetNumberOfComponents(3)
 
 temp = int(point_number / 2)
 for i in range(temp):
-    point_velocity.InsertNextTuple((0, 0, -0.0001))
+
+    # push
+    # point_velocity.InsertNextTuple((0, 0, -0.0001))
+
+    # pull
     point_velocity.InsertNextTuple((0, 0, 0))
+
+    point_velocity.InsertNextTuple((0, 0, 0.0001))
 
 # loading point: loading force
 point_force = vtkDoubleArray()

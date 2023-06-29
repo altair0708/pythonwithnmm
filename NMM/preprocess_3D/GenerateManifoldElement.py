@@ -70,10 +70,11 @@ def generate_manifold_element(mesh_path: str, geometry_path: str, special_point=
                 temp_special_points = specialPointGrid.GetPoint(each_point_id)
                 generic_cell = vtkGenericCell()
                 sub_id = reference(0)
-                temp_cell: vtkTetra = elementGrid.FindAndGetCell(temp_special_points, generic_cell, 0, 0.0, sub_id,
+                temp_cell: vtkTetra = elementGrid.FindAndGetCell(temp_special_points, generic_cell, 0, 0.00001, sub_id,
                                                                  [0, 0, 0], [0, 0, 0, 0])
-                temp_id = elementGrid.FindCell(temp_special_points, generic_cell, 0, 0.0, sub_id, [0, 0, 0],
+                temp_id = elementGrid.FindCell(temp_special_points, generic_cell, 0, 0.00001, sub_id, [0, 0, 0],
                                                [0, 0, 0, 0])
+                print(temp_id)
                 # special point in element
                 if temp_id >= 0:
                     database_statement = 'INSERT INTO ElementSpecialPoint (ElementId, SpecialPointId)' \

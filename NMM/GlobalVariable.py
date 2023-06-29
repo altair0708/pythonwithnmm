@@ -29,6 +29,11 @@ class PATH:
     crack_edge = '../data_3D/geometry/crack_edge.vtu'
     output_path = '../data_3D/result/'
 
+    # gmsh_file = 'with_hole_00.vtu'
+    # gmsh_file = 'gmsh_file_without_hole.vtu'
+    gmsh_file = 'gmsh_tetrahedron.vtu'
+    # gmsh_file = 'gmsh_file.vtu'
+
 
 class Variable:
     cover_number = 0

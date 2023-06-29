@@ -67,7 +67,7 @@ class EPoint3D(object):
 
     @force.setter
     def force(self, value: np.ndarray):
-        if value.shape != (1, 3):
+        if value.shape != (3, 1):
             raise Exception('point force shape error!')
         self.__force = value
 

@@ -6,7 +6,7 @@ from NMM.crack_3D.CrackElementCreator3D import CrackElementCreator3D
 from NMM.crack_3D.ElementCrack3D import ElementCracker3D
 from NMM.crack_3D.CrackElementRefresh3D import CrackElementRefresher
 from NMM.GlobalVariable import CONST, DataStructure, Variable, CrackList
-from scipy.sparse.linalg import spsolve, MatrixRankWarning
+from scipy.sparse.linalg import spsolve, MatrixRankWarning, cg
 import numpy as np
 
 class PATH:
@@ -45,7 +45,8 @@ for step in range(5):
     stiff_matrix = MatrixAssembler3D.stiff_matrix(element_list, Variable.cover_number)
     force_vector = MatrixAssembler3D.force_vector(element_list, Variable.cover_number)
     print(np.linalg.cond(stiff_matrix.toarray()))
-    x = spsolve(stiff_matrix, force_vector)
+    x, exit_code = cg(stiff_matrix, force_vector, tol=1e-15, atol=0.01)
+    # x = spsolve(stiff_matrix, force_vector)
 
     ElementRefresher3D.refresh_physical_cover(x, data_structure.physical_cover)
     ElementRefresher3D.refresh_manifold_element(data_structure, element_list)
