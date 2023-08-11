@@ -38,12 +38,12 @@ for each_row in range(row):
         # z_0 = 10 - tol
         # z_1 = 0 + tol
 
-        x_0 = 0 + (5 / (column - 1)) * each_col
-        y_0 = 0 + (2 / (row - 1)) * each_row
-        z_0 = 0 + tol
+        x_0 = 0 + (2 / (column - 1)) * each_col
+        y_0 = -1 + (2 / (row - 1)) * each_row
+        z_0 = -10 + tol
 
-        x_1 = 0 + (5 / (column - 1)) * each_col
-        y_1 = 0 + (2 / (row - 1)) * each_row
+        x_1 = 0 + (2 / (column - 1)) * each_col
+        y_1 = -1 + (2 / (row - 1)) * each_row
         z_1 = 10 - tol
         special_points_coordinate.InsertNextPoint((x_0, y_0, z_0))
         special_points_coordinate.InsertNextPoint((x_1, y_1, z_1))
@@ -55,22 +55,22 @@ point_type = vtkIntArray()
 point_type.SetName('point_type')
 [point_type.InsertValue(i, 1) for i in range(point_number)]
 
+point_group = vtkIntArray()
+point_group.SetName('group')
+
 # fixed point: velocity
 point_velocity = vtkDoubleArray()
 point_velocity.SetName('velocity')
 point_velocity.SetNumberOfComponents(3)
-# [point_velocity.InsertTuple(i, (i, i, i)) for i in range(6)]
 
+# [point_velocity.InsertTuple(i, (i, i, i)) for i in range(6)]
 temp = int(point_number / 2)
 for i in range(temp):
-
-    # push
-    # point_velocity.InsertNextTuple((0, 0, -0.0001))
-
-    # pull
     point_velocity.InsertNextTuple((0, 0, 0))
+    point_group.InsertNextValue(0)
 
-    point_velocity.InsertNextTuple((0, 0, 0.0001))
+    point_velocity.InsertNextTuple((0, 0, -0.0001))
+    point_group.InsertNextValue(1)
 
 # loading point: loading force
 point_force = vtkDoubleArray()
@@ -83,11 +83,19 @@ point_displacement.SetName('displacement_total')
 point_displacement.SetNumberOfComponents(3)
 [point_displacement.InsertTuple(i, (0, 0, 0)) for i in range(point_number)]
 
+point_displacement_difference = vtkDoubleArray()
+point_displacement_difference.SetName('displacement_difference')
+point_displacement_difference.SetNumberOfComponents(3)
+[point_displacement_difference.InsertTuple(i, (0, 0, 0)) for i in range(point_number)]
+
 special_point_grid.SetPoints(special_points_coordinate)
 special_point_grid.GetCellData().AddArray(point_type)
 special_point_grid.GetCellData().AddArray(point_velocity)
 special_point_grid.GetCellData().AddArray(point_force)
 special_point_grid.GetCellData().AddArray(point_displacement)
+
+special_point_grid.GetCellData().AddArray(point_group)
+special_point_grid.GetCellData().AddArray(point_displacement_difference)
 
 point_writer = vtkXMLUnstructuredGridWriter()
 point_writer.SetFileName(output_path + '/special_point.vtu')

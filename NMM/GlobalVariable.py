@@ -31,8 +31,13 @@ class PATH:
 
     # gmsh_file = 'with_hole_00.vtu'
     # gmsh_file = 'gmsh_file_without_hole.vtu'
-    gmsh_file = 'gmsh_tetrahedron.vtu'
+    # gmsh_file = 'gmsh_tetrahedron.vtu'
+    # gmsh_file = 'gmsh_long_pole_30.vtu'
     # gmsh_file = 'gmsh_file.vtu'
+    # gmsh_file = 'gmsh_sphere.vtu'
+    # gmsh_file = 'gmsh_L_block.vtu'
+    gmsh_file = 'with_hole_00.vtu'
+    # gmsh_file = 'without_hole.vtu'
 
 
 class Variable:

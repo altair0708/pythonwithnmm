@@ -7,6 +7,7 @@ from vtkmodules.vtkCommonDataModel import vtkUnstructuredGrid, vtkTetra, vtkCell
 from vtkmodules.vtkCommonCore import vtkDataArray, vtkPoints, vtkIdList
 from NMM.fem_3D.ElementBase_3D import Element3D
 from NMM.fem_3D.PointBase_3D import EPoint3D, PointType
+from NMM.base.PropertyGetSetFunction import get_property
 from NMM.GlobalVariable import DataStructure
 
 
@@ -17,6 +18,8 @@ def create_an_element(id_value: int,
                       special_point_grid: vtkUnstructuredGrid,
                       material_coefficient: str) -> Element3D:
     element = Element3D(id_value)
+    # cracked flag
+    element.cracked = get_property(element_grid, 'cracked', id_value)[0]
 
     # get joint point info
     temp_cell: vtkTetra = element_grid.GetCell(id_value)
@@ -35,11 +38,28 @@ def create_an_element(id_value: int,
     joint_id_list = vtkIdList()
     element_grid.GetCellPoints(id_value, joint_id_list)
     # print('element vertex coordinate:')
+    point_displacement_total: vtkDataArray = element_grid.GetPointData().GetArray(2)
+    if point_displacement_total.GetName() != 'point_displacement_total':
+        raise Exception('DataArray Index Error!')
+
+    point_displacement_increment: vtkDataArray = element_grid.GetPointData().GetArray(1)
+    if point_displacement_increment.GetName() != 'point_displacement_increment':
+        raise Exception('DataArray Index Error!')
+
     for each_joint in range(joint_id_list.GetNumberOfIds()):
         joint_id = joint_id_list.GetId(each_joint)
         element.joint_id[each_joint] = joint_id
-        element.joint_list[each_joint] = joint_list.GetPoint(each_joint)
-        # print(joint_list.GetPoint(each_joint))
+        # element.joint_list[each_joint] = joint_list.GetPoint(each_joint)
+
+        # add displacement to coordinate of vertex
+        old_coord = joint_list.GetPoint(each_joint)
+        temp_displacement = point_displacement_total.GetTuple(joint_id)
+        new_coord = [old_coord[i] + temp_displacement[i] for i in range(3)]
+        element.joint_list[each_joint] = tuple(new_coord)
+
+        # joint displacement increment of vertex
+        temp_velocity = get_property(element_grid, 'point_velocity', joint_id)
+        element.joint_velocity_list[each_joint] = temp_velocity
 
     # get patch info
     temp_math_data_list: vtkCellData = mathcover_grid.GetCellData()
@@ -84,6 +104,7 @@ def create_an_element(id_value: int,
         raise Exception('special_point_velocity dataArray Index error!')
     force_list: vtkDataArray = special_point_data.GetArray(2)
     if force_list.GetName() != 'force':
+        print(force_list.GetName())
         raise Exception('special_point_force dataArray Index error!')
     displacement_total_list: vtkDataArray = special_point_data.GetArray(3)
     if displacement_total_list.GetName() != 'displacement_total':
@@ -117,6 +138,12 @@ def create_an_element(id_value: int,
             temp_special_point.velocity = np.array(velocity_list.GetTuple(each_id), dtype=np.float64).reshape(1, 3)
             temp_special_point.force = np.array(force_list.GetTuple(each_id), dtype=np.float64).reshape(3, 1)
             temp_special_point.actual_displacement = np.array(displacement_total_list.GetTuple(each_id), dtype=np.float64).reshape(1, 3)
+            temp_add = temp_special_point.coord + temp_special_point.actual_displacement
+            temp_special_point.coord = temp_add
+            # if temp_special_point.point_type == PointType.loading_point:
+            #     print(temp_special_point.coord)
+            #     print(temp_special_point.actual_displacement)
+            #     print(temp_add)
             # print(temp_points.GetPoint(each_id))
             # print(velocity_list.GetTuple(each_id))
             # print(force_list.GetTuple(each_id))

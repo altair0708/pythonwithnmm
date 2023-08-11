@@ -74,7 +74,12 @@ def generate_manifold_element(mesh_path: str, geometry_path: str, special_point=
                                                                  [0, 0, 0], [0, 0, 0, 0])
                 temp_id = elementGrid.FindCell(temp_special_points, generic_cell, 0, 0.00001, sub_id, [0, 0, 0],
                                                [0, 0, 0, 0])
-                print(temp_id)
+
+                # There is a bug that when temp_id = 0, it will be mistake assign as -1.
+                if elementGrid.GetNumberOfCells() == 1:
+                    temp_id = 0
+                    temp_cell: vtkTetra = elementGrid.GetCell(0)
+
                 # special point in element
                 if temp_id >= 0:
                     database_statement = 'INSERT INTO ElementSpecialPoint (ElementId, SpecialPointId)' \
@@ -174,6 +179,16 @@ def generate_manifold_element(mesh_path: str, geometry_path: str, special_point=
     pointDisplacementTotalVector.SetNumberOfComponents(3)
     [pointDisplacementTotalVector.InsertTuple(i, (0, 0, 0)) for i in range(pointNumber)]
 
+    pointCoordinateVector= vtkDoubleArray()
+    pointCoordinateVector.SetName('point_coordinate')
+    pointCoordinateVector.SetNumberOfComponents(3)
+    [pointCoordinateVector.InsertTuple(i, (0, 0, 0)) for i in range(pointNumber)]
+
+    pointVelocityVector= vtkDoubleArray()
+    pointVelocityVector.SetName('point_velocity')
+    pointVelocityVector.SetNumberOfComponents(3)
+    [pointVelocityVector.InsertTuple(i, (0, 0, 0)) for i in range(pointNumber)]
+
     elementGrid.GetCellData().AddArray(elementScalar)
     elementGrid.GetCellData().AddArray(elementMaterialId)
     elementGrid.GetCellData().AddArray(elementStrain)
@@ -195,6 +210,8 @@ def generate_manifold_element(mesh_path: str, geometry_path: str, special_point=
     elementGrid.GetPointData().AddArray(pointScalar)
     elementGrid.GetPointData().AddArray(pointDisplacementIncrementVector)
     elementGrid.GetPointData().AddArray(pointDisplacementTotalVector)
+    elementGrid.GetPointData().AddArray(pointCoordinateVector)
+    elementGrid.GetPointData().AddArray(pointVelocityVector)
 
     outputFile = 'manifold_element.vtu'
     writer = vtkXMLUnstructuredGridWriter()

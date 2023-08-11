@@ -112,7 +112,6 @@ class EPoint3D(object):
             raise Exception('displacement error!')
         self.__displacement_difference = value
 
-
     @property
     def point_type(self):
         return self.__type

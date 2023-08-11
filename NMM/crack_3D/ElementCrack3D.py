@@ -104,23 +104,25 @@ def clip_an_element(element: Element3D):
                 # print('before:', normal_vector)
                 # normal_vector = schmidt_orthogonalization(vector_0, -max_strain)
 
-                nx = vector_0[0]
-                ny = vector_0[1]
-                nz = vector_0[2]
-                thet = 185
-                costhet = np.math.cos((thet/180)*np.pi)
-                sinthet = np.math.sin((thet/180)*np.pi)
-                rotation_matrix = np.array([[nx**2*(1-costhet) + costhet, nx*ny*(1-costhet) - nz*sinthet, nx*nz*(1-costhet) + ny*sinthet],
-                                            [nx*ny*(1-costhet) + nz*sinthet, ny**2*(1-costhet) + costhet, ny*nz*(1-costhet) - nx*sinthet],
-                                            [nx*nz*(1-costhet) - ny*sinthet, ny*nz*(1-costhet) + nx*sinthet, nz**2*(1-costhet) + costhet]])
+                # nx = vector_0[0]
+                # ny = vector_0[1]
+                # nz = vector_0[2]
+                # thet = 185
+                # costhet = np.math.cos((thet/180)*np.pi)
+                # sinthet = np.math.sin((thet/180)*np.pi)
+                # rotation_matrix = np.array([[nx**2*(1-costhet) + costhet, nx*ny*(1-costhet) - nz*sinthet, nx*nz*(1-costhet) + ny*sinthet],
+                #                             [nx*ny*(1-costhet) + nz*sinthet, ny**2*(1-costhet) + costhet, ny*nz*(1-costhet) - nx*sinthet],
+                #                             [nx*nz*(1-costhet) - ny*sinthet, ny*nz*(1-costhet) + nx*sinthet, nz**2*(1-costhet) + costhet]])
+                #
+                # normal_vector = np.dot(np.array(normal_vector).reshape((1, 3)), rotation_matrix)
+                #
+                # # print('after:', normal_vector)
+                # try:
+                #     new_crack_surface_vtk_cell, _, _ = clip_a_vtk_cell(element.vtk_cell, origin_point, normal_vector)
+                # except AssertionError:
+                #     return None
+                return None
 
-                normal_vector = np.dot(np.array(normal_vector).reshape((1, 3)), rotation_matrix)
-
-                # print('after:', normal_vector)
-                try:
-                    new_crack_surface_vtk_cell, _, _ = clip_a_vtk_cell(element.vtk_cell, origin_point, normal_vector)
-                except AssertionError:
-                    return None
                 # insert_a_cell_0(test_grid, new_crack_surface_vtk_cell)
                 # write_error_vtu(test_grid, element.id + 1)
         except AssertionError:

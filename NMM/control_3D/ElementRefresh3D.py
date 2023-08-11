@@ -1,6 +1,6 @@
 import numpy as np
 from typing import List
-from NMM.GlobalVariable import NmmObjectBase, DataStructure
+from NMM.GlobalVariable import NmmObjectBase, DataStructure, CONST
 from NMM.fem_3D.ElementBase_3D import Element3D
 from NMM.base.PropertyGetSetFunction import set_property, get_property
 from vtkmodules.vtkIOXML import vtkXMLUnstructuredGridReader, vtkXMLUnstructuredGridWriter
@@ -74,6 +74,7 @@ class ElementRefresher3D:
             temp_increment = manifold_element_displacement_increment_list.GetTuple(each_point_id)
             temp_total = manifold_element_displacement_total_list.GetTuple(each_point_id)
             temp_total = np.array(temp_increment, dtype=np.float64) + np.array(temp_total, dtype=np.float64)
+            # temp_total = np.array(temp_increment, dtype=np.float64) + np.array(temp_total, dtype=np.float64)
             manifold_element_displacement_total_list.InsertTuple(each_point_id, temp_total)
 
         manifold_element_grid_writer = vtkXMLUnstructuredGridWriter()
@@ -85,7 +86,6 @@ class ElementRefresher3D:
     def clean_all(element_list: List[Element3D]):
         for each_element in element_list:
             each_element.clean_all()
-
 
     # @staticmethod
     # def assembly_patch_displacement(element: Element, database_cursor: sqlite3.Cursor):
@@ -128,7 +128,13 @@ class ElementRefresher3D:
             for point_id in range(point_number):
                 temp_point_id = element_list[element_id].joint_id[point_id]
                 # manifold_element_displacement_increment_list.InsertTuple(temp_point_id, temp_displacement_list[point_id])
-                set_property(manifold_element_grid, 'point_displacement_increment', temp_point_id, temp_displacement_list[point_id])
+                temp_point_displacement_increment = temp_displacement_list[point_id]
+                set_property(manifold_element_grid, 'point_displacement_increment', temp_point_id, temp_point_displacement_increment)
+
+                # point velocity
+                temp_velocity = get_property(manifold_element_grid, 'point_velocity', temp_point_id)
+                temp_velocity = temp_point_displacement_increment * 2 / CONST.TIME_INCREMENT - temp_velocity
+                set_property(manifold_element_grid, 'point_velocity', temp_point_id, temp_velocity)
 
             # write strain_total into vtk model
             temp_strain_total = element_list[element_id].initial_strain_total
@@ -137,8 +143,20 @@ class ElementRefresher3D:
             # temp_strain_total_1 = get_property(manifold_element_grid, 'strain_total', element_id)
 
             # write special_point info into vtk model
+            # fixed point
             if len(element_list[element_id].fixed_point_list) != 0:
                 for each_point in element_list[element_id].fixed_point_list:
+                    temp_displacement_total = each_point.actual_displacement[0]
+                    temp_displacement_difference = each_point.displacement_difference[0]
+                    temp_special_point = data_structure.special_point.content
+                    # displacement
+                    set_property(temp_special_point, 'displacement_total', each_point.id, temp_displacement_total)
+                    # displacement difference
+                    set_property(temp_special_point, 'displacement_difference', each_point.id, temp_displacement_difference)
+
+            # loading point
+            if len(element_list[element_id].loading_point_list) != 0:
+                for each_point in element_list[element_id].loading_point_list:
                     temp_displacement_total = each_point.actual_displacement[0]
                     temp_special_point = data_structure.special_point.content
                     set_property(temp_special_point, 'displacement_total', each_point.id, temp_displacement_total)

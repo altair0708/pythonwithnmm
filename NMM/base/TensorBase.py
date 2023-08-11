@@ -13,8 +13,8 @@ class Tensor(object):
         self.__yy = self.__tensor_total[1, 0]
         self.__zz = self.__tensor_total[2, 0]
         self.__xy = self.__tensor_total[3, 0]
-        self.__xz = self.__tensor_total[4, 0]
-        self.__yz = self.__tensor_total[5, 0]
+        self.__yz = self.__tensor_total[4, 0]
+        self.__xz = self.__tensor_total[5, 0]
 
         self.__matrix = np.matrix([[self.__xx, self.__xy, self.__xz],
                                    [self.__xy, self.__yy, self.__yz],

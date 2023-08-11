@@ -1,5 +1,4 @@
 import sys
-
 import numpy as np
 from NMM.control_3D.ElementIO3D import ElementIOer3D
 from NMM.base.CopyFunction import copy_vtk_cell, copy_polyhedron
@@ -281,7 +280,20 @@ def generate_crack_surface_file_1(mesh_path: str, geometry_path: str, initial_cr
             temp_element_vtk_cell = element_grid.GetCell(each_element_id)
             # temp_element_vtk_cell = copy_vtk_cell(temp_element_vtk_cell, element_grid.GetPoints())
             temp_element_vtk_cell = copy_polyhedron(temp_element_vtk_cell, element_grid.GetPoints())
-            if temp_element_vtk_cell.IntersectWithCell(initial_crack_polygon):
+            # debug of vtk_cell.IntersectWithCell()
+            # if each_element_id == 3130:
+            #     u_grid = vtkUnstructuredGrid()
+            #
+            #     insert_a_cell_0(u_grid, temp_element_vtk_cell)
+            #     insert_a_cell_0(u_grid, initial_crack_polygon)
+            #
+            #     writer = vtkXMLUnstructuredGridWriter()
+            #     writer.SetInputData(u_grid)
+            #     writer.SetFileName('log.vtu')
+            #     writer.Write()
+            #     print(temp_element_vtk_cell.IntersectWithCell(initial_crack_polygon, 0.00001))
+
+            if temp_element_vtk_cell.IntersectWithCell(initial_crack_polygon, 0.00001):
                 try:
                     temp_crack_surface_vtk_cell, _, _ = clip_a_vtk_cell(temp_element_vtk_cell, origin_point=origin, normal_vector=normal)
                 except AssertionError:
