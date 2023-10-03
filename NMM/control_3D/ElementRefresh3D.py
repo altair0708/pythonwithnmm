@@ -142,6 +142,11 @@ class ElementRefresher3D:
             set_property(manifold_element_grid, 'strain_total', element_id, temp_strain_total)
             # temp_strain_total_1 = get_property(manifold_element_grid, 'strain_total', element_id)
 
+            # write stress_total into vtk model
+            temp_stress_total = element_list[element_id].initial_stress
+            temp_stress_total = temp_stress_total.reshape((6, ))
+            set_property(manifold_element_grid, 'stress_total', element_id, temp_stress_total)
+
             # write special_point info into vtk model
             # fixed point
             if len(element_list[element_id].fixed_point_list) != 0:

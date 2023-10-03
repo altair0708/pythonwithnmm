@@ -419,6 +419,12 @@ class Element3D(object):
             temp_displacement = np.dot(self.B_shape_matrix, temp_displacement)
             self.__initial_strain_increment = temp_displacement
             self.__initial_strain_total = self.__initial_strain_total + self.__initial_strain_increment
+
+            # engine strain or tensor strain
+            # self.__initial_strain_total[3, 0] = self.__initial_strain_total[3, 0] * 2
+            # self.__initial_strain_total[4, 0] = self.__initial_strain_total[4, 0] * 2
+            # self.__initial_strain_total[5, 0] = self.__initial_strain_total[5, 0] * 2
+
         check_shape(self.__initial_strain_total, (6, 1))
         return self.__initial_strain_total
 

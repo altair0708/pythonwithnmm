@@ -16,8 +16,9 @@ def generate_all_vtu_file(mesh_path: str, geometry_path: str):
     generate_math_point(mesh_path, geometry_path)
     generate_manifold_element(mesh_path, geometry_path, True)
 
-    generate_element_surface(mesh_path, geometry_path)
-    generate_crack_surface_file_1(mesh_path, geometry_path)
+    # crack module
+    # generate_element_surface(mesh_path, geometry_path)
+    # generate_crack_surface_file_1(mesh_path, geometry_path)
 
 
 if __name__ == '__main__':

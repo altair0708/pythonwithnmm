@@ -6,8 +6,8 @@ from vtkmodules.vtkIOXML import vtkXMLUnstructuredGridWriter
 sys.path.append(os.path.abspath('../NMM/preprocess_3D'))
 
 points = vtkPoints()
-points.InsertNextPoint((0, 0, 10))
-points.InsertNextPoint((0.5, 0, 10))
+points.InsertNextPoint((0, 3, 10))
+points.InsertNextPoint((0.5, 3, 10))
 points.InsertNextPoint((0.5, 4, 10))
 points.InsertNextPoint((0, 4, 10))
 

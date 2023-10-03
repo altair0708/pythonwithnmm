@@ -106,6 +106,11 @@ def generate_manifold_element(mesh_path: str, geometry_path: str, special_point=
     elementMaterialId.SetName('material_id')
     [elementMaterialId.InsertValue(i, 0) for i in range(elementNumber)]
 
+    elementStress = vtkDoubleArray()
+    elementStress.SetName('stress_total')
+    elementStress.SetNumberOfComponents(6)
+    [elementStress.InsertTuple(i, (0, 0, 0, 0, 0, 0)) for i in range(elementNumber)]
+
     elementStrain = vtkDoubleArray()
     elementStrain.SetName('strain_total')
     elementStrain.SetNumberOfComponents(6)
@@ -204,6 +209,7 @@ def generate_manifold_element(mesh_path: str, geometry_path: str, special_point=
     elementGrid.GetCellData().AddArray(elementStrainMaxValue)
 
     elementGrid.GetCellData().AddArray(elementCracked)
+    elementGrid.GetCellData().AddArray(elementStress)
     # elementGrid.GetCellData().AddArray(crackSurfaceNumber)
     # elementGrid.GetCellData().AddArray(crackSurfaceNumber0)
 

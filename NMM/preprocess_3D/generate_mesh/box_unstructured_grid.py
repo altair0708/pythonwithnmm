@@ -13,9 +13,9 @@ from vtkmodules.vtkFiltersGeneral import vtkClipDataSet
 from itertools import combinations
 
 # number of skeleton point
-row_point_number = 3
-column_point_number = 3
-layer_point_number = 21
+row_point_number = 4
+column_point_number = 4
+layer_point_number = 4
 # start point
 start_point = (0.01, 0.01, 0.01)
 # start_point = (0, 0, 0)
@@ -161,7 +161,7 @@ element_grid.GetCellData().AddArray(element_type_id)
 
 tetra_grid.SetPoints(point_coord_list)
 tetra_writer = vtkXMLUnstructuredGridWriter()
-tetra_writer.SetFileName('gmsh_file_with_hole.vtu')
+tetra_writer.SetFileName('gmsh_file_box.vtu')
 tetra_writer.SetInputData(tetra_grid)
 tetra_writer.Write()
 

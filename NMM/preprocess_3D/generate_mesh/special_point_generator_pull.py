@@ -38,13 +38,13 @@ for each_row in range(row):
         # z_0 = 10 - tol
         # z_1 = 0 + tol
 
-        x_0 = 0 + (30 / (column - 1)) * each_col
-        y_0 = 0 + (4 / (row - 1)) * each_row
+        x_0 = 0 + (10 / (column - 1)) * each_col
+        y_0 = 0 + (2 / (row - 1)) * each_row
         z_0 = 0
 
-        x_1 = 0 + (30 / (column - 1)) * each_col
-        y_1 = 0 + (4 / (row - 1)) * each_row
-        z_1 = 47
+        x_1 = 0 + (10 / (column - 1)) * each_col
+        y_1 = 0 + (2 / (row - 1)) * each_row
+        z_1 = 10
         special_points_coordinate.InsertNextPoint((x_0, y_0, z_0))
         special_points_coordinate.InsertNextPoint((x_1, y_1, z_1))
 
@@ -53,7 +53,7 @@ for each_row in range(row):
 # id = 2 measured point
 point_type = vtkIntArray()
 point_type.SetName('point_type')
-[point_type.InsertValue(i, 1) for i in range(point_number)]
+[point_type.InsertValue(i, 0) for i in range(point_number)]
 
 point_group = vtkIntArray()
 point_group.SetName('group')
@@ -76,7 +76,10 @@ for i in range(temp):
 point_force = vtkDoubleArray()
 point_force.SetName('force')
 point_force.SetNumberOfComponents(3)
-[point_force.InsertTuple(i, (0, 0, 0)) for i in range(point_number)]
+temp = int(point_number / 2)
+for i in range(temp):
+    point_force.InsertNextTuple((0, 0, -10))
+    point_force.InsertNextTuple((0, 0, 10))
 
 point_displacement = vtkDoubleArray()
 point_displacement.SetName('displacement_total')

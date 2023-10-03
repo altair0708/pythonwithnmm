@@ -36,7 +36,9 @@ class PATH:
     # gmsh_file = 'gmsh_file.vtu'
     # gmsh_file = 'gmsh_sphere.vtu'
     # gmsh_file = 'gmsh_L_block.vtu'
-    gmsh_file = 'with_hole_00.vtu'
+    # gmsh_file = 'gmsh_file_with_hole_size_0.2_r_0.5.vtu'
+    # gmsh_file = 'gmsh_file_with_hole_size_0.5.vtu'
+    gmsh_file = 'gmsh_file_with_hole_size_0.1.vtu'
     # gmsh_file = 'without_hole.vtu'
 
 
