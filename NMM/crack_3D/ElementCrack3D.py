@@ -1,5 +1,5 @@
 import sys
-import math
+import json
 import numpy as np
 from NMM.GlobalVariable import Variable, CrackList, CONST
 from NMM.base.CalculateArea import calculate_area
@@ -13,6 +13,8 @@ from NMM.crack_3D.CrackSurfaceBase3D import CrackSurface3D
 from NMM.crack_3D.CrackEdgeBase3D import CrackEdge3D
 from NMM.base.CheckPointInPolygon import check_point_in_polygon
 from NMM.base.WriteErrorVTU import write_error_vtu
+from NMM.base.TensorBase import Tensor
+from NMM.base.MohrFailure import mohr_failure
 from typing import List
 from vtkmodules.vtkCommonDataModel import vtkUnstructuredGrid, vtkGenericCell, vtkCell, vtkTetra, VTK_TETRA, VTK_TRIANGLE
 from vtkmodules.vtkCommonCore import vtkPoints
@@ -39,8 +41,8 @@ def clip_an_element(element: Element3D):
             #     sys.exit()
             crack_edge_cell_list.append(crack_edge_cell)
 
-    if element.id == 3258:
-        print('crack edge number: ', len(crack_edge_cell_list))
+    # if element.id == 3258:
+    #     print('crack edge number: ', len(crack_edge_cell_list))
 
     if len(crack_edge_cell_list) == 1:
 
@@ -334,8 +336,26 @@ class ElementCracker3D(object):
     def crack_an_element(element: Element3D):
         # element crack!!!
 
+        # max tensile strain
         # if element.strain.max_component[0] > 0.00001 and element.cracked == 2:
-        if element.cracked == 2 and element.strain.max_component_vector[0] > 0.00001:
+        # if element.cracked == 2 and element.strain.max_component_vector[0] > 0.00001:
+        #     element.cracked = 3
+
+        # max tensile stress
+        # if element.cracked == 2 and element.stress.max_component_vector[0] > 1000000:
+        #     element.cracked = 3
+
+        # mohr criterion with tensile cutoff
+        with open('../../data_3D/material/material_coefficient.json') as f:
+            material_json = json.load(f)
+
+        material = json.dumps(material_json)
+
+        assert type(element.stress) == Tensor
+        temp_stress = element.stress
+        result = mohr_failure(temp_stress, material)
+
+        if element.cracked == 2 and result > 0:
             element.cracked = 3
 
         # crack propagation anyway

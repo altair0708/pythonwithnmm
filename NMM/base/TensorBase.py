@@ -38,9 +38,25 @@ class Tensor(object):
         self.__max_component = max_component(self.__component_1, self.__component_2)
         self.__max_component = max_component(self.__max_component, self.__component_3)
 
+        # sort
+        self.__component_list = [self.__component_1, self.__component_2, self.__component_3]
+        self.__component_list.sort(key=lambda a: a[0])
+        self.__min_component = self.__component_list[0]
+        self.__middle_component = self.__component_list[1]
+
+        assert self.__max_component == self.__component_list[2]
+
     @property
     def max_component_vector(self):
         return self.__max_component
+
+    @property
+    def middle_component_vector(self):
+        return self.__middle_component
+
+    @property
+    def min_component_vector(self):
+        return self.__min_component
 
     @property
     def component_vector_1(self):

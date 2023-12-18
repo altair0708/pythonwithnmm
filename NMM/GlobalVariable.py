@@ -24,7 +24,7 @@ class PATH:
     crack_file = '../data_3D/geometry/crack_surface.vtu'
     database_name = '../data_3D/geometry/manifold_mathcover.db'
     special_point_file = '../data_3D/mesh/special_point.vtu'
-    material_coefficient_file = '../data_3D/materical/material_coefficient.json'
+    material_coefficient_file = '../data_3D/material/material_coefficient.json'
     surface_file = '../data_3D/geometry/element_surface.vtu'
     crack_edge = '../data_3D/geometry/crack_edge.vtu'
     output_path = '../data_3D/result/'

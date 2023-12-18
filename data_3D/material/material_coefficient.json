@@ -6,9 +6,9 @@
     "poisson_ratio": 0.2,
     "initial_force": [0, 0, 0, 0, 0, 0],
     "yield_coefficient": {
-        "friction_angle": 0,
-        "cohesion": 0,
-        "tensile_strength": 0
+        "friction_angle": 20,
+        "cohesion": 100000000,
+        "tensile_strength": 1000000
     },
     "initial_velocity": [0, 0, 0, 0, 0, 0]
 }

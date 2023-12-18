@@ -23,6 +23,9 @@ class Element3D(ObjectBase3D):
         self.__strain_total = np.zeros((6, 1), dtype=np.float64)
         self.__strain = Tensor(np.zeros((6, 1), dtype=np.float64))
 
+        self.__stress_total = np.zeros((6, 1), dtype=np.float64)
+        self.__stress = Tensor(np.zeros((6, 1), dtype=np.float64))
+
     @property
     def surface_id(self):
         assert len(self.__surface_id) == 4
@@ -79,6 +82,21 @@ class Element3D(ObjectBase3D):
     def strain(self):
         return self.__strain
 
+    @property
+    def stress_total(self):
+        return self.__stress_total
+
+    @stress_total.setter
+    def stress_total(self, stress_total):
+        stress_total = np.array(stress_total).reshape(6, 1)
+        self.__stress_total = stress_total
+        self.__stress = Tensor(self.__stress_total)
+
+    @property
+    def stress(self):
+        return self.__stress
+
+
 def schmidt_orthogonalization(vector_1, vector_2):
     # v1, v2
     vector_1 = np.array(vector_1).reshape(3)
@@ -97,6 +115,9 @@ def create_an_element(data_structure: DataStructure, element_id: int):
 
     # strain_total
     element_cell.strain_total = get_property(element_grid, 'strain_total', element_id)
+
+    # stress_total
+    element_cell.stress_total = get_property(element_grid, 'stress_total', element_id)
 
     # vtk_cell
     element_vtk_cell: vtkCell = element_grid.GetCell(element_id)
