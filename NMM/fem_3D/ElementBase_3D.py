@@ -385,8 +385,11 @@ class Element3D(object):
     def elastic_matrix(self):
         if self.__elastic_matrix is None:
             temp_E = float(self.material_dict['elastic_modulus'])
+
+            # element crack damage
             if self.cracked >= 3:
                 temp_E = temp_E / 100
+
             temp_mu = float(self.material_dict['poisson_ratio'])
             elastic_matrix = temp_E / ((1 + temp_mu) * (1 - 2 * temp_mu)) * \
                              np.matrix([[1 - temp_mu,     temp_mu,     temp_mu,                 0,                 0,                 0],

@@ -12,11 +12,6 @@ from vtkmodules.vtkCommonDataModel import VTK_TETRA, vtkUnstructuredGrid
 mesh_file = './mesh/'
 geometry_file = './geometry/'
 
-generate_geometry_info(mesh_file, geometry_file, VTK_TETRA)
-generate_manifold_element(mesh_file, geometry_file)
-generate_element_surface(mesh_file, geometry_file)
-generate_crack_surface_file_1(mesh_file, geometry_file)
-
 class PATH:
     work_path = ''
     element_file = 'geometry/manifold_element.vtu'
@@ -24,6 +19,12 @@ class PATH:
     surface_file = 'geometry/element_surface.vtu'
     crack_edge = 'geometry/crack_edge.vtu'
     output_path = './result/'
+    gmsh_file = 'gmsh_file.vtu'
+
+generate_geometry_info(mesh_file, geometry_file, VTK_TETRA, path_file=PATH)
+generate_manifold_element(mesh_file, geometry_file)
+generate_element_surface(mesh_file, geometry_file)
+generate_crack_surface_file_1(mesh_file, geometry_file)
 
 data_structure = DataStructure()
 data_structure.manifold_element = ElementIOer3D.load_vtk_model(PATH.element_file)

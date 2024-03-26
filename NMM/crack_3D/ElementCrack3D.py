@@ -1,7 +1,7 @@
 import sys
 import json
 import numpy as np
-from NMM.GlobalVariable import Variable, CrackList, CONST
+from NMM.GlobalVariable import Variable, CrackList, CONST, CONFIG
 from NMM.base.CalculateArea import calculate_area
 from NMM.base.CopyFunction import copy_vtk_cell
 from NMM.base.ElementClipFunction import clip_a_vtk_cell
@@ -12,6 +12,7 @@ from NMM.crack_3D.SurfaceBase3D import Surface3D
 from NMM.crack_3D.CrackSurfaceBase3D import CrackSurface3D
 from NMM.crack_3D.CrackEdgeBase3D import CrackEdge3D
 from NMM.base.CheckPointInPolygon import check_point_in_polygon
+from NMM.base.LeastSqPlane import min_distance_plane
 from NMM.base.WriteErrorVTU import write_error_vtu
 from NMM.base.TensorBase import Tensor
 from NMM.base.MohrFailure import mohr_failure
@@ -163,15 +164,31 @@ def clip_an_element(element: Element3D):
             generate_crack_surface_cell(new_crack_surface_vtk_cell, element)
 
         elif crack_edge_grid.GetNumberOfPoints() == 5:
+            if CONFIG.CRACK_TRACKING == 0:
+                temp_crack_surface_vtk_cell = vtkTetra()
+                temp_crack_surface_vtk_cell.GetPointIds().SetId(0, 1)
+                temp_crack_surface_vtk_cell.GetPointIds().SetId(1, 2)
+                temp_crack_surface_vtk_cell.GetPointIds().SetId(2, 3)
+                temp_crack_surface_vtk_cell.GetPointIds().SetId(3, 4)
+                new_crack_surface_vtk_cell = copy_vtk_cell(temp_crack_surface_vtk_cell, crack_edge_grid.GetPoints())
+            elif CONFIG.CRACK_TRACKING == 1:
+                # Get four crack points from crack_edge_grid, use least square to calculation the minimum distance plane
+                assert crack_edge_grid.GetPoint(0) == (0, 0, 0)
+                crack_point_list = [crack_edge_grid.GetPoint(i + 1) for i in range(4)]
+                # crack_point_0 = crack_edge_grid.GetPoint(1)
+                # crack_point_1 = crack_edge_grid.GetPoint(2)
+                # crack_point_2 = crack_edge_grid.GetPoint(3)
+                # crack_point_3 = crack_edge_grid.GetPoint(4)
+                # crack_point_list = [crack_point_0, crack_point_1, crack_point_2, crack_point_3]
+                origin_point, normal_vector = min_distance_plane(crack_point_list)
+                try:
+                    new_crack_surface_vtk_cell, _, _ = clip_a_vtk_cell(element.vtk_cell, origin_point, normal_vector)
+                except AssertionError:
+                    return None
+            else:
+                new_crack_surface_vtk_cell = vtkGenericCell()
 
-            new_crack_surface_vtk_cell = vtkTetra()
-            new_crack_surface_vtk_cell.GetPointIds().SetId(0, 1)
-            new_crack_surface_vtk_cell.GetPointIds().SetId(1, 2)
-            new_crack_surface_vtk_cell.GetPointIds().SetId(2, 3)
-            new_crack_surface_vtk_cell.GetPointIds().SetId(3, 4)
-
-            crack_surface_vtk_cell = copy_vtk_cell(new_crack_surface_vtk_cell, crack_edge_grid.GetPoints())
-            generate_crack_surface_cell(crack_surface_vtk_cell, element)
+            generate_crack_surface_cell(new_crack_surface_vtk_cell, element)
 
     elif len(crack_edge_cell_list) >= 3:
 
@@ -206,16 +223,26 @@ def clip_an_element(element: Element3D):
 
         # point number == 5, because there is an initial point == (0, 0, 0), actually there are 4 real points.
         if crack_edge_grid.GetNumberOfPoints() == 5:
-            new_crack_surface_vtk_cell = vtkTetra()
-            new_crack_surface_vtk_cell.GetPointIds().SetId(0, 1)
-            new_crack_surface_vtk_cell.GetPointIds().SetId(1, 2)
-            new_crack_surface_vtk_cell.GetPointIds().SetId(2, 3)
-            new_crack_surface_vtk_cell.GetPointIds().SetId(3, 4)
+            if CONFIG.CRACK_TRACKING == 0:
+                temp_crack_surface_vtk_cell = vtkTetra()
+                temp_crack_surface_vtk_cell.GetPointIds().SetId(0, 1)
+                temp_crack_surface_vtk_cell.GetPointIds().SetId(1, 2)
+                temp_crack_surface_vtk_cell.GetPointIds().SetId(2, 3)
+                temp_crack_surface_vtk_cell.GetPointIds().SetId(3, 4)
+                new_crack_surface_vtk_cell = copy_vtk_cell(temp_crack_surface_vtk_cell, crack_edge_grid.GetPoints())
+            elif CONFIG.CRACK_TRACKING == 1:
+                # Get four crack points from crack_edge_grid, use least square to calculation the minimum distance plane
+                assert crack_edge_grid.GetPoint(0) == (0, 0, 0)
+                crack_point_list = [crack_edge_grid.GetPoint(i + 1) for i in range(4)]
+                origin_point, normal_vector = min_distance_plane(crack_point_list)
+                try:
+                    new_crack_surface_vtk_cell, _, _ = clip_a_vtk_cell(element.vtk_cell, origin_point, normal_vector)
+                except AssertionError:
+                    return None
+            else:
+                new_crack_surface_vtk_cell = vtkGenericCell()
 
-            crack_surface_vtk_cell = copy_vtk_cell(new_crack_surface_vtk_cell, crack_edge_grid.GetPoints())
-            generate_crack_surface_cell(crack_surface_vtk_cell, element)
-        else:
-            return None
+            generate_crack_surface_cell(new_crack_surface_vtk_cell, element)
 
     else:
         return None
@@ -341,26 +368,25 @@ class ElementCracker3D(object):
         # if element.cracked == 2 and element.strain.max_component_vector[0] > 0.00001:
         #     element.cracked = 3
 
-        # max tensile stress
+        # # max tensile stress
         # if element.cracked == 2 and element.stress.max_component_vector[0] > 1000000:
         #     element.cracked = 3
 
-        # mohr criterion with tensile cutoff
-        with open('../../data_3D/material/material_coefficient.json') as f:
-            material_json = json.load(f)
-
-        material = json.dumps(material_json)
-
-        assert type(element.stress) == Tensor
-        temp_stress = element.stress
-        result = mohr_failure(temp_stress, material)
-
-        if element.cracked == 2 and result > 0:
-            element.cracked = 3
+        # # mohr criterion with tensile cutoff
+        # with open('../../data_3D/material/material_coefficient.json') as f:
+        #     material_json = json.load(f)
+        #
+        # material = json.dumps(material_json)
+        #
+        # assert type(element.stress) == Tensor
+        # temp_stress = element.stress
+        # result = mohr_failure(temp_stress, material)
+        # if element.cracked == 2 and result > 0:
+        #     element.cracked = 3
 
         # crack propagation anyway
-        # if element.cracked == 2:
-        #     element.cracked = 3
+        if element.cracked == 2:
+            element.cracked = 3
 
         if element.cracked == 3:
             # generate crack surface

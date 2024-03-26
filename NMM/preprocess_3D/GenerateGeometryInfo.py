@@ -4,8 +4,8 @@ from vtkmodules.vtkIOXML import vtkXMLUnstructuredGridWriter
 from NMM.GlobalVariable import PATH
 
 
-def generate_geometry_info(mesh_path: str, geometry_path: str, cell_type: int):
-    gmshGrid = ElementIOer3D.load_vtk_model(mesh_path + PATH.gmsh_file)
+def generate_geometry_info(mesh_path: str, geometry_path: str, cell_type: int, path_file=PATH):
+    gmshGrid = ElementIOer3D.load_vtk_model(mesh_path + path_file.gmsh_file)
     # print(gmshGrid.GetNumberOfCells())
     geometryGrid = vtkUnstructuredGrid()
     cellNumber = gmshGrid.GetNumberOfCells()

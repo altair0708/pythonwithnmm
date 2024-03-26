@@ -1,6 +1,12 @@
 from NMM.base.ObjectBase import NmmObjectBase
 
 
+class CONFIG:
+    # 0: When new crack surface don't co-plane, generate a tetrahedron instead of polygon
+    # 1: When new crack surface don't co-plane, crack surface don't strictly continuous
+    CRACK_TRACKING = 1
+
+
 class CONST:
     DYNAMIC_COEFFICIENT = 1
     STEP = 0
@@ -29,7 +35,7 @@ class PATH:
     crack_edge = '../data_3D/geometry/crack_edge.vtu'
     output_path = '../data_3D/result/'
 
-    # gmsh_file = 'with_hole_00.vtu'
+    gmsh_file = 'with_hole_00.vtu'
     # gmsh_file = 'gmsh_file_without_hole.vtu'
     # gmsh_file = 'gmsh_tetrahedron.vtu'
     # gmsh_file = 'gmsh_long_pole_30.vtu'
@@ -38,7 +44,7 @@ class PATH:
     # gmsh_file = 'gmsh_L_block.vtu'
     # gmsh_file = 'gmsh_file_with_hole_size_0.2_r_0.5.vtu'
     # gmsh_file = 'gmsh_file_with_hole_size_0.5.vtu'
-    gmsh_file = 'gmsh_file_with_hole_size_0.1.vtu'
+    # gmsh_file = 'gmsh_file_with_hole_size_0.1.vtu'
     # gmsh_file = 'without_hole.vtu'
 
 
