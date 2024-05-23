@@ -84,3 +84,20 @@ class CrackElementRefresher:
     @staticmethod
     def refresh_physical_cover(data_structure: DataStructure, element_list):
         pass
+
+    @staticmethod
+    def refresh_new_element(data_structure: DataStructure, new_element_list):
+        new_element_grid = data_structure.new_element.content
+        for each_new_element_cell in new_element_list:
+            # vtk cell
+            # print(each_new_element_cell.vtk_cell)
+            # print(each_new_element_cell.id)
+            # print(each_new_element_cell.super_id)
+            # print(each_new_element_cell.adjacent_id)
+            insert_a_cell(new_element_grid, each_new_element_cell.vtk_cell)
+            # id in new_element_grid
+            set_property(new_element_grid, 'id', each_new_element_cell.id, np.array((each_new_element_cell.id, )))
+            # id of super element
+            set_property(new_element_grid, 'element_id', each_new_element_cell.id, np.array((each_new_element_cell.super_id, )))
+            # id of adjacent element
+            set_property(new_element_grid, 'adjacent_element_id', each_new_element_cell.id, np.array((each_new_element_cell.adjacent_id, )))

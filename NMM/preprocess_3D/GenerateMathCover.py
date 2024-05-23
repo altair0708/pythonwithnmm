@@ -87,10 +87,14 @@ def generate_math_point(mesh_path: str, geometry_path: str):
     mathPointDisplacement.SetName('math_point_displacement')
     mathPointDisplacement.SetNumberOfComponents(3)
 
+    for each_id in range(pointNumber):
+        temp_displacement = (0, 0, 0)
+        mathPointDisplacement.InsertNextTuple(temp_displacement)
+
     vertexGrid.SetPoints(gmshGrid.GetPoints())
     vertexGrid.GetPointData().AddArray(mathPointDisplacement)
 
-    outputFile = 'math_point.vtu'
+    outputFile = geometry_path + 'math_point.vtu'
     writer = vtkXMLUnstructuredGridWriter()
     writer.SetFileName(geometry_path + outputFile)
     writer.SetInputData(vertexGrid)

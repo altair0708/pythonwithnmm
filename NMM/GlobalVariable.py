@@ -33,6 +33,7 @@ class PATH:
     material_coefficient_file = '../data_3D/material/material_coefficient.json'
     surface_file = '../data_3D/geometry/element_surface.vtu'
     crack_edge = '../data_3D/geometry/crack_edge.vtu'
+    new_element_file = '../data_3D/geometry/new_element.vtu'
     output_path = '../data_3D/result/'
 
     gmsh_file = 'with_hole_00.vtu'
@@ -54,6 +55,7 @@ class Variable:
     surface_number = 0
     crack_surface_number = 0
     crack_edge_number = 0
+    new_element_number = 0
 
 
 class DataStructure(object):
@@ -65,6 +67,7 @@ class DataStructure(object):
         self.__special_point = NmmObjectBase('special_point')
         self.__element_surface = NmmObjectBase('element_surface')
         self.__crack_edge = NmmObjectBase('crack_edge')
+        self.__new_element = NmmObjectBase('new_element')
 
     @property
     def manifold_element(self):
@@ -122,9 +125,17 @@ class DataStructure(object):
     def crack_edge(self, value):
         self.__crack_edge.content = value
 
+    @property
+    def new_element(self):
+        return self.__new_element
+
+    @new_element.setter
+    def new_element(self, new_element):
+        self.__new_element.content = new_element
 
 class CrackList(object):
     element_list = None
     surface_list = None
     crack_surface_list = None
     crack_edge_list = None
+    new_element_list = None

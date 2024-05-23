@@ -1,7 +1,7 @@
 from NMM.preprocess_3D.GenerateGeometryInfo import generate_geometry_info
 from NMM.preprocess_3D.GenerateMathCover import generate_math_point, generate_math_cover
 from NMM.preprocess_3D.GenerateManifoldElement import generate_manifold_element
-from NMM.preprocess_3D.GenerateCrackSurfaceFile import generate_crack_surface_file_1
+from NMM.preprocess_3D.GenerateCrackSurfaceFileNew import generate_crack_surface_file_1
 from NMM.preprocess_3D.ExtractElementSurface import generate_element_surface
 from vtkmodules.vtkCommonDataModel import VTK_VERTEX, VTK_LINE, VTK_TRIANGLE, VTK_TETRA
 
@@ -19,6 +19,14 @@ def generate_all_vtu_file(mesh_path: str, geometry_path: str):
     # crack module
     generate_element_surface(mesh_path, geometry_path)
     generate_crack_surface_file_1(mesh_path, geometry_path)
+    # generate_crack_surface_file_1(mesh_file, geometry_file)
+
+    ## add generated_math_cover
+    # generate_modified_math_cover
+    # generate_modified_math_point
+
+    ## add generated_manifold_element
+    # generate_modified_manifold_element
 
 
 if __name__ == '__main__':

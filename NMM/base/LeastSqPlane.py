@@ -6,12 +6,17 @@ import numpy as np
 
 
 def min_distance_plane(points_list: List):
-    point_0 = np.array([points_list[0]])
-    point_1 = np.array([points_list[1]])
-    point_2 = np.array([points_list[2]])
-    point_3 = np.array([points_list[3]])
-    points = np.row_stack((point_0, point_1, point_2, point_3))
+    temp_points = np.empty(shape=(0, 3))
+    for each_point in points_list:
+        temp_points = np.row_stack((temp_points, each_point))
+    # point_0 = np.array([points_list[0]])
+    # point_1 = np.array([points_list[1]])
+    # point_2 = np.array([points_list[2]])
+    # point_3 = np.array([points_list[3]])
+    # points = np.row_stack((point_0, point_1, point_2, point_3))
     # print(points)
+    # assert temp_points.shape == points.shape
+    # assert (temp_points == points).all()
 
     # 定义目标函数（平面方程）
     def plane_func(p, points):
@@ -30,7 +35,7 @@ def min_distance_plane(points_list: List):
     p0 = [1, 1, 1, 1]
 
     # 使用leastsq函数进行拟合
-    params_fit, success = leastsq(residuals, p0, args=(points,))
+    params_fit, success = leastsq(residuals, p0, args=(temp_points,))
 
     # 获取拟合结果
     a_fit, b_fit, c_fit, d_fit = params_fit
@@ -51,3 +56,7 @@ def min_distance_plane(points_list: List):
 
     return origin_point, normalize_vector
 
+
+if __name__ == '__main__':
+    point_list = [(0, 0, 0), (0, 0, 1), (0, 1, 0), (1, 0, 0), (0, 0.5, 0.5)]
+    print(min_distance_plane(point_list))
