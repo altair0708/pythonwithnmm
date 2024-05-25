@@ -1,4 +1,4 @@
-from NMM.crack_3D.operation.CrackSurfaceOriginNormal.Implement.Interface import AbstractCrackType
+from NMM.crack_3D.operation.CrackSurfaceOriginNormal.CrackTypeInterface import AbstractCrackType
 from NMM.crack_3D.ElementBase3D import schmidt_orthogonalization
 
 

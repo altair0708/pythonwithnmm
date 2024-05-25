@@ -1,5 +1,4 @@
 import sys
-
 from vtkmodules.vtkCommonDataModel import (vtkUnstructuredGrid,
                                            vtkMergePoints,
                                            vtkPointLocator,
@@ -8,12 +7,14 @@ from vtkmodules.vtkCommonDataModel import (vtkUnstructuredGrid,
                                            VTK_POLYHEDRON,
                                            VTK_POLYGON,
                                            vtkPolygon,
+                                           vtkPolyhedron,
                                            vtkTetra,
                                            vtkGenericCell,
                                            VTK_TETRA,
                                            vtkEmptyCell)
 from vtkmodules.vtkCommonCore import vtkPoints, vtkIdList, mutable, vtkMath
 from NMM.GlobalVariable import CONST
+from NMM.base.CopyFunction import get_polyhedron_list
 
 
 # this method will lead to duplicated point
@@ -165,3 +166,38 @@ def insert_a_cell_0(vtk_model: vtkUnstructuredGrid, vtk_cell: vtkCell):
         # print(a)
         new_cell.GetPointIds().SetId(each_point, a)
     vtk_model.InsertNextCell(new_cell.GetCellType(), new_cell.GetPointIds())
+
+
+# this method will not lead to duplicated point
+def insert_a_grid(vtk_model: vtkUnstructuredGrid, new_grid: vtkUnstructuredGrid):
+
+    assert new_grid.GetNumberOfCells() == 1
+
+    new_point_list = vtkPoints()
+    new_point_list.DeepCopy(new_grid.GetPoints())
+
+    new_point_id = vtkIdList()
+    new_grid.GetCellPoints(0, new_point_id)
+
+    new_id_list = vtkIdList()
+    new_grid.GetFaceStream(0, new_id_list)
+    temp_list = []
+    for x in range(new_id_list.GetNumberOfIds()):
+        temp_list.append(new_id_list.GetId(x))
+
+    # new_cell = vtkGenericCell()
+    # new_cell.SetCellType(new_cell.GetCellType())
+    # new_cell.DeepCopy(new_grid.GetCell(0))
+    # new_cell.SetPoints(new_point_list)
+    # new_cell.SetPointIds(new_id_list)
+
+    new_cell = vtkPolyhedron()
+    new_cell.GetPoints().DeepCopy(new_point_list)
+    new_cell.GetPointIds().DeepCopy(new_point_id)
+    new_cell.SetFaces(temp_list)
+    new_cell.Initialize()
+
+    # this function is error: vtkPolyhedron.GetFaces().
+    # print(new_cell.GetFaces())
+
+    insert_a_cell_0(vtk_model, new_cell)
