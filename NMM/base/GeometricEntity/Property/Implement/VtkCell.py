@@ -1,5 +1,6 @@
 from NMM.base.GeometricEntity.Property.PropertyInterface import AbstractProperty
-from NMM.base.CopyFunction import copy_polyhedron, copy_vtk_cell
+from NMM.base.CopyFunction import copy_polyhedron, copy_vtk_cell, get_polyhedron_list
+from NMM.base.ModifyVtkCellNew import insert_a_grid
 from vtkmodules.vtkCommonDataModel import vtkUnstructuredGrid, vtkCell
 from vtkmodules.vtkCommonCore import vtkPoints
 
@@ -31,8 +32,18 @@ class VtkCell(AbstractProperty):
     # todo
     @staticmethod
     def get_vtk_cell_grid(id_value: int, grid: vtkUnstructuredGrid):
-        temp_grid = vtkUnstructuredGrid()
         vtk_cell: vtkCell = grid.GetCell(id_value)
-        element_grid_points: vtkPoints = grid.GetPoints()
-        element_cell.vtk_cell = copy_polyhedron(element_vtk_cell, element_grid_points)
-        return temp_grid
+        new_vtk_cell: vtk_cell = copy_vtk_cell(vtk_cell, grid.GetPoints())
+
+        # vtkPoints, vtkIdList, vtkCellType
+        vtk_cell_points = new_vtk_cell.GetPoints()
+        if new_vtk_cell.GetCellType() == 42:
+            vtk_id_list = get_polyhedron_list(new_vtk_cell, new_vtk_cell.GetPoints())
+        else:
+            vtk_id_list = new_vtk_cell.GetPointIds()
+
+        new_grid = vtkUnstructuredGrid()
+        new_grid.InsertNextCell(new_vtk_cell.GetCellType(), vtk_id_list)
+        new_grid.SetPoints(vtk_cell_points)
+
+        return new_grid
