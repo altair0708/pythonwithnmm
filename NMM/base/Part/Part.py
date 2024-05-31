@@ -1,6 +1,6 @@
-from NMM.base.Object.Builder.Object import Object
+from NMM.base.Object.Builder.CompositeObject import CompositeObject
 from abc import ABC
 
 
-class Part(Object, ABC):
+class Part(CompositeObject, ABC):
     pass

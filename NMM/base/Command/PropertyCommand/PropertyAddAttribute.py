@@ -1,8 +1,8 @@
 from NMM.base.Command.CommandInterface import AbstractCommand
-from NMM.base.Property.Property.VtkGrid import VtkGrid
+from NMM.base.Property.Implement.VtkGrid import VtkGrid
 
 
-class VtkGridAddAttribute(AbstractCommand):
+class PropertyAddAttribute(AbstractCommand):
 
     def __init__(self, vtk_grid: VtkGrid, attribute_name: str):
         self.__vtk_grid = vtk_grid

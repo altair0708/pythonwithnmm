@@ -1,5 +1,5 @@
-from NMM.base.Property.Property.CrackStatus import CrackStatus
-from NMM.base.Property.Property.ObjectId import ObjectId
+from NMM.base.Property.Implement.CrackStatus import CrackStatus
+from NMM.base.Property.Implement.ObjectId import ObjectId
 from NMM.base.GeometricEntity.GeometricEntityBase import GeometricEntityBase
 from NMM.crack_3D.object.ObjectBuilderInterface import AbstractObjectBuilder
 from NMM.GlobalVariable import DataStructure

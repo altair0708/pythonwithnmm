@@ -1,6 +1,7 @@
 from NMM.base.Object.Builder.ConstructorInterface import AbstractConstructor
 from NMM.preprocess_3D.Model.Model import PreprocessModel
 from NMM.preprocess_3D.Part.FilePath.FilePathBuilder import FilePathBuilder
+from NMM.preprocess_3D.Part.DataStructure.DataStructureBuilder import DataStructureBuilder
 
 
 class PreprocessModelBuilder(AbstractConstructor):
@@ -11,4 +12,7 @@ class PreprocessModelBuilder(AbstractConstructor):
         file_path_part = file_path_builder.build(root_name)
         model.add_property(file_path_part)
 
-        pass
+        data_structure_builder = DataStructureBuilder()
+        data_structure_part = data_structure_builder.build()
+        model.add_property(data_structure_part)
+
