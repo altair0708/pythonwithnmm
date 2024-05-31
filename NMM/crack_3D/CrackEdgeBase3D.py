@@ -48,7 +48,7 @@ class CrackEdge3D(ObjectBase3D):
 
 def create_a_crack_edge(data_structure: DataStructure, crack_edge_id: int):
 
-    # vtk crack edge model
+    # vtk crack edge Model
     crack_edge_grid: vtkUnstructuredGrid = data_structure.crack_edge.content
 
     # assemble a crack element

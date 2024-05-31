@@ -24,7 +24,7 @@ def main():
     bkg = map(lambda x: x / 255.0, [26, 51, 102, 255])
     colors.SetColor("BkgColor", *bkg)
 
-    # This creates a polygonal cylinder model with eight circumferential
+    # This creates a polygonal cylinder Model with eight circumferential
     # facets.
     cylinder = vtkCylinderSource()
     cylinder.SetResolution(80)

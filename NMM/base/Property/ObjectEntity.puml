@@ -1,0 +1,52 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface ObjectInterface{
+'NMM.base.Object.Builder.ObjectInterface
+add_property()
+get_property()
+}
+abstract class Object{
+'NMM.base.Object.Builder.Object
+dict: __property_dict
+add_property()
+get_property()
+}
+abstract class Part{
+}
+class FilePath
+class DataStructure
+
+Object <|.. ObjectInterface
+Part <|-- Object
+FilePath <|-- Part
+DataStructure <|-- Part
+
+interface PropertyInterface{
+name()
+type()
+value()
+}
+abstract class Property{
+str name
+int type
+None value
+}
+class Path
+
+Property <|.. PropertyInterface
+Path <|-- Property
+FilePath o-- Path
+
+abstract class Model{
+}
+
+class PreprocessModel{
+}
+
+Model <|-- Object
+PreprocessModel <|- Model
+PreprocessModel o-- FilePath
+PreprocessModel o-- DataStructure
+
+@enduml

@@ -15,7 +15,7 @@ Note that :mod:`toughio` is not required at this preliminary stage of the pre-pr
 """
 
 ########################################################################################
-# First, we import :mod:`numpy` and :mod:`pygmsh`, and initialize a :class:`pygmsh.Geometry` object that will be used to construct all the geometrical entities of the model.
+# First, we import :mod:`numpy` and :mod:`pygmsh`, and initialize a :class:`pygmsh.Geometry` object that will be used to construct all the geometrical entities of the Model.
 
 import numpy as np
 import pygmsh
@@ -25,7 +25,7 @@ geo = pygmsh.built_in.Geometry()
 ########################################################################################
 
 ########################################################################################
-# We can define a bunch of useful variables such as the characteristic length or some parameters to characterize the model.
+# We can define a bunch of useful variables such as the characteristic length or some parameters to characterize the Model.
 
 lc = 100.0                              # Characteristic length of mesh
 xmin, xmax = 0.0, 2000.0                # X axis boundaries
@@ -43,7 +43,7 @@ bnd_thick = 10.0                        # Thickness of boundary elements
 
 ########################################################################################
 # We start by defining the geometrical entity representing the fault.
-# The fault is represented as a finite-thickness element that intersects all the layers of the model.
+# The fault is represented as a finite-thickness element that intersects all the layers of the Model.
 # To ensure conformity of the final mesh, each wall of the fault is represented by a segmented line where the positions of the nodes correspond to the intersections of the hanging (left) and foot (right) walls with the different layers.
 # Note that the foot wall is inverted so that the fault entity forms a closed rectangular loop.
 
@@ -174,8 +174,8 @@ basaq_right = geo.add_polygon(
 
 ########################################################################################
 # Then, we define the boundary elements.
-# In this sample problem, a no-flow boundary condition is imposed on the left side of the model (default in TOUGH), and Dirichlet boundary conditions are imposed elsewhere.
-# Thus, physical boundary elements must be defined at the top, right and bottom sides of the model.
+# In this sample problem, a no-flow boundary condition is imposed on the left side of the Model (default in TOUGH), and Dirichlet boundary conditions are imposed elsewhere.
+# Thus, physical boundary elements must be defined at the top, right and bottom sides of the Model.
 # Similarly to the fault entity, boundary entities are segmented to ensure conformity of the final mesh.
 
 bound_right = geo.add_polygon(

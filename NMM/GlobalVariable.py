@@ -1,4 +1,4 @@
-from NMM.base.ObjectBase.NmmObjectBase import NmmObjectBase
+from NMM.base.ObjectBase import NmmObjectBase
 
 
 class CONFIG:
@@ -132,6 +132,7 @@ class DataStructure(object):
     @new_element.setter
     def new_element(self, new_element):
         self.__new_element.content = new_element
+
 
 class CrackList(object):
     element_list = None

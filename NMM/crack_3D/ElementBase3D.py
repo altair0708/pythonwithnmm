@@ -107,7 +107,7 @@ def schmidt_orthogonalization(vector_1, vector_2):
 
 def create_an_element(data_structure: DataStructure, element_id: int):
 
-    # vtk element model
+    # vtk element Model
     element_grid: vtkUnstructuredGrid = data_structure.manifold_element.content
 
     # assemble a crack element

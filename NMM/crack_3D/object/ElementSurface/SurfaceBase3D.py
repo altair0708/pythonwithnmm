@@ -63,7 +63,7 @@ class Surface3D(ObjectBase3D):
 
 def create_a_surface(data_structure: DataStructure, surface_id: int):
 
-    # vtk element surface model
+    # vtk element surface Model
     surface_grid: vtkUnstructuredGrid = data_structure.element_surface.content
 
     # assemble a surface

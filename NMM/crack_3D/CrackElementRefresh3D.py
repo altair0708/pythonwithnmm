@@ -41,7 +41,7 @@ class CrackElementRefresher:
                 set_property(element_grid, 'cracked', i, np.array((2,)))
             # this time step cracked
             elif temp_cracked == 3:
-                # insert the crack information of the element model
+                # insert the crack information of the element Model
                 set_property(element_grid, 'cracked', i, np.array((4,)))
                 set_property(element_grid, 'crack_surface_id', i, each_element_cell.crack_surface_id)
 
@@ -53,7 +53,7 @@ class CrackElementRefresher:
             set_property(surface_grid, 'cracked', i, np.array((temp_cracked,)))
             # this time step cracked
             if temp_cracked == 1:
-                # insert the crack information of the element model
+                # insert the crack information of the element Model
                 set_property(surface_grid, 'cracked', i, np.array((2,)))
                 set_property(surface_grid, 'edge_id', i, each_surface_cell.crack_edge_id)
 

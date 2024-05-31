@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from NMM.base.GeometricEntity.Property.PropertyInterface import AbstractProperty
+from NMM.base.Property.PropertyInterface import AbstractProperty
 
 
 class AbstractGeometricEntityBase(ABC):

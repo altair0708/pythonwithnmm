@@ -1,4 +1,4 @@
-from NMM.base.ObjectBase import NmmObjectBase
+from NMM.base.Object import NmmObjectBase
 
 
 class CONFIG:

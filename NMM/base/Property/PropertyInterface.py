@@ -3,17 +3,17 @@ from abc import ABC, abstractmethod
 
 class AbstractProperty(ABC):
 
-    @abstractmethod
     @property
+    @abstractmethod
     def name(self):
         pass
 
-    @abstractmethod
     @property
+    @abstractmethod
     def type(self):
         pass
 
-    @abstractmethod
     @property
+    @abstractmethod
     def value(self):
         pass

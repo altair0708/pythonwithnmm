@@ -1,6 +1,6 @@
 from vtkmodules.vtkIOXML import vtkXMLUnstructuredGridReader, vtkXMLUnstructuredGridWriter
 from NMM.GlobalVariable import CONST, PATH
-from NMM.base.ObjectBase import NmmObjectBase
+from NMM.base.Object import NmmObjectBase
 import sqlite3
 import os
 

@@ -124,7 +124,7 @@ class ElementRefresher3D:
             temp_displacement_list = element_list[element_id].joint_displacement_increment
             point_number = len(element_list[element_id].joint_list)
 
-            # write element_point_displacement_increment into vtk model
+            # write element_point_displacement_increment into vtk Model
             for point_id in range(point_number):
                 temp_point_id = element_list[element_id].joint_id[point_id]
                 # manifold_element_displacement_increment_list.InsertTuple(temp_point_id, temp_displacement_list[point_id])
@@ -136,18 +136,18 @@ class ElementRefresher3D:
                 temp_velocity = temp_point_displacement_increment * 2 / CONST.TIME_INCREMENT - temp_velocity
                 set_property(manifold_element_grid, 'point_velocity', temp_point_id, temp_velocity)
 
-            # write strain_total into vtk model
+            # write strain_total into vtk Model
             temp_strain_total = element_list[element_id].initial_strain_total
             temp_strain_total = temp_strain_total.reshape((6, ))
             set_property(manifold_element_grid, 'strain_total', element_id, temp_strain_total)
             # temp_strain_total_1 = get_property(manifold_element_grid, 'strain_total', element_id)
 
-            # write stress_total into vtk model
+            # write stress_total into vtk Model
             temp_stress_total = element_list[element_id].initial_stress
             temp_stress_total = temp_stress_total.reshape((6, ))
             set_property(manifold_element_grid, 'stress_total', element_id, temp_stress_total)
 
-            # write special_point info into vtk model
+            # write special_point info into vtk Model
             # fixed point
             if len(element_list[element_id].fixed_point_list) != 0:
                 for each_point in element_list[element_id].fixed_point_list:

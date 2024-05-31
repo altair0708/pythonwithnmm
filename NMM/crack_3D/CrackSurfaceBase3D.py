@@ -50,7 +50,7 @@ class CrackSurface3D(ObjectBase3D):
 
 def create_a_crack_surface(data_structure: DataStructure, crack_surface_id: int):
 
-    # vtk crack surface model
+    # vtk crack surface Model
     crack_surface_grid: vtkUnstructuredGrid = data_structure.crack_surface.content
 
     # assemble a crack element
