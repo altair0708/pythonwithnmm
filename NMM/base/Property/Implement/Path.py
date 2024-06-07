@@ -1,4 +1,6 @@
 from NMM.base.Property.Property import Property
+import shutil
+import os
 
 
 class Path(Property):
@@ -12,4 +14,9 @@ class Path(Property):
 
         assert type(path) is str
         self._value = path
+
+    def mkdir(self):
+        if os.path.exists(self._value):
+            shutil.rmtree(self._value)
+        os.mkdir(self._value)
 

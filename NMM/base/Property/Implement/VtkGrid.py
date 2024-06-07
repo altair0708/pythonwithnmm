@@ -1,5 +1,6 @@
 from NMM.base.Property.Property import Property
 from NMM.base.VTKBase.Implement.VTKBase import VTKBase
+from NMM.base.VTKBase import get_grid_by_cell_type, generate_cover_grid, add_attribute, write_file
 
 
 class VtkGrid(Property):
@@ -13,5 +14,22 @@ class VtkGrid(Property):
         else:
             self._value = VTKBase.load_a_grid(file_name)
 
+    @property
+    def value(self):
+        return self._value
+
+    @value.setter
+    def value(self, vtk_grid):
+        self._value = vtk_grid
+
     def add_attribute(self, attribute_name):
-        pass
+        add_attribute(self._value, attribute_name)
+
+    def extract_by_cell_type(self, geometric_name: str):
+        return get_grid_by_cell_type(self._value, geometric_name)
+
+    def extract_mathematics_cover(self, cover_name):
+        return generate_cover_grid(self._value, cover_name)
+
+    def write_file(self, file_name):
+        write_file(self._value, file_name)

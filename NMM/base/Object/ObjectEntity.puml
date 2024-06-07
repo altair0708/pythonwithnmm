@@ -5,13 +5,19 @@ interface NmmObjectBaseInterface{
 }
 abstract class NmmObjectBase{
 }
+interface CompositeObjectInterface{
+}
+abstract class CompositeObject{
+}
 abstract class Part{
 }
 class FilePath
 class DataStructure
 
-Object <|.. ObjectInterface
-Part <|-- Object
+NmmObjectBase <|.. NmmObjectBaseInterface
+CompositeObject <|.. CompositeObjectInterface
+CompositeObject <|-- NmmObjectBase
+Part <|-- CompositeObject
 FilePath <|-- Part
 DataStructure <|-- Part
 
@@ -20,20 +26,57 @@ interface PropertyInterface{
 abstract class Property{
 }
 class Path
+class VtkGrid
 
+
+Property <|-- NmmObjectBase
 Property <|.. PropertyInterface
 Path <|-- Property
 FilePath o-- Path
+VtkGrid <|-- Property
+DataStructure o-- VtkGrid
 
 abstract class Model{
 }
-
 class PreprocessModel{
 }
-
-Model <|-- Object
+Model <|-- CompositeObject
 PreprocessModel <|- Model
 PreprocessModel o-- FilePath
 PreprocessModel o-- DataStructure
+
+class NmmDatabase{
+}
+class DatabaseTable{
+}
+DatabaseTable <|-- Property
+NmmDatabase <|-- Part
+NmmDatabase o-- DatabaseTable
+PreprocessModel o-- NmmDatabase
+
+class ElementList{
+}
+abstract class Element{
+}
+class PreprocessElement{
+}
+abstract class PropertyList{
+}
+class RelationshipList{
+}
+class Relationship{
+}
+
+ElementList <|-- Part
+PreprocessElement <|-- Element
+Element <|-- CompositeObject
+RelationshipList <|-- PropertyList
+PropertyList <|-- CompositeObject
+Relationship <|-- Property
+
+PreprocessModel o-- ElementList
+ElementList o-- PreprocessElement
+PreprocessElement o-- RelationshipList
+RelationshipList o-- Relationship
 
 @enduml

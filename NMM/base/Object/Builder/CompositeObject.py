@@ -7,10 +7,10 @@ from abc import ABC
 class CompositeObject(AbstractCompositeObject, NmmObjectBase, ABC):
     def __init__(self):
         super().__init__()
-        self.__property_dict = {}
+        self._property_dict = {}
 
     def add_property(self, new_property: Property):
-        self.__property_dict[new_property.name] = new_property
+        self._property_dict[new_property.name] = new_property
 
     def get_property(self, property_name):
-        return self.__property_dict[property_name].value
+        return self._property_dict[property_name]
