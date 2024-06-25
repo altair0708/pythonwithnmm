@@ -1,4 +1,4 @@
-from NMM.base.Object.Builder.ConstructorInterface import AbstractConstructor
+from NMM.base.CompositeObject.ConstructorInterface import AbstractConstructor
 from NMM.preprocess_3D.Part.FilePath.FilePath import FilePath
 from NMM.base.Property.Implement.Path import Path
 import os

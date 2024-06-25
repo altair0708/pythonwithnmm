@@ -1,4 +1,4 @@
-from NMM.base.Object.Builder.CompositeObject import CompositeObject
+from NMM.base.CompositeObject.CompositeObject import CompositeObject
 from abc import ABC
 
 

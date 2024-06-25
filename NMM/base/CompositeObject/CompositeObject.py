@@ -1,5 +1,5 @@
 from NMM.base.Object.NmmObjectBase import NmmObjectBase
-from NMM.base.Object.Builder.CompostieObjectInterface import AbstractCompositeObject
+from NMM.base.CompositeObject.CompostieObjectInterface import AbstractCompositeObject
 from NMM.base.Property.Property import Property
 from abc import ABC
 

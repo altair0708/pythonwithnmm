@@ -1,4 +1,4 @@
-from NMM.base.Object.Builder.ConstructorInterface import AbstractConstructor
+from NMM.base.CompositeObject.ConstructorInterface import AbstractConstructor
 from NMM.base.Property.Implement.DatabaseTable import DatabaseTable
 from NMM.base.Command.Invoker import Invoker
 from NMM.base.Command.ModelCommand.ModelGetPath import ModelGetPath

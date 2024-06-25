@@ -32,9 +32,9 @@ class VtkGrid
 Property <|-- NmmObjectBase
 Property <|.. PropertyInterface
 Path <|-- Property
-FilePath o-- Path
+FilePath *-- Path
 VtkGrid <|-- Property
-DataStructure o-- VtkGrid
+DataStructure *-- VtkGrid
 
 abstract class Model{
 }
@@ -51,32 +51,40 @@ class DatabaseTable{
 }
 DatabaseTable <|-- Property
 NmmDatabase <|-- Part
-NmmDatabase o-- DatabaseTable
+NmmDatabase *-- DatabaseTable
 PreprocessModel o-- NmmDatabase
 
+abstract class EntityList{
+}
 class ElementList{
 }
 abstract class Element{
 }
 class PreprocessElement{
 }
-abstract class PropertyList{
-}
-class RelationshipList{
-}
 class Relationship{
 }
 
-ElementList <|-- Part
+ElementList <|-- EntityList
+EntityList <|-- Part
 PreprocessElement <|-- Element
 Element <|-- CompositeObject
-RelationshipList <|-- PropertyList
-PropertyList <|-- CompositeObject
 Relationship <|-- Property
 
 PreprocessModel o-- ElementList
-ElementList o-- PreprocessElement
-PreprocessElement o-- RelationshipList
-RelationshipList o-- Relationship
+ElementList *-- PreprocessElement
+PreprocessElement *-- Relationship
+
+class Cover{
+}
+class CoverList{
+}
+Cover <|-- Element
+CoverList <|-- EntityList
+CoverList *-- Cover
+Cover *-- Relationship
+PreprocessModel o-- CoverList
+
+Cover <--> PreprocessElement
 
 @enduml

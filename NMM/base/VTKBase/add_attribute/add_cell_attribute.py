@@ -5,7 +5,7 @@ from NMM.base.VTKBase.add_attribute.add_attribute_interface import FunctionAddAt
 
 class AddCellAttribute(FunctionAddAttribute):
     @staticmethod
-    def add_int_array(vtk_model: vtkUnstructuredGrid, attribute_name: str, tuple_dimensional: int, is_id=False):
+    def add_int_array(vtk_model: vtkUnstructuredGrid, attribute_name: str, tuple_dimensional: int, is_id=False, array_number=None):
         array = vtkIntArray()
         array.SetName(attribute_name)
         array.SetNumberOfComponents(tuple_dimensional)
@@ -20,7 +20,11 @@ class AddCellAttribute(FunctionAddAttribute):
             return initial_value
 
         initial_data = initial_tuple(tuple_dimensional, is_id)
-        [array.InsertTuple(i, initial_data(i)) for i in range(vtk_model.GetNumberOfCells())]
+        if array_number is None:
+            [array.InsertTuple(i, initial_data(i)) for i in range(vtk_model.GetNumberOfCells())]
+        else:
+            assert array_number is int
+            [array.InsertTuple(i, initial_data(i)) for i in range(array_number)]
         vtk_model.GetCellData().AddArray(array)
 
     @staticmethod

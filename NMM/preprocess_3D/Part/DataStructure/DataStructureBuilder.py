@@ -1,5 +1,5 @@
 from NMM.preprocess_3D.Part.DataStructure.DataStructure import DataStructure
-from NMM.base.Object.Builder.ConstructorInterface import AbstractConstructor
+from NMM.base.CompositeObject.ConstructorInterface import AbstractConstructor
 from NMM.base.Property.Implement.VtkGrid import VtkGrid
 from NMM.base.Command.ModelCommand.ModelGetPath import ModelGetPath
 from NMM.base.Command.Invoker import Invoker

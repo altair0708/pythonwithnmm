@@ -1,8 +1,9 @@
-from NMM.base.Object.Builder.ConstructorInterface import AbstractConstructor
+from NMM.base.CompositeObject.ConstructorInterface import AbstractConstructor
 from NMM.preprocess_3D.Model.Model import PreprocessModel
 from NMM.preprocess_3D.Part.FilePath.FilePathBuilder import FilePathBuilder
 from NMM.preprocess_3D.Part.DataStructure.DataStructureBuilder import DataStructureBuilder
 from NMM.preprocess_3D.Part.NmmDatabase.NmmDatabaseBuilder import NmmDatabaseBuilder
+from NMM.preprocess_3D.Part.ElementList.ElementListBuilder import PreprocessElementListBuilder
 
 
 class PreprocessModelBuilder(AbstractConstructor):
@@ -20,6 +21,10 @@ class PreprocessModelBuilder(AbstractConstructor):
         nmm_database_builder = NmmDatabaseBuilder()
         nmm_database_part = nmm_database_builder.build()
         model.add_property(nmm_database_part)
+
+        preprocess_element_list_builder = PreprocessElementListBuilder()
+        preprocess_element_part = preprocess_element_list_builder.build()
+        model.add_property(preprocess_element_part)
 
         return model
 
