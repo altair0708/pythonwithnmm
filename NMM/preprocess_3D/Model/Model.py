@@ -4,7 +4,8 @@ from NMM.base.Command.Invoker import Invoker, InvokerQueue
 from NMM.base.Command.ModelCommand.ModelAddAttribute import ModelAddAttribute
 from NMM.base.Command.ModelCommand.ModelGetPath import ModelGetPath
 from NMM.base.Command.ModelCommand.ModelWriteFile import ModelWriteFile
-from NMM.base.Command.ModelCommand.ModelGenerateEntity import ModelGenerateEntity
+from NMM.base.Command.ModelCommand.ModelGenerateGrid import ModelGenerateGrid
+from NMM.base.Command.ModelCommand.ModelBuilderEntity import ModelBuilderEntity
 import os
 
 
@@ -15,17 +16,21 @@ class PreprocessModel(Model):
 
         data_structure = self.get_property('data_structure')
         file_path = self.get_property('file_path')
+        element_list = self.get_property('preprocess_element_list')
+        nmm_database = self.get_property('database')
 
         entity_list = ['geometric_vertex', 'geometric_line', 'geometric_surface', 'geometric_tetrahedron']
         for each_entity_name in entity_list:
-            invoker.set_command(ModelGenerateEntity(each_entity_name, data_structure))
+            invoker.set_command(ModelGenerateGrid(each_entity_name, data_structure))
             invoker.set_command(ModelAddAttribute(each_entity_name, 'point_id', data_structure))
             invoker.set_command(ModelAddAttribute(each_entity_name, 'cell_id', data_structure))
 
         cover_list = ['mathematics_cover', 'mathematics_point', 'manifold_element']
         for each_entity_name in cover_list:
-            invoker.set_command(ModelGenerateEntity(each_entity_name, data_structure))
+            invoker.set_command(ModelGenerateGrid(each_entity_name, data_structure))
         # TODO: build the cover-element relationship
+        invoker.set_command(ModelBuilderEntity(element_list, data_structure))
+
         temp_invoker = Invoker()
         temp_invoker.set_command(ModelGetPath('geometry_path', file_path))
         geometry_path = temp_invoker.press_button()
