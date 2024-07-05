@@ -7,5 +7,6 @@ from .add_attribute.add_attribute import add_attribute
 from .write_file import write_file
 from .generate_entity.generate_entity import generate_grid
 from .load_a_grid import load_a_grid
+from .get_attribute.get_attribute import get_attribute
 
 

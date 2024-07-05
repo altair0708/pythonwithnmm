@@ -5,7 +5,7 @@ from vtkmodules.vtkCommonDataModel import vtkUnstructuredGrid
 
 def generate_grid(vtk_grid: vtkUnstructuredGrid, entity_name: str):
     geometric_list = ['geometric_vertex', 'geometric_line', 'geometric_surface', 'geometric_tetrahedron']
-    cover_list = ['mathematics_cover', 'mathematics_point', 'manifold_element']
+    cover_list = ['mathematics_cover', 'mathematics_point', 'manifold_element', 'element_surface']
     if entity_name in geometric_list:
         return get_grid_by_cell_type(vtk_grid, entity_name)
     elif entity_name in cover_list:

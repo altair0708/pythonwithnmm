@@ -5,15 +5,18 @@ import os
 
 
 class FilePathBuilder(AbstractConstructor):
-    def build(self, root_path):
+    def __init__(self, root_path):
+        self.__root_path = root_path
+
+    def build(self):
         file_path = FilePath()
 
         # work_path
-        work_path = Path('work_path', self.path_cater(root_path))
+        work_path = Path('work_path', self.path_cater(self.__root_path))
         file_path.add_property(work_path)
 
         # preprocess mesh_path
-        mesh_path_str = self.path_cater(root_path, 'mesh')
+        mesh_path_str = self.path_cater(self.__root_path, 'mesh')
         mesh_path = Path('mesh_path', mesh_path_str)
         file_path.add_property(mesh_path)
 
@@ -23,13 +26,15 @@ class FilePathBuilder(AbstractConstructor):
             file_path.add_property(temp_path)
 
         # calculation geometry_path
-        geometry_path_str = self.path_cater(root_path, 'geometry')
+        geometry_path_str = self.path_cater(self.__root_path, 'geometry')
         geometry_path = Path('geometry_path', geometry_path_str)
         geometry_path.mkdir()
         file_path.add_property(geometry_path)
 
         geometry_file_list = ['database']
-        for each_geometry_file in geometry_file_list:
+        entity_list = ['geometric_vertex', 'geometric_line', 'geometric_surface', 'geometric_tetrahedron']
+        cover_list = ['mathematics_cover', 'mathematics_point', 'manifold_element', 'element_surface']
+        for each_geometry_file in geometry_file_list + entity_list + cover_list:
             if 'database' == each_geometry_file:
                 temp_path = Path(each_geometry_file, self.path_cater(geometry_path_str, f'{each_geometry_file}.db'))
             else:
@@ -37,7 +42,7 @@ class FilePathBuilder(AbstractConstructor):
             file_path.add_property(temp_path)
 
         # postprocess result_path
-        result_path = Path('result_path', self.path_cater(root_path, 'result'))
+        result_path = Path('result_path', self.path_cater(self.__root_path, 'result'))
         result_path.mkdir()
         file_path.add_property(result_path)
 

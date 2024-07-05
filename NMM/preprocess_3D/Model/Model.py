@@ -25,17 +25,18 @@ class PreprocessModel(Model):
             invoker.set_command(ModelAddAttribute(each_entity_name, 'point_id', data_structure))
             invoker.set_command(ModelAddAttribute(each_entity_name, 'cell_id', data_structure))
 
-        cover_list = ['mathematics_cover', 'mathematics_point', 'manifold_element']
+        cover_list = ['mathematics_cover', 'mathematics_point', 'manifold_element', 'element_surface']
         for each_entity_name in cover_list:
             invoker.set_command(ModelGenerateGrid(each_entity_name, data_structure))
-        # TODO: build the cover-element relationship
-        invoker.set_command(ModelBuilderEntity(element_list, data_structure))
+
+        crack_list = ['crack_surface', 'crack_edge', 'new_cover', 'new_element', 'new_surface']
+        for each_entity_name in crack_list:
+            invoker.set_command(ModelGenerateGrid(each_entity_name, data_structure))
 
         temp_invoker = Invoker()
-        temp_invoker.set_command(ModelGetPath('geometry_path', file_path))
-        geometry_path = temp_invoker.press_button()
-        for each_grid_name in entity_list + cover_list:
-            path = os.path.normpath(f'{geometry_path}/{each_grid_name}.vtu')
-            invoker.set_command(ModelWriteFile(each_grid_name, path, data_structure))
+        for each_grid_name in entity_list + cover_list + crack_list:
+            temp_invoker.set_command(ModelGetPath(each_grid_name, file_path))
+            geometry_path = temp_invoker.press_button()
+            invoker.set_command(ModelWriteFile(each_grid_name, geometry_path, data_structure))
 
         invoker.press_button()

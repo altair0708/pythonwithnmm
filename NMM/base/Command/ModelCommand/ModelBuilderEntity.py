@@ -6,5 +6,6 @@ class ModelBuilderEntity(AbstractCommand):
         self.__element_list = element_list
         self.__data_structure = data_structure
 
+    # TODO
     def execute(self):
         pass

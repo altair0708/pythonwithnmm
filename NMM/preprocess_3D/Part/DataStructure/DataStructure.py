@@ -17,7 +17,7 @@ class DataStructure(Part):
 
     def generate_grid(self, entity_name: str):
         entity_list = ['geometric_vertex', 'geometric_line', 'geometric_surface', 'geometric_tetrahedron']
-        cover_list = ['mathematics_cover', 'mathematics_point', 'manifold_element']
+        cover_list = ['mathematics_cover', 'mathematics_point', 'manifold_element', 'element_surface']
         if entity_name in entity_list:
             name = 'gmsh_file'
         elif entity_name in cover_list:
@@ -26,6 +26,7 @@ class DataStructure(Part):
             raise Exception('Entity name error!!!')
         self.get_property(entity_name).value = self.get_property(name).generate_grid(entity_name)
 
+    # TODO
     def generate_entity_2(self, entity_name: str):
         self.get_property(entity_name).value = self.get_property('gmsh_file').generate_grid(entity_name)
 
