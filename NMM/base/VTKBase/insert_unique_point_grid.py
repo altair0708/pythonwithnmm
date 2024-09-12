@@ -1,5 +1,6 @@
 from vtkmodules.vtkCommonDataModel import vtkUnstructuredGrid, vtkPointLocator
 from vtkmodules.vtkCommonCore import vtkPoints, vtkIdList
+import sys
 
 
 def insert_unique_point_grid(vtk_model: vtkUnstructuredGrid, point=(0, 0, 0)):

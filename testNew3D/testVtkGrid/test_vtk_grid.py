@@ -30,3 +30,5 @@ def test_id_consistency():
         assert property_data.GetTuple(each_id)[0] == each_id
 
 
+def test_set_attribute():
+    pass

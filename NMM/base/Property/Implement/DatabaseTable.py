@@ -1,6 +1,7 @@
 from NMM.base.Property.Property import Property
-from NMM.base.SqliteBase import new_a_table, add_a_relationship
 from NMM.base.Property.Implement.Relationship import Relationship
+from NMM.base.SqliteBase import new_a_table, add_a_relationship, exist_a_table
+from NMM.base.CacheBase.RelationshipCache import relationship_cache
 
 
 class DatabaseTable(Property):
@@ -12,12 +13,16 @@ class DatabaseTable(Property):
 
         # lazy mode
         self._value = None
-        self.add_table()
+        if not exist_a_table(relationship_name, file_name):
+            self.add_table()
+
+        # relationship_cache.add_observer(self)
 
     def add_table(self):
         new_a_table(self.__database_path, self._name)
 
-    def add_relationship(self, relationship: Relationship):
+    # Interface from relationship_cache, modify relationship(add)
+    def modify(self, relationship: Relationship):
         add_a_relationship(self.__database_path, relationship.name, relationship.value)
 
 

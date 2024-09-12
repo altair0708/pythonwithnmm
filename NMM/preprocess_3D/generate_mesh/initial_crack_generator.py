@@ -6,16 +6,16 @@ from vtkmodules.vtkIOXML import vtkXMLUnstructuredGridWriter
 sys.path.append(os.path.abspath('../NMM/preprocess_3D'))
 
 points = vtkPoints()
-points.InsertNextPoint((0, 0, 10))
-points.InsertNextPoint((8, 0, 10))
-points.InsertNextPoint((8, 4, 10))
-points.InsertNextPoint((0, 4, 10))
+# points.InsertNextPoint((0, 0, 10))
+# points.InsertNextPoint((8, 0, 10))
+# points.InsertNextPoint((8, 4, 10))
+# points.InsertNextPoint((0, 4, 10))
 
 # 90 degree
-# points.InsertNextPoint((0, 0, 1))
-# points.InsertNextPoint((0, 0, -1))
-# points.InsertNextPoint((4, 0, -1))
-# points.InsertNextPoint((4, 0, 1))
+points.InsertNextPoint((0, 0, 1))
+points.InsertNextPoint((0, 0, -1))
+points.InsertNextPoint((4, 0, -1))
+points.InsertNextPoint((4, 0, 1))
 
 # 63.5 degree
 # points.InsertNextPoint((0, -0.5, 1))

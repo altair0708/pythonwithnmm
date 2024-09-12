@@ -1,5 +1,7 @@
 from NMM.base.Algorithm.AlgorithmInterface import AbstractInterface
 from NMM.base.Property.Implement.VtkGrid import VtkGrid
+from NMM.base.VTKBase.generate_crack_grid.generate_crack_grid import generate_crack_grid
+from NMM.base.VTKBase.write_file import write_file
 
 
 class CrackGenerator(AbstractInterface):
@@ -9,10 +11,10 @@ class CrackGenerator(AbstractInterface):
         self.__element_grid = element_grid
         self.__output_grid = output
 
-    def update(self, grid_type: str):
-        if 'crack_surface' == grid_type:
-            pass
-        elif 'crack_edge' == grid_type:
-            pass
-        else:
-            raise Exception('Grid type error!!!')
+    def update(self, output_name: str):
+        initial_crack_grid = self.__crack_grid.value
+        manifold_element_grid = self.__element_grid.value
+
+        # Don't return crack_grid, modified by geometry_cache.
+        # self.__output_grid.value = generate_crack_grid(initial_crack_grid, manifold_element_grid, output_name)
+        generate_crack_grid(initial_crack_grid, manifold_element_grid, output_name)

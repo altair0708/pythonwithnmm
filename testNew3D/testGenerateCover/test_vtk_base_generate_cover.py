@@ -20,6 +20,8 @@ def test_generate_cover():
         assert cover.GetCellData().GetArray(0).GetTuple(each_id) == vtk_model.GetPointData().GetArray(0).GetTuple(each_id)
         assert cover_point.GetCellData().GetArray(0).GetTuple(each_id) == vtk_model.GetPointData().GetArray(0).GetTuple(each_id)
         assert element.GetCellData().GetArray(0).GetTuple(each_id) == vtk_model.GetCellData().GetArray(0).GetTuple(each_id)
+        # attribute: cell_id == each_id
+        assert element.GetCellData().GetArray(0).GetTuple(each_id)[0] == each_id
 
 
 def test_relationship_cache():

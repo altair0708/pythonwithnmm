@@ -26,6 +26,9 @@ def add_attribute(vtk_model: vtkUnstructuredGrid, attribute_name: str):
     elif 'surface_id' == attribute_name:
         array_type = AddCellAttribute.add_int_array
         tuple_dimensional = 1
+    elif 'cracked' == attribute_name:
+        array_type = AddCellAttribute.add_int_array
+        tuple_dimensional = 1
     else:
         raise Exception('Attribute name error!!!')
 

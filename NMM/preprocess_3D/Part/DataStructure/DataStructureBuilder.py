@@ -19,7 +19,8 @@ class DataStructureBuilder(AbstractConstructor):
         data_structure.add_property(initial_crack_grid)
 
         add_grid = ['geometric_vertex', 'geometric_line', 'geometric_surface', 'geometric_tetrahedron',
-                    'mathematics_cover', 'mathematics_point', 'manifold_element', 'element_surface']
+                    'mathematics_cover', 'mathematics_point', 'manifold_element', 'element_surface',
+                    'crack_surface', 'crack_edge', 'new_element']
         for each_grid in add_grid:
             temp_grid = VtkGrid(each_grid)
             data_structure.add_property(temp_grid)

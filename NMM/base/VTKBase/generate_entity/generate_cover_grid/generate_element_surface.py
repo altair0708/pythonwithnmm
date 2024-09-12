@@ -3,7 +3,6 @@ from vtkmodules.vtkCommonCore import vtkIdList, vtkIntArray, vtkPoints
 from NMM.base.CacheBase import relationship_cache
 
 
-# TODO: Test
 def generate_element_surface(vtk_model: vtkUnstructuredGrid):
 
     # element_surface.vtu

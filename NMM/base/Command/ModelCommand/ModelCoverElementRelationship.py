@@ -2,11 +2,13 @@ from NMM.base.Command.CommandInterface import AbstractCommand
 from NMM.base.Command.PropertyCommand.PropertyBuildRelationship import PropertyBuildRelationship
 from NMM.base.Command.Invoker import Invoker
 from NMM.base.Part.Part import Part
+import warnings
 
 
 # This a specific command used in preprocess, it is used to build the relationship of cover and element
 class ModelCoverElementRelationship(AbstractCommand):
     def __init__(self, nmm_database: Part, data_structure: Part):
+        warnings.warn('Deprecation command: ModelCoverElementRelationship', DeprecationWarning)
         self.__nmm_database = nmm_database
         self.__data_structure = data_structure
 

@@ -1,7 +1,7 @@
 from tests3D.object.tetra_polyhedron import generate_tetra_polyhedron
 from vtkmodules.vtkCommonDataModel import vtkUnstructuredGrid, vtkPlane, vtkTetra, vtkPolyData, VTK_POLYHEDRON
 from vtkmodules.vtkCommonCore import vtkPoints
-from vtkmodules.vtkFiltersCore import vtkCutter, vtkPlaneCutter
+from vtkmodules.vtkFiltersCore import vtkCutter, vtkPlaneCutter, vtk3DLinearGridPlaneCutter, vtkAppendFilter
 from vtkmodules.vtkIOXML import vtkXMLPolyDataWriter, vtkXMLUnstructuredGridWriter
 
 points = vtkPoints()
@@ -24,13 +24,20 @@ u_grid.SetPoints(points_1)
 
 plane = vtkPlane()
 plane.SetOrigin(0.5, 0, 0)
-plane.SetNormal(1, 0, 0)
+plane.SetNormal(1, 1, 0)
 
 cutter = vtkCutter()
 cutter.SetInputData(u_grid)
 cutter.SetCutFunction(plane)
+cutter.GenerateTrianglesOff()
 cutter.Update()
-print(cutter.GetOutput().GetNumberOfCells())
+poly_data: vtkPolyData = cutter.GetOutput()
+
+appender = vtkAppendFilter()
+appender.SetInputConnection(cutter.GetOutputPort())
+appender.AddInputData(u_grid)
+appender.Update()
+print(appender.GetOutput().GetNumberOfCells())
 
 writer = vtkXMLPolyDataWriter()
 writer.SetInputConnection(cutter.GetOutputPort())
@@ -42,3 +49,7 @@ writer.SetInputData(u_grid)
 writer.SetFileName('re011_1.vtu')
 writer.Write()
 
+writer = vtkXMLUnstructuredGridWriter()
+writer.SetInputData(appender.GetOutput())
+writer.SetFileName('re011_2.vtu')
+writer.Write()

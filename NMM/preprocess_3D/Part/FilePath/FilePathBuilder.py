@@ -34,7 +34,8 @@ class FilePathBuilder(AbstractConstructor):
         geometry_file_list = ['database']
         entity_list = ['geometric_vertex', 'geometric_line', 'geometric_surface', 'geometric_tetrahedron']
         cover_list = ['mathematics_cover', 'mathematics_point', 'manifold_element', 'element_surface']
-        for each_geometry_file in geometry_file_list + entity_list + cover_list:
+        crack_list = ['crack_surface', 'crack_edge', 'new_element']
+        for each_geometry_file in geometry_file_list + entity_list + cover_list + crack_list:
             if 'database' == each_geometry_file:
                 temp_path = Path(each_geometry_file, self.path_cater(geometry_path_str, f'{each_geometry_file}.db'))
             else:
