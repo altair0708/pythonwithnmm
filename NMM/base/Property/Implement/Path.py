@@ -6,11 +6,11 @@ import os
 class Path(Property):
     def __init__(self, path_name, path):
         super(Path, self).__init__()
+        self._type = 'Path'
 
         assert type(path_name) is str
-        self._name = path_name
+        self.name = path_name
 
-        self._type = 'Path'
 
         assert type(path) is str
         self._value = path

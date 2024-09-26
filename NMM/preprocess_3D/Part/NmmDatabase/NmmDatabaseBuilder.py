@@ -11,7 +11,7 @@ class NmmDatabaseBuilder(AbstractConstructor):
         database = NmmDatabase(database_path)
 
         database_table_list = ['cover_element', 'element_specialpoint', 'element_surface', 'element_cracksurface',
-                               'surface_crackedge', 'cracksurface_crackedge']
+                               'surface_crackedge', 'cracksurface_crackedge', 'element_newelement', 'surface_newsurface']
         for each_database_table in database_table_list:
             temp_database_table = DatabaseTable(each_database_table, database_path)
             database.add_property(temp_database_table)
@@ -20,8 +20,8 @@ class NmmDatabaseBuilder(AbstractConstructor):
 
     @staticmethod
     def get_path(path_name: str):
-        from NMM.preprocess_3D.Model.Model import PreprocessModel
-        path_part = PreprocessModel().get_property('file_path')
+        from NMM.preprocess_3D.Model.Model import preprocess_model
+        path_part = preprocess_model.get_property('file_path')
 
         invoker = Invoker()
         invoker.set_command(ModelGetPath(path_name, path_part))

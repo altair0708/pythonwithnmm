@@ -44,3 +44,5 @@ def insert_a_vtk_cell(cell_grid: vtkUnstructuredGrid, target_grid: vtkUnstructur
 
     # insert cell
     target_grid.InsertNextCell(cell_grid.GetCellType(0), new_cell_id)
+
+    return target_grid.GetNumberOfCells()

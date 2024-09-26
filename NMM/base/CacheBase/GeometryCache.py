@@ -8,7 +8,7 @@ class GeometryCache(AbstractCache):
 
     def add_item(self, grid_name: str, cell_grid: vtkUnstructuredGrid):
         self._cache_list.append({'grid_name': grid_name, 'cell_grid': cell_grid})
-        self.update()
+        self.insert()
 
 
 geometry_cache = GeometryCache()

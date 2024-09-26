@@ -10,5 +10,9 @@ from .load_a_grid import load_a_grid
 from .get_attribute.get_attribute import get_attribute
 from .set_attribute.set_attribute import set_attribute
 from .insert_a_vtk_cell.insert_a_vtk_cell import insert_a_vtk_cell
+from .is_vtk_grid import is_vtk_grid
+from .generate_crack_grid.is_intersect import is_intersect
+from .generate_crack_grid.clip_a_element.clip_a_element import clip_a_element
+from .generate_crack_grid.clip_a_surface.clip_a_surface import clip_a_surface
 
 

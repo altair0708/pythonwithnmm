@@ -18,10 +18,21 @@ class AbstractCache(ABC):
     def remove_observer(self, observer):
         self._inform_list.remove(observer)
 
-    def update(self):
+    # interface in VtkGrid, DatabaseTable
+    def insert(self):
         for each_observer in self._inform_list:
-            each_observer.modify(self._cache_list[-1])
+            each_observer.insert(self._cache_list[-1])
+
+    # interface in DatabaseTable
+    def select(self):
+        result_list = []
+        for each_observer in self._inform_list:
+            each_observer.select(self._cache_list[-1], result_list)
+        return result_list
 
     @abstractmethod
     def add_item(self, *args):
+        pass
+
+    def get_item(self, *args):
         pass

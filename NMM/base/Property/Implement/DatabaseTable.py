@@ -1,14 +1,16 @@
 from NMM.base.Property.Property import Property
 from NMM.base.Property.Implement.Relationship import Relationship
-from NMM.base.SqliteBase import new_a_table, add_a_relationship, exist_a_table
-from NMM.base.CacheBase.RelationshipCache import relationship_cache
+from NMM.base.SqliteBase import new_a_table, add_a_relationship, exist_a_table, select_a_relationship
+from NMM.base.CacheBase import relationship_cache
+from copy import deepcopy
 
 
 class DatabaseTable(Property):
     def __init__(self, relationship_name: str, file_name: str):
         super(DatabaseTable, self).__init__()
-        self._name = relationship_name
         self._type = 'DatabaseTable'
+
+        self.name = relationship_name
         self.__database_path = file_name
 
         # lazy mode
@@ -22,8 +24,25 @@ class DatabaseTable(Property):
         new_a_table(self.__database_path, self._name)
 
     # Interface from relationship_cache, modify relationship(add)
-    def modify(self, relationship: Relationship):
-        add_a_relationship(self.__database_path, relationship.name, relationship.value)
+    def insert(self, relationship: Relationship):
+        if relationship.name == self.name:
+            add_a_relationship(self.__database_path, relationship.name, relationship.value)
 
+    def select(self, relationship: Relationship, result_list: list):
+        if relationship.name == self.name:
+            relationship_dict: dict = deepcopy(relationship.value)
+            relationship_list = [(key, value) for key, value in relationship_dict.items()]
+            assert len(relationship_list) == 2
 
+            entity_name = None
+            entity_id = None
+            for each_entity in relationship_list:
+                if None not in each_entity:
+                    entity_name = each_entity[0]
+                    entity_id = each_entity[1]
+            assert entity_name is not None
+            result = select_a_relationship(self.__database_path, relationship.name, entity_name, entity_id)
+            for each_relationship in result:
+                temp_relationship = Relationship.generate_by_dict(relationship.name, each_relationship)
+                result_list.append(temp_relationship)
 

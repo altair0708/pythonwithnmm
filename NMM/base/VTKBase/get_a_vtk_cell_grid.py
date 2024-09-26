@@ -7,6 +7,10 @@ from typing import List
 
 
 def get_a_vtk_cell_grid(vtk_model: vtkUnstructuredGrid, id_value: int, turn_polyhedron=False):
+
+    if id_value >= vtk_model.GetNumberOfCells():
+        raise IndexError
+
     # cell type
     cell_type = vtk_model.GetCellType(id_value)
 

@@ -4,8 +4,9 @@ from NMM.base.Property.Property import Property
 class VtkCell(Property):
     def __init__(self, id_value: int, grid_name: str):
         super(VtkCell, self).__init__()
-        self._name = 'VtkCell'
         self._type = 'VtkCell'
+
+        self._name = 'VtkCell'
         self._value = None
 
         self.__id_value = id_value

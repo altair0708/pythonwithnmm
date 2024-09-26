@@ -25,11 +25,12 @@ def generate_crack_surface(crack_grid: vtkUnstructuredGrid, element_grid: vtkUns
         # each_element_grid: vtkUnstructuredGrid = get_a_vtk_cell_grid(element_grid, each_element_id, turn_polyhedron=True)
         each_element_grid: vtkUnstructuredGrid = get_a_vtk_cell_grid(element_grid, each_element_id)
         if is_intersect(crack_polygon_grid, each_element_grid):
-            attribute_cache.add_item('manifold_element', 'cracked', each_element_id, 9)
             try:
                 crack_surface_grid, new_element_0, new_element_1 = clip_a_element(each_element_grid, origin, normal)
             except AssertionError:
                 continue
+
+            attribute_cache.add_item('manifold_element', 'cracked', each_element_id, 9)
             geometry_cache.add_item('crack_surface', crack_surface_grid)
             geometry_cache.add_item('new_element', new_element_0)
             geometry_cache.add_item('new_element', new_element_1)

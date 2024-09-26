@@ -6,7 +6,7 @@ from NMM.base.Property.Implement.Relationship import Relationship
 class NmmDatabase(Part):
     def __init__(self, file_name):
         super(NmmDatabase, self).__init__()
-        self._name = 'database'
+        self.name = 'database'
 
         self.__database_path = file_name
         new_a_database(self.__database_path)

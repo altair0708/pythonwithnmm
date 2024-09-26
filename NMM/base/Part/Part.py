@@ -3,4 +3,6 @@ from abc import ABC
 
 
 class Part(CompositeObject, ABC):
-    pass
+    def __init__(self):
+        super(Part, self).__init__()
+        self._type = 'Part'

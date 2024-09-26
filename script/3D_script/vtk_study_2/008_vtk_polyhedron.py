@@ -3,6 +3,7 @@ from vtkmodules.vtkCommonCore import vtkPoints, vtkIdList, reference
 from vtkmodules.vtkIOXML import vtkXMLUnstructuredGridWriter
 from vtkmodules.vtkCommonCore import vtkVersion
 from vtkmodules.vtkFiltersCore import vtkRemoveUnusedPoints
+from NMM.base.VTKBase import clip_a_element
 
 points = vtkPoints()
 points.InsertNextPoint((-1, -1, -1))

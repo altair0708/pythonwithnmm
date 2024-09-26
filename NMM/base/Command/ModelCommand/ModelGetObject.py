@@ -1,5 +1,5 @@
 from NMM.base.Command.CommandInterface import AbstractCommand
-from NMM.preprocess_3D.Model.Model import PreprocessModel
+from NMM.base.CacheBase.EntranceCache import entrance_cache
 
 
 class ModelGetObject(AbstractCommand):
@@ -7,5 +7,5 @@ class ModelGetObject(AbstractCommand):
         self.__object_name = object_name
 
     def execute(self):
-        model = PreprocessModel()
+        return entrance_cache.get_item(self.__object_name)
 

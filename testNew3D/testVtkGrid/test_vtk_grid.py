@@ -1,11 +1,12 @@
 from vtkmodules.vtkCommonDataModel import vtkUnstructuredGrid, vtkCell
 from vtkmodules.vtkCommonCore import vtkIdList
 from NMM.base.Property.Implement.VtkGrid import VtkGrid
+from NMM.base.VTKBase import is_vtk_grid
 
 
 def test_id_consistency():
     # initial VtkGrid
-    vtk_grid = VtkGrid('gmsh_file', 'geometric_tetrahedron.vtu')
+    vtk_grid = VtkGrid('test_1', 'geometric_tetrahedron.vtu')
     vtk_grid.add_attribute('cell_id')
     vtk_grid.add_attribute('point_id')
 
@@ -30,5 +31,25 @@ def test_id_consistency():
         assert property_data.GetTuple(each_id)[0] == each_id
 
 
-def test_set_attribute():
-    pass
+def test_is_vtk_grid():
+    vtk_grid = VtkGrid('test_2', 'geometric_tetrahedron.vtu')
+    vtk_grid.add_attribute('cell_id')
+    vtk_grid.add_attribute('point_id')
+
+    vtk_model: vtkUnstructuredGrid = vtk_grid.value
+    print(type(vtk_model))
+    print(vtkUnstructuredGrid)
+    print(type(vtk_model) == vtkUnstructuredGrid)
+    print(type(vtk_model) is vtkUnstructuredGrid)
+
+
+def test_iterator():
+    vtk_grid = VtkGrid('test_3', 'geometric_tetrahedron.vtu')
+    vtk_grid.add_attribute('cell_id')
+    vtk_grid.add_attribute('point_id')
+    for i in vtk_grid:
+        print(i.GetNumberOfPoints())
+
+
+
+

@@ -3,5 +3,7 @@ from abc import ABC
 
 
 class Model(CompositeObject, ABC):
-    pass
+    def __init__(self):
+        super(Model, self).__init__()
+        self._type = 'Model'
 
