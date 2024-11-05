@@ -1,5 +1,5 @@
 from .new_a_database import new_a_database
-from .new_a_table import new_a_table
-from .add_a_relationship import add_a_relationship
-from .exist_a_table import exist_a_table
-from .select_a_relationship import select_a_relationship
+from .new_a_table import new_a_table, new_a_table_with_connection
+from .add_a_relationship import add_a_relationship, add_a_relationship_with_connection
+from .exist_a_table import exist_a_table, exist_a_table_with_connection
+from .select_a_relationship import select_a_relationship, select_a_relationship_with_connection

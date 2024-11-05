@@ -8,7 +8,6 @@ from NMM.base.PropertyGetSetFunction import get_property
 from vtkmodules.vtkCommonDataModel import vtkUnstructuredGrid
 
 
-# todo: try to create a crack element.
 class CrackElement3D(AbstractObjectBuilder):
     def builder(self, id_value, data_structure: DataStructure):
         # new_element

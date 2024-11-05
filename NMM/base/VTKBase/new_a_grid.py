@@ -1,16 +1,26 @@
-from vtkmodules.vtkCommonCore import vtkPoints, vtkIdList
+from vtkmodules.vtkCommonCore import vtkPoints, vtkIdList, vtkLogger
 from vtkmodules.vtkCommonDataModel import vtkUnstructuredGrid, vtkMergePoints, vtkPointLocator
 
 
 def new_a_grid(allow_duplicate=True):
     new_grid = vtkUnstructuredGrid()
+    new_grid.EditableOn()
     points = vtkPoints()
-    # points.InsertNextPoint((0, 0, 0))
+
+    # Bounds of model
+    points.InsertNextPoint((-100, -100, -100))
+    points.InsertNextPoint((100, 100, 100))
+    new_grid.ComputeBounds()
+
     new_grid.SetPoints(points)
 
     # whether inserted point duplicated
     if allow_duplicate is True:
         point_locator = vtkPointLocator()
+        point_locator.SetDataSet(new_grid)
+        point_locator.AutomaticOn()
+        # point_locator.SetNumberOfPointsPerBucket(2)
+        # point_locator.BuildLocator()
     else:
         point_locator = vtkMergePoints()
 

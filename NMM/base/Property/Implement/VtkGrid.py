@@ -83,14 +83,19 @@ class VtkGrid(Property):
     def add_attribute(self, attribute_name):
         add_attribute(self._value, attribute_name)
 
+    def set_attribute(self, attribute_name: str, cell_id: int, value):
+        set_attribute(self._value, attribute_name, cell_id, value)
+
+    def get_attribute(self, attribute_name: str, cell_id: int):
+        return get_attribute(self._value, attribute_name, cell_id)
+
     # Interface from attribute_cache and geometry_cache, modify attribute
     def insert(self, modify_dict: dict):
         if self._name == modify_dict['grid_name']:
             if 'attribute_name' in modify_dict:
                 set_attribute(self._value, modify_dict['attribute_name'], modify_dict['attribute_id'], modify_dict['value'])
             elif 'cell_grid' in modify_dict:
-                cell_id = insert_a_vtk_cell(modify_dict['cell_grid'], self._value)
-                set_attribute(self._value, 'cell_id', cell_id, cell_id)
+                insert_a_vtk_cell(modify_dict['cell_grid'], self._value)
             else:
                 raise Exception('Modify dict error!!!')
 
@@ -98,13 +103,10 @@ class VtkGrid(Property):
         warnings.warn('Deprecation method: get_cover_element_list', DeprecationWarning)
         relationship_list = []
         for each_id in range(self.get_number()):
-            each_relationship_list = get_attribute(self._value, each_id, 'cover_element')
+            each_relationship_list = get_attribute(self._value, 'cover_element', each_id)
             for each_relationship in each_relationship_list:
                 relationship_list.append(Relationship('cover_element', each_relationship['cover'], each_relationship['element']))
         return relationship_list
-
-    def get_number(self):
-        return self._value.GetNumberOfCells()
 
     def extract_by_cell_type(self, geometric_name: str):
         warnings.warn('Deprecation method: extract_by_cell_type', DeprecationWarning)
@@ -113,6 +115,9 @@ class VtkGrid(Property):
     def extract_mathematics_cover(self, cover_name):
         warnings.warn('Deprecation method: extract_mathematics_cover', DeprecationWarning)
         return generate_cover_grid(self._value, cover_name)
+
+    def get_number(self):
+        return self._value.GetNumberOfCells()
 
     def generate_grid(self, entity_name):
         return generate_grid(self._value, entity_name)

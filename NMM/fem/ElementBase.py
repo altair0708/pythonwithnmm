@@ -333,7 +333,6 @@ class Element(object):
             check_shape(self.__initial_stress, (3, 1))
         return self.__initial_stress
 
-    # TODO: Initial velocity
     @property
     def initial_velocity(self):
         if self.__initial_velocity is None:

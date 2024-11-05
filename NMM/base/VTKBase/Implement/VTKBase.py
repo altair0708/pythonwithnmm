@@ -49,7 +49,6 @@ class VTKBase(AbstractVTKBase):
         point_id_list = vtkIdList()
         merger.FindPointsWithinRadius(0.001, point, point_id_list)
         try:
-            # TODO
             # assert point_id_list.GetNumberOfIds() < 2
             assert point_id_list.GetNumberOfIds() < 10
         except AssertionError:

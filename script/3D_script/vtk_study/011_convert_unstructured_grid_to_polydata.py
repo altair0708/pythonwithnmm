@@ -41,7 +41,7 @@ uGrid: vtkUnstructuredGrid = uGridReader.GetOutput()
 # uGrid.GetCellTypes(cellTypes)
 
 
-# # TODO: Get all cells use the selected point which given by pointId
+# # Get all cells use the selected point which given by pointId
 # # Get CellId from UnstructuredGrid by selected point
 # cellIdList = vtkIdList()
 # pointId = 737
@@ -72,7 +72,7 @@ uGrid: vtkUnstructuredGrid = uGridReader.GetOutput()
 # writer.SetInputData(pointGrid)
 # writer.Write()
 
-# # TODO: Get one certain type of cell from UnstructuredGrid
+# # Get one certain type of cell from UnstructuredGrid
 # cellType = VTK_TETRA
 #
 # vertexGrid = vtkUnstructuredGrid()
@@ -89,8 +89,8 @@ uGrid: vtkUnstructuredGrid = uGridReader.GetOutput()
 # writer.SetInputData(vertexGrid)
 # writer.Write()
 
-# # TODO:Write math cover(polyhedron) into file math_cover.vtu, we should turn multi tetrahedron into one polyhedron
-# # TODO:1.Test of polyhedron
+# # Write math cover(polyhedron) into file math_cover.vtu, we should turn multi tetrahedron into one polyhedron
+# # 1.Test of polyhedron
 #
 # # point list of unstructured grid
 # pointList = vtkPoints()
@@ -165,8 +165,8 @@ uGrid: vtkUnstructuredGrid = uGridReader.GetOutput()
 # writer.Write()
 
 ''''''
-# TODO:2.get number of tetrahedron
-# TODO:step1.get all tetrahedron from uGrid
+# 2.get number of tetrahedron
+# step1.get all tetrahedron from uGrid
 cellType = VTK_TETRA
 
 tetraGrid = vtkUnstructuredGrid()
@@ -197,7 +197,7 @@ for eachId in range(idNumber):
     mathGrid.InsertNextCell(tempCell.GetCellType(), tempCell.GetPointIds())
 mathGrid.SetPoints(uGrid.GetPoints())
 
-# # TODO: Generate math cover polyhedron
+# # Generate math cover polyhedron
 # mathPolyhedronGrid = vtkUnstructuredGrid()
 # mathTetrahedronNumber = mathGrid.GetNumberOfCells()
 # print('number of tetrahedrons: {}'.format(mathTetrahedronNumber))
@@ -241,7 +241,7 @@ mathGrid.SetPoints(uGrid.GetPoints())
 # print(temp_face)
 
 ''''''
-# TODO: Generate math cover polyhedron by polygon
+# Generate math cover polyhedron by polygon
 surface = vtkGeometryFilter()
 surface.PassThroughPointIdsOn()
 surface.SetInputData(mathGrid)

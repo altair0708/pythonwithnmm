@@ -2,6 +2,7 @@ from vtkmodules.vtkCommonDataModel import vtkUnstructuredGrid, vtkPolygon, vtkPl
 from vtkmodules.vtkFiltersGeometry import vtkGeometryFilter
 from vtkmodules.vtkFiltersCore import vtkClipPolyData, vtkAppendFilter, vtkFeatureEdges, vtkStripper, vtkAppendPolyData, vtkPolyDataPlaneCutter, vtkCleanPolyData
 from vtkmodules.vtkFiltersModeling import vtkContourLoopExtraction
+from NMM.base.VTKBase import debug_write_file
 
 
 def clip_a_surface(surface_grid: vtkUnstructuredGrid, origin_point, normal_vector):
@@ -13,6 +14,19 @@ def clip_a_surface(surface_grid: vtkUnstructuredGrid, origin_point, normal_vecto
     geometry = vtkGeometryFilter()
     geometry.SetInputData(surface_grid)
 
+    cutter = vtkPolyDataPlaneCutter()
+    cutter.SetInputConnection(geometry.GetOutputPort())
+    cutter.SetPlane(clip_plane)
+
+    u_appender_1 = vtkAppendFilter()
+    u_appender_1.SetInputConnection(cutter.GetOutputPort())
+    u_appender_1.Update()
+
+    cut_line = u_appender_1.GetOutput()
+
+    if cut_line.GetNumberOfCells() == 0:
+        return cut_line, None, None
+
     edges = vtkFeatureEdges()
     edges.SetInputConnection(geometry.GetOutputPort())
     edges.BoundaryEdgesOn()
@@ -22,14 +36,11 @@ def clip_a_surface(surface_grid: vtkUnstructuredGrid, origin_point, normal_vecto
 
     clipper = vtkClipPolyData()
     clipper.GenerateClippedOutputOn()
-    # clipper.InsideOutOn()
+    clipper.InsideOutOn()
     clipper.SetClipFunction(clip_plane)
     clipper.SetInputConnection(edges.GetOutputPort())
 
-    cutter = vtkPolyDataPlaneCutter()
-    cutter.SetInputConnection(geometry.GetOutputPort())
-    cutter.SetPlane(clip_plane)
-
+    debug_write_file(cut_line, 'cut_line.vtu')
     appender = vtkAppendPolyData()
     appender.AddInputConnection(cutter.GetOutputPort())
     appender.AddInputConnection(clipper.GetOutputPort(1))
@@ -70,11 +81,9 @@ def clip_a_surface(surface_grid: vtkUnstructuredGrid, origin_point, normal_vecto
 
     new_surface_1 = u_appender_0.GetOutput()
 
-    u_appender_1 = vtkAppendFilter()
-    u_appender_1.SetInputConnection(cutter.GetOutputPort())
-    u_appender_1.Update()
-
-    cut_line = u_appender_1.GetOutput()
+    assert cut_line.GetNumberOfCells() == 1
+    assert new_surface_0.GetNumberOfCells() == 1
+    assert new_surface_1.GetNumberOfCells() == 1
 
     return cut_line, new_surface_0, new_surface_1
 

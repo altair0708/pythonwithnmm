@@ -1,4 +1,4 @@
-from NMM.preprocess_3D.Part import PreprocessElementListBuilder, NmmDatabaseBuilder, DataStructureBuilder, FilePathBuilder
+from NMM.preprocess_3D.Part import ElementListBuilder, NmmDatabaseBuilder, DataStructureBuilder, FilePathBuilder
 
 
 class PartBuilder:
@@ -12,8 +12,8 @@ class PartBuilder:
             builder = DataStructureBuilder()
         elif 'database' == builder_name:
             builder = NmmDatabaseBuilder()
-        elif 'preprocess_element_list' == builder_name:
-            builder = PreprocessElementListBuilder()
+        elif 'matrix_element_list' == builder_name:
+            builder = ElementListBuilder()
         else:
             raise Exception('Builder name error!!!')
 

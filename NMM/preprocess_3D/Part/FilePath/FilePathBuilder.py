@@ -31,15 +31,14 @@ class FilePathBuilder(AbstractConstructor):
         geometry_path.mkdir()
         file_path.add_property(geometry_path)
 
-        geometry_file_list = ['database']
+        database_path = Path('database', self.path_cater(geometry_path_str, 'database.db'))
+        file_path.add_property(database_path)
+
         entity_list = ['geometric_vertex', 'geometric_line', 'geometric_surface', 'geometric_tetrahedron']
-        cover_list = ['mathematics_cover', 'mathematics_point', 'manifold_element', 'element_surface']
-        crack_list = ['crack_surface', 'crack_edge', 'new_element']
-        for each_geometry_file in geometry_file_list + entity_list + cover_list + crack_list:
-            if 'database' == each_geometry_file:
-                temp_path = Path(each_geometry_file, self.path_cater(geometry_path_str, f'{each_geometry_file}.db'))
-            else:
-                temp_path = Path(each_geometry_file, self.path_cater(geometry_path_str, f'{each_geometry_file}.vtu'))
+        cover_list = ['mathematics_cover', 'mathematics_point', 'manifold_element', 'element_surface', 'boundary_condition']
+        crack_list = ['crack_surface', 'crack_edge', 'new_element', 'new_cover', 'new_surface']
+        for each_geometry_file in entity_list + cover_list + crack_list:
+            temp_path = Path(each_geometry_file, self.path_cater(geometry_path_str, f'{each_geometry_file}.vtu'))
             file_path.add_property(temp_path)
 
         # postprocess result_path

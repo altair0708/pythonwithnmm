@@ -7,3 +7,8 @@ def write_file(vtk_model: vtkUnstructuredGrid, file_path: str):
     writer.SetFileName(file_path)
     writer.SetInputData(vtk_model)
     writer.Write()
+
+
+def debug_write_file(vtk_model: vtkUnstructuredGrid, file_name: str):
+    file_path = 'D:\\science\\NMM\\python-NMM\\debug\\' + file_name
+    write_file(vtk_model, file_path)

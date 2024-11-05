@@ -87,7 +87,6 @@ class EPoint3D(object):
             # print(self.__expected_displacement)
             # print(self.__actual_displacement)
             temp_displacement = value.reshape((1, 3)) - self.__velocity
-            # TODO:write displacement_total into vtk file
             self.__displacement_total = self.__displacement_total + temp_displacement
 
     @property

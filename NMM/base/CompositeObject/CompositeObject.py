@@ -5,6 +5,10 @@ from abc import ABC
 
 
 class CompositeObject(AbstractCompositeObject, NmmObjectBase, ABC):
+    @classmethod
+    def build(cls, *arg, **kwargs):
+        pass
+
     def __init__(self):
         super().__init__()
         self._property_dict = {}

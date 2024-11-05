@@ -93,7 +93,6 @@ def is_two_polygon_overlap(polygon_1: polygon.Polygon, polygon_2: polygon.Polygo
     bounds_1 = get_loop_bounds(loop_polygon=polygon_1, offset=offset)
     bounds_2 = box(*polygon_2.bounds)
 
-    # TODO:function select: intersects, overlap, touch?
     is_overlap = bounds_1.intersects(bounds_2)
     return is_overlap
 

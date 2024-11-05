@@ -322,7 +322,6 @@ def generate_crack_surface_file_1(mesh_path: str, geometry_path: str, initial_cr
         for each_element_id in range(element_number):
             temp_element_vtk_cell = element_grid.GetCell(each_element_id)
 
-            # TODO vtk_cell? polyhedron?
             # If use copy_vtk_cell, when we check crack angle later,
             # it may generate two polygon without a common edge, WHY?
             # The check angle dihedral is in file NMM.crack_3D.ElementCrack3D.py

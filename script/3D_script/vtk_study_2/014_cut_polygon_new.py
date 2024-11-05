@@ -7,7 +7,7 @@ from vtkmodules.vtkFiltersGeneric import vtkGenericClip
 from vtkmodules.vtkIOXML import vtkXMLPolyDataWriter
 from vtkmodules.vtkCommonMisc import vtkPolygonBuilder
 from vtkmodules.vtkFiltersModeling import vtkContourLoopExtraction
-from NMM.base.VTKBase import write_file
+from NMM.base.VTKBase import write_file, clip_a_surface, load_a_grid
 
 
 points = vtkPoints()
@@ -101,3 +101,12 @@ u_appender_1.SetInputConnection(cutter.GetOutputPort())
 u_appender_1.Update()
 
 write_file(u_appender_1.GetOutput(), 're014_2.vtu')
+
+cutter_line, new_surface_0, new_surface_1 = clip_a_surface(u_grid, origin, normal)
+write_file(cutter_line, 're014_3.vtu')
+write_file(new_surface_0, 're014_4.vtu')
+write_file(new_surface_1, 're014_5.vtu')
+
+vtk_model = load_a_grid('re014_0.vtu')
+print(vtk_model.GetNumberOfCells())
+

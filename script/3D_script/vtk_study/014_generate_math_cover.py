@@ -23,8 +23,8 @@ uGridReader.SetFileName('original_gmsh.vtu')
 uGridReader.Update()
 uGrid: vtkUnstructuredGrid = uGridReader.GetOutput()
 
-# TODO:2.get number of tetrahedron
-# TODO:step1.get all tetrahedron from uGrid
+# 2.get number of tetrahedron
+# step1.get all tetrahedron from uGrid
 cellType = VTK_TETRA
 print(type(VTK_TETRA))
 
@@ -61,7 +61,7 @@ for each_id in range(tetraGrid.GetNumberOfPoints()):
         mathGrid.InsertNextCell(tempCell.GetCellType(), tempCell.GetPointIds())
     mathGrid.SetPoints(uGrid.GetPoints())
 
-    # TODO: Generate math cover polyhedron by polygon
+    # Generate math cover polyhedron by polygon
     surface = vtkGeometryFilter()
     surface.PassThroughPointIdsOn()
     surface.SetInputData(mathGrid)

@@ -7,7 +7,7 @@ output_path = '../../../data_3D/mesh/'
 output_path = os.path.abspath(output_path)
 # start point
 # start_point = (0.01, 0.01, 0.01)
-tol = 0.01
+tol = 1
 start_point = (0, 0, 0)
 
 row = 31

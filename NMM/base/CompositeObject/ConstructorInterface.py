@@ -3,5 +3,5 @@ from abc import ABC, abstractmethod
 
 class AbstractConstructor(ABC):
     @abstractmethod
-    def build(self, *args):
+    def build(self, *args, **kwargs):
         pass

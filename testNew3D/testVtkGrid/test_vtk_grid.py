@@ -47,8 +47,9 @@ def test_iterator():
     vtk_grid = VtkGrid('test_3', 'geometric_tetrahedron.vtu')
     vtk_grid.add_attribute('cell_id')
     vtk_grid.add_attribute('point_id')
-    for i in vtk_grid:
-        print(i.GetNumberOfPoints())
+    for id_value, cell in enumerate(vtk_grid):
+        # print(cell.GetNumberOfPoints())
+        assert vtk_grid.get_attribute('cell_id', id_value)[0] == id_value
 
 
 

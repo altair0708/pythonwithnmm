@@ -11,9 +11,10 @@ class NmmDatabaseBuilder(AbstractConstructor):
         database = NmmDatabase(database_path)
 
         database_table_list = ['cover_element', 'element_specialpoint', 'element_surface', 'element_cracksurface',
-                               'surface_crackedge', 'cracksurface_crackedge', 'element_newelement', 'surface_newsurface']
+                               'surface_crackedge', 'cracksurface_crackedge', 'element_newelement', 'surface_newsurface',
+                               'cover_newcover', 'newcover_newelement']
         for each_database_table in database_table_list:
-            temp_database_table = DatabaseTable(each_database_table, database_path)
+            temp_database_table = DatabaseTable(each_database_table, database_path, database.connection)
             database.add_property(temp_database_table)
 
         return database

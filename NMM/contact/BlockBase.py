@@ -75,7 +75,6 @@ class BAngle(object):
         self.__next_point = BPoint(*point3)
         self.__vector1 = self.__last_point - self.__vertex
         self.__vector2 = self.__next_point - self.__vertex
-        # todo:how to get the angle degree?
         self.__angle = None
         self.__is_concave = None
         self.__np_v1 = np.array([self.__vector1.x, self.__vector1.y])
