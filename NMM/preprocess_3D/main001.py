@@ -49,7 +49,7 @@ invoker.set_command(ModelAddAttribute('boundary_condition', 'cell_id', data_stru
 for each_grid_name in entity_list + cover_list + crack_list + ['boundary_condition']:
     invoker.set_command(ModelWriteFile(each_grid_name, data_structure))
 
-# invoker.set_command(ModelGenerateElementList('matrix_element'))
+invoker.set_command(ModelGenerateElementList('matrix_element'))
 # invoker.set_command(ModelMatrixSolve())
 # invoker.set_command(ModelAssembleTotalMatrix())
 # invoker.set_command(ModelRefreshCover())

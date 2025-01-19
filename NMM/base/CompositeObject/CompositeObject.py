@@ -4,7 +4,7 @@ from NMM.base.Property.Property import Property
 from abc import ABC
 
 
-class CompositeObject(AbstractCompositeObject, NmmObjectBase, ABC):
+class CompositeObject(AbstractCompositeObject, NmmObjectBase):
     @classmethod
     def build(cls, *arg, **kwargs):
         pass

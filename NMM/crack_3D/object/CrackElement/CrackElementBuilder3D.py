@@ -1,5 +1,5 @@
 from NMM.base.Property.Implement.CrackStatus import CrackStatus
-from NMM.base.Property.Implement.ObjectId import ObjectId
+from NMM.base.Property.Implement.PropertyId import PropertyIndex
 from NMM.base.GeometricEntity.GeometricEntityBase import GeometricEntityBase
 from NMM.crack_3D.object.ObjectBuilderInterface import AbstractObjectBuilder
 from NMM.GlobalVariable import DataStructure
@@ -16,7 +16,7 @@ class CrackElement3D(AbstractObjectBuilder):
         # vtk_grid
         element_grid: vtkUnstructuredGrid = data_structure.manifold_element.content
 
-        element_id = ObjectId(id_value)
+        element_id = PropertyIndex(id_value)
         new_element.add_property(element_id)
 
         crack_status = get_property(element_grid, 'cracked', id_value)

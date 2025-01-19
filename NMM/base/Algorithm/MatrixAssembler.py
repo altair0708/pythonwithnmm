@@ -1,5 +1,5 @@
 from NMM.base.Algorithm.AlgorithmInterface import AbstractAlgorithm
-from NMM.base.Property.Implement.MatrixElement.MatrixElementBase import MatrixElementBase
+from NMM.preprocess_3D.Part.ElementList.MatrixElement.MatrixElementBase import MatrixElementBase
 from NMM.preprocess_3D.Part.MatrixSolver.MatrixSolver import MatrixSolver
 from typing import List
 

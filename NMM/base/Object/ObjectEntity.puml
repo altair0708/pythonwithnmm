@@ -68,7 +68,7 @@ class Relationship{
 ElementList <|-- EntityList
 EntityList <|-- Part
 PreprocessElement <|-- Element
-Element <|-- CompositeObject
+Element <|-- Property
 Relationship <|-- Property
 
 PreprocessModel o-- ElementList
