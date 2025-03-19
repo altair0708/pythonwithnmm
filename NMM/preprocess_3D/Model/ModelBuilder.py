@@ -14,6 +14,9 @@ class PreprocessModelBuilder(AbstractConstructor):
         file_path_builder = FilePathBuilder(root_name)
         preprocess_model.add_property(file_path_builder.build())
 
+        global_variable = GlobalVariableBuilder()
+        preprocess_model.add_property(global_variable.build())
+
         data_structure_builder = DataStructureBuilder()
         preprocess_model.add_property(data_structure_builder.build())
 
@@ -26,8 +29,6 @@ class PreprocessModelBuilder(AbstractConstructor):
         # matrix_solver_builder = MatrixSolverBuilder()
         # preprocess_model.add_property(matrix_solver_builder.build())
         #
-        # global_variable = GlobalVariableBuilder()
-        # preprocess_model.add_property(global_variable.build())
 
         return preprocess_model
 

@@ -3,11 +3,11 @@ from .insert_unique_point_grid import insert_unique_point_grid
 from .new_a_grid import new_a_grid
 from .generate_entity.get_grid_by_cell_type.get_grid_by_cell_type import get_grid_by_cell_type
 from .generate_entity.generate_cover_grid.generate_cover_grid import generate_cover_grid
-from .add_attribute.add_attribute import add_attribute
+from .add_attribute.add_attribute_0 import add_attribute
 from .write_file import write_file, debug_write_file
 from .generate_entity.generate_entity import generate_grid
 from .load_a_grid import load_a_grid
-from .get_attribute.get_attribute import get_attribute
+from .get_attribute.get_attribute import get_attribute, get_cell_attribute, get_point_attribute
 from .set_attribute.set_attribute import set_attribute
 from .insert_a_vtk_cell.insert_a_vtk_cell import insert_a_vtk_cell
 from .is_vtk_grid import is_vtk_grid
@@ -18,6 +18,12 @@ from .calculate_centroid import calculate_centroid
 from .check_point_in_cell import check_point_in_cell
 from .find_close_cell import find_close_cell
 from .test_example import generate_point_grid, generate_tetra_polyhedron
+from .get_attribute_number import get_cell_attribute_number, get_point_attribute_number
+from .get_attribute_name import get_cell_attribute_name, get_point_attribute_name
+from .load_toml_file import load_toml_file
+from .get_point_coordinate import get_point_coordinate
+from .get_cell_point_id import get_cell_point_id
+from .copy_vtk_grid_data import copy_cell_data
 
 from vtkmodules.vtkCommonCore import vtkLogger
 vtkLogger.SetStderrVerbosity(vtkLogger.VERBOSITY_WARNING)

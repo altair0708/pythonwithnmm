@@ -6,9 +6,10 @@ from NMM.preprocess_3D.Part.NmmDatabase.NmmDatabase import NmmDatabase
 
 
 class NmmDatabaseBuilder(AbstractConstructor):
-    def build(self):
-        database_path = self.get_path('database')
-        database = NmmDatabase(database_path)
+    def build(self, database_path: str = None, new_database: bool = True):
+        if database_path is None:
+            database_path = self.get_path('database')
+        database = NmmDatabase(database_path, new_database)
 
         database_table_list = ['cover_element', 'element_specialpoint', 'element_surface', 'element_cracksurface',
                                'surface_crackedge', 'cracksurface_crackedge', 'element_newelement', 'surface_newsurface',

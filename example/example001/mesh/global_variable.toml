@@ -1,0 +1,44 @@
+#File of global variable and config
+
+[attribute.cell_id]
+tuple_dimensional = 1
+array_type = "int"
+is_id = true
+cell_point = "cell"
+
+[attribute.point_id]
+tuple_dimensional = 1
+array_type = "int"
+is_id = true
+cell_point = "point"
+
+[attribute.math_cover_coordinate]
+tuple_dimensional = 3
+array_type = "float"
+is_id = false
+cell_point = "cell"
+
+[attribute.math_cover_displacement]
+tuple_dimensional = 3
+array_type = "float"
+is_id = false
+cell_point = "cell"
+
+# not used
+[attribute.surface_id]
+tuple_dimensional = 1
+array_type = "int"
+is_id = true
+cell_point = "cell"
+
+[attribute.cracked]
+tuple_dimensional = 1
+array_type = "int"
+is_id = false
+cell_point = "cell"
+
+[attribute.real]
+tuple_dimensional = 1
+array_type = "int"
+is_id = false
+cell_point = "cell"

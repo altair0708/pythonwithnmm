@@ -5,6 +5,7 @@ from NMM.base.VTKBase.get_attribute.get_cover_element_id import get_cover_elemen
 
 
 def get_attribute(vtk_model: vtkUnstructuredGrid, attribute_name: str, id_value: int):
+    # get attribute you don't know if cell_attribute or point_attribute
     property_value = None
     property_cell_data: vtkCellData = vtk_model.GetCellData()
     number = property_cell_data.GetNumberOfArrays()
@@ -27,3 +28,18 @@ def get_attribute(vtk_model: vtkUnstructuredGrid, attribute_name: str, id_value:
         raise Exception('Attribute name error!!!')
 
     return property_value
+
+
+def get_cell_attribute(vtk_model: vtkUnstructuredGrid, attribute_name: str, id_value: int):
+    property_cell_data: vtkCellData = vtk_model.GetCellData()
+    property_data: vtkDataArray = property_cell_data.GetArray(attribute_name)
+    property_value = property_data.GetTuple(id_value)
+    return property_value
+
+
+def get_point_attribute(vtk_model: vtkUnstructuredGrid, attribute_name: str, id_value: int):
+    property_point_data: vtkPointData = vtk_model.GetPointData()
+    property_data: vtkDataArray = property_point_data.GetArray(attribute_name)
+    property_value = property_data.GetTuple(id_value)
+    return property_value
+

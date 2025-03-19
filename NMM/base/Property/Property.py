@@ -10,3 +10,8 @@ class Property(AbstractProperty, NmmObjectBase):
     @property
     def value(self):
         return self._value
+
+    # Don't put it in the entrance cache.
+    def set_name(self, name):
+        self._name = name
+

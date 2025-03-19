@@ -3,7 +3,6 @@ from NMM.base.Property.Implement.VtkGrid import VtkGrid
 from NMM.preprocess_3D.Part.ElementList.MatrixElement.MatrixElementFactory import MatrixElementFactory
 from NMM.base.CacheBase.RelationshipCache import relationship_cache
 from typing import List
-from NMM.base.CacheBase.RelationshipCache import relationship_cache
 
 
 class MatrixElementCreator(AbstractElementCreator):

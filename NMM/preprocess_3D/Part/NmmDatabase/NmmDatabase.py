@@ -5,12 +5,13 @@ import sqlite3
 
 
 class NmmDatabase(Part):
-    def __init__(self, file_name):
+    def __init__(self, file_name, new_database: bool = True):
         super(NmmDatabase, self).__init__()
         self.name = 'database'
 
         self.__database_path = file_name
-        new_a_database(self.__database_path)
+        if new_database is True:
+            new_a_database(self.__database_path)
 
         self.__connection = sqlite3.connect(self.__database_path)
 

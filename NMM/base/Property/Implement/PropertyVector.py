@@ -7,3 +7,6 @@ class PropertyVector(Property):
         self._type = 'PropertyVector'
         self._name = ''
         self._value = value
+
+    def __len__(self):
+        return len(self._value)

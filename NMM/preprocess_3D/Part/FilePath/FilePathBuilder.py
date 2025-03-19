@@ -20,6 +20,10 @@ class FilePathBuilder(AbstractConstructor):
         mesh_path = Path('mesh_path', mesh_path_str)
         file_path.add_property(mesh_path)
 
+        # global_variable_path
+        global_variable_path = Path('global_variable', self.path_cater(mesh_path_str, 'global_variable.toml'))
+        file_path.add_property(global_variable_path)
+
         mesh_file_list = ['gmsh_file', 'special_point', 'initial_crack']
         for each_mesh_file in mesh_file_list:
             temp_path = Path(each_mesh_file, self.path_cater(mesh_path_str, f'{each_mesh_file}.vtu'))

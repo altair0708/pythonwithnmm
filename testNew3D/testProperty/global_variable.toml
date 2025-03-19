@@ -1,0 +1,9 @@
+#File of global variable and config
+
+[attribute.cell_id]
+
+tuple_dimensional = 1
+array_type = "int"
+is_id = true
+
+
