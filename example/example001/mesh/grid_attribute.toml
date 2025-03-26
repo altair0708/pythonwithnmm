@@ -1,77 +1,76 @@
 # File of global variable and config
 
 # search according name
-name = 'global_variable'
-time_increment = 0.02
+name = 'attribute'
 
-[attribute.cell_id]
+[cell_id]
 tuple_dimensional = 1
 array_type = "int"
 is_id = true
 cell_point = "cell"
 
-[attribute.material_id]
+[material_id]
 tuple_dimensional = 1
 array_type = "int"
 is_id = false
 cell_point = "cell"
 
-[attribute.point_id]
+[point_id]
 tuple_dimensional = 1
 array_type = "int"
 is_id = true
 cell_point = "point"
 
-[attribute.math_cover_coordinate]
+[math_cover_coordinate]
 tuple_dimensional = 3
 array_type = "float"
 is_id = false
 cell_point = "cell"
 
-[attribute.math_cover_displacement_total]
+[math_cover_displacement_total]
 tuple_dimensional = 3
 array_type = "float"
 is_id = false
 cell_point = "cell"
 
-[attribute.math_cover_displacement_increment]
+[math_cover_displacement_increment]
 tuple_dimensional = 3
 array_type = "float"
 is_id = false
 cell_point = "cell"
 
 # not used
-[attribute.surface_id]
+[surface_id]
 tuple_dimensional = 1
 array_type = "int"
 is_id = true
 cell_point = "cell"
 
-[attribute.cracked]
+[cracked]
 tuple_dimensional = 1
 array_type = "int"
 is_id = false
 cell_point = "cell"
 
-[attribute.real]
+[real]
 tuple_dimensional = 1
 array_type = "int"
 is_id = false
 cell_point = "cell"
 
-[attribute.point_displacement_total]
+[point_displacement_total]
 tuple_dimensional = 3
 array_type = "float"
 is_id = false
 cell_point = "point"
 
-[attribute.point_displacement_increment]
+[point_displacement_increment]
 tuple_dimensional = 3
 array_type = "float"
 is_id = false
 cell_point = "point"
 
-[attribute.point_velocity]
+[point_velocity]
 tuple_dimensional = 3
 array_type = "float"
 is_id = false

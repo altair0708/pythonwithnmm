@@ -8,10 +8,10 @@ from NMM.base.CacheBase.EntranceCache import entrance_cache
 def add_attribute(vtk_model: vtkUnstructuredGrid, attribute_name: str, attribute_toml: str = None):
 
     if attribute_toml is None:
-        global_variable_path = entrance_cache.get_item('global_variable_Path')
-        attribute_toml = global_variable_path.value
+        grid_attribute_path = entrance_cache.get_item('grid_attribute_Path')
+        attribute_toml = grid_attribute_path.value
 
-    attribute_map = load_toml_file(attribute_toml, 'attribute')
+    attribute_map = load_toml_file(attribute_toml)
 
     tuple_dimensional = int(attribute_map[attribute_name]['tuple_dimensional'])
     is_id = attribute_map[attribute_name]['is_id']

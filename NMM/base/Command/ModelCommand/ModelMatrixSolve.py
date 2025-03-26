@@ -1,5 +1,5 @@
 from NMM.base.Command.CommandInterface import AbstractCommand
-from NMM.base.Algorithm.MatrixAssembler import MatrixAssembler
+from NMM.base.Algorithm.TotalMatrixAssembler import TotalMatrixAssembler
 from NMM.base.Algorithm.CoverRefresher import CoverRefresher
 from NMM.base.CacheBase import entrance_cache
 from NMM.preprocess_3D.Part.MatrixSolver.MatrixSolver import MatrixSolver
@@ -20,7 +20,7 @@ class ModelMatrixSolve(AbstractCommand):
 
             self.__matrix_solver.recent_step = each_step
 
-            matrix_assembler = MatrixAssembler(self.__element_list, self.__matrix_solver)
+            matrix_assembler = TotalMatrixAssembler(self.__element_list, self.__matrix_solver)
             matrix_assembler.update()
 
             self.__matrix_solver.solve_conjugate_gradient()

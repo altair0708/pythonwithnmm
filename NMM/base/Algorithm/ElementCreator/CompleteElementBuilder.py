@@ -1,30 +1,41 @@
-from NMM.base.Algorithm.ElementCreator.MatrixElementBuilder.MatrixElementBuilderInterface import AbstractMatrixElementBuilder
+from NMM.base.Algorithm.ElementCreator.ElementBuilderInterface import AbstractElementBuilder
 from NMM.preprocess_3D.Part.ElementList.ElementBase import ElementBase
 from NMM.base.Property.Implement.VtkGrid import VtkGrid
-from NMM.base.Property.Implement import PropertyMap, PropertyVector, PropertyId, PropertyInteger, PropertyFloat, PropertyList
+from NMM.base.Property.Implement import PropertyInteger, PropertyList, PropertyMap
 from NMM.base.CacheBase.RelationshipCache import relationship_cache
 from typing import List
 
 
-class MatrixCompleteElementBuilder(AbstractMatrixElementBuilder):
+class CompleteElementBuilder(AbstractElementBuilder):
     def __init__(self):
-        self.__element = ElementBase('matrix_complete_element')
+        self.__element = ElementBase('complete_element')
         self.reset()
 
     def reset(self):
-        self.__element = ElementBase('matrix_complete_element')
+        self.__element = ElementBase('complete_element')
 
     def get_element(self):
         element = self.__element
         self.reset()
         return element
 
+    def set_material_parameters(self, element_id: int, manifold_element: VtkGrid, material_parameter: PropertyMap):
+        material_id = int(manifold_element.get_cell_attribute('material_id', element_id)[0])
+
+        temp_property = PropertyInteger(material_id)
+        temp_property.set_name('material_id')
+        self.__element.add_property(temp_property)
+
+        temp_property = PropertyMap(material_parameter[str(material_id)])
+        temp_property.set_name('material_parameter')
+        self.__element.add_property(temp_property)
+
     def set_simple_properties(self, element_id: int, manifold_element: VtkGrid):
-        temp_property = PropertyInteger(manifold_element.get_cell_attribute('cell_id', element_id))
+        temp_property = PropertyInteger(int(manifold_element.get_cell_attribute('cell_id', element_id)[0]))
         temp_property.set_name('cell_id')
         self.__element.add_property(temp_property)
 
-        temp_property = PropertyInteger(manifold_element.get_cell_attribute('cracked', element_id))
+        temp_property = PropertyInteger(int(manifold_element.get_cell_attribute('cracked', element_id)[0]))
         temp_property.set_name('cracked')
         self.__element.add_property(temp_property)
 
@@ -66,9 +77,14 @@ class MatrixCompleteElementBuilder(AbstractMatrixElementBuilder):
         temp_property.set_name('math_cover_coordinate')
         self.__element.add_property(temp_property)
 
-        patch_displacement = [math_cover.get_cell_attribute('math_cover_displacement', i) for i in patch_id]
+        patch_displacement = [math_cover.get_cell_attribute('math_cover_displacement_total', i) for i in patch_id]
         temp_property = PropertyList(patch_displacement)
-        temp_property.set_name('math_cover_displacement')
+        temp_property.set_name('math_cover_displacement_total')
+        self.__element.add_property(temp_property)
+
+        patch_displacement = [math_cover.get_cell_attribute('math_cover_displacement_increment', i) for i in patch_id]
+        temp_property = PropertyList(patch_displacement)
+        temp_property.set_name('math_cover_displacement_increment')
         self.__element.add_property(temp_property)
 
     def set_special_points(self, element_id: int, special_point: VtkGrid):
@@ -80,7 +96,7 @@ class MatrixCompleteElementBuilder(AbstractMatrixElementBuilder):
 
         for each_relationship in relationship_list:
             special_point_id = int(each_relationship['specialpoint'])
-            point_type = special_point.get_cell_attribute('point_type', special_point_id)
+            point_type = special_point.get_cell_attribute('point_type', special_point_id)[0]
             if point_type == 0:
                 loading_point_id.append(special_point_id)
             elif point_type == 1:

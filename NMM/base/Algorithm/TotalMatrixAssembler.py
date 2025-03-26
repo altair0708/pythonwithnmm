@@ -5,7 +5,7 @@ from typing import List
 
 
 # TODO: Assemble total Matrix
-class MatrixAssembler(AbstractAlgorithm):
+class TotalMatrixAssembler(AbstractAlgorithm):
     def __init__(self, matrix_element: List[MatrixElementBase], matrix_solver: MatrixSolver):
         self.__matrix_element = matrix_element
         self.__matrix_solver = matrix_solver
@@ -14,4 +14,14 @@ class MatrixAssembler(AbstractAlgorithm):
         for each_element in self.__matrix_element:
             self.__matrix_solver.add_element_matrix(each_element.total_matrix)
             self.__matrix_solver.add_force_vector(each_element.total_force)
+
+    def get_total_matrix(self):
+        pass
+
+    def get_force_vector(self):
+        pass
+
+    def assemble_total_matrix(self):
+        pass
+
 

@@ -1,5 +1,4 @@
 from NMM.base.Command.CommandInterface import AbstractCommand
-from NMM.base.Algorithm.MatrixAssembler import MatrixAssembler
 from NMM.base.CacheBase.EntranceCache import entrance_cache
 
 

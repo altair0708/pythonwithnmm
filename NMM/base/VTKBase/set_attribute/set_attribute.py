@@ -31,4 +31,4 @@ def set_attribute(vtk_model: vtkUnstructuredGrid, property_name: str, temp_id: i
             #     property_data.InsertTuple(temp_id, value)
             flag = True
     if not flag:
-        raise Exception('Attribute name error!!!')
+        raise Exception(f'Attribute name error!!!: {property_name}')

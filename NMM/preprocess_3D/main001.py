@@ -8,6 +8,7 @@ from NMM.base.Command.ModelCommand.ModelWriteFile import ModelWriteFile
 from NMM.base.Command.ModelCommand.ModelGenerateGrid import ModelGenerateGrid
 from NMM.base.Command.ModelCommand.ModelInitialSpecialPoint import ModelInitialSpecialPoint
 from NMM.base.Command.ModelCommand.ModelInitialMathPoint import ModelInitialMathPoint
+from NMM.base.Command.ModelCommand.ModelInitialManifoldElement import ModelInitialManifoldElement
 from NMM.base.Command.ModelCommand.ModelGenerateElementList import ModelGenerateElementList
 from NMM.base.Command.ModelCommand.ModelAssembleTotalMatrix import ModelAssembleTotalMatrix
 from NMM.base.Command.ModelCommand.ModelRefreshCover import ModelRefreshCover
@@ -39,8 +40,15 @@ for each_entity_name in cover_list:
     invoker.set_command(ModelAddAttribute(each_entity_name, 'cracked', data_structure))
 
 invoker.set_command(ModelAddAttribute('mathematics_point', 'math_cover_coordinate', data_structure))
-invoker.set_command(ModelAddAttribute('mathematics_point', 'math_cover_displacement', data_structure))
+invoker.set_command(ModelAddAttribute('mathematics_point', 'math_cover_displacement_total', data_structure))
+invoker.set_command(ModelAddAttribute('mathematics_point', 'math_cover_displacement_increment', data_structure))
 invoker.set_command(ModelInitialMathPoint())
+
+invoker.set_command(ModelAddAttribute('manifold_element', 'material_id', data_structure))
+invoker.set_command(ModelAddAttribute('manifold_element', 'point_displacement_total', data_structure))
+invoker.set_command(ModelAddAttribute('manifold_element', 'point_displacement_increment', data_structure))
+invoker.set_command(ModelAddAttribute('manifold_element', 'point_velocity', data_structure))
+invoker.set_command(ModelInitialManifoldElement())
 
 crack_list = ['crack_surface', 'crack_edge', 'new_cover', 'new_element', 'new_surface']
 for each_entity_name in crack_list:

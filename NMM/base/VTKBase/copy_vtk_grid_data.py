@@ -5,7 +5,7 @@ from vtkmodules.vtkCommonCore import vtkDataArray
 def copy_cell_data(origin_vtk_model: vtkUnstructuredGrid, target_vtk_model: vtkUnstructuredGrid, attribute_name: str):
     cell_data: vtkCellData = origin_vtk_model.GetCellData()
     data_array: vtkDataArray = cell_data.GetArray(attribute_name)
-    print(type(data_array))
+    # print(type(data_array))
 
     # type() get the class of one object
     # new_data_array = type(data_array)()

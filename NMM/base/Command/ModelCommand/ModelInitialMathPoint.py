@@ -12,5 +12,6 @@ class ModelInitialMathPoint(AbstractCommand):
         for each_point_id in range(self.__mathematics_point.get_point_number()):
             point_coordinate = self.__mathematics_point.get_point_coordinate(each_point_id)
             self.__mathematics_point.set_attribute('math_cover_coordinate', each_point_id, point_coordinate)
-            self.__mathematics_point.set_attribute('math_cover_displacement', each_point_id, (0, 0, 0))
+            self.__mathematics_point.set_attribute('math_cover_displacement_total', each_point_id, (0, 0, 0))
+            self.__mathematics_point.set_attribute('math_cover_displacement_increment', each_point_id, (0, 0, 0))
 
