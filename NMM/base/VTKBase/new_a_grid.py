@@ -6,11 +6,12 @@ def new_a_grid(allow_duplicate=True):
     new_grid = vtkUnstructuredGrid()
     new_grid.EditableOn()
     points = vtkPoints()
+    points.SetDataTypeToDouble()
 
     # Bounds of model
-    points.InsertNextPoint((-100, -100, -100))
-    points.InsertNextPoint((100, 100, 100))
-    new_grid.ComputeBounds()
+    # points.InsertNextPoint((-100, -100, -100))
+    # points.InsertNextPoint((100, 100, 100))
+    # new_grid.ComputeBounds()
 
     new_grid.SetPoints(points)
 
@@ -27,8 +28,8 @@ def new_a_grid(allow_duplicate=True):
     # pointLocator->SetDataSet(pointSource->GetOutput());
     # point_locator.SetDataSet(new_grid)
 
-    point_locator.InitPointInsertion(new_grid.GetPoints(), new_grid.GetBounds())
-    # point_locator.InitPointInsertion(new_grid.GetPoints(), [-100, -100, -100, 100, 100, 100])
+    # point_locator.InitPointInsertion(new_grid.GetPoints(), new_grid.GetBounds())
+    point_locator.InitPointInsertion(new_grid.GetPoints(), [-100, -100, -100, 100, 100, 100])
     # point_locator.InsertNextPoint((0, 0, 0))
     # point_locator.InsertNextPoint((1, 1, 1))
     # point_locator.BuildLocator()

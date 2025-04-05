@@ -1,9 +1,10 @@
 from NMM.base.Algorithm.ElementCreator.ElementBuilderInterface import AbstractElementBuilder
 from NMM.preprocess_3D.Part.ElementList.ElementBase import ElementBase
 from NMM.base.Property.Implement.VtkGrid import VtkGrid
-from NMM.base.Property.Implement import PropertyInteger, PropertyList, PropertyMap
+from NMM.base.Property.Implement import PropertyInteger, PropertyList, PropertyMap, PropertyVector
 from NMM.base.CacheBase.RelationshipCache import relationship_cache
 from typing import List
+import numpy as np
 
 
 class CompleteElementBuilder(AbstractElementBuilder):
@@ -39,15 +40,14 @@ class CompleteElementBuilder(AbstractElementBuilder):
         temp_property.set_name('cracked')
         self.__element.add_property(temp_property)
 
+        temp_vector = PropertyVector(np.array(manifold_element.get_cell_attribute('initial_strain_total', element_id), dtype=np.float64).reshape((6, 1)))
+        temp_vector.set_name('initial_strain_total')
+        self.__element.add_property(temp_vector)
+
     def set_vertexes(self, element_id: int, manifold_element: VtkGrid):
         point_id: List = manifold_element.get_cell_point_id(element_id)
         temp_property = PropertyList(point_id)
         temp_property.set_name('point_id')
-        self.__element.add_property(temp_property)
-
-        point_coordinate = [manifold_element.get_point_coordinate(i) for i in point_id]
-        temp_property = PropertyList(point_coordinate)
-        temp_property.set_name('point_coordinate')
         self.__element.add_property(temp_property)
 
         point_displacement_total = [manifold_element.get_point_attribute('point_displacement_total', i) for i in point_id]
@@ -55,6 +55,16 @@ class CompleteElementBuilder(AbstractElementBuilder):
         temp_property.set_name('point_displacement_total')
         self.__element.add_property(temp_property)
 
+        # point_coordinate_old = [manifold_element.get_point_coordinate(i) for i in point_id]
+        # point_coordinate = []
+        # for each_coordinate, each_displacement in zip(point_coordinate_old, point_displacement_total):
+        #     new_coordinate = tuple([each_coordinate[i] + each_displacement[i] for i in range(3)])
+        #     point_coordinate.append(new_coordinate)
+        point_coordinate = [manifold_element.get_point_coordinate(i) for i in point_id]
+        temp_property = PropertyList(point_coordinate)
+        temp_property.set_name('point_coordinate')
+
+        self.__element.add_property(temp_property)
         point_displacement_increment = [manifold_element.get_point_attribute('point_displacement_increment', i) for i in point_id]
         temp_property = PropertyList(point_displacement_increment)
         temp_property.set_name('point_displacement_increment')
@@ -77,13 +87,13 @@ class CompleteElementBuilder(AbstractElementBuilder):
         temp_property.set_name('math_cover_coordinate')
         self.__element.add_property(temp_property)
 
-        patch_displacement = [math_cover.get_cell_attribute('math_cover_displacement_total', i) for i in patch_id]
-        temp_property = PropertyList(patch_displacement)
+        patch_displacement_total = [math_cover.get_cell_attribute('math_cover_displacement_total', i) for i in patch_id]
+        temp_property = PropertyList(patch_displacement_total)
         temp_property.set_name('math_cover_displacement_total')
         self.__element.add_property(temp_property)
 
-        patch_displacement = [math_cover.get_cell_attribute('math_cover_displacement_increment', i) for i in patch_id]
-        temp_property = PropertyList(patch_displacement)
+        patch_displacement_increment = [math_cover.get_cell_attribute('math_cover_displacement_increment', i) for i in patch_id]
+        temp_property = PropertyList(patch_displacement_increment)
         temp_property.set_name('math_cover_displacement_increment')
         self.__element.add_property(temp_property)
 
@@ -116,17 +126,17 @@ class CompleteElementBuilder(AbstractElementBuilder):
         temp_property.set_name('measured_point_id')
         self.__element.add_property(temp_property)
 
-        loading_point_coordinate = [special_point.get_point_coordinate(i) for i in loading_point_id]
+        loading_point_coordinate = [special_point.get_cell_attribute('special_point_coordinate', i) for i in loading_point_id]
         temp_property = PropertyList(loading_point_coordinate)
         temp_property.set_name('loading_point_coordinate')
         self.__element.add_property(temp_property)
 
-        fixed_point_coordinate = [special_point.get_point_coordinate(i) for i in fixed_point_id]
+        fixed_point_coordinate = [special_point.get_cell_attribute('special_point_coordinate', i) for i in fixed_point_id]
         temp_property = PropertyList(fixed_point_coordinate)
         temp_property.set_name('fixed_point_coordinate')
         self.__element.add_property(temp_property)
 
-        measured_point_coordinate = [special_point.get_point_coordinate(i) for i in measured_point_id]
+        measured_point_coordinate = [special_point.get_cell_attribute('special_point_coordinate', i) for i in measured_point_id]
         temp_property = PropertyList(measured_point_coordinate)
         temp_property.set_name('measured_point_coordinate')
         self.__element.add_property(temp_property)
@@ -141,3 +151,12 @@ class CompleteElementBuilder(AbstractElementBuilder):
         temp_property.set_name('fixed_point_velocity')
         self.__element.add_property(temp_property)
 
+        fixed_point_displacement_total = [special_point.get_cell_attribute('special_point_displacement_total', i) for i in fixed_point_id]
+        temp_property = PropertyList(fixed_point_displacement_total)
+        temp_property.set_name('fixed_point_displacement_total')
+        self.__element.add_property(temp_property)
+
+        fixed_point_displacement_increment = [special_point.get_cell_attribute('special_point_displacement_increment', i) for i in fixed_point_id]
+        temp_property = PropertyList(fixed_point_displacement_increment)
+        temp_property.set_name('fixed_point_displacement_increment')
+        self.__element.add_property(temp_property)

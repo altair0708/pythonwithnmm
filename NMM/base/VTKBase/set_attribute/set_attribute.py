@@ -32,3 +32,20 @@ def set_attribute(vtk_model: vtkUnstructuredGrid, property_name: str, temp_id: i
             flag = True
     if not flag:
         raise Exception(f'Attribute name error!!!: {property_name}')
+
+
+def set_cell_attribute(vtk_model: vtkUnstructuredGrid, attribute_name: str, id_value: int, value):
+    property_cell_data: vtkCellData = vtk_model.GetCellData()
+    property_data: vtkDataArray = property_cell_data.GetArray(attribute_name)
+    if isinstance(value, int) or isinstance(value, float):
+        value = (value,)
+    property_data.InsertTuple(id_value, value)
+
+
+def set_point_attribute(vtk_model: vtkUnstructuredGrid, attribute_name: str, id_value: int, value):
+    property_point_data: vtkPointData = vtk_model.GetPointData()
+    property_data: vtkDataArray = property_point_data.GetArray(attribute_name)
+    if isinstance(value, int) or isinstance(value, float):
+        value = (value,)
+    property_data.InsertTuple(id_value, value)
+

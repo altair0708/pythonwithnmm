@@ -58,6 +58,12 @@ array_type = "int"
 is_id = false
 cell_point = "cell"
 
+[point_coordinate]
+tuple_dimensional = 3
+array_type = "float"
+is_id = false
+cell_point = "point"
+
 [point_displacement_total]
 tuple_dimensional = 3
 array_type = "float"
@@ -75,3 +81,27 @@ tuple_dimensional = 3
 array_type = "float"
 is_id = false
 cell_point = "point"
+
+[initial_strain_total]
+tuple_dimensional = 6
+array_type = "float"
+is_id = false
+cell_point = "cell"
+
+[special_point_displacement_total]
+tuple_dimensional = 3
+array_type = "float"
+is_id = false
+cell_point = "cell"
+
+[special_point_displacement_increment]
+tuple_dimensional = 3
+array_type = "float"
+is_id = false
+cell_point = "cell"
+
+[special_point_coordinate]
+tuple_dimensional = 3
+array_type = "float"
+is_id = false
+cell_point = "cell"

@@ -25,6 +25,7 @@ def get_a_vtk_cell_grid(vtk_model: vtkUnstructuredGrid, id_value: int, turn_poly
 
     # cell points
     cell_points = vtkPoints()
+    cell_points.SetDataTypeToDouble()
     cell_points.DeepCopy(vtk_model.GetPoints())
 
     new_grid = vtkUnstructuredGrid()

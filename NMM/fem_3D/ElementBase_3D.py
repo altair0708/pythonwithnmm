@@ -6,6 +6,7 @@ from NMM.GlobalVariable import CONST
 from NMM.fem_3D.PointBase_3D import EPoint3D, PointType
 from NMM.base.DeltaFFunction import f_function
 from NMM.base.StiffMatrix import stiff_matrix
+from NMM.base.LogBase.matrix_save import old_matrix_save
 
 
 def calculate_integration(point_list: np.ndarray):
@@ -263,6 +264,10 @@ class Element3D(object):
             temp_mass_force = temp_mass_force * (2 * self.unit_mass / self.time_step)
             self.__mass_force = self.__mass_force + temp_mass_force.reshape(12, 1)
             check_shape(self.__mass_force, (12, 1))
+
+            # matrix = self.__mass_matrix
+            # np.save('/Users/suboyi/PycharmProjects/pythonwithnmm/NMM/log/old.npy', matrix)
+
         return self.__mass_matrix, self.__mass_force
 
     @property
@@ -293,6 +298,7 @@ class Element3D(object):
             # print('mass matrix:', np.linalg.matrix_rank(self.mass_matrix[0]) == self.mass_matrix[0].shape[0])
             # print('fixed matrix:', np.linalg.det(self.fixed_matrix[0]))
             self.__total_matrix = self.stiff_matrix + self.mass_matrix[0] + self.fixed_matrix[0]
+            # self.__total_matrix = self.stiff_matrix + self.mass_matrix[0]
             # self.__total_matrix = self.mass_matrix[0] + self.fixed_matrix[0]
             # self.__total_matrix = self.stiff_matrix + self.mass_matrix[0]
             # self.__total_matrix = self.mass_matrix[0]
@@ -309,7 +315,27 @@ class Element3D(object):
             # print('loading matrix: {}'.format(self.loading_matrix))
             # print('fixed_matrix_force: {}'.format(self.fixed_matrix[1]))
             # print('mass_matrix_force: {}'.format(self.mass_matrix[1]))
-            self.__total_force = self.initial_matrix + self.loading_matrix + self.body_matrix + self.fixed_matrix[1] + self.mass_matrix[1]
+            self.__total_force = self.initial_matrix + self.loading_matrix + self.body_matrix + self.mass_matrix[1] + self.fixed_matrix[1]
+            # self.__total_force = self.loading_matrix + self.mass_matrix[1]
+            # old_matrix_save(self.initial_matrix, f'matrix_{self.id}')
+            # if self.id == 0:
+            #     old_matrix_save(np.array(self.patch_list, dtype=np.float64), 'math_cover_coordinate')
+            #     old_matrix_save(np.array(self.joint_list, dtype=np.float64), 'point_coordinate')
+            #     old_matrix_save(self.delta_matrix, 'delta_matrix')
+            #     old_matrix_save(self.B_shape_matrix, 'B_shape_matrix')
+            #
+            #     old_matrix_save(self.stiff_matrix, 'stiff_matrix')
+            #     old_matrix_save(self.mass_matrix[0], 'mass_matrix')
+            #     old_matrix_save(self.fixed_matrix[0], 'fixed_matrix')
+            #     old_matrix_save(self.initial_matrix, 'initial_matrix')
+            #     old_matrix_save(self.loading_matrix, 'loading_matrix')
+            #     old_matrix_save(self.body_matrix, 'body_matrix')
+            #     old_matrix_save(self.mass_matrix[1], 'mass_force')
+            #     old_matrix_save(self.fixed_matrix[1], 'fixed_force')
+            # matrix = self.__total_matrix
+            # np.save('/Users/suboyi/PycharmProjects/pythonwithnmm/NMM/log/old.npy', matrix)
+            # if self.id == 0:
+            #     print(self.__total_force)
             # self.__total_force = self.initial_matrix + self.loading_matrix + self.body_matrix + self.fixed_matrix[1]
             # print(self.initial_matrix.reshape(1, 12))
             # print(self.loading_matrix.reshape(1, 12))
@@ -421,6 +447,7 @@ class Element3D(object):
             temp_displacement = np.dot(self.B_shape_matrix, temp_displacement)
             self.__initial_strain_increment = temp_displacement
             self.__initial_strain_total = self.__initial_strain_total + self.__initial_strain_increment
+            old_matrix_save(np.array(self.__initial_strain_total, dtype=np.float64), 'initial_strain_increment')
 
             # engine strain or tensor strain
             # self.__initial_strain_total[3, 0] = self.__initial_strain_total[3, 0] * 2

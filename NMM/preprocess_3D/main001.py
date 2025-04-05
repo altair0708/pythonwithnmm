@@ -45,9 +45,11 @@ invoker.set_command(ModelAddAttribute('mathematics_point', 'math_cover_displacem
 invoker.set_command(ModelInitialMathPoint())
 
 invoker.set_command(ModelAddAttribute('manifold_element', 'material_id', data_structure))
+invoker.set_command(ModelAddAttribute('manifold_element', 'point_coordinate', data_structure))
 invoker.set_command(ModelAddAttribute('manifold_element', 'point_displacement_total', data_structure))
 invoker.set_command(ModelAddAttribute('manifold_element', 'point_displacement_increment', data_structure))
 invoker.set_command(ModelAddAttribute('manifold_element', 'point_velocity', data_structure))
+invoker.set_command(ModelAddAttribute('manifold_element', 'initial_strain_total', data_structure))
 invoker.set_command(ModelInitialManifoldElement())
 
 crack_list = ['crack_surface', 'crack_edge', 'new_cover', 'new_element', 'new_surface']
@@ -57,6 +59,9 @@ invoker.set_command(ModelAddAttribute('new_cover', 'real', data_structure))
 invoker.set_command(ModelInitialCrack())
 
 invoker.set_command(ModelGenerateBoundaryCondition())
+invoker.set_command(ModelAddAttribute('boundary_condition', 'special_point_displacement_total', data_structure))
+invoker.set_command(ModelAddAttribute('boundary_condition', 'special_point_displacement_increment', data_structure))
+invoker.set_command(ModelAddAttribute('boundary_condition', 'special_point_coordinate', data_structure))
 invoker.set_command(ModelInitialSpecialPoint())
 
 for each_grid_name in entity_list + cover_list + crack_list + ['boundary_condition']:

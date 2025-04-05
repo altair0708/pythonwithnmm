@@ -3,11 +3,11 @@ import os
 from vtkmodules.vtkCommonCore import vtkPoints, vtkIntArray, vtkDoubleArray
 from vtkmodules.vtkIOXML import vtkXMLUnstructuredGridWriter
 
-output_path = '../../../data_3D/mesh/'
+output_path = './'
 output_path = os.path.abspath(output_path)
 # start point
 # start_point = (0.01, 0.01, 0.01)
-tol = 0.01
+tol = 0.1
 start_point = (0, 0, 0)
 
 row = 31
@@ -63,7 +63,7 @@ point_velocity = vtkDoubleArray()
 point_velocity.SetName('velocity')
 point_velocity.SetNumberOfComponents(3)
 
-# [point_velocity.InsertTuple(i, (i, i, i)) for i in range(6)]
+# [point_velocity.InsertTuple(i, (0, 0, 0)) for i in range(point_number)]
 temp = int(point_number / 2)
 for i in range(temp):
     point_velocity.InsertNextTuple((0, 0, 0))
@@ -76,6 +76,13 @@ for i in range(temp):
 point_force = vtkDoubleArray()
 point_force.SetName('force')
 point_force.SetNumberOfComponents(3)
+# temp = int(point_number / 2)
+# for i in range(temp):
+#     point_force.InsertNextTuple((0, 0, -100))
+#     point_group.InsertNextValue(0)
+#
+#     point_force.InsertNextTuple((0, 0, 100))
+#     point_group.InsertNextValuealue(1)
 [point_force.InsertTuple(i, (0, 0, 0)) for i in range(point_number)]
 
 point_displacement = vtkDoubleArray()

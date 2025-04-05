@@ -3,6 +3,9 @@
 # search according name
 name = 'global_variable'
 time_increment = 0.02
+total_step = 10
+
+time_step = 0
 
 [attribute.cell_id]
 tuple_dimensional = 1

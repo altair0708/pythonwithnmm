@@ -1,10 +1,13 @@
 from NMM.base.Property.Property import Property
 from NMM.base.Property.Implement.Relationship import Relationship
-from NMM.base.VTKBase import get_grid_by_cell_type, generate_cover_grid, add_attribute, write_file, get_attribute, new_a_grid, load_a_grid
-from NMM.base.VTKBase import generate_grid, set_attribute, insert_a_vtk_cell, get_a_vtk_cell_grid, get_cell_attribute_number, get_point_attribute_number
+from NMM.base.VTKBase import get_grid_by_cell_type, generate_cover_grid, add_attribute
+from NMM.base.VTKBase import generate_grid, insert_a_vtk_cell, get_a_vtk_cell_grid
+from NMM.base.VTKBase import get_cell_point_id, get_point_coordinate
+from NMM.base.VTKBase import get_cell_attribute_number, get_point_attribute_number
+from NMM.base.VTKBase import new_a_grid, load_a_grid, write_file
 from NMM.base.VTKBase import get_cell_attribute_name, get_point_attribute_name
-from NMM.base.VTKBase import get_point_attribute, get_cell_attribute, get_point_coordinate
-from NMM.base.VTKBase import get_cell_point_id
+from NMM.base.VTKBase import get_attribute, get_cell_attribute, get_point_attribute
+from NMM.base.VTKBase import set_attribute, set_cell_attribute, set_point_attribute
 from NMM.base.CacheBase import attribute_cache, geometry_cache
 from NMM.base.Command.ModelCommand.ModelGetObject import ModelGetObject
 from NMM.base.Command.Invoker import Invoker
@@ -96,8 +99,14 @@ class VtkGrid(Property):
     def get_point_attribute(self, attribute_name: str, point_id: int):
         return get_point_attribute(self._value, attribute_name, point_id)
 
+    def set_point_attribute(self, attribute_name: str, point_id: int, value):
+        set_point_attribute(self._value, attribute_name, point_id, value)
+
     def get_cell_attribute(self, attribute_name: str, cell_id: int):
         return get_cell_attribute(self._value, attribute_name, cell_id)
+
+    def set_cell_attribute(self, attribute_name: str, cell_id: int, value):
+        set_cell_attribute(self._value, attribute_name, cell_id, value)
 
     def get_cell_attribute_number(self):
         return get_cell_attribute_number(self._value)

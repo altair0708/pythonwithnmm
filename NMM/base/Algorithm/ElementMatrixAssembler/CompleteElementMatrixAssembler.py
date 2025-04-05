@@ -4,29 +4,51 @@ from NMM.base.Property.Implement.PropertyMatrix import PropertyMatrix
 from NMM.base.Property.Implement.PropertyVector import PropertyVector
 from NMM.base.SimplexIntegralBase.tetrahedron_integral import once_integration, twice_integration
 from NMM.base.CacheBase.EntranceCache import entrance_cache
+from NMM.base.LogBase.matrix_save import new_matrix_save
+from typing import List
 import numpy as np
 
 
 class CompleteAssembler(AbstractAlgorithm):
-    def __init__(self, element: ElementBase):
+    def __init__(self, element: ElementBase, step: int):
         self.__element = element
+        self.__time_step = step
 
     def update(self, *args, **kwargs):
-        time_increment = entrance_cache.get_item('global_variable_PropertyMap')['time_increment']
-        pass
+        generate_delta_matrix(self.__element)
+        generate_B_shape_matrix(self.__element)
+        generate_elastic_matrix(self.__element)
+        generate_stiff_matrix(self.__element)
+        generate_initial_strain_increment(self.__element)
+        generate_initial_strain_total(self.__element)
+        generate_initial_stress(self.__element)
+        generate_initial_velocity(self.__element)
+        generate_initial_matrix(self.__element)
+        generate_loading_matrix(self.__element)
+        generate_body_matrix(self.__element)
+        generate_mass_matrix(self.__element, 0.02)
+        generate_fixed_matrix(self.__element, 100000000000000, self.__time_step)
+        generate_total_matrix(self.__element)
+        generate_total_force(self.__element)
 
 
 def generate_delta_matrix(element: ElementBase):
-    math_cover_coordinate = element.get_property('math_cover_coordinate').value
+    math_cover_coordinate: List = element.get_property('math_cover_coordinate').value
+
+    # element_id = element.get_property('cell_id').value
+    # if element_id == 0:
+    #     math_cover_coordinate = [math_cover_coordinate[1], math_cover_coordinate[0], math_cover_coordinate[2], math_cover_coordinate[3]]
+    #     element.get_property('math_cover_coordinate').value = math_cover_coordinate
+    #
+    #     point_coordinate: List = element.get_property('point_coordinate').value
+    #     point_coordinate= [point_coordinate[1], point_coordinate[0], point_coordinate[2], point_coordinate[3]]
+    #     element.get_property('point_coordinate').value = point_coordinate
+
     delta_matrix = np.c_[np.ones((4, 1), dtype=np.float64), np.array(math_cover_coordinate, dtype=np.float64)]
-    # delta_matrix = np.c_[np.ones((4, 1), dtype=np.float64), np.array(self.joint_list, dtype=np.float64)]
     delta_matrix = np.matrix(delta_matrix)
     delta_matrix = delta_matrix.I
     delta_matrix: np.matrix = delta_matrix.T
-    # delta_matrix: np.matrix = delta_matrix
     assert delta_matrix.shape == (4, 4)
-    # calculated by sympy
-    # self.__delta_matrix = f_function(self.patch_list[0], self.patch_list[1], self.patch_list[2], self.patch_list[3])
 
     temp_matrix = PropertyMatrix(delta_matrix)
     temp_matrix.set_name('delta_matrix')
@@ -35,9 +57,6 @@ def generate_delta_matrix(element: ElementBase):
 
 def generate_B_shape_matrix(element: ElementBase):
     delta_matrix: np.matrix = element.get_property('delta_matrix').value
-    # self.__B_shape_matrix = np.array([[delta_matrix[0, 1],                  0, delta_matrix[1, 1],                  0, delta_matrix[2, 1],                  0],
-    #                                   [                 0, delta_matrix[0, 2],                  0, delta_matrix[1, 2],                  0, delta_matrix[2, 2]],
-    #                                   [delta_matrix[0, 2], delta_matrix[0, 1], delta_matrix[1, 2], delta_matrix[1, 1], delta_matrix[2, 2], delta_matrix[2, 1]]])
     B_shape_matrix = np.empty((6, 0), dtype=np.float64)
     for i in range(4):
         temp_B = np.array([[delta_matrix[i, 1],                  0,                  0],
@@ -69,7 +88,7 @@ def generate_T_shape_matrix(S: float, xS: float, yS: float, zS: float, delta_mat
 
 def generate_elastic_matrix(element: ElementBase):
     temp_E = float(element.get_property('material_parameter')['elastic_modulus'])
-    temp_mu = float(element.get_property('mater_parameter')['poisson_ratio'])
+    temp_mu = float(element.get_property('material_parameter')['poisson_ratio'])
 
     elastic_matrix = temp_E / ((1 + temp_mu) * (1 - 2 * temp_mu)) * \
                      np.matrix([[1 - temp_mu, temp_mu, temp_mu, 0, 0, 0],
@@ -77,7 +96,7 @@ def generate_elastic_matrix(element: ElementBase):
                                 [temp_mu, temp_mu, 1 - temp_mu, 0, 0, 0],
                                 [0, 0, 0, (1 - 2 * temp_mu) / 2, 0, 0],
                                 [0, 0, 0, 0, (1 - 2 * temp_mu) / 2, 0],
-                                [0, 0, 0, 0, 0, (1 - 2 * temp_mu) / 2]])
+                                [0, 0, 0, 0, 0, (1 - 2 * temp_mu) / 2]], dtype=np.float64)
 
     temp_matrix = PropertyMatrix(elastic_matrix)
     temp_matrix.set_name('elastic_matrix')
@@ -115,15 +134,16 @@ def generate_initial_strain_increment(element: ElementBase):
 
 
 def generate_initial_strain_total(element: ElementBase):
-    math_cover_displacement_total = element.get_property('math_cover_displacement_total').value
-    B_shape_matrix: np.matrix = element.get_property('B_shape_matrix').value
-
-    temp_displacement = np.array(math_cover_displacement_total, dtype=np.float64).reshape((12, 1))
-    temp_displacement = np.dot(B_shape_matrix, temp_displacement)
-
-    temp_vector = PropertyVector(temp_displacement)
-    temp_vector.set_name('initial_strain_total')
-    element.add_property(temp_vector)
+    # math_cover_displacement_total = element.get_property('math_cover_displacement_total').value
+    # B_shape_matrix: np.matrix = element.get_property('B_shape_matrix').value
+    #
+    # temp_displacement = np.array(math_cover_displacement_total, dtype=np.float64).reshape((12, 1))
+    # temp_displacement = np.dot(B_shape_matrix, temp_displacement)
+    #
+    # temp_vector = PropertyVector(temp_displacement)
+    # temp_vector.set_name('initial_strain_total')
+    # element.add_property(temp_vector)
+    pass
 
 
 def generate_initial_stress(element: ElementBase):
@@ -171,7 +191,7 @@ def generate_initial_matrix(element: ElementBase):
 
 def generate_loading_matrix(element: ElementBase):
     loading_matrix = np.zeros((12, 1), dtype=np.float64)
-    loading_point_coordinate = element.get_property('loading_point_list').value
+    loading_point_coordinate = element.get_property('loading_point_coordinate').value
     loading_point_force = element.get_property('loading_point_force').value
     delta_matrix = element.get_property('delta_matrix').value
 
@@ -210,7 +230,7 @@ def generate_mass_matrix(element: ElementBase, time_increment: float):
     point_coordinate = element.get_property('point_coordinate').value
     delta_matrix: np.matrix = element.get_property('delta_matrix').value
     unit_mass = element.get_property('material_parameter')['unit_mass']
-    initial_velocity = np.array(element.get_property('initial_velocity').value)
+    initial_velocity = np.array(element.get_property('initial_velocity').value, dtype=np.float64)
 
     temp_S, temp_xS, temp_yS, temp_zS = once_integration(np.array(point_coordinate, dtype=np.float64))
     temp_xxS, temp_yyS, temp_zzS, temp_xyS, temp_xzS, temp_yzS = twice_integration(np.array(point_coordinate, dtype=np.float64))
@@ -253,3 +273,88 @@ def generate_mass_matrix(element: ElementBase, time_increment: float):
     temp_matrix.set_name('mass_force')
     element.add_property(temp_matrix)
 
+
+def generate_fixed_matrix(element: ElementBase, constant_spring: int, time_step: int):
+    fixed_matrix = np.zeros((12, 12), dtype=np.float64)
+    fixed_force = np.zeros((12, 1), dtype=np.float64)
+    delta_matrix: np.matrix = element.get_property('delta_matrix').value
+
+    # actual displacement generated by interpolation
+    fixed_point_displacement_total = element.get_property('fixed_point_displacement_total').value
+
+    # fixed point expected displacement
+    fixed_point_velocity = element.get_property('fixed_point_velocity').value
+    fixed_point_coordinate = element.get_property('fixed_point_coordinate').value
+
+    for each_fixed_point_coordinate, each_fixed_point_velocity, each_fixed_point_displacement_total in zip(fixed_point_coordinate, fixed_point_velocity, fixed_point_displacement_total):
+        fixed_point_expected_displacement = np.array(each_fixed_point_velocity) * time_step
+        fixed_point_displacement_difference = np.array(each_fixed_point_displacement_total) - fixed_point_expected_displacement
+        temp = generate_T_shape_matrix(1, each_fixed_point_coordinate[0], each_fixed_point_coordinate[1], each_fixed_point_coordinate[2], delta_matrix=delta_matrix)
+        temp_matrix = np.dot(temp.T, temp)
+        temp_matrix = constant_spring * temp_matrix
+        temp_force = np.dot(temp.T, fixed_point_displacement_difference.reshape((3, 1)))
+        temp_force = constant_spring * temp_force
+        fixed_matrix = fixed_matrix + temp_matrix
+        fixed_force = fixed_force - temp_force
+        # fixed_force = fixed_force + temp_force
+    assert fixed_matrix.shape == (12, 12)
+    assert fixed_force.shape == (12, 1)
+
+    temp_matrix = PropertyMatrix(fixed_matrix)
+    temp_matrix.set_name('fixed_matrix')
+    element.add_property(temp_matrix)
+
+    temp_matrix = PropertyMatrix(fixed_force)
+    temp_matrix.set_name('fixed_force')
+    element.add_property(temp_matrix)
+
+
+def generate_total_matrix(element: ElementBase):
+    stiff_matrix = element.get_property('stiff_matrix').value
+    mass_matrix = element.get_property('mass_matrix').value
+    fixed_matrix = element.get_property('fixed_matrix').value
+    total_matrix = stiff_matrix + mass_matrix + fixed_matrix
+
+    assert total_matrix.shape == (12, 12)
+
+    temp_matrix = PropertyMatrix(total_matrix)
+    temp_matrix.set_name('total_matrix')
+    element.add_property(temp_matrix)
+
+
+def generate_total_force(element: ElementBase):
+    delta_matrix = element.get_property('delta_matrix').value
+    B_shape_matrix = element.get_property('B_shape_matrix').value
+    stiff_matrix = element.get_property('stiff_matrix').value
+    mass_matrix = element.get_property('mass_matrix').value
+    fixed_matrix = element.get_property('fixed_matrix').value
+    initial_matrix = element.get_property('initial_matrix').value
+    loading_matrix = element.get_property('loading_matrix').value
+    body_matrix = element.get_property('body_matrix').value
+    fixed_force = element.get_property('fixed_force').value
+    mass_force = element.get_property('mass_force').value
+    total_force = initial_matrix + loading_matrix + body_matrix + mass_force + fixed_force
+
+    element_id = element.get_property('cell_id').value
+    point_coordinate = np.array(element.get_property('point_coordinate').value)
+    math_cover_coordinate = np.array(element.get_property('math_cover_coordinate').value)
+    new_matrix_save(initial_matrix, f'matrix_{element_id}')
+    if element_id == 0:
+        new_matrix_save(point_coordinate, 'point_coordinate')
+        new_matrix_save(math_cover_coordinate, 'math_cover_coordinate')
+        new_matrix_save(delta_matrix, 'delta_matrix')
+        new_matrix_save(B_shape_matrix, 'B_shape_matrix')
+        new_matrix_save(stiff_matrix, 'stiff_matrix')
+        new_matrix_save(mass_matrix, 'mass_matrix')
+        new_matrix_save(fixed_matrix, 'fixed_matrix')
+        new_matrix_save(initial_matrix, 'initial_matrix')
+        new_matrix_save(loading_matrix, 'loading_matrix')
+        new_matrix_save(body_matrix, 'body_matrix')
+        new_matrix_save(mass_force, 'mass_force')
+        new_matrix_save(fixed_force, 'fixed_force')
+
+    assert total_force.shape == (12, 1)
+
+    temp_matrix = PropertyMatrix(total_force)
+    temp_matrix.set_name('total_force')
+    element.add_property(temp_matrix)

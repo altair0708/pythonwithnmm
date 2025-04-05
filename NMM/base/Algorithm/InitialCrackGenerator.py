@@ -79,7 +79,7 @@ class InitialCrackGenerator(AbstractAlgorithm):
                     # except AssertionError:
                     #     continue
                     crack_edge, new_surface_0, new_surface_1 = clip_a_surface(element_surface, origin, normal)
-                    if crack_edge.GetNumberOfCells() == 0:
+                    if crack_edge is None:
                         continue
 
                     # element surface attribute
