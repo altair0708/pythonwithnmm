@@ -1,6 +1,7 @@
 from NMM.base.Command.CommandInterface import AbstractCommand
 from NMM.base.CacheBase.EntranceCache import entrance_cache
-from NMM.base.Algorithm.InitialCrackGenerator import InitialCrackGenerator
+# from NMM.base.Algorithm.InitialCrackGenerator import InitialCrackGenerator
+from NMM.base.Algorithm.ElementCracker.InitialCracker import InitialCrackGenerator
 from NMM.preprocess_3D.Part.DataStructure.DataStructure import DataStructure
 
 

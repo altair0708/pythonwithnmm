@@ -1,113 +1,81 @@
 # File of global variable and config
 
 # search according name
-name = 'attribute'
+name = 'global_variable'
+time_increment = 0.02
+total_step = 10
 
-[cell_id]
+time_step = 0
+
+[attribute.cell_id]
 tuple_dimensional = 1
 array_type = "int"
 is_id = true
 cell_point = "cell"
 
-[total_id]
+[attribute.material_id]
 tuple_dimensional = 1
 array_type = "int"
 is_id = false
 cell_point = "cell"
 
-[material_id]
-tuple_dimensional = 1
-array_type = "int"
-is_id = false
-cell_point = "cell"
-
-[point_id]
+[attribute.point_id]
 tuple_dimensional = 1
 array_type = "int"
 is_id = true
 cell_point = "point"
 
-[math_cover_coordinate]
+[attribute.math_cover_coordinate]
 tuple_dimensional = 3
 array_type = "float"
 is_id = false
 cell_point = "cell"
 
-[math_cover_displacement_total]
+[attribute.math_cover_displacement_total]
 tuple_dimensional = 3
 array_type = "float"
 is_id = false
 cell_point = "cell"
 
-[math_cover_displacement_increment]
+[attribute.math_cover_displacement_increment]
 tuple_dimensional = 3
 array_type = "float"
 is_id = false
 cell_point = "cell"
 
 # not used
-[surface_id]
+[attribute.surface_id]
 tuple_dimensional = 1
 array_type = "int"
 is_id = true
 cell_point = "cell"
 
-[cracked]
+[attribute.cracked]
 tuple_dimensional = 1
 array_type = "int"
 is_id = false
 cell_point = "cell"
 
-[real]
+[attribute.real]
 tuple_dimensional = 1
 array_type = "int"
 is_id = false
 cell_point = "cell"
 
-[point_coordinate]
+[attribute.point_displacement_total]
 tuple_dimensional = 3
 array_type = "float"
 is_id = false
 cell_point = "point"
 
-[point_displacement_total]
+[attribute.point_displacement_increment]
 tuple_dimensional = 3
 array_type = "float"
 is_id = false
 cell_point = "point"
 
-[point_displacement_increment]
+[attribute.point_velocity]
 tuple_dimensional = 3
 array_type = "float"
 is_id = false
 cell_point = "point"
-
-[point_velocity]
-tuple_dimensional = 3
-array_type = "float"
-is_id = false
-cell_point = "point"
-
-[initial_strain_total]
-tuple_dimensional = 6
-array_type = "float"
-is_id = false
-cell_point = "cell"
-
-[special_point_displacement_total]
-tuple_dimensional = 3
-array_type = "float"
-is_id = false
-cell_point = "cell"
-
-[special_point_displacement_increment]
-tuple_dimensional = 3
-array_type = "float"
-is_id = false
-cell_point = "cell"
-
-[special_point_coordinate]
-tuple_dimensional = 3
-array_type = "float"
-is_id = false
-cell_point = "cell"

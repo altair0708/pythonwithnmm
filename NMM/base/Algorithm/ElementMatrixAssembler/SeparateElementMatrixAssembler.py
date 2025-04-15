@@ -2,14 +2,14 @@ from NMM.base.Algorithm.AlgorithmInterface import AbstractAlgorithm
 from NMM.preprocess_3D.Part.ElementList.ElementBase import ElementBase
 from NMM.base.Property.Implement.PropertyMatrix import PropertyMatrix
 from NMM.base.Property.Implement.PropertyVector import PropertyVector
-from NMM.base.SimplexIntegralBase.tetrahedron_integral import once_integration, twice_integration
+from NMM.base.SimplexIntegralBase.polyhedron_integral import once_integration, twice_integration
 from NMM.base.CacheBase.EntranceCache import entrance_cache
 from NMM.base.LogBase.matrix_save import new_matrix_save
 from typing import List
 import numpy as np
 
 
-class CompleteAssembler(AbstractAlgorithm):
+class SeparateAssembler(AbstractAlgorithm):
     def __init__(self, element: ElementBase, step: int):
         self.__element = element
         self.__time_step = step
@@ -98,8 +98,9 @@ def generate_stiff_matrix(element: ElementBase):
     point_coordinate = element.get_property('point_coordinate').value
     B_shape_matrix: np.matrix = element.get_property('B_shape_matrix').value
     elastic_matrix: np.matrix = element.get_property('elastic_matrix').value
+    vtk_cell = element.get_property('vtk_cell').value
 
-    temp_S, temp_xS, temp_yS, temp_zS = once_integration(np.array(point_coordinate, dtype=np.float64))
+    temp_S, temp_xS, temp_yS, temp_zS = once_integration(vtk_cell)
     temp_stiff_matrix = temp_S * B_shape_matrix.T
     temp_stiff_matrix = np.dot(temp_stiff_matrix, elastic_matrix)
     temp_stiff_matrix = np.dot(temp_stiff_matrix, B_shape_matrix)
@@ -168,9 +169,11 @@ def generate_initial_matrix(element: ElementBase):
     point_coordinate = element.get_property('point_coordinate').value
     B_shape_matrix: np.matrix = element.get_property('B_shape_matrix').value
     initial_stress = element.get_property('initial_stress').value
+    vtk_cell = element.get_property('vtk_cell').value
 
     initial_matrix = np.zeros((12, 1), dtype=np.float64)
-    temp_S, temp_xS, temp_yS, temp_zS = once_integration(np.array(point_coordinate))
+
+    temp_S, temp_xS, temp_yS, temp_zS = once_integration(vtk_cell)
     temp_initial_matrix = temp_S * np.dot(B_shape_matrix.T, initial_stress)
     initial_matrix = initial_matrix - temp_initial_matrix
     assert initial_matrix.shape == (12, 1)
@@ -201,8 +204,9 @@ def generate_body_matrix(element: ElementBase):
     point_coordinate = element.get_property('point_coordinate').value
     delta_matrix: np.matrix = element.get_property('delta_matrix').value
     body_force = np.array(element.get_property('material_parameter')['body_force'])
+    vtk_cell = element.get_property('vtk_cell').value
 
-    temp_S, temp_xS, temp_yS, temp_zS = once_integration(np.array(point_coordinate, dtype=np.float64))
+    temp_S, temp_xS, temp_yS, temp_zS = once_integration(vtk_cell)
     temp = generate_T_shape_matrix(temp_S, temp_xS, temp_yS, temp_zS, delta_matrix=delta_matrix)
 
     temp_body_matrix = np.dot(temp.T, body_force)
@@ -222,9 +226,10 @@ def generate_mass_matrix(element: ElementBase, time_increment: float):
     delta_matrix: np.matrix = element.get_property('delta_matrix').value
     unit_mass = element.get_property('material_parameter')['unit_mass']
     initial_velocity = np.array(element.get_property('initial_velocity').value, dtype=np.float64)
+    vtk_cell = element.get_property('vtk_cell').value
 
-    temp_S, temp_xS, temp_yS, temp_zS = once_integration(np.array(point_coordinate, dtype=np.float64))
-    temp_xxS, temp_yyS, temp_zzS, temp_xyS, temp_xzS, temp_yzS = twice_integration(np.array(point_coordinate, dtype=np.float64))
+    temp_S, temp_xS, temp_yS, temp_zS = once_integration(vtk_cell)
+    temp_xxS, temp_yyS, temp_zzS, temp_xyS, temp_xzS, temp_yzS = twice_integration(vtk_cell)
 
     ff = np.array(delta_matrix)
     temp_matrix = np.zeros((12, 12), dtype=np.float64)

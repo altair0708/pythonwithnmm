@@ -10,6 +10,8 @@ from NMM.base.Command.ModelCommand.ModelInitialMathPoint import ModelInitialMath
 from NMM.base.Command.ModelCommand.ModelInitialManifoldElement import ModelInitialManifoldElement
 from NMM.base.Command.ModelCommand.ModelGenerateMathematicsPoint import ModelGenerateMathematicsPoint
 from NMM.base.Command.ModelCommand.ModelGenerateManifoldElement import ModelGenerateManifoldElement
+from NMM.base.Command.ModelCommand.ModelInitialNewElement import ModelInitialNewElement
+from NMM.base.Command.ModelCommand.ModelInitialNewCover import ModelInitialNewCover
 
 
 builder = PreprocessModelBuilder()
@@ -47,21 +49,14 @@ invoker.set_command(ModelAddAttribute('mathematics_cover', 'cracked', data_struc
 invoker.set_command(ModelGenerateMathematicsPoint(data_structure))
 invoker.set_command(ModelAddAttribute('mathematics_point', 'point_id', data_structure))
 invoker.set_command(ModelAddAttribute('mathematics_point', 'cracked', data_structure))
-
-invoker.set_command(ModelGenerateManifoldElement(data_structure))
-invoker.set_command(ModelAddAttribute('manifold_element', 'point_id', data_structure))
-invoker.set_command(ModelAddAttribute('manifold_element', 'cracked', data_structure))
-
-invoker.set_command(ModelGenerateGrid('element_surface', data_structure))
-invoker.set_command(ModelAddAttribute('element_surface', 'point_id', data_structure))
-invoker.set_command(ModelAddAttribute('element_surface', 'cell_id', data_structure))
-invoker.set_command(ModelAddAttribute('element_surface', 'cracked', data_structure))
-
 invoker.set_command(ModelAddAttribute('mathematics_point', 'math_cover_coordinate', data_structure))
 invoker.set_command(ModelAddAttribute('mathematics_point', 'math_cover_displacement_total', data_structure))
 invoker.set_command(ModelAddAttribute('mathematics_point', 'math_cover_displacement_increment', data_structure))
 invoker.set_command(ModelInitialMathPoint())
 
+invoker.set_command(ModelGenerateManifoldElement(data_structure))
+invoker.set_command(ModelAddAttribute('manifold_element', 'point_id', data_structure))
+invoker.set_command(ModelAddAttribute('manifold_element', 'cracked', data_structure))
 invoker.set_command(ModelAddAttribute('manifold_element', 'material_id', data_structure))
 invoker.set_command(ModelAddAttribute('manifold_element', 'point_coordinate', data_structure))
 invoker.set_command(ModelAddAttribute('manifold_element', 'point_displacement_total', data_structure))
@@ -70,11 +65,34 @@ invoker.set_command(ModelAddAttribute('manifold_element', 'point_velocity', data
 invoker.set_command(ModelAddAttribute('manifold_element', 'initial_strain_total', data_structure))
 invoker.set_command(ModelInitialManifoldElement())
 
-crack_list = ['crack_surface', 'crack_edge', 'new_cover', 'new_element', 'new_surface']
-for each_entity_name in crack_list:
-    invoker.set_command(ModelAddAttribute(each_entity_name, 'cell_id', data_structure))
+invoker.set_command(ModelGenerateGrid('element_surface', data_structure))
+invoker.set_command(ModelAddAttribute('element_surface', 'point_id', data_structure))
+invoker.set_command(ModelAddAttribute('element_surface', 'cell_id', data_structure))
+invoker.set_command(ModelAddAttribute('element_surface', 'cracked', data_structure))
+
+invoker.set_command(ModelAddAttribute('crack_surface', 'cell_id', data_structure))
+invoker.set_command(ModelAddAttribute('crack_edge', 'cell_id', data_structure))
+invoker.set_command(ModelAddAttribute('new_cover', 'cell_id', data_structure))
 invoker.set_command(ModelAddAttribute('new_cover', 'real', data_structure))
+invoker.set_command(ModelAddAttribute('new_cover', 'total_id', data_structure))
+invoker.set_command(ModelAddAttribute('new_element', 'cell_id', data_structure))
+invoker.set_command(ModelAddAttribute('new_element', 'total_id', data_structure))
+invoker.set_command(ModelAddAttribute('new_surface', 'cell_id', data_structure))
 invoker.set_command(ModelInitialCrack())
+
+invoker.set_command(ModelAddAttribute('new_element', 'material_id', data_structure))
+invoker.set_command(ModelAddAttribute('new_element', 'point_coordinate', data_structure))
+invoker.set_command(ModelAddAttribute('new_element', 'point_displacement_total', data_structure))
+invoker.set_command(ModelAddAttribute('new_element', 'point_displacement_increment', data_structure))
+invoker.set_command(ModelAddAttribute('new_element', 'point_velocity', data_structure))
+invoker.set_command(ModelAddAttribute('new_element', 'initial_strain_total', data_structure))
+invoker.set_command(ModelInitialNewElement())
+
+invoker.set_command(ModelAddAttribute('new_cover', 'point_id', data_structure))
+invoker.set_command(ModelAddAttribute('new_cover', 'math_cover_coordinate', data_structure))
+invoker.set_command(ModelAddAttribute('new_cover', 'math_cover_displacement_total', data_structure))
+invoker.set_command(ModelAddAttribute('new_cover', 'math_cover_displacement_increment', data_structure))
+invoker.set_command(ModelInitialNewCover())
 
 invoker.set_command(ModelGenerateBoundaryCondition())
 invoker.set_command(ModelAddAttribute('boundary_condition', 'special_point_displacement_total', data_structure))
@@ -82,6 +100,7 @@ invoker.set_command(ModelAddAttribute('boundary_condition', 'special_point_displ
 invoker.set_command(ModelAddAttribute('boundary_condition', 'special_point_coordinate', data_structure))
 invoker.set_command(ModelInitialSpecialPoint())
 
+crack_list = ['crack_surface', 'crack_edge', 'new_cover', 'new_element', 'new_surface']
 entity_list = ['geometric_vertex', 'geometric_line', 'geometric_surface', 'geometric_tetrahedron']
 cover_list = ['mathematics_cover', 'mathematics_point', 'manifold_element', 'element_surface']
 for each_grid_name in entity_list + cover_list + crack_list + ['boundary_condition']:

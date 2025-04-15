@@ -29,16 +29,17 @@ def test_complete_element_builder():
     boundary_condition = VtkGrid('boundary_condition', 'boundary_condition.vtu')
     material_parameter = PropertyMap.generate_from_toml('material_parameter.toml')
 
-    for step in range(2):
+    for step in range(1):
 
-        director = ElementDirector(mathematics_point, manifold_element, boundary_condition, material_parameter)
-        complete_builder = CompleteElementBuilder()
-
-        director.builder = complete_builder
+        director = ElementDirector()
 
         total_assembler = TotalMatrixAssembler(mathematics_point.get_cell_number())
         for each_id in range(manifold_element.get_cell_number()):
+
+            complete_builder = CompleteElementBuilder(mathematics_point, manifold_element, boundary_condition, material_parameter)
+            director.builder = complete_builder
             director.build_matrix_element(each_id)
+
             new_element = complete_builder.get_element()
 
             assembler = CompleteAssembler(new_element, step)
@@ -49,9 +50,6 @@ def test_complete_element_builder():
 
         total_matrix, total_force = total_assembler.update()
         displacement_vector = spsolve(total_matrix, total_force)
-        new_matrix_save(total_matrix.toarray(), 'total_matrix')
-        new_matrix_save(total_force, 'total_force')
-        new_matrix_save(displacement_vector, 'displacement_vector')
 
         cover_refresher = CoverRefresher(displacement_vector, mathematics_point)
         cover_refresher.update()

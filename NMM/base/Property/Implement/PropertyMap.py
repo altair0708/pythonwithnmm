@@ -1,5 +1,6 @@
 from NMM.base.Property.Property import Property
 from NMM.base.VTKBase import load_toml_file
+from typing import Dict
 
 
 class PropertyMap(Property):
@@ -12,7 +13,7 @@ class PropertyMap(Property):
             new_toml_map.name = new_toml_map.value['name']
         return new_toml_map
 
-    def __init__(self, value):
+    def __init__(self, value: Dict):
         super(PropertyMap, self).__init__()
         self._type = 'PropertyMap'
         self._name = ''
@@ -21,3 +22,5 @@ class PropertyMap(Property):
     def __getitem__(self, item):
         return self.value.get(item, f'Key not exist!!!: {item}')
 
+    def __setitem__(self, key, value):
+        self.value[key] = value

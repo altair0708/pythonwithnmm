@@ -9,12 +9,6 @@ array_type = "int"
 is_id = true
 cell_point = "cell"
 
-[total_id]
-tuple_dimensional = 1
-array_type = "int"
-is_id = false
-cell_point = "cell"
-
 [material_id]
 tuple_dimensional = 1
 array_type = "int"

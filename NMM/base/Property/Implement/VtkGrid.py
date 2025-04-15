@@ -1,7 +1,7 @@
 from NMM.base.Property.Property import Property
 from NMM.base.Property.Implement.Relationship import Relationship
 from NMM.base.VTKBase import get_grid_by_cell_type, generate_cover_grid, add_attribute
-from NMM.base.VTKBase import generate_grid, insert_a_vtk_cell, get_a_vtk_cell_grid
+from NMM.base.VTKBase import generate_grid, insert_a_vtk_cell, get_a_vtk_cell_grid, delete_vtk_cell
 from NMM.base.VTKBase import get_cell_point_id, get_point_coordinate
 from NMM.base.VTKBase import get_cell_attribute_number, get_point_attribute_number
 from NMM.base.VTKBase import new_a_grid, load_a_grid, write_file
@@ -178,3 +178,6 @@ class VtkGrid(Property):
 
     def add_item(self, item) -> None:
         return insert_a_vtk_cell(item, self._value)
+
+    def delete_cell(self, id_value: int):
+        delete_vtk_cell(self._value, id_value)
