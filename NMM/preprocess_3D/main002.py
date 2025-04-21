@@ -12,6 +12,12 @@ from NMM.base.Command.ModelCommand.ModelGenerateMathematicsPoint import ModelGen
 from NMM.base.Command.ModelCommand.ModelGenerateManifoldElement import ModelGenerateManifoldElement
 from NMM.base.Command.ModelCommand.ModelInitialNewElement import ModelInitialNewElement
 from NMM.base.Command.ModelCommand.ModelInitialNewCover import ModelInitialNewCover
+from NMM.base.Command.ModelCommand.ModelMatrixSolve import ModelMatrixSolve
+from NMM.base.Command.ModelCommand.ModelGenerateElementList import ModelGenerateElementList
+from NMM.base.Command.ModelCommand.ModelRefreshCover import ModelRefreshCover
+from NMM.base.Command.ModelCommand.ModelRefreshElement import ModelRefreshElement
+from NMM.base.Command.ModelCommand.ModelRefreshBoundaryCondition import ModelRefreshBoundaryCondition
+from NMM.base.Command.ModelCommand.ModelOutputResult import ModelOutputResult
 
 
 builder = PreprocessModelBuilder()
@@ -106,10 +112,14 @@ cover_list = ['mathematics_cover', 'mathematics_point', 'manifold_element', 'ele
 for each_grid_name in entity_list + cover_list + crack_list + ['boundary_condition']:
     invoker.set_command(ModelWriteFile(each_grid_name, data_structure))
 
-# invoker.set_command(ModelGenerateElementList('matrix_element'))
-# invoker.set_command(ModelMatrixSolve())
-# invoker.set_command(ModelAssembleTotalMatrix())
-# invoker.set_command(ModelRefreshCover())
+invoker.set_command(ModelGenerateElementList())
+invoker.set_command(ModelMatrixSolve())
+invoker.set_command(ModelRefreshCover())
+invoker.set_command(ModelRefreshElement())
+invoker.set_command(ModelRefreshBoundaryCondition())
+
+invoker.set_command(ModelOutputResult('manifold_element'))
+invoker.set_command(ModelOutputResult('new_element'))
 
 invoker.press_button()
 

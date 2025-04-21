@@ -181,3 +181,7 @@ class VtkGrid(Property):
 
     def delete_cell(self, id_value: int):
         delete_vtk_cell(self._value, id_value)
+
+    def get_file_name(self):
+        file_name = f'{self.name}.vtu'
+        return file_name

@@ -41,7 +41,7 @@ def test_complete_element_builder():
 
     cover_number = mathematics_point.get_cell_number() + int(new_cover.get_cell_number() / 2)
 
-    for step in range(3):
+    for step in range(1):
 
         director = ElementDirector()
 
@@ -61,7 +61,7 @@ def test_complete_element_builder():
                 assembler = CompleteAssembler(temp_element, step)
                 assembler.update()
 
-                element_list.append(temp_element )
+                element_list.append(temp_element)
             elif cracked_status == 9:
                 relationship_list = relationship_cache.get_item(name_0='element', name_1='newelement', id_0=each_id, id_1=None)
                 assert len(relationship_list) == 2
@@ -71,10 +71,10 @@ def test_complete_element_builder():
                     director.build_matrix_element(new_id)
                     temp_element = separate_builder.get_element()
 
-                    assembler = SeparateAssembler(temp_element , step)
+                    assembler = SeparateAssembler(temp_element, step)
                     assembler.update()
 
-                    element_list.append(temp_element )
+                    element_list.append(temp_element)
             else:
                 raise Exception('Crack status error!!!')
 
@@ -83,6 +83,7 @@ def test_complete_element_builder():
             total_assembler.add_force_vector(each_element)
 
         total_matrix, total_force = total_assembler.update()
+        print(np.linalg.norm(total_force))
         displacement_vector = spsolve(total_matrix, total_force)
 
         cover_refresher = CoverRefresher(displacement_vector, mathematics_point, new_cover)

@@ -11,7 +11,6 @@ class Path(Property):
         assert type(path_name) is str
         self.name = path_name
 
-
         assert type(path) is str
         self._value = path
 

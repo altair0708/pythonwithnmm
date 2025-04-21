@@ -1,13 +1,15 @@
 # File of global variable and config
 
 # search according name
+# constant
 name = 'global_variable'
 time_increment = 0.02
 total_step = 10
 cover_number = 0
 element_number = 0
 
-time_step = 0
+# variable
+time_step = 1
 new_cover_number = 0
 new_element_number = 0
 

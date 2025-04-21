@@ -26,9 +26,8 @@ class PreprocessModelBuilder(AbstractConstructor):
         matrix_element_list_builder = ElementListBuilder()
         preprocess_model.add_property(matrix_element_list_builder.build('matrix_element'))
 
-        # matrix_solver_builder = MatrixSolverBuilder()
-        # preprocess_model.add_property(matrix_solver_builder.build())
-        #
+        matrix_solver_builder = MatrixSolverBuilder()
+        preprocess_model.add_property(matrix_solver_builder.build())
 
         return preprocess_model
 
