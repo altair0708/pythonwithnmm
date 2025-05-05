@@ -30,3 +30,6 @@ class ModelMatrixSolve(AbstractCommand):
         total_matrix, total_force = total_assembler.update()
         result = spsolve(total_matrix, total_force)
         displacement_vector.value = result
+
+        # clear element list
+        element_list.clear()

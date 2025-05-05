@@ -2,9 +2,10 @@ from NMM.base.Algorithm.AlgorithmInterface import AbstractAlgorithm
 from NMM.base.Property.Implement.PropertyList import PropertyList
 from NMM.base.Property.Implement.Relationship import Relationship
 from NMM.base.Algorithm.ElementRefresher import displacement_interpolation
+from NMM.base.Property.Implement.VtkGrid import VtkGrid
+from NMM.base.VTKBase.write_file import write_file
 from typing import List
 import numpy as np
-from NMM.base.Property.Implement.VtkGrid import VtkGrid
 
 
 class SeparateElementRefresher(AbstractAlgorithm):
@@ -29,7 +30,6 @@ class SeparateElementRefresher(AbstractAlgorithm):
         self.__element.set_cell_attribute('initial_strain_total', self.__element_id, strain_total)
 
         for each_id in point_id:
-            # point_coordinate = self.__element.get_point_coordinate(each_id)
             point_coordinate = self.__element.get_point_coordinate(each_id)
 
             displacement_increment = displacement_interpolation(point_coordinate, cover_displacement, cover_coordinate)

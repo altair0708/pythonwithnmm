@@ -1,5 +1,5 @@
 from NMM.preprocess_3D.Model.ModelBuilder import PreprocessModelBuilder
-from NMM.base.Command.Invoker import Invoker, InvokerQueue
+from NMM.base.Command.Invoker import Invoker, InvokerQueue, InvokerCycle
 from NMM.base.Command.ModelCommand.ModelAddAttribute import ModelAddAttribute
 from NMM.base.Command.ModelCommand.ModelGenerateBoundaryCondition import ModelGenerateBoundaryCondition
 from NMM.base.Command.ModelCommand.ModelInitialCrack import ModelInitialCrack
@@ -16,13 +16,16 @@ from NMM.base.Command.ModelCommand.ModelMatrixSolve import ModelMatrixSolve
 from NMM.base.Command.ModelCommand.ModelGenerateElementList import ModelGenerateElementList
 from NMM.base.Command.ModelCommand.ModelRefreshCover import ModelRefreshCover
 from NMM.base.Command.ModelCommand.ModelRefreshElement import ModelRefreshElement
+from NMM.base.Command.ModelCommand.ModelRefreshNewElement import ModelRefreshNewElement
 from NMM.base.Command.ModelCommand.ModelRefreshBoundaryCondition import ModelRefreshBoundaryCondition
 from NMM.base.Command.ModelCommand.ModelOutputResult import ModelOutputResult
+from NMM.base.Command.ModelCommand.ModelCrackElement import ModelCrackElement
+from NMM.base.Command.ModelCommand.ModelCopyCoverAttribute import ModelCopyCoverAttribute
 
 
 builder = PreprocessModelBuilder()
 # model = builder.build('D:/science/NMM/python-NMM/example/example001')
-model = builder.build('/Users/suboyi/PycharmProjects/pythonwithnmm/example/example001')
+model = builder.build('/Users/suboyi/PycharmProjects/pythonwithnmm/example/example002')
 
 invoker = InvokerQueue()
 
@@ -86,19 +89,19 @@ invoker.set_command(ModelAddAttribute('new_element', 'total_id', data_structure)
 invoker.set_command(ModelAddAttribute('new_surface', 'cell_id', data_structure))
 invoker.set_command(ModelInitialCrack())
 
+# invoker.set_command(ModelAddAttribute('new_cover', 'point_id', data_structure))
+invoker.set_command(ModelAddAttribute('new_cover', 'math_cover_coordinate', data_structure))
+invoker.set_command(ModelAddAttribute('new_cover', 'math_cover_displacement_total', data_structure))
+invoker.set_command(ModelAddAttribute('new_cover', 'math_cover_displacement_increment', data_structure))
+invoker.set_command(ModelCopyCoverAttribute())
+
 invoker.set_command(ModelAddAttribute('new_element', 'material_id', data_structure))
 invoker.set_command(ModelAddAttribute('new_element', 'point_coordinate', data_structure))
 invoker.set_command(ModelAddAttribute('new_element', 'point_displacement_total', data_structure))
 invoker.set_command(ModelAddAttribute('new_element', 'point_displacement_increment', data_structure))
 invoker.set_command(ModelAddAttribute('new_element', 'point_velocity', data_structure))
 invoker.set_command(ModelAddAttribute('new_element', 'initial_strain_total', data_structure))
-invoker.set_command(ModelInitialNewElement())
-
-invoker.set_command(ModelAddAttribute('new_cover', 'point_id', data_structure))
-invoker.set_command(ModelAddAttribute('new_cover', 'math_cover_coordinate', data_structure))
-invoker.set_command(ModelAddAttribute('new_cover', 'math_cover_displacement_total', data_structure))
-invoker.set_command(ModelAddAttribute('new_cover', 'math_cover_displacement_increment', data_structure))
-invoker.set_command(ModelInitialNewCover())
+invoker.set_command(ModelRefreshNewElement())
 
 invoker.set_command(ModelGenerateBoundaryCondition())
 invoker.set_command(ModelAddAttribute('boundary_condition', 'special_point_displacement_total', data_structure))
@@ -112,14 +115,24 @@ cover_list = ['mathematics_cover', 'mathematics_point', 'manifold_element', 'ele
 for each_grid_name in entity_list + cover_list + crack_list + ['boundary_condition']:
     invoker.set_command(ModelWriteFile(each_grid_name, data_structure))
 
-invoker.set_command(ModelGenerateElementList())
-invoker.set_command(ModelMatrixSolve())
-invoker.set_command(ModelRefreshCover())
-invoker.set_command(ModelRefreshElement())
-invoker.set_command(ModelRefreshBoundaryCondition())
-
-invoker.set_command(ModelOutputResult('manifold_element'))
-invoker.set_command(ModelOutputResult('new_element'))
-
 invoker.press_button()
+
+invoker_cycle = InvokerCycle()
+invoker_cycle.set_command(ModelGenerateElementList())
+invoker_cycle.set_command(ModelMatrixSolve())
+invoker_cycle.set_command(ModelRefreshCover())
+invoker_cycle.set_command(ModelRefreshElement())
+invoker_cycle.set_command(ModelRefreshBoundaryCondition())
+
+invoker_cycle.set_command(ModelCrackElement())
+invoker_cycle.set_command(ModelCopyCoverAttribute())
+invoker_cycle.set_command(ModelRefreshNewElement())
+
+invoker_cycle.set_command(ModelOutputResult('mathematics_point'))
+invoker_cycle.set_command(ModelOutputResult('manifold_element'))
+invoker_cycle.set_command(ModelOutputResult('new_cover'))
+invoker_cycle.set_command(ModelOutputResult('new_element'))
+invoker_cycle.set_command(ModelOutputResult('crack_surface'))
+
+invoker_cycle.press_button()
 

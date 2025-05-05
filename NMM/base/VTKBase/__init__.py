@@ -25,6 +25,8 @@ from .get_point_coordinate import get_point_coordinate
 from .get_cell_point_id import get_cell_point_id
 from .copy_vtk_grid_data import copy_cell_data
 from .delete_cell import delete_vtk_cell
+from .find_shared_edge import find_shared_edge
+from .calculate_polygon_angle import calculate_polygon_angle
 
 from vtkmodules.vtkCommonCore import vtkLogger
 vtkLogger.SetStderrVerbosity(vtkLogger.VERBOSITY_WARNING)

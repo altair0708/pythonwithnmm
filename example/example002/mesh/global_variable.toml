@@ -4,9 +4,10 @@
 # constant
 name = 'global_variable'
 time_increment = 0.02
-total_step = 3
+total_step = 20
 cover_number = 0
 element_number = 0
+global_error = 0.000001
 
 # variable
 time_step = 0

@@ -15,5 +15,8 @@ class PropertyList(Property):
     def append(self, value):
         self._value.append(value)
 
+    def clear(self):
+        self._value.clear()
+
 
 

@@ -11,7 +11,9 @@ element_number = 0
 # variable
 time_step = 0
 new_cover_number = 0
+new_cover_id = []
 new_element_number = 0
+new_element_id = []
 
 [attribute.cell_id]
 tuple_dimensional = 1

@@ -41,7 +41,7 @@ def test_complete_element_builder():
 
     cover_number = mathematics_point.get_cell_number() + int(new_cover.get_cell_number() / 2)
 
-    for step in range(1):
+    for step in range(3):
 
         director = ElementDirector()
 
@@ -53,7 +53,7 @@ def test_complete_element_builder():
         for each_id in range(manifold_element.get_cell_number()):
             cracked_status = manifold_element.get_cell_attribute('cracked', each_id)[0]
 
-            if cracked_status == -1:
+            if cracked_status == -1 or cracked_status == 8:
                 director.builder = complete_builder
                 director.build_matrix_element(each_id)
                 temp_element = complete_builder.get_element()
@@ -83,7 +83,6 @@ def test_complete_element_builder():
             total_assembler.add_force_vector(each_element)
 
         total_matrix, total_force = total_assembler.update()
-        print(np.linalg.norm(total_force))
         displacement_vector = spsolve(total_matrix, total_force)
 
         cover_refresher = CoverRefresher(displacement_vector, mathematics_point, new_cover)

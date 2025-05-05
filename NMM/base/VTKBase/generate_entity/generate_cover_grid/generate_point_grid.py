@@ -1,10 +1,10 @@
 from vtkmodules.vtkCommonDataModel import vtkUnstructuredGrid, vtkVertex
 from vtkmodules.vtkCommonCore import vtkIntArray, vtkIdList
 from NMM.base.VTKBase.new_a_grid import new_a_grid
-from NMM.base.CacheBase import relationship_cache
 
 
 def generate_point_grid(vtk_model: vtkUnstructuredGrid):
+    from NMM.base.CacheBase.RelationshipCache import relationship_cache
     target_grid = new_a_grid()
     target_grid.GetPoints().DeepCopy(vtk_model.GetPoints())
 
