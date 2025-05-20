@@ -19,18 +19,19 @@ class InitialCrackGenerator(AbstractAlgorithm):
 
     def update(self):
 
-        assert self.__initial_crack_grid.get_cell_number() == 1
-        crack_polygon_grid: vtkUnstructuredGrid = self.__initial_crack_grid[0]
+        # assert self.__initial_crack_grid.get_cell_number() == 1
+        # crack_polygon_grid: vtkUnstructuredGrid = self.__initial_crack_grid[0]
 
-        # normal vector, origin point
-        normal = [0, 0, 0]
-        temp_polygon_points: vtkPoints = crack_polygon_grid.GetPoints()
-        vtkPolygon.ComputeNormal(temp_polygon_points, normal)
-        origin = temp_polygon_points.GetPoint(0)
+        for each_crack_polygon_grid in self.__initial_crack_grid:
+            # normal vector, origin point
+            normal = [0, 0, 0]
+            temp_polygon_points: vtkPoints = each_crack_polygon_grid.GetPoints()
+            vtkPolygon.ComputeNormal(temp_polygon_points, normal)
+            origin = temp_polygon_points.GetPoint(0)
 
-        # debug_write_file(crack_polygon_grid, 'crack.vtu')
-        for each_id, each_manifold_element in enumerate(self.__manifold_element_grid):
-            if is_intersect(crack_polygon_grid, each_manifold_element):
-                cutter = CompleteElementCutter(each_id, self.__manifold_element_grid, origin, normal)
-                cutter.update()
+            # debug_write_file(crack_polygon_grid, 'crack.vtu')
+            for each_id, each_manifold_element in enumerate(self.__manifold_element_grid):
+                if is_intersect(each_crack_polygon_grid, each_manifold_element):
+                    cutter = CompleteElementCutter(each_id, self.__manifold_element_grid, origin, normal)
+                    cutter.update()
 

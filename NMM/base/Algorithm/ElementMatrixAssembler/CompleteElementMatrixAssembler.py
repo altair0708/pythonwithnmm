@@ -276,10 +276,13 @@ def generate_fixed_matrix(element: ElementBase, constant_spring: int, time_step:
     # fixed point expected displacement
     fixed_point_velocity = element.get_property('fixed_point_velocity').value
     fixed_point_coordinate = element.get_property('fixed_point_coordinate').value
+    fixed_type = element.get_property('fixed_type').value
 
-    for each_fixed_point_coordinate, each_fixed_point_velocity, each_fixed_point_displacement_total in zip(fixed_point_coordinate, fixed_point_velocity, fixed_point_displacement_total):
+    for each_fixed_point_coordinate, each_fixed_point_velocity, each_fixed_point_displacement_total, each_fixed_type in zip(fixed_point_coordinate, fixed_point_velocity, fixed_point_displacement_total, fixed_type):
         fixed_point_expected_displacement = np.array(each_fixed_point_velocity) * time_step
         fixed_point_displacement_difference = np.array(each_fixed_point_displacement_total) - fixed_point_expected_displacement
+        # fixed_point_displacement_difference = fixed_point_displacement_difference * np.array(each_fixed_type, dtype=np.float64)
+        # temp_fixed_point_coordinate = np.array(each_fixed_point_coordinate, dtype=np.float64) * np.array(each_fixed_type, dtype=np.float64)
         temp = generate_T_shape_matrix(1, each_fixed_point_coordinate[0], each_fixed_point_coordinate[1], each_fixed_point_coordinate[2], delta_matrix=delta_matrix)
         temp_matrix = np.dot(temp.T, temp)
         temp_matrix = constant_spring * temp_matrix

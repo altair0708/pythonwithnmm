@@ -63,6 +63,11 @@ class AbstractCriterion(AbstractAlgorithm, ABC):
         return result
 
     @property
+    def material_id(self):
+        result = self._manifold_element.get_attribute('material_id', self._element_id)[0]
+        return result
+
+    @property
     def crack_flag(self):
         return self._crack_flag
 

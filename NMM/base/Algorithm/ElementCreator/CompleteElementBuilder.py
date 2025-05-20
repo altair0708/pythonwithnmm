@@ -87,6 +87,11 @@ class CompleteElementBuilder(AbstractElementBuilder):
         temp_property.set_name('fixed_point_velocity')
         self._element.add_property(temp_property)
 
+        fixed_type = [self._boundary_condition.get_cell_attribute('fixed_type', i) for i in fixed_point_id]
+        temp_property = PropertyList(fixed_type)
+        temp_property.set_name('fixed_type')
+        self._element.add_property(temp_property)
+
         fixed_point_displacement_total = [self._boundary_condition.get_cell_attribute('special_point_displacement_total', i) for i in fixed_point_id]
         temp_property = PropertyList(fixed_point_displacement_total)
         temp_property.set_name('fixed_point_displacement_total')

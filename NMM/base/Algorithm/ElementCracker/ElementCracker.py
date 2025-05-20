@@ -52,7 +52,11 @@ class ElementCracker(AbstractAlgorithm):
 
         elif len(crack_point_list) > 2:
             normal = counter.normal
+        else:
+            raise Exception('Crack point list error!!!')
 
+        assert len(normal) == 3
+        normal = (0, 0, 1)
         if crack_flag:
             cutter = CompleteElementCutter(self.__element_id, self.__manifold_element, origin, normal, angle_algorithm)
             cutter.update()

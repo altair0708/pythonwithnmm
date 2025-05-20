@@ -21,11 +21,12 @@ from NMM.base.Command.ModelCommand.ModelRefreshBoundaryCondition import ModelRef
 from NMM.base.Command.ModelCommand.ModelOutputResult import ModelOutputResult
 from NMM.base.Command.ModelCommand.ModelCrackElement import ModelCrackElement
 from NMM.base.Command.ModelCommand.ModelCopyCoverAttribute import ModelCopyCoverAttribute
+from NMM.base.Command.ModelCommand.ModelGenerateCrackTip import ModelGenerateCrackTip
 
 
 builder = PreprocessModelBuilder()
 # model = builder.build('D:/science/NMM/python-NMM/example/example001')
-model = builder.build('/Users/suboyi/PycharmProjects/pythonwithnmm/example/example002')
+model = builder.build('/Users/suboyi/PycharmProjects/pythonwithnmm/example/example004')
 
 invoker = InvokerQueue()
 

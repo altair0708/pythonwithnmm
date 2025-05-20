@@ -113,6 +113,11 @@ class CrackPointCounter(AbstractAlgorithm):
         for p in temp_point_list:
             if not any(math.dist(p, q) < self.__global_error for q in self.__point_list):
                 self.__point_list.append(p)
+
+        if len(self.__point_list) <= 1:
+            print(temp_point_list)
+        assert len(self.__point_list) > 1
+
         if len(self.__point_list) == 2:
             self.__origin = self.__point_list[0]
             self.__edge_vector = [self.__point_list[0][i] - self.__point_list[1][i] for i in range(len(self.__point_list[0]))]
