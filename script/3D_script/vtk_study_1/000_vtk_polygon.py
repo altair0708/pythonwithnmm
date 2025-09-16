@@ -67,6 +67,7 @@ points_1.InsertNextPoint(0, 1, 1)
 poly_data_1 = vtkUnstructuredGrid()
 poly_data_1.DeepCopy(poly_data)
 poly_data_1.EditableOn()
+print(vtkUnstructuredGrid().GetClassName())
 
 cell_array = vtkCellArray()
 cell_array.ShallowCopy(poly_data_1.GetCells())

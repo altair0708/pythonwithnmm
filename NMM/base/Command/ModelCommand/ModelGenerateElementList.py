@@ -43,7 +43,7 @@ class ModelGenerateElementList(AbstractCommand):
         for each_id in range(manifold_element.get_cell_number()):
             cracked_status = manifold_element.get_cell_attribute('cracked', each_id)[0]
 
-            if cracked_status == -1 or cracked_status == 8:
+            if cracked_status == -1 or cracked_status == 7 or cracked_status == 8:
                 director.builder = complete_builder
                 director.build_matrix_element(each_id)
                 temp_element = complete_builder.get_element()

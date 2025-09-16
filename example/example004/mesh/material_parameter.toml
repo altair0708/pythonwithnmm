@@ -10,8 +10,8 @@ elastic_modulus = 1000000000
 poisson_ratio = 0.2
 initial_force = [0, 0, 0, 0, 0, 0]
 friction_angle = 30
-cohesion = 100000
-tensile_strength = 1000000000
+cohesion = 10
+tensile_strength = 10000000000000
 initial_velocity = [0, 0, 0, 0, 0, 0]
 
 

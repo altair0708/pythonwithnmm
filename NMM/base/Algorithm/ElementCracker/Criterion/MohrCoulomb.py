@@ -61,7 +61,8 @@ def compute_failure_plane_normal(e1, e3, phi_deg):
     """
     # 角度转换
     phi_rad = np.radians(phi_deg)
-    theta = np.radians(45) + phi_rad / 2  # θ = 45° + φ/2
+    # theta = np.radians(45) + phi_rad / 2  # θ = 45° + φ/2
+    theta = np.radians(135) + phi_rad / 2  # θ = 45° + φ/2
 
     # 向量归一化（以防用户输入不是单位向量）
     e1 = np.array(e1) / np.linalg.norm(e1)
@@ -70,5 +71,6 @@ def compute_failure_plane_normal(e1, e3, phi_deg):
     # 破坏面法向量
     n = np.cos(theta) * e1 + np.sin(theta) * e3
     n_normalized = n / np.linalg.norm(n)
+    # TODO: e1 or e3 relate to crack angle?
 
     return n_normalized

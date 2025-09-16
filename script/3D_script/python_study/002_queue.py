@@ -8,3 +8,13 @@ a.put('c')
 
 for i in a.queue:
     print(i)
+
+
+def func():
+    b = True
+    c = False
+    return b and c
+
+
+print(func())
+

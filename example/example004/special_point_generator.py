@@ -175,7 +175,7 @@ class SpecialPointGenerator:
 generator = SpecialPointGenerator()
 
 generator.origin = (0, 0.01, 0)
-generator.size = (4, 0, 8)
+generator.size = (4, 0, 9.5)
 generator.number = (31, 1, 31)
 generator.point_group_value = 0
 generator.point_type_value = 1
@@ -191,23 +191,23 @@ generator.point_velocity_value = (0, 0.00001, 0)
 generator.update()
 
 generator.origin = (0, 19.99, 0)
-generator.size = (4, 0, 8)
+generator.size = (4, 0, 9.5)
 generator.number = (31, 1, 31)
 generator.point_group_value = 2
 generator.point_type_value = 1
 generator.point_velocity_value = (0, 0.00001, 0)
 generator.update()
 
-generator.origin = (0, 19.99, 12)
-generator.size = (4, 0, 8)
+generator.origin = (0, 19.99, 10.5)
+generator.size = (4, 0, 9.5)
 generator.number = (31, 1, 31)
 generator.point_group_value = 3
 generator.point_type_value = 1
 generator.point_velocity_value = (0, 0, 0)
 generator.update()
 
-generator.origin = (0, 0.01, 12)
-generator.size = (4, 0, 8)
+generator.origin = (0, 0.01, 10.5)
+generator.size = (4, 0, 9.5)
 generator.number = (31, 1, 31)
 generator.point_group_value = 4
 generator.point_type_value = 1

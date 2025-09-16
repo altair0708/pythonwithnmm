@@ -7,6 +7,7 @@ points_0.InsertPoint(0, (0, 0, 0))
 points_0.InsertPoint(1, (1, 0, 0))
 points_0.InsertPoint(2, (0, 1, 0))
 points_0.InsertPoint(3, (0, 0, 1))
+print(type(points_0.GetPoint(0)))
 
 tetra_0 = vtkTetra()
 tetra_0.GetPointIds().SetId(0, 0)

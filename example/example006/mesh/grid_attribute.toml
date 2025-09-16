@@ -1,0 +1,143 @@
+# File of global variable and config
+
+# search according name
+name = 'attribute'
+
+[cell_id]
+tuple_dimensional = 1
+array_type = "int"
+is_id = true
+cell_point = "cell"
+
+[total_id]
+tuple_dimensional = 1
+array_type = "int"
+is_id = false
+cell_point = "cell"
+
+[material_id]
+tuple_dimensional = 1
+array_type = "int"
+is_id = false
+cell_point = "cell"
+
+[point_id]
+tuple_dimensional = 1
+array_type = "int"
+is_id = true
+cell_point = "point"
+
+[math_cover_coordinate]
+tuple_dimensional = 3
+array_type = "float"
+is_id = false
+cell_point = "cell"
+
+[math_cover_displacement_total]
+tuple_dimensional = 3
+array_type = "float"
+is_id = false
+cell_point = "cell"
+
+[math_cover_displacement_increment]
+tuple_dimensional = 3
+array_type = "float"
+is_id = false
+cell_point = "cell"
+
+# not used
+[surface_id]
+tuple_dimensional = 1
+array_type = "int"
+is_id = true
+cell_point = "cell"
+
+[cracked]
+tuple_dimensional = 1
+array_type = "int"
+is_id = false
+cell_point = "cell"
+
+[real]
+tuple_dimensional = 1
+array_type = "int"
+is_id = false
+cell_point = "cell"
+
+[point_coordinate]
+tuple_dimensional = 3
+array_type = "float"
+is_id = false
+cell_point = "point"
+
+[point_displacement_total]
+tuple_dimensional = 3
+array_type = "float"
+is_id = false
+cell_point = "point"
+
+[point_displacement_increment]
+tuple_dimensional = 3
+array_type = "float"
+is_id = false
+cell_point = "point"
+
+[point_velocity]
+tuple_dimensional = 3
+array_type = "float"
+is_id = false
+cell_point = "point"
+
+[initial_strain_total]
+tuple_dimensional = 6
+array_type = "float"
+is_id = false
+cell_point = "cell"
+
+[special_point_displacement_total]
+tuple_dimensional = 3
+array_type = "float"
+is_id = false
+cell_point = "cell"
+
+[special_point_displacement_increment]
+tuple_dimensional = 3
+array_type = "float"
+is_id = false
+cell_point = "cell"
+
+[special_point_coordinate]
+tuple_dimensional = 3
+array_type = "float"
+is_id = false
+cell_point = "cell"
+
+[line_on_shell]
+tuple_dimensional = 1
+array_type = "int"
+is_id = false
+cell_point = "cell"
+
+[point_on_shell]
+tuple_dimensional = 1
+array_type = "int"
+is_id = false
+cell_point = "point"
+
+[crack_point_type]
+tuple_dimensional = 1
+array_type = "int"
+is_id = false
+cell_point = "point"
+
+[propagate_direction]
+tuple_dimensional = 3
+array_type = "float"
+is_id = false
+cell_point = "point"
+
+[propagate_vector]
+tuple_dimensional = 3
+array_type = "float"
+is_id = false
+cell_point = "point"

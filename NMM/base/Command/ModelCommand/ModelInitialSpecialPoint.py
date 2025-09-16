@@ -24,6 +24,7 @@ class ModelInitialSpecialPoint(AbstractCommand):
 
             point_coordinate = self.__boundary_condition.get_point_coordinate(each_cell_id)
             self.__boundary_condition.set_attribute('special_point_coordinate', each_cell_id, point_coordinate)
+        print('InitialSpecialPoint')
 
 
 

@@ -1,0 +1,92 @@
+# File of global variable and config
+
+# search according name
+# constant
+name = 'global_variable'
+time_increment = 0.02
+total_step = 50
+cover_number = 0
+element_number = 0
+global_error = 0.000001
+crack_tip = 1
+crack_length = 0.5
+
+# variable
+time_step = 0
+new_cover_number = 0
+new_cover_id = []
+new_element_number = 0
+new_element_id = []
+
+[attribute.cell_id]
+tuple_dimensional = 1
+array_type = "int"
+is_id = true
+cell_point = "cell"
+
+[attribute.material_id]
+tuple_dimensional = 1
+array_type = "int"
+is_id = false
+cell_point = "cell"
+
+[attribute.point_id]
+tuple_dimensional = 1
+array_type = "int"
+is_id = true
+cell_point = "point"
+
+[attribute.math_cover_coordinate]
+tuple_dimensional = 3
+array_type = "float"
+is_id = false
+cell_point = "cell"
+
+[attribute.math_cover_displacement_total]
+tuple_dimensional = 3
+array_type = "float"
+is_id = false
+cell_point = "cell"
+
+[attribute.math_cover_displacement_increment]
+tuple_dimensional = 3
+array_type = "float"
+is_id = false
+cell_point = "cell"
+
+# not used
+[attribute.surface_id]
+tuple_dimensional = 1
+array_type = "int"
+is_id = true
+cell_point = "cell"
+
+[attribute.cracked]
+tuple_dimensional = 1
+array_type = "int"
+is_id = false
+cell_point = "cell"
+
+[attribute.real]
+tuple_dimensional = 1
+array_type = "int"
+is_id = false
+cell_point = "cell"
+
+[attribute.point_displacement_total]
+tuple_dimensional = 3
+array_type = "float"
+is_id = false
+cell_point = "point"
+
+[attribute.point_displacement_increment]
+tuple_dimensional = 3
+array_type = "float"
+is_id = false
+cell_point = "point"
+
+[attribute.point_velocity]
+tuple_dimensional = 3
+array_type = "float"
+is_id = false
+cell_point = "point"

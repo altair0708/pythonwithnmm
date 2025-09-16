@@ -11,6 +11,7 @@ class ModelGenerateManifoldElement(AbstractCommand):
         self.__data_structure = data_structure
 
     def execute(self):
+        # print('GenerateManifoldElement')
         geometry_tetrahedron: VtkGrid = self.__data_structure.get_property('geometric_tetrahedron')
         manifold_element: VtkGrid = self.__data_structure.get_property('manifold_element')
         generator = GenerateManifoldElement(geometry_tetrahedron, manifold_element)
