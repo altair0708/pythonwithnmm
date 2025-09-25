@@ -39,6 +39,8 @@ class ModelRefreshNewElement(AbstractCommand):
             cover_displacement_total = PropertyList(
                 [self.__new_cover.get_cell_attribute('math_cover_displacement_total', i) for i in cover_id])
             cover_coordinate = PropertyList([self.__new_cover.get_point_coordinate(i) for i in cover_id])
+            cover_velocity = PropertyList(
+                [self.__new_cover.get_cell_attribute('math_cover_velocity', i) for i in cover_id])
 
             for each_point_id in point_id:
                 point_coordinate = self.__new_element.get_point_coordinate(each_point_id)
@@ -55,6 +57,10 @@ class ModelRefreshNewElement(AbstractCommand):
                 temp_point_coordinate = np.array(temp_point_coordinate, dtype=np.float64) + np.array(
                     displacement_total, dtype=np.float64)
                 self.__new_element.set_point_attribute('point_coordinate', each_point_id, temp_point_coordinate)
-                self.__new_element.set_point_attribute('point_velocity', each_point_id, (0, 0, 0))
+
+                self.__new_element.set_point_attribute('point_displacement_total', each_point_id, displacement_total)
+
+                velocity = displacement_interpolation(point_coordinate, cover_velocity, cover_coordinate)
+                self.__new_element.set_point_attribute('point_velocity', each_point_id, velocity)
         # clean new_element_id list
         global_variable_cache.add_item('new_element_id', [])

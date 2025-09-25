@@ -2,6 +2,7 @@ from NMM.base.Algorithm.AlgorithmInterface import AbstractAlgorithm
 from NMM.base.Property.Implement.VtkGrid import VtkGrid
 from NMM.base.CacheBase import entrance_cache
 from NMM.base.Algorithm.ElementMatrixAssembler.CalculateMatrix import elastic_matrix
+from NMM.base.Algorithm.ElementCracker.Criterion.AverageStressCalculator import AverageStressCalculator
 from NMM.base.Property.Implement.PropertyTensor import PropertyTensor
 from NMM.base.Property.Implement.PropertyMap import PropertyMap
 from abc import ABC, abstractmethod
@@ -12,6 +13,7 @@ class AbstractCriterion(AbstractAlgorithm, ABC):
     def __init__(self, element_id: int = -1, manifold_element: VtkGrid = None, material_parameter: PropertyMap = None):
         super(AbstractCriterion, self).__init__()
         self._element_id = element_id
+        self._coordinate = (0, 0, 0)
         if manifold_element is None:
             self._manifold_element = entrance_cache.get_item('manifold_element_VtkGrid')
         else:
@@ -35,13 +37,20 @@ class AbstractCriterion(AbstractAlgorithm, ABC):
     def set_element_id(self, element_id: int):
         self._element_id = element_id
 
+    def set_point_coordinate(self, coordinate):
+        self._coordinate = coordinate
+
     def calculate_elastic_stress(self):
         manifold_element = self._manifold_element
         element_id = self._element_id
+        coordinate = self._coordinate
         material_parameter = self._material_parameter
 
-        strain = manifold_element.get_cell_attribute('initial_strain_total', element_id)
-        strain = np.array(strain).reshape((6, 1))
+        strain_algorithm = AverageStressCalculator(coordinate)
+        strain_algorithm.update()
+        strain = strain_algorithm.strain
+        # strain = manifold_element.get_cell_attribute('initial_strain_total', element_id)
+        # strain = np.array(strain).reshape((6, 1))
 
         self._strain = strain
         strain_tensor = PropertyTensor(strain)

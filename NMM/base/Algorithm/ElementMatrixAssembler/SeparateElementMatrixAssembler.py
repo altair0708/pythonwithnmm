@@ -155,8 +155,8 @@ def generate_initial_stress(element: ElementBase):
 def generate_initial_velocity(element: ElementBase):
 
     initial_velocity = np.zeros((12, 1), dtype=np.float64)
-    # temp_velocity = np.array(self.joint_velocity_list, dtype=np.float64).reshape(12, 1)
-    # self.__initial_velocity = self.__initial_velocity + temp_velocity
+    # initial_velocity = element.get_property('math_cover_velocity').value
+    # initial_velocity = np.array(initial_velocity, dtype=np.float64).reshape(12, 1)
 
     assert initial_velocity.shape == (12, 1)
 

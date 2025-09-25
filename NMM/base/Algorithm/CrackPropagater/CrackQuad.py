@@ -15,6 +15,8 @@ class CrackQuad(AbstractAlgorithm):
         crack_tip = self.__crack_tip
         crack_propagation = self.__crack_propagation
         for each_id, each_crack_tip in enumerate(crack_tip):
+            if crack_tip.is_empty_cell(each_id):
+                continue
             # generate crack quad
             point_id = crack_tip.get_cell_point_id(each_id)
             origin_coordinate = [crack_tip.get_point_coordinate(i) for i in point_id]

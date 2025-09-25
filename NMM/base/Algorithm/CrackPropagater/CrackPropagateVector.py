@@ -3,6 +3,7 @@ from NMM.base.Property.Implement.VtkGrid import VtkGrid
 from NMM.base.Algorithm.CrackPropagater.CalculateHalfAnglePlane import AngleHalf
 from NMM.base.Algorithm.ElementCracker.Criterion.MohrCoulomb import MohrCoulomb
 from NMM.base.Algorithm.ElementCracker.Criterion.MaximumTensileStress import MaximumTensileStress
+from NMM.base.Algorithm.ElementCracker.Criterion.MaximumTensilePlaneStress import MaximumTensilePlaneStress
 from NMM.base.VTKBase.find_close_cell import find_close_cell
 from NMM.base.CacheBase.GlobalVariableCache import global_variable_cache
 import numpy as np
@@ -29,20 +30,22 @@ class CrackPropagateVector(AbstractAlgorithm):
         crack_point_coordinate = crack_tip.get_point_coordinate(crack_point_id)
         element_id = find_close_cell(vtk_model=geometric_tetrahedron.value, point_coord=crack_point_coordinate)
 
-        criterion = MaximumTensileStress()
+        algorithm = AngleHalf(crack_point_id, crack_tip)
+        algorithm.update()
+
+        criterion = MaximumTensilePlaneStress()
+        criterion.set_point_coordinate(crack_point_coordinate)
         criterion.set_element_id(element_id)
+        criterion.set_plane_normal(algorithm.e1, algorithm.e2, algorithm.e3)
         criterion.update()
+
         if criterion.crack_flag is True:
             normal_0 = criterion.normal
-
-            algorithm = AngleHalf(crack_point_id, crack_tip)
-            algorithm.update()
-            normal_1 = algorithm.normal
 
             propagate_direction = crack_tip.get_point_attribute('propagate_direction', crack_point_id)
             propagate_direction = np.array(propagate_direction).reshape(-1)
 
-            intersection_vector = np.cross(normal_0, normal_1)
+            intersection_vector = normal_0
             intersection_vector = np.array(intersection_vector).reshape(-1)
 
             if np.dot(intersection_vector, propagate_direction) < 0:
@@ -57,11 +60,7 @@ class CrackPropagateVector(AbstractAlgorithm):
                 intersection_vector = intersection_vector * step / magnitude
 
         else:
-            # print('##################')
-            # print(crack_point_coordinate)
-            # print(element_id)
             intersection_vector = np.array([0, 0, 0])
-
         self.__direction_vector = intersection_vector
 
 

@@ -57,6 +57,8 @@ class CrackStatusUpdate(AbstractAlgorithm):
         for each_id in initial_crack_element:
             each_manifold_element = manifold_element[each_id]
             for each_crack_tip_id, each_crack_tip in enumerate(self.__crack_tip):
+                if self.__crack_tip.is_empty_cell(each_crack_tip_id):
+                    continue
                 if self.__crack_tip.get_cell_attribute('line_on_shell', each_crack_tip_id)[0] == 0:
                     if intersection_line_with_polyhedron(each_crack_tip, each_manifold_element):
                         crack_tip_element.add(each_id)

@@ -1,9 +1,9 @@
 import sys
-
 from vtkmodules.vtkCommonDataModel import vtkUnstructuredGrid, vtkCell, vtkPlane, vtkPolyData
 from vtkmodules.vtkFiltersCore import vtkCutter, vtkAppendFilter
 from vtkmodules.vtkFiltersGeneral import vtkClipDataSet
 from NMM.base.CacheBase.EntranceCache import entrance_cache
+from NMM.base.Algorithm.Debuger import Debuger
 # from NMM.base.Property.Implement.VtkGrid import VtkGrid
 
 
@@ -48,10 +48,9 @@ def clip_a_element(element_grid: vtkUnstructuredGrid, origin, normal):
     grid_2 = clip(element_grid, clip_plane_2)
 
     if cut_plane.GetNumberOfCells() == 0:
-        debug_vtk_grid = entrance_cache.get_item('debug_output_VtkGrid')
-        debug_vtk_grid.add_item(grid_1)
-        debug_vtk_grid.add_item(grid_2)
-        debug_vtk_grid.write_file()
+        algorithm = Debuger()
+        algorithm.update(grid_1, 'grid_1.vtu')
+        algorithm.update(grid_2, 'grid_2.vtu')
 
     assert grid_1.GetNumberOfCells() != 0
     assert grid_2.GetNumberOfCells() != 0

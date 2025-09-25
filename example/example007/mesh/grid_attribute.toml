@@ -45,6 +45,12 @@ array_type = "float"
 is_id = false
 cell_point = "cell"
 
+[math_cover_velocity]
+tuple_dimensional = 3
+array_type = "float"
+is_id = false
+cell_point = "cell"
+
 # not used
 [surface_id]
 tuple_dimensional = 1

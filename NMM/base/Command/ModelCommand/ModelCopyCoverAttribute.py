@@ -28,5 +28,8 @@ class ModelCopyCoverAttribute(AbstractCommand):
             displacement_increment = self.__mathematics_point.get_attribute('math_cover_displacement_increment', cover_id)
             self.__new_cover.set_attribute('math_cover_displacement_increment', each_new_cover_id, displacement_increment)
 
+            velocity = self.__mathematics_point.get_attribute('math_cover_velocity', cover_id)
+            self.__new_cover.set_attribute('math_cover_velocity', each_new_cover_id, velocity)
+
         # clean new_cover_id list
         global_variable_cache.add_item('new_cover_id', [])

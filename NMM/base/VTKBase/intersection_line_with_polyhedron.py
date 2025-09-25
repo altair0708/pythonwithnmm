@@ -5,7 +5,7 @@ from vtkmodules.vtkCommonCore import reference, vtkPoints, vtkIdList
 def get_line_points(line_grid):
     """提取vtkLine两个端点"""
     cell = line_grid.GetCell(0)
-    assert isinstance(cell, vtkLine), "应为vtkLine"
+    assert isinstance(cell, vtkLine), f'vtkLine: {VTK_LINE}, {cell.GetCellType()}'
     p0 = line_grid.GetPoint(cell.GetPointId(0))
     p1 = line_grid.GetPoint(cell.GetPointId(1))
     return p0, p1

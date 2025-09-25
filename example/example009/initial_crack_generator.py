@@ -7,10 +7,10 @@ sys.path.append(os.path.abspath('../NMM/preprocess_3D'))
 
 points = vtkPoints()
 
-points.InsertNextPoint((0, 0, 20))
-points.InsertNextPoint((0, 10, 20))
-points.InsertNextPoint((2, 10, 20))
-points.InsertNextPoint((2, 0, 20))
+points.InsertNextPoint((0, 0, 18))
+points.InsertNextPoint((0, 10, 18))
+points.InsertNextPoint((2, 10, 18))
+points.InsertNextPoint((2, 0, 18))
 
 polygon_0 = vtkPolygon()
 polygon_0.GetPointIds().SetNumberOfIds(4)

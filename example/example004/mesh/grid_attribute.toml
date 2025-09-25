@@ -3,6 +3,12 @@
 # search according name
 name = 'attribute'
 
+[math_cover_velocity]
+tuple_dimensional = 3
+array_type = "float"
+is_id = false
+cell_point = "cell"
+
 [cell_id]
 tuple_dimensional = 1
 array_type = "int"

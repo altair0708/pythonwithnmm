@@ -11,7 +11,7 @@ def extract_line_endpoints(unstructured_grid):
 
     cell = unstructured_grid.GetCell(0)
     if not isinstance(cell, vtkLine):
-        raise TypeError("UnstructuredGrid 中的单元不是 vtkLine。")
+        raise TypeError(f"UnstructuredGrid 中的单元不是 vtkLine。: {cell.GetCellType()}")
 
     pids = [cell.GetPointId(i) for i in range(2)]
     points = unstructured_grid.GetPoints()

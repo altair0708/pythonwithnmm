@@ -4,7 +4,6 @@ from NMM.base.Algorithm.ElementRefresher.ElementRefresherNew import ElementRefre
 from NMM.base.CacheBase import entrance_cache
 
 
-# TODO: refresh cover
 class ModelRefreshCover(AbstractCommand):
     def __init__(self):
         self.__matrix_solver = entrance_cache.get_item('matrix_solver_Part')

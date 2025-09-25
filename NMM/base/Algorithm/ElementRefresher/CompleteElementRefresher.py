@@ -2,6 +2,7 @@ from NMM.base.Algorithm.AlgorithmInterface import AbstractAlgorithm
 from NMM.base.Property.Implement.PropertyList import PropertyList
 from NMM.base.Property.Implement.Relationship import Relationship
 from NMM.base.Algorithm.ElementRefresher import displacement_interpolation
+from NMM.base.CacheBase.GlobalVariableCache import global_variable_cache
 from typing import List
 import numpy as np
 from NMM.base.Property.Implement.VtkGrid import VtkGrid
@@ -42,6 +43,11 @@ class CompleteElementRefresher(AbstractAlgorithm):
             temp_point_coordinate = self.__element.get_point_attribute('point_coordinate', each_id)
             temp_point_coordinate = np.array(temp_point_coordinate, dtype=np.float64) + np.array(displacement_increment, dtype=np.float64)
             self.__element.set_point_attribute('point_coordinate', each_id, temp_point_coordinate)
+
+            time_increment = global_variable_cache.get_item('time_increment')
+            initial_velocity = self.__element.get_point_attribute('point_velocity', each_id)
+            current_velocity = np.array(displacement_increment, dtype=np.float64) * 2 / time_increment - np.array(initial_velocity, dtype=np.float64)
+            self.__element.set_point_attribute('point_velocity', each_id, current_velocity)
 
 
 def generate_B_shape_matrix(math_cover_coordinate: PropertyList):

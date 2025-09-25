@@ -32,9 +32,9 @@ class ModelInitialCrackTip(AbstractCommand):
         algorithm.update()
         crack_point_dict = algorithm.crack_point_dict
 
-        # algorithm = ElementCrackerGlobal(self.__manifold_element)
-        # algorithm.crack_point_dict = crack_point_dict
-        # algorithm.update()
+        algorithm = ElementCrackerGlobal(self.__manifold_element)
+        algorithm.crack_point_dict = crack_point_dict
+        algorithm.update()
 
 
 

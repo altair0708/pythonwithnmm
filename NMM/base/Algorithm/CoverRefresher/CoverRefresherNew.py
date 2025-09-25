@@ -1,5 +1,6 @@
 from NMM.base.Algorithm.AlgorithmInterface import AbstractAlgorithm
 from NMM.base.Property.Implement.VtkGrid import VtkGrid
+from NMM.base.CacheBase.GlobalVariableCache import global_variable_cache
 import numpy as np
 
 
@@ -23,6 +24,11 @@ class CoverRefresher(AbstractAlgorithm):
             math_cover_displacement_total = np.array(temp_math_cover_displacement, dtype=np.float64) + np.array(math_cover_displacement_increment, dtype=np.float64)
             self.__mathematics_point.set_attribute('math_cover_displacement_total', each_cover_id, math_cover_displacement_total)
 
+            time_increment = global_variable_cache.get_item('time_increment')
+            initial_velocity = self.__mathematics_point.get_cell_attribute('math_cover_velocity', each_cover_id)
+            current_velocity = np.array(math_cover_displacement_increment, dtype=np.float64) * 2 / time_increment - np.array(initial_velocity, dtype=np.float64)
+            self.__mathematics_point.set_cell_attribute('math_cover_velocity', each_cover_id, current_velocity)
+
     def refresh_new_cover(self):
         patch_displacement = self.__displacement_vector
         temp_math_displacement = patch_displacement.reshape((-1, 3))
@@ -41,6 +47,11 @@ class CoverRefresher(AbstractAlgorithm):
             temp_math_cover_displacement = self.__new_cover.get_cell_attribute('math_cover_displacement_total', each_cell_id)
             math_cover_displacement_total = np.array(temp_math_cover_displacement, dtype=np.float64) + np.array(math_cover_displacement_increment, dtype=np.float64)
             self.__new_cover.set_attribute('math_cover_displacement_total', each_cell_id, math_cover_displacement_total)
+
+            time_increment = global_variable_cache.get_item('time_increment')
+            initial_velocity = self.__new_cover.get_cell_attribute('math_cover_velocity', each_cell_id)
+            current_velocity = np.array(math_cover_displacement_increment, dtype=np.float64) * 2 / time_increment - np.array(initial_velocity, dtype=np.float64)
+            self.__new_cover.set_cell_attribute('math_cover_velocity', each_cell_id, current_velocity)
 
     def update(self, *args, **kwargs):
         self.refresh_math_cover()

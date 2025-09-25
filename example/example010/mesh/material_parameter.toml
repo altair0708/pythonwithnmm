@@ -1,0 +1,17 @@
+# search according name
+name = 'material_parameter'
+
+[0]
+material_name = "bedrock"
+material_id = 0
+unit_mass = 1.0
+body_force = [0, 0, -9.8]
+elastic_modulus = 1000000000
+poisson_ratio = 0.2
+initial_force = [0, 0, 0, 0, 0, 0]
+friction_angle = 30
+cohesion = 1000000000000000
+tensile_strength = 1000
+initial_velocity = [0, 0, 0, 0, 0, 0]
+
+

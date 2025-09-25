@@ -33,6 +33,11 @@ class CompleteElementBuilder(AbstractElementBuilder):
         temp_property.set_name('math_cover_displacement_increment')
         self._element.add_property(temp_property)
 
+        patch_displacement_velocity = [self._cover_grid.get_cell_attribute('math_cover_velocity', i) for i in patch_id]
+        temp_property = PropertyList(patch_displacement_velocity)
+        temp_property.set_name('math_cover_velocity')
+        self._element.add_property(temp_property)
+
     def set_special_points(self, element_id: int):
         relationship_list = relationship_cache.get_item(name_0='element', name_1='specialpoint', id_0=element_id, id_1=None)
 

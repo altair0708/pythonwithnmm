@@ -49,8 +49,7 @@ class FilePathBuilder(AbstractConstructor):
         entity_list = ['geometric_vertex', 'geometric_line', 'geometric_surface', 'geometric_tetrahedron', 'geometric_shell']
         cover_list = ['mathematics_cover', 'mathematics_point', 'manifold_element', 'element_surface', 'boundary_condition']
         crack_list = ['crack_surface', 'crack_edge', 'new_element', 'new_cover', 'new_surface', 'crack_tip', 'crack_propagation']
-        debug_list = ['debug_output']
-        for each_geometry_file in entity_list + cover_list + crack_list + debug_list:
+        for each_geometry_file in entity_list + cover_list + crack_list:
             temp_path = Path(each_geometry_file, self.path_cater(geometry_path_str, f'{each_geometry_file}.vtu'))
             file_path.add_property(temp_path)
 
@@ -58,6 +57,10 @@ class FilePathBuilder(AbstractConstructor):
         result_path = Path('result_path', self.path_cater(self.__root_path, 'result'))
         result_path.mkdir()
         file_path.add_property(result_path)
+
+        debug_path = Path('debug_path', self.path_cater(self.__root_path, 'debug'))
+        debug_path.mkdir()
+        file_path.add_property(debug_path)
 
         return file_path
 

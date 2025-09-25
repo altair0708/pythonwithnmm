@@ -30,7 +30,7 @@ from NMM.base.Command.ModelCommand.ModelCrackPropagate import ModelCrackPropagat
 
 builder = PreprocessModelBuilder()
 # model = builder.build('D:/science/NMM/python-NMM/example/example001')
-model = builder.build('/Users/suboyi/PycharmProjects/pythonwithnmm/example/example009')
+model = builder.build('/Users/suboyi/PycharmProjects/pythonwithnmm/example/example012')
 
 invoker = InvokerQueue()
 
@@ -67,6 +67,7 @@ invoker.set_command(ModelAddAttribute('mathematics_point', 'cracked', data_struc
 invoker.set_command(ModelAddAttribute('mathematics_point', 'math_cover_coordinate', data_structure))
 invoker.set_command(ModelAddAttribute('mathematics_point', 'math_cover_displacement_total', data_structure))
 invoker.set_command(ModelAddAttribute('mathematics_point', 'math_cover_displacement_increment', data_structure))
+invoker.set_command(ModelAddAttribute('mathematics_point', 'math_cover_velocity', data_structure))
 invoker.set_command(ModelInitialMathPoint())
 
 invoker.set_command(ModelGenerateManifoldElement(data_structure))
@@ -110,6 +111,7 @@ invoker.set_command(ModelInitialCrackTip())
 invoker.set_command(ModelAddAttribute('new_cover', 'math_cover_coordinate', data_structure))
 invoker.set_command(ModelAddAttribute('new_cover', 'math_cover_displacement_total', data_structure))
 invoker.set_command(ModelAddAttribute('new_cover', 'math_cover_displacement_increment', data_structure))
+invoker.set_command(ModelAddAttribute('new_cover', 'math_cover_velocity', data_structure))
 invoker.set_command(ModelCopyCoverAttribute())
 
 invoker.set_command(ModelAddAttribute('new_element', 'material_id', data_structure))
@@ -146,6 +148,12 @@ invoker_cycle.set_command(ModelCrackPropagate())
 invoker_cycle.set_command(ModelCrackElementGlobal())
 invoker_cycle.set_command(ModelCopyCoverAttribute())
 invoker_cycle.set_command(ModelRefreshNewElement())
+
+invoker_cycle.set_command(ModelGenerateElementList())
+invoker_cycle.set_command(ModelMatrixSolve())
+invoker_cycle.set_command(ModelRefreshCover())
+invoker_cycle.set_command(ModelRefreshElement())
+invoker_cycle.set_command(ModelRefreshBoundaryCondition())
 
 invoker_cycle.set_command(ModelOutputResult('mathematics_point'))
 invoker_cycle.set_command(ModelOutputResult('manifold_element'))

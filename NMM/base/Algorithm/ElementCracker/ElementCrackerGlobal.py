@@ -2,7 +2,9 @@ from NMM.base.Algorithm.AlgorithmInterface import AbstractAlgorithm
 from NMM.base.Property.Implement.VtkGrid import VtkGrid
 from NMM.base.CacheBase.EntranceCache import entrance_cache
 from NMM.base.Algorithm.ElementCracker.CompleteElementCutterGlobal import CompleteElementCutter
+from NMM.base.Algorithm.Debuger import Debuger
 from NMM.base.VTKBase.write_file import debug_write_file
+from NMM.base.VTKBase.test_example import generate_point_grid
 from typing import Dict
 from copy import deepcopy
 import numpy as np
@@ -31,10 +33,18 @@ class ElementCrackerGlobal(AbstractAlgorithm):
                 assert len(crack_point_list) >= 3
             except AssertionError:
                 error_grid = entrance_cache.get_item('crack_propagation_VtkGrid')
-                debug_write_file(error_grid.value, 'crack_propagation.vtu')
+                debuger = Debuger()
+                debuger.update(error_grid.value, 'crack_propagation.vtu')
 
                 error_grid = entrance_cache.get_item('crack_tip_VtkGrid')
-                debug_write_file(error_grid.value, 'crack_tip.vtu')
+                debuger.update(error_grid.value, 'crack_tip.vtu')
+
+                error_grid = entrance_cache.get_item('manifold_element_VtkGrid')
+                debuger.update(error_grid.value, 'manifold_element.vtu')
+
+                for each in range(len(crack_point_list)):
+                    point_grid = generate_point_grid(crack_point_list[each])
+                    debuger.update(point_grid, f'point_grid_{each}.vtu')
 
                 print(f'crack point number error!')
                 print(f'element_id: {each_id}')

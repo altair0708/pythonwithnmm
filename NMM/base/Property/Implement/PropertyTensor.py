@@ -77,3 +77,7 @@ class PropertyTensor(Property):
     @property
     def component_vector_3(self):
         return self.__component_3
+
+    @property
+    def matrix(self):
+        return self.__matrix

@@ -8,6 +8,10 @@ from NMM.base.VTKBase import new_a_grid, load_a_grid, write_file
 from NMM.base.VTKBase import get_cell_attribute_name, get_point_attribute_name
 from NMM.base.VTKBase import get_attribute, get_cell_attribute, get_point_attribute
 from NMM.base.VTKBase import set_attribute, set_cell_attribute, set_point_attribute
+from NMM.base.VTKBase.is_empty_cell import is_empty_cell_id
+from NMM.base.VTKBase.insert_a_vtk_cell.insert_a_point import insert_a_point
+from NMM.base.VTKBase.insert_a_vtk_cell.insert_a_line_with_point_id import insert_a_line_with_point_id
+from NMM.base.VTKBase.get_point_cell_id import get_point_cell_id
 from NMM.base.CacheBase import attribute_cache, geometry_cache
 from NMM.base.Command.ModelCommand.ModelGetObject import ModelGetObject
 from NMM.base.Command.Invoker import Invoker
@@ -185,3 +189,15 @@ class VtkGrid(Property):
     def get_file_name(self):
         file_name = f'{self.name}.vtu'
         return file_name
+    
+    def is_empty_cell(self, cell_id: int):
+        return is_empty_cell_id(self._value, cell_id)
+
+    def insert_a_point(self, coordinate):
+        return insert_a_point(self._value, coordinate)
+
+    def insert_a_line_with_point_id(self, id_0: int, id_1: int):
+        insert_a_line_with_point_id(self._value, id_0, id_1)
+
+    def get_point_cell_id(self, point_id: int):
+        return get_point_cell_id(self._value, point_id)
