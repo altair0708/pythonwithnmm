@@ -40,10 +40,11 @@ class AbstractCriterion(AbstractAlgorithm, ABC):
     def set_point_coordinate(self, coordinate):
         self._coordinate = coordinate
 
-    def calculate_elastic_stress(self):
+    def calculate_elastic_stress(self, coordinate=None):
         manifold_element = self._manifold_element
         element_id = self._element_id
-        coordinate = self._coordinate
+        if coordinate is None:
+            coordinate = self._coordinate
         material_parameter = self._material_parameter
 
         strain_algorithm = AverageStressCalculator(coordinate)

@@ -30,7 +30,7 @@ from NMM.base.Command.ModelCommand.ModelCrackPropagate import ModelCrackPropagat
 
 builder = PreprocessModelBuilder()
 # model = builder.build('D:/science/NMM/python-NMM/example/example001')
-model = builder.build('/Users/suboyi/PycharmProjects/pythonwithnmm/example/example012')
+model = builder.build('/Users/suboyi/PycharmProjects/pythonwithnmm/example/example017_cube_tensile')
 
 invoker = InvokerQueue()
 
