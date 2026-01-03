@@ -17,4 +17,8 @@ class ModelInitialMathPoint(AbstractCommand):
             self.__mathematics_point.set_attribute('math_cover_displacement_total', each_point_id, (0, 0, 0))
             self.__mathematics_point.set_attribute('math_cover_displacement_increment', each_point_id, (0, 0, 0))
             self.__mathematics_point.set_attribute('math_cover_velocity', each_point_id, (0, 0, 0))
+            self.__mathematics_point.set_attribute('enrichment', each_point_id, 0)
+            self.__mathematics_point.set_attribute('enrichment_vector_x', each_point_id, (0, 0, 0, 0))
+            self.__mathematics_point.set_attribute('enrichment_vector_y', each_point_id, (0, 0, 0, 0))
+            self.__mathematics_point.set_attribute('enrichment_vector_z', each_point_id, (0, 0, 0, 0))
 

@@ -30,7 +30,7 @@ from NMM.base.Command.ModelCommand.ModelCrackPropagate import ModelCrackPropagat
 
 builder = PreprocessModelBuilder()
 # model = builder.build('D:/science/NMM/python-NMM/example/example001')
-model = builder.build('/Users/suboyi/PycharmProjects/pythonwithnmm/example/example017_cube_tensile')
+model = builder.build('/Users/suboyi/PycharmProjects/pythonwithnmm/example/example018_cover_enrichment')
 
 invoker = InvokerQueue()
 
@@ -68,6 +68,10 @@ invoker.set_command(ModelAddAttribute('mathematics_point', 'math_cover_coordinat
 invoker.set_command(ModelAddAttribute('mathematics_point', 'math_cover_displacement_total', data_structure))
 invoker.set_command(ModelAddAttribute('mathematics_point', 'math_cover_displacement_increment', data_structure))
 invoker.set_command(ModelAddAttribute('mathematics_point', 'math_cover_velocity', data_structure))
+invoker.set_command(ModelAddAttribute('mathematics_point', 'enrichment', data_structure))
+invoker.set_command(ModelAddAttribute('mathematics_point', 'enrichment_vector_x', data_structure))
+invoker.set_command(ModelAddAttribute('mathematics_point', 'enrichment_vector_y', data_structure))
+invoker.set_command(ModelAddAttribute('mathematics_point', 'enrichment_vector_z', data_structure))
 invoker.set_command(ModelInitialMathPoint())
 
 invoker.set_command(ModelGenerateManifoldElement(data_structure))

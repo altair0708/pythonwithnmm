@@ -9,7 +9,6 @@ from NMM.base.Property.Implement.VtkGrid import VtkGrid
 from scipy.sparse.linalg import cg, spsolve
 
 
-# TODO: solver for matrix
 class ModelMatrixSolve(AbstractCommand):
     def __init__(self):
         self.__matrix_solver: MatrixSolver = entrance_cache.get_item('matrix_solver_Part')

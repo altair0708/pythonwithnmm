@@ -26,7 +26,6 @@ class MatrixElementCreator(AbstractElementCreator):
         self.__manifold_element = manifold_element
         self.__new_element = new_element
 
-    # TODO: create a matrix element
     def update(self, *args, **kwargs) -> List:
         crack_status = self.__manifold_element.get_attribute('cracked', self.__element_id)
         element_factory = MatrixElementCreator.get_element_factory(crack_status)
