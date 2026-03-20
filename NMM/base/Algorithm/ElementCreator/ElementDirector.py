@@ -22,3 +22,9 @@ class ElementDirector:
         self.__builder.set_patches(element_id)
         self.__builder.set_special_points(element_id)
 
+    def build_contact_element(self, element_id: int):
+        self.__builder.set_simple_properties(element_id)
+        self.__builder.set_material_parameters(element_id)
+        self.__builder.set_vertexes(element_id)
+        self.__builder.set_patches(element_id)
+

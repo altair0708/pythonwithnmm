@@ -8,6 +8,9 @@ total_step = 50
 cover_number = 0
 element_number = 0
 global_error = 0.000001
+dynamic_calculate = 0
+crack_tip = 0.005
+crack_length = 0.002
 
 # variable
 time_step = 0

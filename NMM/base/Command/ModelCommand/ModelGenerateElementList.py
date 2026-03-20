@@ -43,8 +43,8 @@ class ModelGenerateElementList(AbstractCommand):
         for each_id in range(manifold_element.get_cell_number()):
             cracked_status = manifold_element.get_cell_attribute('cracked', each_id)[0]
 
-            # if cracked_status == -1 or cracked_status == 7 or cracked_status == 8:
-            if cracked_status == -1 or cracked_status == 8:
+            if cracked_status == -1 or cracked_status == 7 or cracked_status == 8:
+            # if cracked_status == -1 or cracked_status == 8:
                 director.builder = complete_builder
                 director.build_matrix_element(each_id)
                 temp_element = complete_builder.get_element()
@@ -53,9 +53,10 @@ class ModelGenerateElementList(AbstractCommand):
                 assembler.update()
 
                 element_list.append(temp_element )
-            elif cracked_status == 7:
-                # TODO: crack tip element
-                pass
+
+            # TODO: crack tip element
+            # elif cracked_status == 7:
+            #     pass
             elif cracked_status == 9:
                 relationship_list = relationship_cache.get_item(name_0='element', name_1='newelement', id_0=each_id, id_1=None)
                 assert len(relationship_list) == 2

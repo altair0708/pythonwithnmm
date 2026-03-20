@@ -1,8 +1,7 @@
 import sys
-
 from NMM.base.Algorithm.AlgorithmInterface import AbstractAlgorithm
 from NMM.base.Property.Implement.VtkGrid import VtkGrid
-from NMM.base.VTKBase.check_line_on_shell import check_line_on_shell, is_point_on_surface
+from NMM.base.VTKBase.check_line_on_shell import check_line_on_shell, is_point_on_surface, classify_point_vs_closed_surface
 from NMM.base.VTKBase.build_vertex_connectivity import build_vertex_connectivity
 from NMM.base.Algorithm.Debuger import Debuger
 
@@ -16,13 +15,6 @@ class CrackTipOnSurface(AbstractAlgorithm):
     def update(self):
         # check crack tip on shell
         geometric_shell = self.__geometric_shell.value
-        for each_id, each_line in enumerate(self.__crack_tip):
-            if self.__crack_tip.is_empty_cell(each_id):
-                continue
-            if self.__crack_tip.get_cell_attribute('line_on_shell', each_id)[0] == 1:
-                continue
-            if check_line_on_shell(geometric_shell, each_line):
-                self.__crack_tip.set_cell_attribute('line_on_shell', each_id, 1)
 
         # check crack point on shell
         for each_point_id in range(self.__crack_tip.get_point_number()):
@@ -33,6 +25,15 @@ class CrackTipOnSurface(AbstractAlgorithm):
                 continue
             if is_point_on_surface(point_coordinate, geometric_shell):
                 self.__crack_tip.set_point_attribute('point_on_shell', each_point_id, 1)
+                continue
+
+        for each_id, each_line in enumerate(self.__crack_tip):
+            if self.__crack_tip.is_empty_cell(each_id):
+                continue
+            if self.__crack_tip.get_cell_attribute('line_on_shell', each_id)[0] == 1:
+                continue
+            if check_line_on_shell(geometric_shell, each_line):
+                self.__crack_tip.set_cell_attribute('line_on_shell', each_id, 1)
 
         connectivity_dict = build_vertex_connectivity(self.__crack_tip.value)
         for point_id, neighbors in connectivity_dict.items():

@@ -4,6 +4,7 @@ from NMM.base.Property.Implement.PropertyMatrix import PropertyMatrix
 from NMM.base.Property.Implement.PropertyVector import PropertyVector
 from NMM.base.SimplexIntegralBase.tetrahedron_integral import once_integration, twice_integration
 from NMM.base.CacheBase.EntranceCache import entrance_cache
+from NMM.base.CacheBase.GlobalVariableCache import global_variable_cache
 from NMM.base.LogBase.matrix_save import new_matrix_save
 from typing import List
 import numpy as np
@@ -152,10 +153,15 @@ def generate_initial_stress(element: ElementBase):
 
 
 def generate_initial_velocity(element: ElementBase):
-
-    initial_velocity = np.zeros((12, 1), dtype=np.float64)
-    # initial_velocity = element.get_property('math_cover_velocity').value
-    # initial_velocity = np.array(initial_velocity, dtype=np.float64).reshape(12, 1)
+    try:
+        dynamic = global_variable_cache.get_item('dynamic_calculate')
+        if dynamic == 0:
+            initial_velocity = np.zeros((12, 1), dtype=np.float64)
+        else:
+            initial_velocity = element.get_property('math_cover_velocity').value
+            initial_velocity = np.array(initial_velocity, dtype=np.float64).reshape(12, 1)
+    except AssertionError:
+        initial_velocity = np.zeros((12, 1), dtype=np.float64)
 
     assert initial_velocity.shape == (12, 1)
 
@@ -283,10 +289,22 @@ def generate_fixed_matrix(element: ElementBase, constant_spring: int, time_step:
         fixed_point_displacement_difference = np.array(each_fixed_point_displacement_total) - fixed_point_expected_displacement
         # fixed_point_displacement_difference = fixed_point_displacement_difference * np.array(each_fixed_type, dtype=np.float64)
         # temp_fixed_point_coordinate = np.array(each_fixed_point_coordinate, dtype=np.float64) * np.array(each_fixed_type, dtype=np.float64)
+
+        # only one direction fixed
+        # temp_fixed_direction = np.array(each_fixed_type, dtype=np.float64)
+        # temp_fixed_direction = temp_fixed_direction / np.linalg.norm(temp_fixed_direction) if np.linalg.norm(temp_fixed_direction) != 0 else np.zeros((3, 1))
+        # temp_fixed_direction = np.outer(temp_fixed_direction, temp_fixed_direction)
+
+        temp_fixed_direction = np.array(each_fixed_type, dtype=np.float64)
+        temp_fixed_direction = np.diag(temp_fixed_direction)
+
         temp = generate_T_shape_matrix(1, each_fixed_point_coordinate[0], each_fixed_point_coordinate[1], each_fixed_point_coordinate[2], delta_matrix=delta_matrix)
-        temp_matrix = np.dot(temp.T, temp)
+        # temp_matrix = np.dot(temp.T, temp)
+        temp_matrix = temp.T @ temp_fixed_direction @ temp
         temp_matrix = constant_spring * temp_matrix
-        temp_force = np.dot(temp.T, fixed_point_displacement_difference.reshape((3, 1)))
+
+        # temp_force = np.dot(temp.T, fixed_point_displacement_difference.reshape((3, 1)))
+        temp_force = temp.T @ (temp_fixed_direction @ fixed_point_displacement_difference.reshape((3, 1)))
         temp_force = constant_spring * temp_force
         fixed_matrix = fixed_matrix + temp_matrix
         fixed_force = fixed_force - temp_force

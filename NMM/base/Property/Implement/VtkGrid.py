@@ -12,6 +12,9 @@ from NMM.base.VTKBase.is_empty_cell import is_empty_cell_id
 from NMM.base.VTKBase.insert_a_vtk_cell.insert_a_point import insert_a_point
 from NMM.base.VTKBase.insert_a_vtk_cell.insert_a_line_with_point_id import insert_a_line_with_point_id
 from NMM.base.VTKBase.get_point_cell_id import get_point_cell_id
+from NMM.base.VTKBase.modify_point_coordinate import modify_point_coordinate
+from NMM.base.VTKBase.get_surface_area import get_surface_area
+from NMM.base.VTKBase.get_surface_center import get_surface_center_2d
 from NMM.base.CacheBase import attribute_cache, geometry_cache
 from NMM.base.Command.ModelCommand.ModelGetObject import ModelGetObject
 from NMM.base.Command.Invoker import Invoker
@@ -201,3 +204,12 @@ class VtkGrid(Property):
 
     def get_point_cell_id(self, point_id: int):
         return get_point_cell_id(self._value, point_id)
+
+    def modify_point_coordinate(self, point_id: int, new_coordinate: tuple):
+        return modify_point_coordinate(self._value, point_id, new_coordinate)
+
+    def get_surface_area(self, cell_id: int):
+        return get_surface_area(self._value, cell_id)
+
+    def get_surface_center_2d(self, cell_id: int):
+        return get_surface_center_2d(self._value, cell_id)

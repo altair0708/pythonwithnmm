@@ -9,6 +9,7 @@ from NMM.base.VTKBase.iterate_polyhedron_edge import iterate_polyhedron_edges
 from NMM.base.VTKBase.is_empty_cell import is_empty_cell
 from NMM.base.VTKBase.intersection_box import intersection_box
 from NMM.base.VTKBase.check_line_on_shell import check_line_on_shell
+from NMM.base.Algorithm.Debuger import Debuger
 
 
 class CrackStatusUpdate(AbstractAlgorithm):
@@ -45,7 +46,7 @@ class CrackStatusUpdate(AbstractAlgorithm):
             edge_iteration = iterate_polyhedron_edges(each_manifold_element)
 
             crack_point_list = []
-            for each_edge in edge_iteration:
+            for each, each_edge in enumerate(edge_iteration):
                 result, point = intersection_line_with_polydata(crack_propagation.value, each_edge)
                 if result:
                     crack_point_list.append(point)

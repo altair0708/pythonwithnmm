@@ -23,9 +23,8 @@ class ModelCrackElementGlobal(AbstractCommand):
         algorithm.update()
         crack_point_dict = algorithm.crack_point_dict
 
-        # TODO: cover enrichment
-        algorithm = CoverEnrichment(self.__manifold_element, self.__mathematics_point)
-        algorithm.update()
+        # algorithm = CoverEnrichment(self.__manifold_element, self.__mathematics_point)
+        # algorithm.update()
 
         algorithm = ElementCrackerGlobal(self.__manifold_element)
         algorithm.crack_point_dict = crack_point_dict

@@ -4,6 +4,7 @@ from NMM.base.Property.Implement.PropertyMatrix import PropertyMatrix
 from NMM.base.Property.Implement.PropertyVector import PropertyVector
 from NMM.base.SimplexIntegralBase.polyhedron_integral import once_integration, twice_integration
 from NMM.base.CacheBase.EntranceCache import entrance_cache
+from NMM.base.CacheBase.GlobalVariableCache import global_variable_cache
 from NMM.base.LogBase.matrix_save import new_matrix_save
 from typing import List
 import numpy as np
@@ -153,10 +154,15 @@ def generate_initial_stress(element: ElementBase):
 
 
 def generate_initial_velocity(element: ElementBase):
-
-    initial_velocity = np.zeros((12, 1), dtype=np.float64)
-    # initial_velocity = element.get_property('math_cover_velocity').value
-    # initial_velocity = np.array(initial_velocity, dtype=np.float64).reshape(12, 1)
+    try:
+        dynamic = global_variable_cache.get_item('dynamic_calculate')
+        if dynamic == 0:
+            initial_velocity = np.zeros((12, 1), dtype=np.float64)
+        else:
+            initial_velocity = element.get_property('math_cover_velocity').value
+            initial_velocity = np.array(initial_velocity, dtype=np.float64).reshape(12, 1)
+    except AssertionError:
+        initial_velocity = np.zeros((12, 1), dtype=np.float64)
 
     assert initial_velocity.shape == (12, 1)
 

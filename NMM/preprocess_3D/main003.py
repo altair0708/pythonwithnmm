@@ -8,10 +8,12 @@ from NMM.base.Command.ModelCommand.ModelGenerateGrid import ModelGenerateGrid
 from NMM.base.Command.ModelCommand.ModelInitialSpecialPoint import ModelInitialSpecialPoint
 from NMM.base.Command.ModelCommand.ModelInitialMathPoint import ModelInitialMathPoint
 from NMM.base.Command.ModelCommand.ModelInitialManifoldElement import ModelInitialManifoldElement
+from NMM.base.Command.ModelCommand.ModelInitialCrackSurface import ModelInitialCrackSurface
 from NMM.base.Command.ModelCommand.ModelGenerateMathematicsPoint import ModelGenerateMathematicsPoint
 from NMM.base.Command.ModelCommand.ModelGenerateManifoldElement import ModelGenerateManifoldElement
 from NMM.base.Command.ModelCommand.ModelInitialNewElement import ModelInitialNewElement
 from NMM.base.Command.ModelCommand.ModelInitialNewCover import ModelInitialNewCover
+from NMM.base.Command.ModelCommand.ModelContactMatrix import ModelContactMatrix
 from NMM.base.Command.ModelCommand.ModelMatrixSolve import ModelMatrixSolve
 from NMM.base.Command.ModelCommand.ModelGenerateElementList import ModelGenerateElementList
 from NMM.base.Command.ModelCommand.ModelRefreshCover import ModelRefreshCover
@@ -30,7 +32,7 @@ from NMM.base.Command.ModelCommand.ModelCrackPropagate import ModelCrackPropagat
 
 builder = PreprocessModelBuilder()
 # model = builder.build('D:/science/NMM/python-NMM/example/example001')
-model = builder.build('/Users/suboyi/PycharmProjects/pythonwithnmm/example/example018_cover_enrichment')
+model = builder.build('/Users/suboyi/PycharmProjects/pythonwithnmm/example/example024_cube_normal_contact')
 
 invoker = InvokerQueue()
 
@@ -68,10 +70,10 @@ invoker.set_command(ModelAddAttribute('mathematics_point', 'math_cover_coordinat
 invoker.set_command(ModelAddAttribute('mathematics_point', 'math_cover_displacement_total', data_structure))
 invoker.set_command(ModelAddAttribute('mathematics_point', 'math_cover_displacement_increment', data_structure))
 invoker.set_command(ModelAddAttribute('mathematics_point', 'math_cover_velocity', data_structure))
-invoker.set_command(ModelAddAttribute('mathematics_point', 'enrichment', data_structure))
-invoker.set_command(ModelAddAttribute('mathematics_point', 'enrichment_vector_x', data_structure))
-invoker.set_command(ModelAddAttribute('mathematics_point', 'enrichment_vector_y', data_structure))
-invoker.set_command(ModelAddAttribute('mathematics_point', 'enrichment_vector_z', data_structure))
+# invoker.set_command(ModelAddAttribute('mathematics_point', 'enrichment', data_structure))
+# invoker.set_command(ModelAddAttribute('mathematics_point', 'enrichment_vector_x', data_structure))
+# invoker.set_command(ModelAddAttribute('mathematics_point', 'enrichment_vector_y', data_structure))
+# invoker.set_command(ModelAddAttribute('mathematics_point', 'enrichment_vector_z', data_structure))
 invoker.set_command(ModelInitialMathPoint())
 
 invoker.set_command(ModelGenerateManifoldElement(data_structure))
@@ -101,6 +103,10 @@ invoker.set_command(ModelAddAttribute('crack_tip', 'propagate_vector', data_stru
 invoker.set_command(ModelAddAttribute('crack_propagation', 'cell_id', data_structure))
 
 invoker.set_command(ModelAddAttribute('crack_surface', 'cell_id', data_structure))
+invoker.set_command(ModelAddAttribute('crack_surface', 'material_id', data_structure))
+invoker.set_command(ModelAddAttribute('crack_surface', 'center_coordinate_0', data_structure))
+invoker.set_command(ModelAddAttribute('crack_surface', 'center_coordinate_1', data_structure))
+
 invoker.set_command(ModelAddAttribute('crack_edge', 'cell_id', data_structure))
 invoker.set_command(ModelAddAttribute('new_cover', 'cell_id', data_structure))
 invoker.set_command(ModelAddAttribute('new_cover', 'real', data_structure))
@@ -110,6 +116,7 @@ invoker.set_command(ModelAddAttribute('new_element', 'total_id', data_structure)
 invoker.set_command(ModelAddAttribute('new_surface', 'cell_id', data_structure))
 # invoker.set_command(ModelInitialCrack())
 invoker.set_command(ModelInitialCrackTip())
+invoker.set_command(ModelInitialCrackSurface())
 
 # invoker.set_command(ModelAddAttribute('new_cover', 'point_id', data_structure))
 invoker.set_command(ModelAddAttribute('new_cover', 'math_cover_coordinate', data_structure))
@@ -143,21 +150,23 @@ invoker.press_button()
 
 invoker_cycle = InvokerCycle()
 invoker_cycle.set_command(ModelGenerateElementList())
+invoker_cycle.set_command(ModelContactMatrix())
 invoker_cycle.set_command(ModelMatrixSolve())
 invoker_cycle.set_command(ModelRefreshCover())
 invoker_cycle.set_command(ModelRefreshElement())
 invoker_cycle.set_command(ModelRefreshBoundaryCondition())
 
-invoker_cycle.set_command(ModelCrackPropagate())
-invoker_cycle.set_command(ModelCrackElementGlobal())
-invoker_cycle.set_command(ModelCopyCoverAttribute())
-invoker_cycle.set_command(ModelRefreshNewElement())
+# invoker_cycle.set_command(ModelCrackPropagate())
+# invoker_cycle.set_command(ModelCrackElementGlobal())
+# invoker_cycle.set_command(ModelCopyCoverAttribute())
+# invoker_cycle.set_command(ModelRefreshNewElement())
 
-invoker_cycle.set_command(ModelGenerateElementList())
-invoker_cycle.set_command(ModelMatrixSolve())
-invoker_cycle.set_command(ModelRefreshCover())
-invoker_cycle.set_command(ModelRefreshElement())
-invoker_cycle.set_command(ModelRefreshBoundaryCondition())
+# invoker_cycle.set_command(ModelGenerateElementList())
+# invoker_cycle.set_command(ModelContactMatrix())
+# invoker_cycle.set_command(ModelMatrixSolve())
+# invoker_cycle.set_command(ModelRefreshCover())
+# invoker_cycle.set_command(ModelRefreshElement())
+# invoker_cycle.set_command(ModelRefreshBoundaryCondition())
 
 invoker_cycle.set_command(ModelOutputResult('mathematics_point'))
 invoker_cycle.set_command(ModelOutputResult('manifold_element'))

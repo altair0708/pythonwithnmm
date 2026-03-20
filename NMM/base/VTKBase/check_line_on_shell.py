@@ -1,6 +1,8 @@
-from vtkmodules.vtkCommonDataModel import vtkLine, vtkCellLocator
+from vtkmodules.vtkCommonDataModel import vtkLine, vtkCellLocator, vtkPolyData
 from vtkmodules.vtkIOXML import vtkXMLUnstructuredGridReader, vtkXMLPolyDataReader
 from vtkmodules.vtkCommonCore import vtkMath, reference
+from vtkmodules.vtkFiltersGeometry import vtkGeometryFilter
+from vtkmodules.vtkFiltersCore import vtkImplicitPolyDataDistance
 from NMM.base.Property.Implement.VtkGrid import VtkGrid
 
 
@@ -57,6 +59,50 @@ def main():
     for each_line in lines:
         result = check_line_on_shell(shell, each_line, tolerance)
         print("线段的两个端点是否都在表面上？", "是" if result else "否")
+
+
+def classify_point_vs_closed_surface(point, surface, tol=1e-6):
+    """
+    判断点相对封闭外壳的位置：在壳上 / 壳内 / 壳外
+    返回: "on_surface" | "inside" | "outside"
+
+    tol: 距离容差（注意是“距离”，不是平方距离）
+    适用于封闭、法向一致的 vtkPolyData 外壳（或可转为 polydata 的 surface）
+    """
+
+    # 1) 确保输入是 vtkPolyData（很多隐式距离/包含测试都要求 polydata）
+    if not isinstance(surface, vtkPolyData):
+        gf = vtkGeometryFilter()
+        gf.SetInputData(surface)
+        gf.Update()
+        poly = gf.GetOutput()
+    else:
+        poly = surface
+
+    # 2) 先判断是否在表面上：最近点距离 <= tol
+    locator = vtkCellLocator()
+    locator.SetDataSet(poly)
+    locator.BuildLocator()
+
+    closest_point = [0.0, 0.0, 0.0]
+    cell_id = reference(0)
+    sub_id = reference(0)
+    dist2 = reference(0.0)
+
+    locator.FindClosestPoint(point, closest_point, cell_id, sub_id, dist2)
+    # dist2 是平方距离
+    dist2_val = vtkMath.Distance2BetweenPoints(point, closest_point)
+    if dist2_val <= tol * tol:
+        return "on_surface"
+
+    # 3) 不在表面上：用有符号距离判断内外
+    #    注意：这个结果依赖 poly 的封闭性、法向一致性
+    ipd = vtkImplicitPolyDataDistance()
+    ipd.SetInput(poly)
+    signed_dist = ipd.FunctionValue(point)  # 近似等于 signed distance（单位同坐标）
+
+    # signed_dist < 0: inside, > 0: outside
+    return "inside" if signed_dist < 0 else "outside"
 
 
 if __name__ == "__main__":
