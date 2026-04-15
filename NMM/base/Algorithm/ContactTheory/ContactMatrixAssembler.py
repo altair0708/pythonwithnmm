@@ -71,6 +71,7 @@ def generate_contact_matrix(element: ElementBase):
     temp_0 = generate_T_shape_matrix(1, center_coordinate_0[0], center_coordinate_0[1], center_coordinate_0[2], delta_matrix=delta_matrix)
     temp_1 = generate_T_shape_matrix(1, center_coordinate_1[0], center_coordinate_1[1], center_coordinate_1[2], delta_matrix=delta_matrix)
     project_matrix = np.outer(normal_vector, normal_vector)
+    # project_matrix = np.eye(3)
 
     CC_00_matrix = CC_matrix + 0.5 * surface_area * temp_penalty * (temp_0.T @ project_matrix @ temp_0)
     CC_11_matrix = CC_matrix + 0.5 * surface_area * temp_penalty * (temp_1.T @ project_matrix @ temp_1)

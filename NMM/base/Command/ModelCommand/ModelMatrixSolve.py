@@ -7,6 +7,10 @@ from NMM.preprocess_3D.Part.MatrixSolver.MatrixSolver import MatrixSolver
 from NMM.preprocess_3D.Part.GlobalVariable.GlobalVariable import GlobalVariable
 from NMM.base.Property.Implement.VtkGrid import VtkGrid
 from NMM.base.CacheBase.GlobalVariableCache import global_variable_cache
+from NMM.base.Algorithm.Solver.NormalSolver import NormalSolver as Solver
+# from NMM.base.Algorithm.Solver.DOFScalingSolver import DOFScalingSolver as Solver
+# from NMM.base.Algorithm.Solver.PreconditionGeometrySolver import PreconditionGeometrySolver as Solver
+# from NMM.base.Algorithm.Solver.CrackTipConstraintSolver import ConstraintSolver as Solver
 from scipy.sparse.linalg import cg, spsolve, eigsh
 
 
@@ -36,16 +40,11 @@ class ModelMatrixSolve(AbstractCommand):
 
         total_matrix, total_force = total_assembler.update()
 
-        # lam_max = eigsh(total_matrix, 1, which='LM')[0]
-        # lam_min = eigsh(total_matrix, 1, which='SM')[0]
-        # cond = lam_max / lam_min
-        # print(f'condition number: {cond[0]}')
-        # if cond[0] > 10000:
-        #     result, info = cg(total_matrix, total_force, tol=1e-15, maxiter=1000)
-        # else:
-        #     result = spsolve(total_matrix, total_force)
+        # result = spsolve(total_matrix, total_force)
 
-        result = spsolve(total_matrix, total_force)
+        solver = Solver(total_matrix, total_force)
+        solver.update()
+        result = solver.result
 
         displacement_vector = self.__matrix_solver.get_property('displacement_vector')
         displacement_vector.value = result

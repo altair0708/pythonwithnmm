@@ -34,6 +34,9 @@ class ModelInitialCrackTip(AbstractCommand):
         algorithm.update()
         crack_point_dict = algorithm.crack_point_dict
 
+        if len(crack_point_dict) == 0:
+            return
+
         # algorithm = CoverEnrichment(self.__manifold_element, self.__mathematics_point)
         # algorithm.update()
 

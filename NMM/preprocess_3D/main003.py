@@ -32,7 +32,7 @@ from NMM.base.Command.ModelCommand.ModelCrackPropagate import ModelCrackPropagat
 
 builder = PreprocessModelBuilder()
 # model = builder.build('D:/science/NMM/python-NMM/example/example001')
-model = builder.build('/Users/suboyi/PycharmProjects/pythonwithnmm/example/example024_cube_normal_contact')
+model = builder.build('/Users/suboyi/PycharmProjects/pythonwithnmm/example/example026_direct_shear_with_contact')
 
 invoker = InvokerQueue()
 
@@ -150,7 +150,7 @@ invoker.press_button()
 
 invoker_cycle = InvokerCycle()
 invoker_cycle.set_command(ModelGenerateElementList())
-invoker_cycle.set_command(ModelContactMatrix())
+# invoker_cycle.set_command(ModelContactMatrix())
 invoker_cycle.set_command(ModelMatrixSolve())
 invoker_cycle.set_command(ModelRefreshCover())
 invoker_cycle.set_command(ModelRefreshElement())
