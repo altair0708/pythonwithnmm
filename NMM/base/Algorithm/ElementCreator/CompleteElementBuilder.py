@@ -2,9 +2,13 @@ from NMM.base.Algorithm.ElementCreator.ElementBuilderInterface import AbstractEl
 from NMM.base.Property.Implement.VtkGrid import VtkGrid
 from NMM.base.Property.Implement import PropertyInteger, PropertyList, PropertyMap, PropertyVector
 from NMM.base.CacheBase.RelationshipCache import relationship_cache
+from NMM.preprocess_3D.Part.ElementList.ElementBase import ElementBase
 
 
 class CompleteElementBuilder(AbstractElementBuilder):
+    def reset(self):
+        self._element = ElementBase('complete_element')
+
     def set_simple_properties(self, element_id: int):
         super(CompleteElementBuilder, self).set_simple_properties(element_id)
         temp_property = PropertyInteger(int(self._element_grid.get_cell_attribute('cracked', element_id)[0]))

@@ -4,7 +4,7 @@
 # constant
 name = 'global_variable'
 time_increment = 0.02
-total_step = 10
+total_step = 50
 cover_number = 0
 element_number = 0
 global_error = 0.000001

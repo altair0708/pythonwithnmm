@@ -3,8 +3,8 @@
 # search according name
 # constant
 name = 'global_variable'
-time_increment = 0.02
-total_step = 10
+time_increment = 0.01
+total_step = 500
 cover_number = 0
 element_number = 0
 global_error = 0.000001

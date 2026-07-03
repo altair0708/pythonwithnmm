@@ -50,4 +50,4 @@ class ModelMatrixSolve(AbstractCommand):
         displacement_vector.value = result
 
         # clear element list
-        element_list.clear()
+        # element_list.clear()

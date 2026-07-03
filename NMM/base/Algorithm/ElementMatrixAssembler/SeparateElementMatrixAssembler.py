@@ -11,9 +11,8 @@ import numpy as np
 
 
 class SeparateAssembler(AbstractAlgorithm):
-    def __init__(self, element: ElementBase, step: int):
+    def __init__(self, element: ElementBase):
         self.__element = element
-        self.__time_step = step
 
     def update(self, *args, **kwargs):
         generate_delta_matrix(self.__element)
@@ -27,8 +26,8 @@ class SeparateAssembler(AbstractAlgorithm):
         generate_initial_matrix(self.__element)
         generate_loading_matrix(self.__element)
         generate_body_matrix(self.__element)
-        generate_mass_matrix(self.__element, 0.02)
-        generate_fixed_matrix(self.__element, 100000000000000, self.__time_step)
+        generate_mass_matrix(self.__element)
+        generate_fixed_matrix(self.__element)
         generate_total_matrix(self.__element)
         generate_total_force(self.__element)
 
@@ -79,7 +78,7 @@ def generate_T_shape_matrix(S: float, xS: float, yS: float, zS: float, delta_mat
 
 
 def generate_elastic_matrix(element: ElementBase):
-    temp_E = float(element.get_property('material_parameter')['elastic_modulus'])
+    temp_E = float(element.get_property('material_parameter')['elastic_modulus']) * 10
     temp_mu = float(element.get_property('material_parameter')['poisson_ratio'])
 
     elastic_matrix = temp_E / ((1 + temp_mu) * (1 - 2 * temp_mu)) * \
@@ -224,7 +223,8 @@ def generate_body_matrix(element: ElementBase):
     element.add_property(temp_matrix)
 
 
-def generate_mass_matrix(element: ElementBase, time_increment: float):
+def generate_mass_matrix(element: ElementBase):
+    time_increment = global_variable_cache.get_item('time_increment')
 
     mass_matrix = np.zeros((12, 12), dtype=np.float64)
     mass_force = np.zeros((12, 1), dtype=np.float64)
@@ -276,7 +276,10 @@ def generate_mass_matrix(element: ElementBase, time_increment: float):
     element.add_property(temp_matrix)
 
 
-def generate_fixed_matrix(element: ElementBase, constant_spring: int, time_step: int):
+def generate_fixed_matrix(element: ElementBase):
+    time_step = global_variable_cache.get_item('time_step')
+    penalty_parameter = float(element.get_property('material_parameter')['penalty_parameter'])
+
     fixed_matrix = np.zeros((12, 12), dtype=np.float64)
     fixed_force = np.zeros((12, 1), dtype=np.float64)
     delta_matrix: np.matrix = element.get_property('delta_matrix').value
@@ -293,9 +296,9 @@ def generate_fixed_matrix(element: ElementBase, constant_spring: int, time_step:
         fixed_point_displacement_difference = np.array(each_fixed_point_displacement_total) - fixed_point_expected_displacement
         temp = generate_T_shape_matrix(1, each_fixed_point_coordinate[0], each_fixed_point_coordinate[1], each_fixed_point_coordinate[2], delta_matrix=delta_matrix)
         temp_matrix = np.dot(temp.T, temp)
-        temp_matrix = constant_spring * temp_matrix
+        temp_matrix = penalty_parameter * temp_matrix
         temp_force = np.dot(temp.T, fixed_point_displacement_difference.reshape((3, 1)))
-        temp_force = constant_spring * temp_force
+        temp_force = penalty_parameter * temp_force
         fixed_matrix = fixed_matrix + temp_matrix
         fixed_force = fixed_force - temp_force
         # fixed_force = fixed_force + temp_force

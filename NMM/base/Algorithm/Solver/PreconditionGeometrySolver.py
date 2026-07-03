@@ -23,7 +23,7 @@ class PreconditionGeometrySolver(AbstractSolver):
         T = algorithm.precondition
         T = diags(T)
 
-        id_list, _ = find_diag_gt_tol(T, 100000)
+        id_list, _ = find_diag_gt_tol(T, 10000000)
 
         algorithm = NewCoverMapping()
         algorithm.update()
@@ -45,8 +45,8 @@ class PreconditionGeometrySolver(AbstractSolver):
         sum_count = u.size
         error_count = np.sum(u > 0.001)
 
-        print(sum_count)
-        print(error_count)
+        # print(sum_count)
+        # print(error_count)
 
         # r = k @ u - f
         # abs_err = np.linalg.norm(r)

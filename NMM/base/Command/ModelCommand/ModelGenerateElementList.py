@@ -5,6 +5,7 @@ from NMM.base.Algorithm.ElementCreator.ElementDirector import ElementDirector
 from NMM.base.Algorithm.ElementCreator.CompleteElementBuilder import CompleteElementBuilder
 from NMM.base.Algorithm.ElementCreator.SeparateElementBuilder import SeparateElementBuilder
 from NMM.base.Algorithm.ElementMatrixAssembler.CompleteElementMatrixAssembler import CompleteAssembler
+from NMM.base.Algorithm.ElementMatrixAssembler.CrackTipAssembler import CrackTipAssembler
 from NMM.base.Algorithm.ElementMatrixAssembler.SeparateElementMatrixAssembler import SeparateAssembler
 from NMM.preprocess_3D.Part.MatrixSolver.MatrixSolver import MatrixSolver
 from NMM.preprocess_3D.Part.GlobalVariable.GlobalVariable import GlobalVariable
@@ -33,7 +34,6 @@ class ModelGenerateElementList(AbstractCommand):
         boundary_condition = self.__boundary_condition
         element_list = self.__matrix_solver.get_property('element_list')
         material_parameter = self.__global_variable.get_property('material_parameter')
-        time_step: int = self.__global_variable.get_variable('time_step')
 
         director = ElementDirector()
 
@@ -43,20 +43,27 @@ class ModelGenerateElementList(AbstractCommand):
         for each_id in range(manifold_element.get_cell_number()):
             cracked_status = manifold_element.get_cell_attribute('cracked', each_id)[0]
 
-            if cracked_status == -1 or cracked_status == 7 or cracked_status == 8:
-            # if cracked_status == -1 or cracked_status == 8:
+            # if cracked_status == -1 or cracked_status == 7 or cracked_status == 8:
+            if cracked_status == -1 or cracked_status == 8:
                 director.builder = complete_builder
                 director.build_matrix_element(each_id)
                 temp_element = complete_builder.get_element()
 
-                assembler = CompleteAssembler(temp_element, time_step)
+                assembler = CompleteAssembler(temp_element)
                 assembler.update()
 
-                element_list.append(temp_element )
+                element_list.append(temp_element)
 
-            # TODO: crack tip element
-            # elif cracked_status == 7:
-            #     pass
+            elif cracked_status == 7:
+                director.builder = complete_builder
+                director.build_matrix_element(each_id)
+                temp_element = complete_builder.get_element()
+
+                assembler = CrackTipAssembler(temp_element)
+                assembler.update()
+
+                element_list.append(temp_element)
+
             elif cracked_status == 9:
                 relationship_list = relationship_cache.get_item(name_0='element', name_1='newelement', id_0=each_id, id_1=None)
                 assert len(relationship_list) == 2
@@ -66,10 +73,10 @@ class ModelGenerateElementList(AbstractCommand):
                     director.build_matrix_element(new_id)
                     temp_element = separate_builder.get_element()
 
-                    assembler = SeparateAssembler(temp_element, time_step)
+                    assembler = SeparateAssembler(temp_element)
                     assembler.update()
 
-                    element_list.append(temp_element )
+                    element_list.append(temp_element)
             else:
                 raise Exception('Crack status error!!!')
 

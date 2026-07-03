@@ -13,11 +13,12 @@ class AbstractElementBuilder(ABC):
         self._boundary_condition = boundary_condition
         self._material_parameter = material_parameter
 
-        self._element = ElementBase('complete_element')
+        self._element = ElementBase('empty')
         self.reset()
 
+    @abstractmethod
     def reset(self):
-        self._element = ElementBase('complete_element')
+        pass
 
     def get_element(self):
         element = self._element

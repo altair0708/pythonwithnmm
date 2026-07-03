@@ -41,8 +41,8 @@ class CrackPropagateVector(AbstractAlgorithm):
         algorithm = AngleHalf(crack_point_id, crack_tip)
         algorithm.update()
 
-        criterion = MaximumTensilePlaneStress()
-        # criterion = MohrCoulombPlaneStress()
+        # criterion = MaximumTensilePlaneStress()
+        criterion = MohrCoulombPlaneStress()
         criterion.set_point_coordinate(crack_point_coordinate)
         criterion.set_element_id(element_id)
         criterion.set_plane_normal(algorithm.e1, algorithm.e2, algorithm.e3)

@@ -11,8 +11,9 @@ import numpy as np
 
 
 class CompleteAssembler(AbstractAlgorithm):
-    def __init__(self, element: ElementBase):
+    def __init__(self, element: ElementBase, step: int):
         self.__element = element
+        self.__time_step = step
 
     def update(self, *args, **kwargs):
         generate_delta_matrix(self.__element)
@@ -26,8 +27,8 @@ class CompleteAssembler(AbstractAlgorithm):
         generate_initial_matrix(self.__element)
         generate_loading_matrix(self.__element)
         generate_body_matrix(self.__element)
-        generate_mass_matrix(self.__element)
-        generate_fixed_matrix(self.__element)
+        generate_mass_matrix(self.__element, 0.02)
+        generate_fixed_matrix(self.__element, 100000000000000, self.__time_step)
         generate_total_matrix(self.__element)
         generate_total_force(self.__element)
 
@@ -219,8 +220,42 @@ def generate_body_matrix(element: ElementBase):
     element.add_property(temp_matrix)
 
 
-def generate_mass_matrix(element: ElementBase):
-    time_increment = global_variable_cache.get_item('time_increment')
+def generate_mass_matrix_new(element: ElementBase):
+    mass_matrix = np.zeros((12, 12), dtype=np.float64)
+    point_coordinate = element.get_property('point_coordinate').value
+    delta_matrix: np.matrix = element.get_property('delta_matrix').value
+    unit_mass = element.get_property('material_parameter')['unit_mass']
+
+    temp_S, temp_xS, temp_yS, temp_zS = once_integration(np.array(point_coordinate, dtype=np.float64))
+    temp_xxS, temp_yyS, temp_zzS, temp_xyS, temp_xzS, temp_yzS = twice_integration(np.array(point_coordinate, dtype=np.float64))
+
+    ff = np.array(delta_matrix)
+    temp_matrix = np.zeros((12, 12), dtype=np.float64)
+
+    for r in range(4):
+        for s in range(4):
+            temp = ff[r][0] * ff[s][0] * temp_S + \
+                   (ff[r][0] * ff[s][1] + ff[r][1] * ff[s][0]) * temp_xS + \
+                   (ff[r][0] * ff[s][2] + ff[r][2] * ff[s][0]) * temp_yS + \
+                   (ff[r][0] * ff[s][3] + ff[r][3] * ff[s][0]) * temp_zS + \
+                   ff[r][1] * ff[s][1] * temp_xxS + \
+                   ff[r][2] * ff[s][2] * temp_yyS + \
+                   ff[r][3] * ff[s][3] * temp_zzS + \
+                   (ff[r][1] * ff[s][2] + ff[r][2] * ff[s][1]) * temp_xyS + \
+                   (ff[r][1] * ff[s][3] + ff[r][3] * ff[s][1]) * temp_xzS + \
+                   (ff[r][2] * ff[s][3] + ff[r][3] * ff[s][2]) * temp_yzS
+            temp_matrix[3 * r][3 * s] = temp
+            temp_matrix[3 * r + 1][3 * s + 1] = temp
+            temp_matrix[3 * r + 2][3 * s + 2] = temp
+    assert temp_matrix.shape == (12, 12)
+
+    mass_matrix = mass_matrix + unit_mass * temp_matrix
+    temp_matrix = PropertyMatrix(mass_matrix)
+    temp_matrix.set_name('mass_matrix')
+    element.add_property(temp_matrix)
+
+
+def generate_mass_matrix(element: ElementBase, time_increment: float):
 
     mass_matrix = np.zeros((12, 12), dtype=np.float64)
     mass_force = np.zeros((12, 1), dtype=np.float64)
@@ -271,10 +306,7 @@ def generate_mass_matrix(element: ElementBase):
     element.add_property(temp_matrix)
 
 
-def generate_fixed_matrix(element: ElementBase):
-    time_step = global_variable_cache.get_item('time_step')
-    penalty_parameter = float(element.get_property('material_parameter')['penalty_parameter'])
-
+def generate_fixed_matrix(element: ElementBase, constant_spring: int, time_step: int):
     fixed_matrix = np.zeros((12, 12), dtype=np.float64)
     fixed_force = np.zeros((12, 1), dtype=np.float64)
     delta_matrix: np.matrix = element.get_property('delta_matrix').value
@@ -304,11 +336,11 @@ def generate_fixed_matrix(element: ElementBase):
         temp = generate_T_shape_matrix(1, each_fixed_point_coordinate[0], each_fixed_point_coordinate[1], each_fixed_point_coordinate[2], delta_matrix=delta_matrix)
         # temp_matrix = np.dot(temp.T, temp)
         temp_matrix = temp.T @ temp_fixed_direction @ temp
-        temp_matrix = penalty_parameter * temp_matrix
+        temp_matrix = constant_spring * temp_matrix
 
         # temp_force = np.dot(temp.T, fixed_point_displacement_difference.reshape((3, 1)))
         temp_force = temp.T @ (temp_fixed_direction @ fixed_point_displacement_difference.reshape((3, 1)))
-        temp_force = penalty_parameter * temp_force
+        temp_force = constant_spring * temp_force
         fixed_matrix = fixed_matrix + temp_matrix
         fixed_force = fixed_force - temp_force
         # fixed_force = fixed_force + temp_force
@@ -350,3 +382,4 @@ def generate_total_force(element: ElementBase):
     temp_matrix = PropertyMatrix(total_force)
     temp_matrix.set_name('total_force')
     element.add_property(temp_matrix)
+

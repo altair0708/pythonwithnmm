@@ -20,6 +20,7 @@ from NMM.base.Command.ModelCommand.ModelRefreshCover import ModelRefreshCover
 from NMM.base.Command.ModelCommand.ModelRefreshElement import ModelRefreshElement
 from NMM.base.Command.ModelCommand.ModelRefreshNewElement import ModelRefreshNewElement
 from NMM.base.Command.ModelCommand.ModelRefreshBoundaryCondition import ModelRefreshBoundaryCondition
+from NMM.base.Command.ModelCommand.ModelRefreshIteration import ModelRefreshIteration
 from NMM.base.Command.ModelCommand.ModelOutputResult import ModelOutputResult
 from NMM.base.Command.ModelCommand.ModelCrackElement import ModelCrackElement
 from NMM.base.Command.ModelCommand.ModelCrackElementGlobal import ModelCrackElementGlobal
@@ -28,11 +29,12 @@ from NMM.base.Command.ModelCommand.ModelGenerateCrackTip import ModelGenerateCra
 from NMM.base.Command.ModelCommand.ModelInitialCrackTip import ModelInitialCrackTip
 from NMM.base.Command.ModelCommand.ModelGenerateGeometricShell import ModelGenerateGeometricShell
 from NMM.base.Command.ModelCommand.ModelCrackPropagate import ModelCrackPropagate
+from NMM.base.Command.ModelCommand.ModelClean import ModelClean
 
 
 builder = PreprocessModelBuilder()
 # model = builder.build('D:/science/NMM/python-NMM/example/example001')
-model = builder.build('/Users/suboyi/PycharmProjects/pythonwithnmm/example/example026_direct_shear_with_contact')
+model = builder.build('/Users/suboyi/PycharmProjects/pythonwithnmm/example/example030_mesh_convergence_free_fall_004')
 
 invoker = InvokerQueue()
 
@@ -156,17 +158,18 @@ invoker_cycle.set_command(ModelRefreshCover())
 invoker_cycle.set_command(ModelRefreshElement())
 invoker_cycle.set_command(ModelRefreshBoundaryCondition())
 
+for i in range(0):
+    invoker_cycle.set_command(ModelRefreshIteration())
+    # invoker_cycle.set_command(ModelContactMatrix())
+    invoker_cycle.set_command(ModelMatrixSolve())
+    invoker_cycle.set_command(ModelRefreshCover())
+    invoker_cycle.set_command(ModelRefreshElement())
+    invoker_cycle.set_command(ModelRefreshBoundaryCondition())
+
 # invoker_cycle.set_command(ModelCrackPropagate())
 # invoker_cycle.set_command(ModelCrackElementGlobal())
 # invoker_cycle.set_command(ModelCopyCoverAttribute())
 # invoker_cycle.set_command(ModelRefreshNewElement())
-
-# invoker_cycle.set_command(ModelGenerateElementList())
-# invoker_cycle.set_command(ModelContactMatrix())
-# invoker_cycle.set_command(ModelMatrixSolve())
-# invoker_cycle.set_command(ModelRefreshCover())
-# invoker_cycle.set_command(ModelRefreshElement())
-# invoker_cycle.set_command(ModelRefreshBoundaryCondition())
 
 invoker_cycle.set_command(ModelOutputResult('mathematics_point'))
 invoker_cycle.set_command(ModelOutputResult('manifold_element'))
@@ -175,6 +178,7 @@ invoker_cycle.set_command(ModelOutputResult('new_element'))
 invoker_cycle.set_command(ModelOutputResult('crack_surface'))
 invoker_cycle.set_command(ModelOutputResult('crack_tip'))
 invoker_cycle.set_command(ModelOutputResult('crack_propagation'))
+invoker_cycle.set_command(ModelClean())
 
 invoker_cycle.press_button()
 
